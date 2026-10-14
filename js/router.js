@@ -19,13 +19,36 @@ function caminhoAtual() {
   return location.hash.slice(1) || '/inicio';
 }
 
-function renderizarNav(caminho) {
+function atualizarLinhaIndicadora() {
+  const linkAtivo = nav.querySelector('a[aria-current="page"]');
+  const underline = nav.querySelector('.nav-underline');
+
+  if (linkAtivo && underline) {
+    const largura = linkAtivo.offsetWidth;
+    const deslocamento = linkAtivo.offsetLeft;
+
+    underline.style.width = `${largura}px`;
+    underline.style.transform = `translateX(${deslocamento}px)`;
+  }
+}
+
+function montarNav() {
   nav.innerHTML = rotas
-    .map(({ nome, caminho: c }) => {
-      const ativo = c === caminho ? ' aria-current="page"' : '';
-      return `<a href="#${c}"${ativo}>${nome}</a>`;
-    })
-    .join('');
+    .map(({ nome, caminho: c }) => `<a href="#${c}">${nome}</a>`)
+    .join('') + '<div class="nav-underline"></div>';
+}
+
+function renderizarNav(caminho) {
+  nav.querySelectorAll('a').forEach((link) => {
+    const ativo = link.getAttribute('href') === `#${caminho}`;
+    if (ativo) {
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  });
+
+  atualizarLinhaIndicadora();
 }
 
 async function carregarPagina() {
@@ -47,4 +70,9 @@ async function carregarPagina() {
 }
 
 window.addEventListener('hashchange', carregarPagina);
+window.addEventListener('resize', atualizarLinhaIndicadora);
+window.addEventListener('hashchange', carregarPagina);
+window.addEventListener('resize', atualizarLinhaIndicadora);
+
+montarNav();
 carregarPagina();

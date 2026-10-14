@@ -20,20 +20,32 @@ O Portal do Artesão do Liceu de Ofícios é uma plataforma digital de divulgaç
 - Estilização e Identidade Visual: Adesão estrita à identidade visual oficial do Liceu de Ofícios de Curitiba (utilizando variáveis de cores e tipografia padronizadas via CSS).
 
 # Estratégia de Navegação
-A aplicação funcionará como uma Single Page Application (SPA)
+A aplicação funcionará como uma Single Page Application (SPA) com **roteamento por hash** (`index.html#/rota`).
 
-**Principais / Rotas:**
-- index.html — Home / Vitrine principal.
+Existe um único arquivo HTML real (`index.html`), que contém o cabeçalho, o rodapé e um contêiner principal (`#conteudo`). O roteador em `js/router.js` escuta o evento `hashchange`, identifica a rota atual pelo fragmento da URL e injeta no contêiner a **parcial HTML** correspondente, carregada da pasta `pages/` via `fetch`.
 
-- login.html — Tela unificada de acesso (Artesão / Liceu).
+Optou-se pelo hash routing (em vez da History API ou de páginas HTML separadas) porque funciona em qualquer hospedagem estática sem configuração de servidor, preserva o funcionamento de recarregamento (F5) e de links diretos (deep-link), e não exige etapa de build — alinhado à stack de JS puro do projeto.
 
-- cadastro.html — Registro inicial de novos artesãos (Nome, e-mail e senha).
+**Convenção de rotas:**
+Cada rota corresponde a uma parcial em `pages/` (um fragmento HTML, não um documento completo) registrada no array `rotas` do `router.js`.
 
-- painel-artesao.html — Área restrita para o artesão gerenciar seu perfil e cadastrar novos trabalhos.
+| Rota (hash)        | Parcial                    | Descrição                                                        | Acesso    |
+| ------------------ | -------------------------- | ---------------------------------------------------------------- | --------- |
+| `#/inicio`         | `pages/inicio.html`        | Home / Vitrine principal.                                        | Público   |
+| `#/produtos`       | `pages/produtos.html`      | Catálogo de produtos/trabalhos.                                  | Público   |
+| `#/artesaos`       | `pages/artesaos.html`      | Listagem de artesãos com cards e modais de detalhes.             | Público   |
+| `#/saberes`        | `pages/saberes.html`       | Saberes e técnicas tradicionais.                                 | Público   |
+| `#/sobre`          | `pages/sobre.html`         | Sobre o projeto.                                                 | Público   |
+| `#/contato`        | `pages/contato.html`       | Contato.                                                         | Público   |
+| `#/login`          | `pages/login.html`         | Tela unificada de acesso (Artesão / Liceu).                      | Público   |
+| `#/cadastro`       | `pages/cadastro.html`      | Registro inicial de novos artesãos (nome, e-mail e senha).       | Público   |
+| `#/painel-artesao` | `pages/painel-artesao.html`| Área do artesão: gerenciar perfil e cadastrar trabalhos.         | Restrito  |
+| `#/painel-liceu`   | `pages/painel-liceu.html`  | Área do Liceu: aprovar/rejeitar os trabalhos submetidos.         | Restrito  |
 
-- painel-liceu.html — Área restrita para a equipe do Liceu aprovar/rejeitar os trabalhos submetidos.
+Rotas inexistentes recaem na parcial de fallback `pages/nao-encontrado.html`.
 
-- Outras rotas específicas.
+**Proteção de rotas restritas:**
+Como não há back-end, as áreas restritas (`#/painel-artesao` e `#/painel-liceu`) são protegidas no cliente por uma guarda de rota no `router.js`: antes de carregar a parcial, verifica-se a sessão persistida no `localStorage` e, na ausência de sessão válida (ou de permissão compatível com o painel), o usuário é redirecionado para `#/login`.
 
 # Convenções
 - Pull Requests (PRs): Todo merge para a main deve passar por revisão cruzada de pelo menos um colega da equipe
