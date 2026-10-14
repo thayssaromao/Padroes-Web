@@ -1,0 +1,130 @@
+:root {
+  --cor-primaria: #272727;
+  --cor-primaria-contraste: #ffffff;
+
+  /* Superfícies / fundos */
+  --cor-fundo: #ffffff;
+  --cor-superficie: rgb(192, 190, 190); /* header e footer */
+
+  /* Texto */
+  --cor-texto: #333333;
+  --cor-texto-forte: #000000;
+
+  /* Bordas / detalhes */
+  --cor-borda: #272727;
+
+  /* ===== Tipografia ===== */
+  --fonte-base: Arial, Helvetica, sans-serif;
+  --fonte-titulo: Arial, Helvetica, sans-serif;
+
+  /* Escala de tamanhos */
+  --fonte-tamanho-base: 1rem;      /* 16px */
+  --fonte-tamanho-pequeno: 0.875rem;
+  --fonte-tamanho-grande: 1.25rem;
+  --fonte-tamanho-titulo: 1.5rem;
+
+  /* Pesos */
+  --fonte-peso-regular: 400;
+  --fonte-peso-negrito: 700;
+
+  /* Altura de linha */
+  --altura-linha: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--fonte-base);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-size: var(--fonte-tamanho-base);
+  line-height: var(--altura-linha);
+}
+
+#conteudo {
+  flex: 1;
+}
+
+.container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 40px;       
+  position: relative;       
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: var(--cor-texto);
+  padding: 5px 0;
+  position: relative;
+}
+
+.nav-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: var(--cor-borda); 
+  width: 0;
+  transform: translateX(0);
+  transition: transform 0.3s ease, width 0.3s ease; /* Efeito do deslize */
+  pointer-events: none; /* Evita que o underline interfira nos cliques */
+}
+
+.footer, .header {
+    background-color: var(--cor-superficie);
+}
+
+.container-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    margin-left: 2%;
+    margin-right: 2%; 
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px; 
+}
+
+.footer-logo {
+    width: 40px; 
+    height: 40px;
+}
+.footer-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: var(--cor-texto-forte);
+    font-weight: var(--fonte-peso-regular);
+}
+
+.footer-links a:hover {
+    font-weight: var(--fonte-peso-negrito);
+}
