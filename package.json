@@ -1,0 +1,13 @@
+{
+  "name": "portal-do-artesao",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "start": "node server/servidor.js",
+    "dev": "node --watch server/servidor.js",
+    "resetar": "node server/resetar.js"
+  }
+}

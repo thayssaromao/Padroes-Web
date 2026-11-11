@@ -1,0 +1,20 @@
+[
+  {
+    "id": "teste_tecnica_1",
+    "nome": "teste_tecnica_1",
+    "descricao": "Descrição fictícia da teste_tecnica_1.",
+    "categoriaId": "teste_categoria_1"
+  },
+  {
+    "id": "teste_tecnica_2",
+    "nome": "teste_tecnica_2",
+    "descricao": "Descrição fictícia da teste_tecnica_2.",
+    "categoriaId": "teste_categoria_1"
+  },
+  {
+    "id": "teste_tecnica_3",
+    "nome": "teste_tecnica_3",
+    "descricao": "Descrição fictícia da teste_tecnica_3.",
+    "categoriaId": "teste_categoria_2"
+  }
+]

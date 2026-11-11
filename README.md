@@ -13,25 +13,21 @@ Projeto de extensão acadêmica desenvolvido para a disciplina de **Padrões Web
 
 ## 🛠️ Como Rodar o Projeto Localmente
 
-Como o projeto utiliza **ES Modules** em JavaScript (`type="module"`), os navegadores modernos bloqueiam a execução direta dos arquivos via protocolo local (`file:///`) por questões de segurança (CORS). Portanto, é necessário utilizar um servidor local estático.
-
-Aqui estão as duas principais formas de rodar o projeto:
-
-### Opção 1: Usando Node.js (`http-server`) — Recomendado
-Caso você tenha o Node.js instalado no seu computador:
+O projeto tem um servidor Node.js (sem dependências externas) que entrega o site e a API de dados. Os dados ficam em arquivos JSON. É preciso ter o **Node.js 20.11 ou superior**.
 
 1. Abra o terminal na pasta raiz do projeto.
-2. Execute o comando abaixo (o npm perguntará se deseja instalar o pacote, basta digitar `y`):
+2. Execute:
    ```bash
-   npx http-server
+   npm start
+   ```
+3. Acesse `http://localhost:3000`.
 
-## Opção 2: Usando o Live Server (VS Code)
-Se você estiver utilizando o Visual Studio Code:
+Outros comandos:
 
-1. Instale a extensão Live Server (criada por Ritwick Dey) no VS Code.
+- `npm run dev`: igual ao `start`, mas reinicia o servidor sozinho quando um arquivo de `server/` muda.
+- `npm run resetar`: apaga as alterações feitas pelo site e volta aos dados iniciais de `data/`.
+- Para usar outra porta: `PORTA=8080 npm start`.
 
-2. Abra a pasta do projeto no editor.
+> Servidores só de arquivos estáticos (`npx http-server`, Live Server) não servem mais: eles não respondem às rotas `/api` e o site fica sem dados.
 
-3. Clique com o botão direito no arquivo index.html e selecione "Open with Live Server".
-
-4. O navegador abrirá automaticamente no endereço local sincronizado.
+Detalhes do banco e da API em [docs/MODELO-DADOS.md](docs/MODELO-DADOS.md).

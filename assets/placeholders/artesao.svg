@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Foto fictícia de artesão">
+  <rect width="200" height="200" fill="#c0bebe"/>
+  <circle cx="100" cy="80" r="36" fill="#8a8888"/>
+  <path d="M40 180c0-36 27-60 60-60s60 24 60 60z" fill="#8a8888"/>
+</svg>

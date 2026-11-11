@@ -1,0 +1,62 @@
+[
+  {
+    "id": "teste_produto_1",
+    "artesaoId": "teste_artesao_1",
+    "nome": "teste_produto_1",
+    "descricao": "Descrição fictícia do teste_produto_1 (publicado).",
+    "imagem": "assets/placeholders/produto.svg",
+    "categoriaIds": ["teste_categoria_1"],
+    "tecnicaIds": ["teste_tecnica_1"],
+    "materiais": ["teste_material_1", "teste_material_2"],
+    "status": "publicado",
+    "motivoRejeicao": null,
+    "criadoEm": "2026-11-04T12:00:00.000Z",
+    "enviadoEm": "2026-11-04T13:00:00.000Z",
+    "avaliadoEm": "2026-11-05T12:00:00.000Z"
+  },
+  {
+    "id": "teste_produto_2",
+    "artesaoId": "teste_artesao_1",
+    "nome": "teste_produto_2",
+    "descricao": "Descrição fictícia do teste_produto_2 (aguardando aprovação).",
+    "imagem": "assets/placeholders/produto.svg",
+    "categoriaIds": ["teste_categoria_1", "teste_categoria_2"],
+    "tecnicaIds": ["teste_tecnica_1", "teste_tecnica_2"],
+    "materiais": ["teste_material_1"],
+    "status": "aguardando",
+    "motivoRejeicao": null,
+    "criadoEm": "2026-11-06T12:00:00.000Z",
+    "enviadoEm": "2026-11-06T13:00:00.000Z",
+    "avaliadoEm": null
+  },
+  {
+    "id": "teste_produto_3",
+    "artesaoId": "teste_artesao_2",
+    "nome": "teste_produto_3",
+    "descricao": "Descrição fictícia do teste_produto_3 (rejeitado).",
+    "imagem": "assets/placeholders/produto.svg",
+    "categoriaIds": ["teste_categoria_2"],
+    "tecnicaIds": ["teste_tecnica_3"],
+    "materiais": ["teste_material_3"],
+    "status": "rejeitado",
+    "motivoRejeicao": "Motivo fictício: a foto está desfocada.",
+    "criadoEm": "2026-11-07T12:00:00.000Z",
+    "enviadoEm": "2026-11-07T13:00:00.000Z",
+    "avaliadoEm": "2026-11-08T12:00:00.000Z"
+  },
+  {
+    "id": "teste_produto_4",
+    "artesaoId": "teste_artesao_2",
+    "nome": "teste_produto_4",
+    "descricao": "Descrição fictícia do teste_produto_4 (rascunho).",
+    "imagem": null,
+    "categoriaIds": [],
+    "tecnicaIds": [],
+    "materiais": [],
+    "status": "rascunho",
+    "motivoRejeicao": null,
+    "criadoEm": "2026-11-09T12:00:00.000Z",
+    "enviadoEm": null,
+    "avaliadoEm": null
+  }
+]

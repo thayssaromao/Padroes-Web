@@ -45,7 +45,7 @@ Cada rota corresponde a uma parcial em `pages/` (um fragmento HTML, não um docu
 Rotas inexistentes recaem na parcial de fallback `pages/nao-encontrado.html`.
 
 **Proteção de rotas restritas:**
-Como não há back-end, as áreas restritas (`#/painel-artesao` e `#/painel-liceu`) são protegidas no cliente por uma guarda de rota no `router.js`: antes de carregar a parcial, verifica-se a sessão persistida no `localStorage` e, na ausência de sessão válida (ou de permissão compatível com o painel), o usuário é redirecionado para `#/login`.
+As áreas restritas (`#/painel-artesao` e `#/painel-liceu`) são protegidas no cliente por uma guarda de rota no `router.js`: antes de carregar a parcial, verifica-se a sessão persistida no `localStorage` e, na ausência de sessão válida (ou de permissão compatível com o painel), o usuário é redirecionado para `#/login`.
 
 # Convenções
 - Pull Requests (PRs): Todo merge para a main deve passar por revisão cruzada de pelo menos um colega da equipe
@@ -55,7 +55,9 @@ Como não há back-end, as áreas restritas (`#/painel-artesao` e `#/painel-lice
 # Fonte de Dados
 Como o projeto acadêmico foca inicialmente na interface e na lógica de front-end com Padrões Web, os dados da aplicação (artesãos, produtos, status de aprovação e categorias) serão persistidos em um arquivo .json.
 
-Para simular o comportamento de banco de dados e persistência entre telas sem back-end, utilizaremos o localStorage do navegador integrado às funções do JavaScript.
+Os dados ficam em um servidor Node.js (`server/`) que usa arquivos JSON como banco de dados e expõe uma API REST em `/api`. O front-end acessa essa API pelas funções de `js/dados.js`.
+
+A estrutura das entidades, os relacionamentos, os status de publicação, as rotas da API e as funções de `js/dados.js` estão documentados em [MODELO-DADOS.md](MODELO-DADOS.md).
 
 # Hospedagem
 

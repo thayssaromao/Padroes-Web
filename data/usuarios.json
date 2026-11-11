@@ -1,0 +1,55 @@
+[
+  {
+    "id": "teste_admin_1",
+    "perfil": "admin",
+    "nome": "teste_admin_1",
+    "email": "teste_admin_1@exemplo.com",
+    "senhaHash": "289160db0d9f39f9ae1754c4ec9c16f90b50e32e09c5fb5481ae642b3d3d1a36",
+    "criadoEm": "2026-11-01T12:00:00.000Z"
+  },
+  {
+    "id": "teste_artesao_1",
+    "perfil": "artesao",
+    "nome": "teste_artesao_1",
+    "email": "teste_artesao_1@exemplo.com",
+    "senhaHash": "289160db0d9f39f9ae1754c4ec9c16f90b50e32e09c5fb5481ae642b3d3d1a36",
+    "criadoEm": "2026-11-01T12:00:00.000Z",
+    "foto": "assets/placeholders/artesao.svg",
+    "nomeNegocio": "@teste_negocio_1",
+    "nichoIds": ["teste_nicho_1"],
+    "tecnicaIds": ["teste_tecnica_1", "teste_tecnica_2"],
+    "historia": "História fictícia do teste_artesao_1.",
+    "redeSocial": "https://www.instagram.com/teste_negocio_1",
+    "whatsapp": "5541900000001"
+  },
+  {
+    "id": "teste_artesao_2",
+    "perfil": "artesao",
+    "nome": "teste_artesao_2",
+    "email": "teste_artesao_2@exemplo.com",
+    "senhaHash": "289160db0d9f39f9ae1754c4ec9c16f90b50e32e09c5fb5481ae642b3d3d1a36",
+    "criadoEm": "2026-11-02T12:00:00.000Z",
+    "foto": "assets/placeholders/artesao.svg",
+    "nomeNegocio": "@teste_negocio_2",
+    "nichoIds": ["teste_nicho_1", "teste_nicho_2"],
+    "tecnicaIds": ["teste_tecnica_3"],
+    "historia": "História fictícia do teste_artesao_2.",
+    "redeSocial": "https://www.instagram.com/teste_negocio_2",
+    "whatsapp": "5541900000002"
+  },
+  {
+    "id": "teste_artesao_3",
+    "perfil": "artesao",
+    "nome": "teste_artesao_3",
+    "email": "teste_artesao_3@exemplo.com",
+    "senhaHash": "289160db0d9f39f9ae1754c4ec9c16f90b50e32e09c5fb5481ae642b3d3d1a36",
+    "criadoEm": "2026-11-03T12:00:00.000Z",
+    "foto": null,
+    "nomeNegocio": null,
+    "nichoIds": [],
+    "tecnicaIds": [],
+    "historia": null,
+    "redeSocial": null,
+    "whatsapp": null
+  }
+]

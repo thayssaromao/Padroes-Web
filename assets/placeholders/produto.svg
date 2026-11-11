@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" role="img" aria-label="Imagem fictícia de produto">
+  <rect width="300" height="200" fill="#c0bebe"/>
+  <path d="M40 160l60-70 45 50 30-30 85 50z" fill="#8a8888"/>
+  <circle cx="215" cy="60" r="18" fill="#8a8888"/>
+</svg>

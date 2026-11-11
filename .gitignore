@@ -1,2 +1,5 @@
 # Arquivos de sistema operacional
 .DS_Store
+# Banco de dados gerado pelo servidor (criado a partir de data/)
+db/
+node_modules/
