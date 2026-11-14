@@ -5,6 +5,7 @@
   /* Superfícies / fundos */
   --cor-fundo: #ffffff;
   --cor-superficie: rgb(192, 190, 190); /* header e footer */
+  --cor-sobre:#d4d4d4;
 
   /* Texto */
   --cor-texto: #333333;
