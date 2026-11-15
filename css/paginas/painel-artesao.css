@@ -164,3 +164,81 @@
         top: calc(var(--altura-barra) + var(--espaco-5));
     }
 }
+
+/* ===== Meus trabalhos ===== */
+
+.artesao-topo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    margin-bottom: var(--espaco-4);
+}
+
+.artesao-topo .btn {
+    align-self: flex-start;
+}
+
+.barra-filtros__item select {
+    flex: 1;
+}
+
+.artesao-vazio {
+    grid-column: 1 / -1;
+    padding: var(--espaco-6);
+    border: 2px dashed var(--cor-borda);
+    border-radius: var(--raio-medio);
+    text-align: center;
+    color: var(--cor-texto-suave);
+}
+
+.artesao-estado {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.artesao-estado .btn {
+    min-height: 32px;
+    padding-inline: var(--espaco-3);
+    font-size: var(--fonte-mini);
+}
+
+.grade-cards.artesao-lista {
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 600px) {
+    .artesao-topo {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .artesao-lista .card-produto {
+        flex-direction: row;
+    }
+
+    .artesao-lista .card-produto__imagem {
+        width: 220px;
+        height: auto;
+        flex-shrink: 0;
+        aspect-ratio: auto;
+        border-right: 1px solid var(--cor-borda);
+        border-bottom: none;
+    }
+
+    .artesao-lista .card-produto__corpo {
+        flex: 1;
+        min-width: 0;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 1024px) {
+    .artesao-topo .busca {
+        max-width: 560px;
+    }
+}
