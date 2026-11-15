@@ -76,12 +76,17 @@ function filtrarTrabalhos(trabalhos, filtros) {
  */
 async function artesaoLogado() {
     const salva = obterSessao();
-    const sessao = (
+    const demonstracao = sessaoDemonstracao("painel-artesao");
+    let sessao = (
         (salva && salva.artesaoId)
         ? salva
-        : sessaoDemonstracao("painel-artesao")
+        : demonstracao
     );
-    const artesao = await buscarArtesao(sessao.artesaoId);
+    let artesao = await buscarArtesao(sessao.artesaoId);
+    if (!artesao) {
+        sessao = demonstracao;
+        artesao = await buscarArtesao(sessao.artesaoId);
+    }
     return {artesao, sessao};
 }
 
@@ -101,7 +106,7 @@ async function trabalhosDoLogado() {
  * Aba Início: resumo e últimos trabalhos.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-async function iniciarArtesaoInicio(raiz) {
+async function montarInicio(raiz) {
     const {sessao} = await artesaoLogado();
     const trabalhos = await trabalhosDoLogado();
     const contagem = contarPorStatus(trabalhos);
@@ -279,7 +284,7 @@ function salvarPerfil(ignore) {
  * Aba Meu perfil: formulário e pré-visualização.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-async function iniciarArtesaoPerfil(raiz) {
+async function montarPerfil(raiz) {
     const {artesao} = await artesaoLogado();
     const dadosCategorias = await carregarCategorias();
     const formulario = raiz.querySelector("[data-form-perfil]");
@@ -330,7 +335,10 @@ async function iniciarArtesaoPerfil(raiz) {
     );
     raiz.querySelector("[data-cancelar]").addEventListener(
         "click",
-        preencher
+        function () {
+            preencher();
+            mostrarAviso("Alterações descartadas.");
+        }
     );
     formulario.addEventListener("submit", function (evento) {
         evento.preventDefault();
@@ -407,37 +415,13 @@ function criarBotaoAcao(acao, id, nomeIcone, texto, classes) {
 }
 
 /**
- * Card de um trabalho com as ações conforme o status.
+ * Bloco de estado de rascunhos e rejeitados (no lugar do badge).
  * @param {object} trabalho
  * @returns {string}
  */
-function criarAcoesTrabalho(trabalho) {
-    const titulo = escaparHtml(trabalho.titulo);
-    const acoes = (
-        criarBotaoAcao(
-            "editar",
-            trabalho.id,
-            "lucide:pencil",
-            "Editar",
-            "btn--suave btn--pequeno"
-        )
-        + `<button type="button" class="btn btn--icone" data-acao="menu"`
-        + ` data-id="${escaparHtml(trabalho.id)}"`
-        + ` aria-label="Mais ações para ${titulo}">`
-        + icone("lucide:ellipsis") + "</button>"
-    );
-    const html = criarCardProduto(trabalho, {
-        acoes,
-        favorito: false,
-        href: ROTA_TRABALHOS,
-        status: (
-            trabalho.status !== "rascunho"
-            && trabalho.status !== "rejeitado"
-        )
-    });
-    let estado = "";
+function criarEstadoTrabalho(trabalho) {
     if (trabalho.status === "rejeitado") {
-        estado = (
+        return (
             "<div class=\"artesao-estado\">"
             + criarStatus("rejeitado")
             + criarBotaoAcao(
@@ -449,8 +433,9 @@ function criarAcoesTrabalho(trabalho) {
             )
             + "</div>"
         );
-    } else if (trabalho.status === "rascunho") {
-        estado = (
+    }
+    if (trabalho.status === "rascunho") {
+        return (
             "<div class=\"artesao-estado\">"
             + criarBotaoAcao(
                 "editar",
@@ -469,17 +454,47 @@ function criarAcoesTrabalho(trabalho) {
             + "</div>"
         );
     }
-    return html.replace(
-        "<div class=\"card-produto__acoes\">",
-        estado + "<div class=\"card-produto__acoes\">"
+    return "";
+}
+
+/**
+ * Card de um trabalho com as ações conforme o status.
+ * @param {object} trabalho
+ * @returns {string}
+ */
+function criarAcoesTrabalho(trabalho) {
+    const titulo = escaparHtml(trabalho.titulo);
+    const acoes = (
+        criarEstadoTrabalho(trabalho)
+        + "<div class=\"artesao-botoes\">"
+        + criarBotaoAcao(
+            "editar",
+            trabalho.id,
+            "lucide:pencil",
+            "Editar",
+            "btn--suave btn--pequeno"
+        )
+        + "<button type=\"button\" class=\"btn btn--icone\""
+        + ` data-acao="menu" data-id="${escaparHtml(trabalho.id)}"`
+        + ` aria-label="Mais ações para ${titulo}">`
+        + icone("lucide:ellipsis") + "</button></div>"
     );
+    return criarCardProduto(trabalho, {
+        acoes,
+        favorito: false,
+        href: ROTA_TRABALHOS,
+        status: (
+            trabalho.status !== "rascunho"
+            && trabalho.status !== "rejeitado"
+        )
+    });
 }
 
 /**
  * Aba Meus trabalhos: grade de trabalhos com filtros.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-async function iniciarArtesaoTrabalhos(raiz) {
+async function montarTrabalhos(raiz) {
     const todos = await trabalhosDoLogado();
     const dadosCategorias = await carregarCategorias();
     const grade = raiz.querySelector("[data-grade]");
@@ -696,10 +711,13 @@ function ligarUpload(raiz) {
             area.classList.add("upload--arrastando");
         });
     });
-    ["dragleave", "drop"].forEach(function (evento) {
-        area.addEventListener(evento, function () {
+    area.addEventListener("dragleave", function (evento) {
+        if (!area.contains(evento.relatedTarget)) {
             area.classList.remove("upload--arrastando");
-        });
+        }
+    });
+    area.addEventListener("drop", function () {
+        area.classList.remove("upload--arrastando");
     });
     area.addEventListener("drop", function (evento) {
         evento.preventDefault();
@@ -730,7 +748,7 @@ function ligarUpload(raiz) {
  * Aba Novo trabalho: formulário e upload de imagens.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-async function iniciarArtesaoNovoTrabalho(raiz) {
+async function montarNovoTrabalho(raiz) {
     const dadosCategorias = await carregarCategorias();
     const formulario = raiz.querySelector("[data-form-trabalho]");
     const campoPreco = raiz.querySelector("[data-preco]");
@@ -827,7 +845,8 @@ function criarLinhaStatus(trabalho) {
     return (
         "<tr>"
         + "<td data-rotulo=\"Trabalho\"><div class=\"tabela__principal\">"
-        + `<img class="tabela__miniatura" src="${trabalho.imagens[0]}"`
+        + "<img class=\"tabela__miniatura\" src=\""
+        + escaparHtml(trabalho.imagens[0]) + "\""
         + " alt=\"\" width=\"64\" height=\"44\" loading=\"lazy\">"
         + "<div><strong>" + escaparHtml(trabalho.titulo) + "</strong>"
         + "<span class=\"texto-suave\">"
@@ -847,7 +866,7 @@ function criarLinhaStatus(trabalho) {
  * Aba Status das publicações: resumo e tabela.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-async function iniciarArtesaoStatus(raiz) {
+async function montarStatus(raiz) {
     const todos = await trabalhosDoLogado();
     const contagem = contarPorStatus(todos);
     const corpo = raiz.querySelector("[data-linhas]");
@@ -913,6 +932,36 @@ async function iniciarArtesaoStatus(raiz) {
 
     desenhar();
 }
+
+/**
+ * Envolve a montagem de uma aba: se o carregamento de dados falhar,
+ * mostra uma mensagem visível no lugar do conteúdo.
+ * @param {string} descricao o que não pôde ser carregado
+ * @param {Function} montar função async que recebe a raiz
+ * @returns {Function}
+ */
+function protegida(descricao, montar) {
+    return async function (raiz) {
+        try {
+            await montar(raiz);
+        } catch (ignore) {
+            raiz.insertAdjacentHTML(
+                "beforeend",
+                "<p class=\"artesao-vazio\" role=\"alert\">"
+                + `Não foi possível carregar ${descricao}.</p>`
+            );
+        }
+    };
+}
+
+const iniciarArtesaoInicio = protegida("o resumo", montarInicio);
+const iniciarArtesaoNovoTrabalho = protegida(
+    "o formulário",
+    montarNovoTrabalho
+);
+const iniciarArtesaoPerfil = protegida("o perfil", montarPerfil);
+const iniciarArtesaoStatus = protegida("as publicações", montarStatus);
+const iniciarArtesaoTrabalhos = protegida("os trabalhos", montarTrabalhos);
 
 export {
     iniciarArtesaoInicio,

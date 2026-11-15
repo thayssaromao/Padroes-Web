@@ -6,7 +6,8 @@
     </div>
 </header>
 
-<section aria-label="Lista de trabalhos">
+<section aria-labelledby="trabalhos-titulo">
+    <h2 class="visualmente-oculto" id="trabalhos-titulo">Lista de trabalhos</h2>
     <div class="artesao-topo">
         <a class="btn btn--suave" href="#/painel-artesao/novo-trabalho">
             <iconify-icon icon="lucide:square-plus" aria-hidden="true"></iconify-icon>
@@ -60,7 +61,7 @@
     </div>
 
     <!-- Cards dos trabalhos (criarCardProduto) da página atual, via JS -->
-    <div class="grade-cards" data-grade></div>
+    <div class="grade-cards artesao-grade" data-grade></div>
 
     <!-- Paginação (criarPaginacao) via JS -->
     <nav class="paginacao paginacao--centro paginacao--bordas" aria-label="Paginação" data-paginacao></nav>
