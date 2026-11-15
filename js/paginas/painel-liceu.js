@@ -187,6 +187,54 @@ function ligarAcoes(alvo, acoes) {
 }
 
 /**
+ * Caminho (já escapado) da primeira imagem do trabalho, com reserva.
+ * @param {object} trabalho
+ * @returns {string}
+ */
+function imagemDe(trabalho) {
+    return escaparHtml(
+        (trabalho.imagens && trabalho.imagens[0])
+        || "assets/img/avatar-padrao.jpg"
+    );
+}
+
+/**
+ * Troca o conteúdo dinâmico da aba por uma mensagem de erro.
+ * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
+ */
+function mostrarErroDeCarga(raiz) {
+    const cabecalho = raiz.querySelector(".painel-cabecalho");
+    if (!cabecalho || !raiz.contains(cabecalho)) {
+        return;
+    }
+    Array.from(raiz.children).forEach(function (filho) {
+        if (filho !== cabecalho) {
+            filho.remove();
+        }
+    });
+    cabecalho.insertAdjacentHTML(
+        "afterend",
+        "<p class=\"liceu-erro\" role=\"alert\">"
+        + "Não foi possível carregar os dados.</p>"
+    );
+}
+
+/**
+ * Envolve o início de uma aba para tratar falhas ao carregar dados.
+ * @param {function(HTMLElement)} iniciar função da aba
+ * @returns {function(HTMLElement): Promise<void>}
+ */
+function comTratamentoDeErro(iniciar) {
+    return async function (raiz) {
+        try {
+            await iniciar(raiz);
+        } catch (ignore) {
+            mostrarErroDeCarga(raiz);
+        }
+    };
+}
+
+/**
  * Minúsculas e sem acentos, para comparar textos na busca.
  * @param {string} texto
  * @returns {string}
@@ -268,7 +316,7 @@ function ligarListagem(raiz, config) {
         }).sort(comparar);
     }
 
-    function exibir() {
+    function exibir(focar) {
         const lista = selecionar();
         const total = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
         const inicio = (Math.min(pagina, total) - 1) * POR_PAGINA;
@@ -285,6 +333,11 @@ function ligarListagem(raiz, config) {
             : "Nenhum resultado"
         );
         paginacao.innerHTML = criarPaginacao(pagina, total);
+        if (focar) {
+            paginacao.querySelector("[aria-current]").focus({
+                preventScroll: true
+            });
+        }
     }
 
     function recomecar() {
@@ -309,7 +362,7 @@ function ligarListagem(raiz, config) {
         const botao = evento.target.closest("[data-pagina]");
         if (botao) {
             pagina = Number(botao.dataset.pagina);
-            exibir();
+            exibir(true);
         }
     });
     exibir();
@@ -342,7 +395,7 @@ function filtrarPendentes(trabalhos) {
 function criarCardPendente(trabalho) {
     return (
         "<article class=\"card card-trabalho\">"
-        + `<img class="card-trabalho__imagem" src="${trabalho.imagens[0]}"`
+        + `<img class="card-trabalho__imagem" src="${imagemDe(trabalho)}"`
         + ` alt="${escaparHtml(trabalho.titulo)}" width="400" height="160"`
         + " loading=\"lazy\">"
         + "<h3 class=\"card-trabalho__titulo\">"
@@ -362,7 +415,7 @@ function criarCardPendente(trabalho) {
  * Aba Início: resumo e trabalhos aguardando análise.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-async function iniciarLiceuInicio(raiz) {
+async function montarInicio(raiz) {
     const dados = await Promise.all([carregarArtesaos(), carregarTrabalhos()]);
     const contagem = contarPorStatus(dados[1]);
     const pendentes = filtrarPendentes(dados[1]);
@@ -443,7 +496,7 @@ function criarLinhaArtesao(artesao) {
  * Aba Artesãos: tabela, busca e filtros.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-async function iniciarLiceuArtesaos(raiz) {
+async function montarArtesaos(raiz) {
     const dados = await Promise.all([
         carregarArtesaos(),
         carregarCategorias()
@@ -556,7 +609,7 @@ function ligarTecnicas(raiz) {
  * Aba Cadastrar Artesão: formulário de acesso inicial.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-async function iniciarLiceuCadastro(raiz) {
+async function montarCadastro(raiz) {
     const categorias = await carregarCategorias();
     const formulario = raiz.querySelector("[data-formulario]");
     const senha = formulario.elements.senha;
@@ -601,6 +654,8 @@ async function iniciarLiceuCadastro(raiz) {
             whatsapp: campos.whatsapp.value.trim()
         }).then(function () {
             formulario.reset();
+        }).catch(function () {
+            mostrarAviso("Não foi possível cadastrar o artesão.");
         });
     });
 }
@@ -617,7 +672,7 @@ function criarLinhaPendente(trabalho) {
     return (
         "<tr>"
         + "<td data-rotulo=\"Trabalho\"><span class=\"tabela__principal\">"
-        + `<img class="tabela__miniatura" src="${trabalho.imagens[0]}"`
+        + `<img class="tabela__miniatura" src="${imagemDe(trabalho)}"`
         + ` alt="" width="64" height="44" loading="lazy">${titulo}</span></td>`
         + "<td data-rotulo=\"Artesão\">"
         + escaparHtml(trabalho.artesaoNome) + "</td>"
@@ -640,7 +695,7 @@ function criarLinhaPendente(trabalho) {
  * Aba Trabalhos Pendentes: resumo e tabela de análise.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-async function iniciarLiceuPendentes(raiz) {
+async function montarPendentes(raiz) {
     const dados = await Promise.all([
         carregarTrabalhos(),
         carregarCategorias()
@@ -731,7 +786,7 @@ function criarLinhaPublicacao(trabalho) {
     return (
         "<tr>"
         + "<td data-rotulo=\"Imagem\">"
-        + `<img class="tabela__miniatura" src="${trabalho.imagens[0]}"`
+        + `<img class="tabela__miniatura" src="${imagemDe(trabalho)}"`
         + " alt=\"\" width=\"64\" height=\"44\" loading=\"lazy\"></td>"
         + "<td data-rotulo=\"Publicação / Produto\"><strong>"
         + escaparHtml(trabalho.titulo) + "</strong></td>"
@@ -765,7 +820,7 @@ function criarLinhaPublicacao(trabalho) {
  * Aba Publicações: tabela de publicações aprovadas.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-async function iniciarLiceuPublicacoes(raiz) {
+async function montarPublicacoes(raiz) {
     const dados = await Promise.all([
         carregarTrabalhos(),
         carregarCategorias(),
@@ -833,7 +888,7 @@ async function iniciarLiceuPublicacoes(raiz) {
  * Aba Configurações: dados do Liceu e preferências.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-function iniciarLiceuConfiguracoes(raiz) {
+function montarConfiguracoes(raiz) {
     const formulario = raiz.querySelector("[data-formulario]");
 
     formulario.addEventListener("submit", function (evento) {
@@ -849,6 +904,13 @@ function iniciarLiceuConfiguracoes(raiz) {
         "gerenciar-tecnicas": gerenciarTecnicas
     });
 }
+
+const iniciarLiceuArtesaos = comTratamentoDeErro(montarArtesaos);
+const iniciarLiceuCadastro = comTratamentoDeErro(montarCadastro);
+const iniciarLiceuConfiguracoes = comTratamentoDeErro(montarConfiguracoes);
+const iniciarLiceuInicio = comTratamentoDeErro(montarInicio);
+const iniciarLiceuPendentes = comTratamentoDeErro(montarPendentes);
+const iniciarLiceuPublicacoes = comTratamentoDeErro(montarPublicacoes);
 
 export {
     iniciarLiceuArtesaos,

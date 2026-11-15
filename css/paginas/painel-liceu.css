@@ -76,6 +76,27 @@
         overflow-wrap: normal;
         white-space: nowrap;
     }
+
+    .liceu-tabela .tabela__acoes {
+        flex-wrap: nowrap;
+        gap: var(--espaco-1);
+    }
+
+    .liceu-tabela .tabela__acoes .btn--pequeno {
+        padding-inline: var(--espaco-2);
+    }
+
+    .liceu-barra {
+        flex-wrap: wrap;
+    }
+
+    .liceu-barra .busca {
+        flex: 1 1 100%;
+    }
+
+    .liceu-barra .busca + .barra-filtros__divisor {
+        display: none;
+    }
 }
 
 /* ----- Cadastrar artesão ----- */
@@ -176,26 +197,8 @@
         margin-top: 0;
     }
 
-    .liceu-filtros {
-        flex-wrap: nowrap;
-    }
-
-    .liceu-filtros__busca {
-        flex-basis: auto;
-    }
-}
-
-@media (min-width: 1024px) {
-    .liceu-tabela--icones .tabela__acoes {
-        flex-wrap: nowrap;
-    }
-
-    .liceu-filtros__busca {
-        flex: 1.6;
-    }
-
     .liceu-filtros .campo {
-        min-width: 150px;
+        min-width: 195px;
     }
 }
 
@@ -301,4 +304,13 @@
     .liceu-config__grade {
         grid-template-columns: 1fr 1fr;
     }
+}
+
+/* ----- Erro ao carregar dados ----- */
+.liceu-erro {
+    padding: var(--espaco-5);
+    border: 1px solid var(--cor-borda-forte);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-superficie-forte);
+    font-weight: var(--peso-semi);
 }
