@@ -17,6 +17,7 @@ import {
     buscarArtesao,
     carregarCategorias,
     contarPorStatus,
+    formatarData,
     obterSessao,
     salvarTrabalho,
     sessaoDemonstracao,
@@ -24,6 +25,50 @@ import {
 } from "../dados.js";
 
 const ROTA_TRABALHOS = "#/painel-artesao/meus-trabalhos";
+
+const COMPARADORES = Object.freeze({
+    antigos: function (a, b) {
+        return new Date(a.atualizadoEm) - new Date(b.atualizadoEm);
+    },
+    nome: function (a, b) {
+        return a.titulo.localeCompare(b.titulo, "pt-BR");
+    },
+    recentes: function (a, b) {
+        return new Date(b.atualizadoEm) - new Date(a.atualizadoEm);
+    }
+});
+
+/**
+ * Filtra trabalhos por status, busca no texto e (opcional) categoria ou
+ * técnica. "em-analise" inclui os reenviados.
+ * @param {Array<object>} trabalhos
+ * @param {{busca: string, categoria?: string, status: string}} filtros
+ * @returns {Array<object>}
+ */
+function filtrarTrabalhos(trabalhos, filtros) {
+    const termo = filtros.busca.trim().toLowerCase();
+    return trabalhos.filter(function (trabalho) {
+        const texto = [
+            trabalho.titulo,
+            trabalho.categoria,
+            trabalho.tecnica
+        ].join(" ").toLowerCase();
+        const statusOk = (
+            !filtros.status
+            || trabalho.status === filtros.status
+            || (
+                filtros.status === "em-analise"
+                && trabalho.status === "reenviado"
+            )
+        );
+        const categoriaOk = (
+            !filtros.categoria
+            || trabalho.categoria === filtros.categoria
+            || trabalho.tecnica === filtros.categoria
+        );
+        return statusOk && categoriaOk && (!termo || texto.includes(termo));
+    });
+}
 
 /**
  * Artesão logado (sessão salva ou sessão de demonstração).
@@ -461,40 +506,12 @@ async function iniciarArtesaoTrabalhos(raiz) {
     );
 
     function filtrar() {
-        const status = raiz.querySelector("[data-filtro-status]").value;
-        const categoria = seletorCategoria.value;
-        const termo = estado.busca.trim().toLowerCase();
-        const lista = todos.filter(function (trabalho) {
-            const statusOk = (
-                !status
-                || trabalho.status === status
-                || (status === "em-analise" && trabalho.status === "reenviado")
-            );
-            const categoriaOk = (
-                !categoria
-                || trabalho.categoria === categoria
-                || trabalho.tecnica === categoria
-            );
-            const texto = [
-                trabalho.titulo,
-                trabalho.categoria,
-                trabalho.tecnica
-            ].join(" ").toLowerCase();
-            const textoOk = !termo || texto.includes(termo);
-            return statusOk && categoriaOk && textoOk;
+        const lista = filtrarTrabalhos(todos, {
+            busca: estado.busca,
+            categoria: seletorCategoria.value,
+            status: raiz.querySelector("[data-filtro-status]").value
         });
-        const comparar = {
-            antigos: function (a, b) {
-                return new Date(a.atualizadoEm) - new Date(b.atualizadoEm);
-            },
-            nome: function (a, b) {
-                return a.titulo.localeCompare(b.titulo, "pt-BR");
-            },
-            recentes: function (a, b) {
-                return new Date(b.atualizadoEm) - new Date(a.atualizadoEm);
-            }
-        };
-        return lista.sort(comparar[estado.ordem]);
+        return lista.sort(COMPARADORES[estado.ordem]);
     }
 
     function desenhar() {
@@ -763,13 +780,138 @@ async function iniciarArtesaoNovoTrabalho(raiz) {
     );
 }
 
+// ===== Status das publicações =====
+
+/**
+ * Linha da tabela de status, com as ações conforme o status.
+ * @param {object} trabalho
+ * @returns {string}
+ */
+function criarLinhaStatus(trabalho) {
+    const id = escaparHtml(trabalho.id);
+    const botao = function (acao, nomeIcone, texto, classes) {
+        return (
+            `<button type="button" class="btn ${classes}"`
+            + ` data-acao="${acao}" data-id="${id}">`
+            + icone(nomeIcone) + texto + "</button>"
+        );
+    };
+    const acoes = {
+        "em-analise": (
+            "<button type=\"button\" class=\"btn btn--suave btn--pequeno\""
+            + " aria-disabled=\"true\">"
+            + icone("lucide:hourglass") + "Aguardando análise</button>"
+        ),
+        publicado: (
+            "<a class=\"btn btn--secundario btn--pequeno\" href=\"#/produtos\">"
+            + icone("lucide:external-link") + "Ver no portal</a>"
+        ),
+        rascunho: botao(
+            "editar",
+            "lucide:pencil",
+            "Continuar edição",
+            "btn--secundario btn--pequeno"
+        ),
+        rejeitado: (
+            "<button type=\"button\" class=\"btn btn--link\""
+            + ` data-acao="motivo" data-id="${id}">Ver motivo</button>`
+            + botao(
+                "editar",
+                "lucide:pencil",
+                "Editar e reenviar",
+                "btn--secundario btn--pequeno"
+            )
+        )
+    };
+    acoes.reenviado = acoes["em-analise"];
+    return (
+        "<tr>"
+        + "<td data-rotulo=\"Trabalho\"><div class=\"tabela__principal\">"
+        + `<img class="tabela__miniatura" src="${trabalho.imagens[0]}"`
+        + " alt=\"\" width=\"64\" height=\"44\" loading=\"lazy\">"
+        + "<div><strong>" + escaparHtml(trabalho.titulo) + "</strong>"
+        + "<span class=\"texto-suave\">"
+        + escaparHtml(trabalho.categoria + " • " + trabalho.tecnica)
+        + "</span></div></div></td>"
+        + "<td data-rotulo=\"Status\">" + criarStatus(trabalho.status)
+        + "</td>"
+        + "<td data-rotulo=\"Última atualização\">"
+        + escaparHtml(formatarData(trabalho.atualizadoEm)) + "</td>"
+        + "<td data-rotulo=\"Ações\"><div class=\"tabela__acoes\">"
+        + (acoes[trabalho.status] ?? "") + "</div></td>"
+        + "</tr>"
+    );
+}
+
 /**
  * Aba Status das publicações: resumo e tabela.
- * @param {HTMLElement} ignore o <main id="conteudo"> com a parcial
+ * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-function iniciarArtesaoStatus(ignore) {
-    // A IMPLEMENTAR: na branch da página.
-    return;
+async function iniciarArtesaoStatus(raiz) {
+    const todos = await trabalhosDoLogado();
+    const contagem = contarPorStatus(todos);
+    const corpo = raiz.querySelector("[data-linhas]");
+    const estado = {busca: "", ordem: "recentes"};
+
+    raiz.querySelector("[data-resumo]").innerHTML = [
+        ["lucide:circle-check", contagem.publicado, "Publicados"],
+        [
+            "lucide:clock",
+            (contagem["em-analise"] || 0) + (contagem.reenviado || 0),
+            "Em análise"
+        ],
+        ["lucide:file-text", contagem.rascunho, "Rascunhos"],
+        ["lucide:circle-x", contagem.rejeitado, "Rejeitados"]
+    ].map(function ([icone, numero, rotulo]) {
+        return criarCardEstatistica({
+            icone,
+            numero: numero || 0,
+            rotulo
+        });
+    }).join("");
+
+    function desenhar() {
+        const lista = filtrarTrabalhos(todos, {
+            busca: estado.busca,
+            status: raiz.querySelector("[data-filtro-status]").value
+        }).sort(COMPARADORES[estado.ordem]);
+        corpo.innerHTML = lista.map(criarLinhaStatus).join("");
+        raiz.querySelector("[data-vazio]").hidden = lista.length > 0;
+    }
+
+    raiz.querySelector("[data-busca]").addEventListener(
+        "input",
+        function (evento) {
+            estado.busca = evento.target.value;
+            desenhar();
+        }
+    );
+    raiz.querySelector("[data-filtro-status]").addEventListener(
+        "change",
+        desenhar
+    );
+    raiz.querySelector("[data-ordem]").addEventListener(
+        "change",
+        function (evento) {
+            estado.ordem = evento.target.value;
+            desenhar();
+        }
+    );
+    corpo.addEventListener("click", function (evento) {
+        const botao = evento.target.closest("[data-acao]");
+        const trabalho = botao && todos.find(function (item) {
+            return item.id === botao.dataset.id;
+        });
+        if (trabalho) {
+            (
+                botao.dataset.acao === "motivo"
+                ? verMotivo
+                : editarTrabalho
+            )(trabalho);
+        }
+    });
+
+    desenhar();
 }
 
 export {

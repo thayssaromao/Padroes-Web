@@ -320,3 +320,36 @@
     max-width: 100%;
     white-space: normal;
 }
+
+/* ===== Status das publicações ===== */
+
+.artesao-status-resumo {
+    margin-bottom: var(--espaco-5);
+}
+
+.artesao-status-aviso {
+    margin-top: var(--espaco-5);
+}
+
+.tabela .texto-suave {
+    font-weight: var(--peso-regular);
+}
+
+.tabela__principal > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.tabela__acoes .btn--link {
+    min-height: 32px;
+}
+
+.artesao-status-busca {
+    flex: 1 0 100%;
+}
+
+@media (min-width: 1024px) {
+    .artesao-status-busca {
+        flex: 1 1 0;
+    }
+}

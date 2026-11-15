@@ -2,6 +2,65 @@
     <div class="painel-cabecalho__texto">
         <span class="sobretitulo">Status das publicações</span>
         <h1>Status das Publicações</h1>
+        <p class="texto-apoio">Acompanhe a situação dos trabalhos que você enviou ao Liceu de Ofícios Criativos.</p>
     </div>
 </header>
-<p class="em-construcao">Em construção.</p>
+
+<section aria-label="Resumo por status" class="artesao-status-resumo">
+    <!-- Quatro cards de estatística (publicados, em análise, rascunhos, rejeitados) via JS -->
+    <div class="grade-estatisticas" data-resumo></div>
+</section>
+
+<section aria-label="Lista de publicações">
+    <div class="barra-filtros">
+        <search class="busca artesao-status-busca">
+            <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
+            <label for="status-busca" class="visualmente-oculto">Buscar por nome do trabalho</label>
+            <input type="search" id="status-busca" class="busca__entrada" placeholder="Buscar por nome do trabalho..." data-busca>
+        </search>
+        <div class="barra-filtros__item">
+            <label for="status-filtro">Filtrar por status:</label>
+            <select id="status-filtro" class="campo__entrada" data-filtro-status>
+                <option value="">Todos os status</option>
+                <option value="publicado">Publicado</option>
+                <option value="em-analise">Em análise</option>
+                <option value="rascunho">Rascunho</option>
+                <option value="rejeitado">Rejeitado</option>
+            </select>
+        </div>
+        <span class="barra-filtros__divisor" aria-hidden="true"></span>
+        <div class="barra-filtros__item">
+            <label for="status-ordem">Ordenar por:</label>
+            <select id="status-ordem" class="campo__entrada" data-ordem>
+                <option value="recentes">Mais recentes</option>
+                <option value="antigos">Mais antigos</option>
+                <option value="nome">Nome A–Z</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="tabela-container">
+        <table class="tabela">
+            <caption class="visualmente-oculto">Status de publicação dos seus trabalhos</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Trabalho</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Última atualização</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <!-- Linhas dos trabalhos (criarLinhaStatus) preenchidas via JS -->
+            <tbody data-linhas></tbody>
+        </table>
+    </div>
+    <p class="artesao-vazio" data-vazio hidden>Nenhum trabalho encontrado.</p>
+</section>
+
+<aside class="aviso artesao-status-aviso" aria-labelledby="status-aviso-titulo">
+    <iconify-icon icon="lucide:info" aria-hidden="true"></iconify-icon>
+    <div class="aviso__texto">
+        <h2 class="aviso__titulo" id="status-aviso-titulo">Trabalhos rejeitados podem ser corrigidos e reenviados.</h2>
+        <p>Verifique o motivo da rejeição, faça os ajustes necessários e envie novamente para uma nova análise.</p>
+    </div>
+</aside>
