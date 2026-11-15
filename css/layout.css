@@ -1,0 +1,523 @@
+/* =========================================================
+   layout.css — casca do portal (cabeçalho/rodapé) e do painel
+   Guia: docs/DESIGN.md §4
+   ========================================================= */
+
+#raiz {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.conteudo {
+    flex: 1;
+}
+
+/* ===== Marca (logo + nome) ===== */
+
+.marca {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    text-decoration: none;
+    font-weight: var(--peso-medio);
+}
+
+.marca__logo {
+    width: 64px;
+    height: 36px;
+    object-fit: contain;
+    background-color: transparent;
+}
+
+/* ===== Cabeçalho do portal ===== */
+
+.cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background-color: var(--cor-barra);
+}
+
+.cabecalho__interno {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-4);
+    width: min(100% - 2 * var(--espaco-4), 1320px);
+    height: var(--altura-barra);
+    margin-inline: auto;
+}
+
+.cabecalho__menu {
+    display: inline-flex;
+}
+
+.nav-portal {
+    position: absolute;
+    top: var(--altura-barra);
+    right: calc(-1 * var(--espaco-4));
+    left: calc(-1 * var(--espaco-4));
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    padding: var(--espaco-4);
+    background-color: var(--cor-barra);
+    box-shadow: var(--sombra-elevada);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity var(--transicao), transform var(--transicao),
+        visibility var(--transicao);
+}
+
+.nav-portal--aberto {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.nav-portal__lista {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+}
+
+.nav-portal__link,
+.nav-portal__entrar {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    min-height: 44px;
+    padding-inline: var(--espaco-2);
+    font-size: var(--fonte-grande);
+    text-decoration: none;
+    border-radius: var(--raio-pequeno);
+    transition: background-color var(--transicao);
+}
+
+.nav-portal__link:hover,
+.nav-portal__entrar:hover {
+    background-color: rgb(255 255 255 / 25%);
+}
+
+.nav-portal__link[aria-current="page"] {
+    font-weight: var(--peso-negrito);
+}
+
+.nav-portal__entrar {
+    border-top: 1px solid var(--cor-borda-forte);
+    padding-top: var(--espaco-2);
+}
+
+.nav-portal__entrar iconify-icon {
+    font-size: 1.75em;
+}
+
+.nav-portal__sublinhado {
+    display: none;
+}
+
+/* ===== Rodapé do portal ===== */
+
+.rodape {
+    background-color: var(--cor-barra);
+}
+
+.rodape__interno {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+    width: min(100% - 2 * var(--espaco-4), 1320px);
+    margin-inline: auto;
+    padding-block: var(--espaco-5);
+}
+
+.rodape__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2) var(--espaco-5);
+}
+
+.rodape__links a {
+    position: relative;
+    display: inline-block;
+    padding-block: var(--espaco-2);
+    text-decoration: none;
+}
+
+.rodape__links a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--cor-borda-forte);
+    transform: scaleX(0);
+    transition: transform var(--transicao);
+}
+
+.rodape__links a:hover::before,
+.rodape__links a[aria-current="page"]::before {
+    transform: scaleX(1);
+}
+
+.rodape__social {
+    display: flex;
+    gap: var(--espaco-3);
+}
+
+.rodape__social a {
+    display: inline-flex;
+    font-size: 2rem;
+    transition: transform var(--transicao);
+}
+
+.rodape__social a:hover {
+    transform: translateY(-2px);
+}
+
+/* Portal some quando o layout é painel */
+.layout-painel .cabecalho,
+.layout-painel .rodape {
+    display: none;
+}
+
+/* ===== Casca do painel ===== */
+
+.painel {
+    flex: 1;
+    display: grid;
+    grid-template-areas:
+        "topo"
+        "principal"
+        "rodape";
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+.painel__topo {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    grid-area: topo;
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    height: var(--altura-barra);
+    padding-inline: var(--espaco-4);
+    background-color: var(--cor-barra);
+}
+
+.painel__topo .marca {
+    margin-right: auto;
+}
+
+.painel__topo .marca span {
+    display: none;
+}
+
+.painel__usuario {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+}
+
+.painel__usuario .btn--icone {
+    border-color: transparent;
+    background: none;
+}
+
+.painel__usuario .btn--icone:hover {
+    background-color: rgb(255 255 255 / 25%);
+}
+
+.painel__divisor {
+    width: 1px;
+    height: 36px;
+    background-color: var(--cor-borda-forte);
+}
+
+.painel__perfil {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    min-height: 44px;
+    padding-inline: var(--espaco-2);
+    border-radius: var(--raio-pequeno);
+    font-weight: var(--peso-medio);
+}
+
+.painel__perfil:hover {
+    background-color: rgb(255 255 255 / 25%);
+}
+
+.painel__perfil-nome {
+    display: none;
+}
+
+.painel__lateral {
+    position: fixed;
+    top: var(--altura-barra);
+    bottom: 0;
+    left: 0;
+    z-index: 15;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    width: min(85vw, var(--largura-lateral));
+    padding: var(--espaco-5) var(--espaco-4);
+    overflow-y: auto;
+    background-color: var(--cor-lateral);
+    box-shadow: var(--sombra-elevada);
+    visibility: hidden;
+    transform: translateX(-100%);
+    transition: transform 250ms ease, visibility 250ms ease;
+}
+
+.painel__lateral--aberto {
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.painel__titulo {
+    margin-bottom: var(--espaco-4);
+    padding-inline: var(--espaco-3);
+    font-size: 1.5rem;
+    font-weight: var(--peso-extra);
+    line-height: 1.15;
+}
+
+.painel__menu-lista {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+}
+
+.painel__link {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    width: 100%;
+    min-height: 48px;
+    padding: var(--espaco-2) var(--espaco-3);
+    border-radius: var(--raio-grande);
+    font-size: 1.0625rem;
+    text-align: left;
+    text-decoration: none;
+    transition: background-color var(--transicao);
+}
+
+.painel__link iconify-icon {
+    font-size: 1.5em;
+}
+
+.painel__link:hover {
+    background-color: rgb(255 255 255 / 35%);
+}
+
+.painel__link[aria-current="page"] {
+    background-color: var(--cor-lateral-ativo);
+    font-weight: var(--peso-negrito);
+}
+
+.painel__separador {
+    margin: var(--espaco-4) var(--espaco-3);
+    border: none;
+    border-top: 1px solid var(--cor-borda-forte);
+}
+
+.painel__sair {
+    margin-top: auto;
+}
+
+.painel__principal {
+    grid-area: principal;
+    min-width: 0;
+    padding: var(--espaco-5) var(--espaco-4) var(--espaco-7);
+}
+
+.painel__rodape {
+    grid-area: rodape;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    padding: var(--espaco-4);
+    background-color: var(--cor-barra);
+    font-size: var(--fonte-pequena);
+}
+
+.painel__rodape-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2) var(--espaco-5);
+}
+
+.painel__rodape-links a {
+    text-decoration: none;
+}
+
+.painel__rodape-links a:hover {
+    text-decoration: underline;
+}
+
+/* Cabeçalho de página dentro do painel */
+.painel-cabecalho {
+    display: grid;
+    gap: var(--espaco-5);
+    margin-bottom: var(--espaco-6);
+}
+
+.painel-cabecalho__texto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+}
+
+.painel-cabecalho__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-3);
+    margin-top: var(--espaco-3);
+}
+
+.painel-cabecalho__imagem {
+    display: none;
+    width: 100%;
+    aspect-ratio: 5 / 2;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+}
+
+/* Fundo escuro atrás das gavetas */
+.veu {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background-color: var(--cor-sobreposicao);
+}
+
+/* ===== Tablet ===== */
+@media (min-width: 600px) {
+    .painel__perfil-nome,
+    .painel__topo .marca span {
+        display: inline;
+    }
+
+    .painel__principal {
+        padding: var(--espaco-6) var(--espaco-6) var(--espaco-7);
+    }
+
+    .rodape__interno,
+    .painel__rodape {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+/* ===== Desktop ===== */
+@media (min-width: 1024px) {
+    .cabecalho__menu,
+    .painel__menu {
+        display: none;
+    }
+
+    .nav-portal {
+        position: static;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--espaco-6);
+        padding: 0;
+        background: none;
+        box-shadow: none;
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+    }
+
+    .nav-portal__lista {
+        position: relative;
+        flex-direction: row;
+        gap: var(--espaco-2);
+        height: var(--altura-barra);
+    }
+
+    .nav-portal__link {
+        height: 100%;
+        padding-inline: var(--espaco-4);
+        border-radius: 0;
+        font-size: 1.0625rem;
+    }
+
+    .nav-portal__link[aria-current="page"] {
+        font-weight: var(--peso-medio);
+    }
+
+    .nav-portal__sublinhado {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: block;
+        width: 0;
+        height: 3px;
+        background-color: var(--cor-borda-forte);
+        transition: transform 300ms ease, width 300ms ease;
+        pointer-events: none;
+    }
+
+    .nav-portal__entrar {
+        padding-left: var(--espaco-5);
+        border-top: none;
+        border-left: 1px solid var(--cor-borda-forte);
+        border-radius: 0;
+    }
+
+    .painel {
+        grid-template-areas:
+            "topo topo"
+            "lateral principal"
+            "rodape rodape";
+        grid-template-columns: var(--largura-lateral) 1fr;
+    }
+
+    .painel__topo {
+        padding-inline: var(--espaco-7) var(--espaco-6);
+    }
+
+    .painel__lateral {
+        position: sticky;
+        top: var(--altura-barra);
+        grid-area: lateral;
+        height: calc(100vh - var(--altura-barra));
+        width: auto;
+        box-shadow: none;
+        visibility: visible;
+        transform: none;
+        transition: none;
+    }
+
+    .painel__principal {
+        padding: var(--espaco-6) var(--espaco-7) var(--espaco-8);
+    }
+
+    .painel__rodape {
+        padding-inline: var(--espaco-7);
+    }
+
+    .painel-cabecalho--com-imagem {
+        grid-template-columns: 1.3fr 1fr;
+        align-items: center;
+    }
+
+    .painel-cabecalho__imagem {
+        display: block;
+    }
+
+    .veu {
+        display: none;
+    }
+}
