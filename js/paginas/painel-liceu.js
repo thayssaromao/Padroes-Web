@@ -11,14 +11,16 @@ import {
     criarStatus,
     escaparHtml,
     icone,
-    mostrarAviso
+    mostrarAviso,
+    prepararCamposSenha
 } from "../componentes.js";
 import {
     carregarArtesaos,
     carregarCategorias,
     carregarTrabalhos,
     comNomeDoArtesao,
-    contarPorStatus
+    contarPorStatus,
+    salvarArtesao
 } from "../dados.js";
 
 const MAXIMO_CARDS_INICIO = 4;
@@ -366,13 +368,123 @@ async function iniciarLiceuArtesaos(raiz) {
     });
 }
 
+// ===== Aba Cadastrar Artesão =====
+
+/**
+ * Simula o cadastro de um novo artesão (sem a senha, que não é guardada).
+ * @param {object} dados campos do formulário
+ * @returns {Promise<void>}
+ */
+async function cadastrarArtesao(dados) {
+    // A IMPLEMENTAR: enviar ao servidor e criar o acesso do artesão.
+    await salvarArtesao(dados);
+    mostrarAviso("Artesão cadastrado (simulação).");
+}
+
+/**
+ * Liga o seletor de técnicas: escolher adiciona um chip removível e
+ * mantém o campo oculto com os valores separados por vírgula.
+ * @param {HTMLElement} raiz
+ * @returns {function(): string[]} lê as técnicas escolhidas
+ */
+function ligarTecnicas(raiz) {
+    const seletor = raiz.querySelector("[data-seletor-tecnicas]");
+    const lista = raiz.querySelector("[data-tecnicas-lista]");
+    const valor = raiz.querySelector("[data-tecnicas-valor]");
+    let escolhidas = [];
+
+    function exibir() {
+        valor.value = escolhidas.join(",");
+        lista.innerHTML = escolhidas.map(function (tecnica) {
+            const nome = escaparHtml(tecnica);
+            return (
+                "<li class=\"chip chip--removivel\">" + nome
+                + "<button type=\"button\" class=\"chip__remover\""
+                + ` data-remover="${nome}" aria-label="Remover ${nome}">`
+                + icone("lucide:x") + "</button></li>"
+            );
+        }).join("");
+    }
+
+    seletor.addEventListener("change", function () {
+        if (seletor.value && !escolhidas.includes(seletor.value)) {
+            escolhidas.push(seletor.value);
+            exibir();
+        }
+        seletor.value = "";
+    });
+    lista.addEventListener("click", function (evento) {
+        const botao = evento.target.closest("[data-remover]");
+        if (botao) {
+            escolhidas = escolhidas.filter(function (tecnica) {
+                return tecnica !== botao.dataset.remover;
+            });
+            exibir();
+        }
+    });
+    raiz.querySelector("[data-formulario]").addEventListener(
+        "reset",
+        function () {
+            escolhidas = [];
+            exibir();
+        }
+    );
+    return function () {
+        return escolhidas.slice();
+    };
+}
+
 /**
  * Aba Cadastrar Artesão: formulário de acesso inicial.
- * @param {HTMLElement} ignore o <main id="conteudo"> com a parcial
+ * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-function iniciarLiceuCadastro(ignore) {
-    // A IMPLEMENTAR: na branch da página.
-    return;
+async function iniciarLiceuCadastro(raiz) {
+    const categorias = await carregarCategorias();
+    const formulario = raiz.querySelector("[data-formulario]");
+    const senha = formulario.elements.senha;
+    const confirmar = formulario.elements.confirmar;
+    const lerTecnicas = ligarTecnicas(raiz);
+
+    function conferirSenhas() {
+        confirmar.setCustomValidity(
+            senha.value === confirmar.value
+            ? ""
+            : "As senhas não conferem."
+        );
+    }
+
+    formulario.elements.categoria.insertAdjacentHTML(
+        "beforeend",
+        criarOpcoes(categorias.categorias)
+    );
+    raiz.querySelector("[data-seletor-tecnicas]").insertAdjacentHTML(
+        "beforeend",
+        criarOpcoes(categorias.tecnicas)
+    );
+    prepararCamposSenha(formulario);
+    senha.addEventListener("input", conferirSenhas);
+    confirmar.addEventListener("input", conferirSenhas);
+    formulario.addEventListener("submit", function (evento) {
+        const campos = formulario.elements;
+        const categoria = campos.categoria.value;
+        evento.preventDefault();
+        cadastrarArtesao({
+            categorias: (
+                categoria
+                ? [categoria]
+                : []
+            ),
+            email: campos.email.value.trim(),
+            empreendimento: campos.empreendimento.value.trim(),
+            instagram: campos.instagram.value.trim(),
+            nome: campos.nome.value.trim(),
+            status: "ativo",
+            tecnicas: lerTecnicas(),
+            whatsapp: campos.whatsapp.value.trim()
+        }).then(function () {
+            formulario.reset();
+        });
+    });
 }
 
 /**

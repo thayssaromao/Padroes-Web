@@ -77,3 +77,41 @@
         white-space: nowrap;
     }
 }
+
+/* ----- Cadastrar artesão ----- */
+.liceu-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+}
+
+.liceu-bloco {
+    display: block;
+    min-width: 0;
+}
+
+.liceu-bloco__legenda {
+    float: left;
+    width: 100%;
+    margin-bottom: var(--espaco-4);
+    padding: 0;
+}
+
+.liceu-bloco__legenda + * {
+    clear: both;
+}
+
+.liceu-bloco > * + * {
+    margin-top: var(--espaco-4);
+}
+
+.liceu-bloco__texto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+}
+
+.campo__grupo > .liceu-senha {
+    padding-left: var(--espaco-3);
+    padding-right: 48px;
+}

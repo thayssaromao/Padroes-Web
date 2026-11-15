@@ -2,6 +2,121 @@
     <div class="painel-cabecalho__texto">
         <span class="sobretitulo">Administração</span>
         <h1>Cadastrar Artesão</h1>
+        <p>Crie o acesso inicial de um novo artesão ao Portal do Artesão.</p>
     </div>
 </header>
-<p class="em-construcao">Em construção.</p>
+
+<form class="liceu-formulario" data-formulario>
+    <fieldset class="bloco-form liceu-bloco">
+        <legend class="bloco-form__cabecalho liceu-bloco__legenda">
+            <iconify-icon icon="lucide:lock" aria-hidden="true"></iconify-icon>
+            <span class="liceu-bloco__texto">
+                <span class="bloco-form__titulo">Dados de acesso</span>
+                <span class="bloco-form__descricao">Informações para login do artesão no portal.</span>
+            </span>
+        </legend>
+        <div class="campos-duplos">
+            <div class="campo">
+                <label for="cad-nome" class="campo__rotulo">Nome completo *</label>
+                <input id="cad-nome" name="nome" type="text" class="campo__entrada" placeholder="Digite o nome completo do artesão" autocomplete="off" required>
+            </div>
+            <div class="campo">
+                <label for="cad-email" class="campo__rotulo">E-mail *</label>
+                <input id="cad-email" name="email" type="email" class="campo__entrada" placeholder="Digite o e-mail de acesso" autocomplete="off" required>
+            </div>
+            <div class="campo">
+                <label for="cad-senha" class="campo__rotulo">Senha provisória *</label>
+                <div class="campo__grupo">
+                    <input id="cad-senha" name="senha" type="password" class="campo__entrada liceu-senha" placeholder="Crie uma senha provisória" autocomplete="new-password" minlength="6" required>
+                    <button type="button" class="btn btn--icone" data-alternar-senha="cad-senha" aria-pressed="false" aria-label="Mostrar ou ocultar a senha provisória">
+                        <iconify-icon icon="lucide:eye" aria-hidden="true"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="campo">
+                <label for="cad-confirmar" class="campo__rotulo">Confirmar senha *</label>
+                <div class="campo__grupo">
+                    <input id="cad-confirmar" name="confirmar" type="password" class="campo__entrada liceu-senha" placeholder="Repita a senha provisória" autocomplete="new-password" required>
+                    <button type="button" class="btn btn--icone" data-alternar-senha="cad-confirmar" aria-pressed="false" aria-label="Mostrar ou ocultar a confirmação da senha">
+                        <iconify-icon icon="lucide:eye" aria-hidden="true"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="bloco-form liceu-bloco">
+        <legend class="bloco-form__cabecalho liceu-bloco__legenda">
+            <iconify-icon icon="lucide:user" aria-hidden="true"></iconify-icon>
+            <span class="liceu-bloco__texto">
+                <span class="bloco-form__titulo">Dados iniciais do perfil</span>
+                <span class="bloco-form__descricao">Informações que serão exibidas no perfil do artesão.</span>
+            </span>
+        </legend>
+        <div class="campos-duplos">
+            <div class="campo">
+                <label for="cad-empreendimento" class="campo__rotulo">Nome do empreendimento / Ateliê</label>
+                <input id="cad-empreendimento" name="empreendimento" type="text" class="campo__entrada" placeholder="Ex.: Cerâmica da Ana">
+            </div>
+            <div class="campo">
+                <label for="cad-categoria" class="campo__rotulo">Nicho ou categoria principal</label>
+                <!-- Opções preenchidas via JS (carregarCategorias) -->
+                <select id="cad-categoria" name="categoria" class="campo__entrada">
+                    <option value="">Selecione uma opção</option>
+                </select>
+            </div>
+        </div>
+        <div class="campo">
+            <label for="cad-tecnicas" class="campo__rotulo">Técnicas</label>
+            <!-- Opções preenchidas via JS (carregarCategorias) -->
+            <select id="cad-tecnicas" class="campo__entrada" data-seletor-tecnicas>
+                <option value="">Selecione uma ou mais técnicas</option>
+            </select>
+            <input type="hidden" name="tecnicas" data-tecnicas-valor>
+            <!-- Chips das técnicas escolhidas, criados via JS -->
+            <ul class="chips" aria-label="Técnicas selecionadas" data-tecnicas-lista></ul>
+        </div>
+    </fieldset>
+
+    <fieldset class="bloco-form liceu-bloco">
+        <legend class="bloco-form__cabecalho liceu-bloco__legenda">
+            <iconify-icon icon="lucide:phone" aria-hidden="true"></iconify-icon>
+            <span class="liceu-bloco__texto">
+                <span class="bloco-form__titulo">Contato</span>
+                <span class="bloco-form__descricao">Canais de contato do artesão (opcionais).</span>
+            </span>
+        </legend>
+        <div class="campos-duplos">
+            <div class="campo">
+                <label for="cad-whatsapp" class="campo__rotulo">WhatsApp</label>
+                <div class="campo__grupo">
+                    <iconify-icon icon="mdi:whatsapp" aria-hidden="true"></iconify-icon>
+                    <input id="cad-whatsapp" name="whatsapp" type="tel" class="campo__entrada" placeholder="(41) 00000-0000" autocomplete="off">
+                </div>
+            </div>
+            <div class="campo">
+                <label for="cad-instagram" class="campo__rotulo">Instagram / Rede social</label>
+                <div class="campo__grupo">
+                    <iconify-icon icon="lucide:instagram" aria-hidden="true"></iconify-icon>
+                    <input id="cad-instagram" name="instagram" type="text" class="campo__entrada" placeholder="@usuario ou link do perfil" autocomplete="off">
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <aside class="aviso">
+        <iconify-icon icon="lucide:info" aria-hidden="true"></iconify-icon>
+        <div class="aviso__texto">
+            <strong class="aviso__titulo">O artesão poderá completar ou atualizar o perfil depois do primeiro acesso.</strong>
+            <span>Você pode cadastrar apenas as informações essenciais agora.</span>
+        </div>
+    </aside>
+
+    <div class="form-acoes">
+        <a class="btn btn--secundario" href="#/painel-liceu/artesaos">Cancelar</a>
+        <button type="submit" class="btn btn--primario">
+            <iconify-icon icon="lucide:user-plus" aria-hidden="true"></iconify-icon>
+            Cadastrar artesão
+        </button>
+    </div>
+</form>
