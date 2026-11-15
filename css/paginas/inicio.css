@@ -25,18 +25,16 @@
     margin-top: var(--espaco-2);
 }
 
-@media (min-width: 1024px) {
-    .inicio-hero__grade {
-        grid-template-columns: 1fr 1.25fr;
-        gap: var(--espaco-7);
-    }
-}
-
 .inicio-vazio {
     grid-column: 1 / -1;
 }
 
 @media (min-width: 1024px) {
+    .inicio-hero__grade {
+        grid-template-columns: 1fr 1.25fr;
+        gap: var(--espaco-7);
+    }
+
     .inicio-atalhos .card-atalho {
         gap: var(--espaco-3);
         padding-inline: var(--espaco-4);
