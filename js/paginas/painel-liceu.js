@@ -20,6 +20,7 @@ import {
     carregarTrabalhos,
     comNomeDoArtesao,
     contarPorStatus,
+    formatarData,
     salvarArtesao
 } from "../dados.js";
 
@@ -109,6 +110,20 @@ function criarOpcoes(itens) {
             + escaparHtml(item) + "</option>"
         );
     }).join("");
+}
+
+/**
+ * Preenche o select de filtro com categorias e técnicas agrupadas.
+ * @param {HTMLSelectElement} select já com a opção "Todas"
+ * @param {{categorias: string[], tecnicas: string[]}} dados
+ */
+function preencherFiltroCategorias(select, dados) {
+    select.insertAdjacentHTML(
+        "beforeend",
+        "<optgroup label=\"Categorias\">" + criarOpcoes(dados.categorias)
+        + "</optgroup><optgroup label=\"Técnicas\">"
+        + criarOpcoes(dados.tecnicas) + "</optgroup>"
+    );
 }
 
 /**
@@ -326,13 +341,9 @@ async function iniciarLiceuArtesaos(raiz) {
         carregarArtesaos(),
         carregarCategorias()
     ]);
-    const filtro = raiz.querySelector("[data-filtro]");
-
-    filtro.insertAdjacentHTML(
-        "beforeend",
-        "<optgroup label=\"Categorias\">" + criarOpcoes(dados[1].categorias)
-        + "</optgroup><optgroup label=\"Técnicas\">"
-        + criarOpcoes(dados[1].tecnicas) + "</optgroup>"
+    preencherFiltroCategorias(
+        raiz.querySelector("[data-filtro]"),
+        dados[1]
     );
     ligarListagem(raiz, {
         criarLinha: criarLinhaArtesao,
@@ -487,13 +498,102 @@ async function iniciarLiceuCadastro(raiz) {
     });
 }
 
+// ===== Aba Trabalhos Pendentes =====
+
+/**
+ * Linha da tabela de trabalhos pendentes.
+ * @param {object} trabalho com artesaoNome (comNomeDoArtesao)
+ * @returns {string}
+ */
+function criarLinhaPendente(trabalho) {
+    const titulo = escaparHtml(trabalho.titulo);
+    return (
+        "<tr>"
+        + "<td data-rotulo=\"Trabalho\"><span class=\"tabela__principal\">"
+        + `<img class="tabela__miniatura" src="${trabalho.imagens[0]}"`
+        + ` alt="" width="64" height="44" loading="lazy">${titulo}</span></td>`
+        + "<td data-rotulo=\"Artesão\">"
+        + escaparHtml(trabalho.artesaoNome) + "</td>"
+        + "<td data-rotulo=\"Categoria / Técnica\">"
+        + criarChips([trabalho.tecnica, trabalho.categoria]) + "</td>"
+        + "<td data-rotulo=\"Enviado em\"><span class=\"liceu-data\">"
+        + icone("lucide:calendar") + formatarData(trabalho.enviadoEm)
+        + "</span></td>"
+        + "<td data-rotulo=\"Status\">" + criarStatus(trabalho.status)
+        + "</td>"
+        + "<td data-rotulo=\"Ações\"><div class=\"tabela__acoes\">"
+        + "<button type=\"button\" class=\"btn btn--secundario btn--pequeno\""
+        + ` data-acao="analisar" data-id="${escaparHtml(trabalho.id)}"`
+        + ` aria-label="Analisar ${titulo}">`
+        + icone("lucide:external-link") + "Analisar</button></div></td></tr>"
+    );
+}
+
 /**
  * Aba Trabalhos Pendentes: resumo e tabela de análise.
- * @param {HTMLElement} ignore o <main id="conteudo"> com a parcial
+ * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-function iniciarLiceuPendentes(ignore) {
-    // A IMPLEMENTAR: na branch da página.
-    return;
+async function iniciarLiceuPendentes(raiz) {
+    const dados = await Promise.all([
+        carregarTrabalhos(),
+        carregarCategorias()
+    ]);
+    const pendentes = await comNomeDoArtesao(filtrarPendentes(dados[0]));
+    const contagem = contarPorStatus(pendentes);
+    const resumo = [
+        {
+            icone: "lucide:hourglass",
+            numero: contagem["em-analise"] || 0,
+            rotulo: "Aguardando análise"
+        },
+        {
+            icone: "lucide:refresh-cw",
+            numero: contagem.reenviado || 0,
+            rotulo: "Reenviado"
+        },
+        {
+            icone: "lucide:circle-check",
+            // A IMPLEMENTAR: contar os trabalhos analisados no dia.
+            numero: 2,
+            rotulo: "Analisados hoje"
+        }
+    ];
+
+    raiz.querySelector("[data-resumo]").innerHTML = resumo.map(
+        criarCardEstatistica
+    ).join("");
+    preencherFiltroCategorias(
+        raiz.querySelector("[data-filtro]"),
+        dados[1]
+    );
+    ligarListagem(raiz, {
+        criarLinha: criarLinhaPendente,
+        filtros: {
+            categoria: function (trabalho, valor) {
+                return (
+                    trabalho.categoria === valor
+                    || trabalho.tecnica === valor
+                );
+            }
+        },
+        itens: pendentes,
+        ordemPadrao: "antigos",
+        ordens: {
+            antigos: function (a, b) {
+                return new Date(a.enviadoEm) - new Date(b.enviadoEm);
+            },
+            recentes: function (a, b) {
+                return new Date(b.enviadoEm) - new Date(a.enviadoEm);
+            }
+        },
+        plural: "trabalhos",
+        textos: function (trabalho) {
+            return trabalho.titulo + " " + trabalho.artesaoNome;
+        }
+    });
+    ligarAcoes(raiz.querySelector("[data-corpo]"), {
+        analisar: analisarTrabalho
+    });
 }
 
 /**

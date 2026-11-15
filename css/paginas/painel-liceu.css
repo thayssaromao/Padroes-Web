@@ -115,3 +115,16 @@
     padding-left: var(--espaco-3);
     padding-right: 48px;
 }
+
+/* ----- Pendentes: data com ícone ----- */
+.liceu-data {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+@media (min-width: 1024px) {
+    .liceu-data {
+        white-space: nowrap;
+    }
+}

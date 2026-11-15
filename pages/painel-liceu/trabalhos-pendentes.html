@@ -2,6 +2,59 @@
     <div class="painel-cabecalho__texto">
         <span class="sobretitulo">Administração</span>
         <h1>Trabalhos Pendentes</h1>
+        <p>Analise os trabalhos enviados pelos artesãos antes da publicação no Portal.</p>
     </div>
 </header>
-<p class="em-construcao">Em construção.</p>
+
+<section class="liceu-secao" aria-label="Resumo dos trabalhos pendentes">
+    <!-- Preenchido via JS: 3 cards de estatística (criarCardEstatistica) -->
+    <div class="grade-estatisticas grade-estatisticas--3" data-resumo></div>
+</section>
+
+<search class="barra-filtros">
+    <div class="busca">
+        <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
+        <input type="search" class="busca__entrada" data-busca aria-label="Buscar trabalhos pendentes" placeholder="Buscar por trabalho ou artesão...">
+    </div>
+    <span class="barra-filtros__divisor" aria-hidden="true"></span>
+    <div class="barra-filtros__item">
+        <label for="liceu-pendentes-filtro">Filtrar por categoria/técnica:</label>
+        <!-- Opções de categorias e técnicas preenchidas via JS -->
+        <select id="liceu-pendentes-filtro" class="campo__entrada" data-filtro="categoria">
+            <option value="">Todas</option>
+        </select>
+    </div>
+    <span class="barra-filtros__divisor" aria-hidden="true"></span>
+    <div class="barra-filtros__item">
+        <label for="liceu-pendentes-ordem">Ordenar por:</label>
+        <select id="liceu-pendentes-ordem" class="campo__entrada" data-ordem>
+            <option value="antigos">Mais antigos primeiro</option>
+            <option value="recentes">Mais recentes</option>
+        </select>
+    </div>
+</search>
+
+<section aria-label="Lista de trabalhos pendentes">
+    <div class="tabela-container liceu-tabela">
+        <table class="tabela">
+            <caption class="visualmente-oculto">Trabalhos aguardando análise</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Trabalho</th>
+                    <th scope="col">Artesão</th>
+                    <th scope="col">Categoria / Técnica</th>
+                    <th scope="col">Enviado em</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <!-- Linhas preenchidas via JS (carregarTrabalhos + comNomeDoArtesao) -->
+            <tbody data-corpo></tbody>
+        </table>
+    </div>
+    <p class="liceu-vazio" data-vazio hidden>Nenhum trabalho pendente encontrado para esta busca.</p>
+    <div class="paginacao paginacao--bordas">
+        <p class="resultado-contagem" data-contagem aria-live="polite"></p>
+        <nav aria-label="Paginação" data-paginacao></nav>
+    </div>
+</section>
