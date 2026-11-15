@@ -46,3 +46,34 @@
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+/* ----- Artesãos: contato em duas linhas ----- */
+.liceu-contato {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+}
+
+.liceu-contato > span {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    overflow-wrap: anywhere;
+}
+
+/* ----- Tabelas do painel: colunas mais justas no desktop ----- */
+@media (min-width: 1024px) {
+    .liceu-tabela .tabela th,
+    .liceu-tabela .tabela td {
+        padding-inline: var(--espaco-3);
+    }
+
+    .liceu-tabela .tabela th {
+        font-size: var(--fonte-pequena);
+    }
+
+    .liceu-contato > span {
+        overflow-wrap: normal;
+        white-space: nowrap;
+    }
+}

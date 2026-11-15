@@ -2,6 +2,60 @@
     <div class="painel-cabecalho__texto">
         <span class="sobretitulo">Administração</span>
         <h1>Artesãos</h1>
+        <p>Gerencie os artesãos cadastrados no Portal do Artesão.</p>
+        <div class="painel-cabecalho__acoes">
+            <a class="btn btn--primario" href="#/painel-liceu/cadastrar-artesao">
+                <iconify-icon icon="lucide:user-plus" aria-hidden="true"></iconify-icon>
+                Cadastrar novo artesão
+            </a>
+        </div>
     </div>
 </header>
-<p class="em-construcao">Em construção.</p>
+
+<search class="barra-filtros">
+    <div class="busca">
+        <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
+        <input type="search" class="busca__entrada" data-busca aria-label="Buscar artesãos" placeholder="Buscar por nome, e-mail ou empreendimento...">
+    </div>
+    <span class="barra-filtros__divisor" aria-hidden="true"></span>
+    <div class="barra-filtros__item">
+        <label for="liceu-artesaos-filtro">Filtrar por categoria/técnica:</label>
+        <!-- Opções de categorias e técnicas preenchidas via JS -->
+        <select id="liceu-artesaos-filtro" class="campo__entrada" data-filtro="categoria">
+            <option value="">Todas</option>
+        </select>
+    </div>
+    <span class="barra-filtros__divisor" aria-hidden="true"></span>
+    <div class="barra-filtros__item">
+        <label for="liceu-artesaos-ordem">Ordenar por:</label>
+        <select id="liceu-artesaos-ordem" class="campo__entrada" data-ordem>
+            <option value="recentes">Mais recentes</option>
+            <option value="nome">Nome A–Z</option>
+        </select>
+    </div>
+</search>
+
+<section aria-label="Lista de artesãos">
+    <div class="tabela-container liceu-tabela">
+        <table class="tabela">
+            <caption class="visualmente-oculto">Artesãos cadastrados</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Artesão</th>
+                    <th scope="col">Empreendimento</th>
+                    <th scope="col">Categoria / Técnica</th>
+                    <th scope="col">Contato</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <!-- Linhas preenchidas via JS (carregarArtesaos) -->
+            <tbody data-corpo></tbody>
+        </table>
+    </div>
+    <p class="liceu-vazio" data-vazio hidden>Nenhum artesão encontrado para esta busca.</p>
+    <div class="paginacao paginacao--bordas">
+        <p class="resultado-contagem" data-contagem aria-live="polite"></p>
+        <nav aria-label="Paginação" data-paginacao></nav>
+    </div>
+</section>
