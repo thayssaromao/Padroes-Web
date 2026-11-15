@@ -1,9 +1,103 @@
-<section class="secao">
-    <div class="container pilha">
-        <header>
+<section class="secao artesaos-hero">
+    <div class="container artesaos-hero__grade">
+        <header class="artesaos-hero__texto">
             <span class="sobretitulo">Nossas pessoas</span>
             <h1 class="titulo-display">Artesãos e Empreendimentos</h1>
+            <p class="artesaos-hero__descricao">Conheça as histórias, os saberes e os empreendimentos que fazem parte do Liceu. São pessoas que mantêm viva a cultura local por meio do seu trabalho manual.</p>
         </header>
-        <p class="em-construcao">Em construção.</p>
+        <section class="carrossel" aria-roledescription="carrossel" aria-label="Fotos dos artesãos">
+            <div class="carrossel__janela">
+                <ul class="carrossel__trilho">
+                    <li class="carrossel__slide" aria-roledescription="slide" aria-label="1 de 4">
+                        <img src="assets/img/carrossel/artesaos-1.jpg" alt="Artesã modelando uma peça de cerâmica" width="1200" height="525">
+                    </li>
+                    <li class="carrossel__slide" aria-roledescription="slide" aria-label="2 de 4">
+                        <img src="assets/img/carrossel/artesaos-2.jpg" alt="Mãos trançando uma cesta de fibras naturais" width="1200" height="525" loading="lazy">
+                    </li>
+                    <li class="carrossel__slide" aria-roledescription="slide" aria-label="3 de 4">
+                        <img src="assets/img/carrossel/artesaos-3.jpg" alt="Bordado artesanal em tecido" width="1200" height="525" loading="lazy">
+                    </li>
+                    <li class="carrossel__slide" aria-roledescription="slide" aria-label="4 de 4">
+                        <img src="assets/img/carrossel/artesaos-4.jpg" alt="Grupo de artesãos na oficina do Liceu" width="1200" height="525" loading="lazy">
+                    </li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn--icone carrossel__seta carrossel__seta--anterior" aria-label="Slide anterior"><iconify-icon icon="lucide:chevron-left" aria-hidden="true"></iconify-icon></button>
+            <button type="button" class="btn btn--icone carrossel__seta carrossel__seta--proxima" aria-label="Próximo slide"><iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon></button>
+            <div class="carrossel__indicadores">
+                <button type="button" class="carrossel__ponto" aria-label="Ir para slide 1" aria-current="true"></button>
+                <button type="button" class="carrossel__ponto" aria-label="Ir para slide 2" aria-current="false"></button>
+                <button type="button" class="carrossel__ponto" aria-label="Ir para slide 3" aria-current="false"></button>
+                <button type="button" class="carrossel__ponto" aria-label="Ir para slide 4" aria-current="false"></button>
+            </div>
+        </section>
     </div>
 </section>
+
+<section class="secao artesaos-lista" aria-label="Lista de artesãos">
+    <div class="container">
+        <form class="artesaos-busca" role="search" id="artesaos-form">
+            <div class="busca">
+                <label for="artesaos-busca" class="visualmente-oculto">Buscar artesãos ou empreendimentos</label>
+                <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
+                <input type="search" id="artesaos-busca" class="busca__entrada" placeholder="Buscar artesãos ou empreendimentos..." autocomplete="off">
+            </div>
+            <button type="button" class="btn btn--suave" id="artesaos-filtrar"><iconify-icon icon="lucide:sliders-horizontal" aria-hidden="true"></iconify-icon>Filtrar</button>
+        </form>
+
+        <div class="filtros-chips" role="group" aria-label="Filtrar por categoria">
+            <button type="button" class="filtro-chip" aria-pressed="true">Todos</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Decoração</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Utilitários</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Acessórios</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Arte em tecido</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Cestaria</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Cerâmica</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Outros</button>
+        </div>
+
+        <div class="barra-ferramentas">
+            <p class="resultado-contagem" id="artesaos-contagem" aria-live="polite"></p>
+            <div class="linha">
+                <label for="artesaos-ordem">Ordenar por:</label>
+                <select id="artesaos-ordem" class="campo__entrada artesaos-ordem">
+                    <option value="recentes">Mais recentes</option>
+                    <option value="nome-az">Nome A–Z</option>
+                    <option value="nome-za">Nome Z–A</option>
+                </select>
+                <div class="alternar-visualizacao" role="group" aria-label="Modo de visualização">
+                    <button type="button" class="btn btn--icone" data-visualizacao="grade" aria-pressed="true" aria-label="Ver em grade"><iconify-icon icon="lucide:layout-grid" aria-hidden="true"></iconify-icon></button>
+                    <button type="button" class="btn btn--icone" data-visualizacao="lista" aria-pressed="false" aria-label="Ver em lista"><iconify-icon icon="lucide:list" aria-hidden="true"></iconify-icon></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preenchido via JS: cards de artesãos (renderizarGrade) -->
+        <ul class="grade-cards artesaos-grade" id="artesaos-grade"></ul>
+        <p class="artesaos-vazio" id="artesaos-vazio" hidden>Nenhum artesão encontrado.</p>
+
+        <!-- Preenchido via JS: criarPaginacao -->
+        <nav class="paginacao paginacao--centro" id="artesaos-paginacao" aria-label="Paginação"></nav>
+    </div>
+</section>
+
+<dialog class="modal modal--grande" id="modal-artesao" aria-labelledby="modal-artesao-titulo">
+    <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
+    <div class="artesaos-perfil">
+        <img class="artesaos-perfil__foto" id="modal-artesao-foto" src="assets/img/avatar-padrao.jpg" alt="" width="320" height="320">
+        <div class="artesaos-perfil__info">
+            <h2 class="modal__titulo" id="modal-artesao-titulo"></h2>
+            <p class="local"><iconify-icon icon="lucide:map-pin" aria-hidden="true"></iconify-icon><span id="modal-artesao-cidade"></span></p>
+            <!-- Preenchido via JS: chips de categorias e técnicas -->
+            <div id="modal-artesao-chips"></div>
+            <p id="modal-artesao-bio"></p>
+        </div>
+    </div>
+    <hr class="modal__divisoria">
+    <h3 class="artesaos-contato__titulo">Contato</h3>
+    <ul class="artesaos-contato">
+        <li><a class="artesaos-contato__link" id="modal-artesao-instagram" href="https://instagram.com/" target="_blank" rel="noopener noreferrer"><iconify-icon icon="lucide:instagram" aria-hidden="true"></iconify-icon><span></span></a></li>
+        <li><a class="artesaos-contato__link" id="modal-artesao-whatsapp" href="https://wa.me/55" target="_blank" rel="noopener noreferrer"><iconify-icon icon="mdi:whatsapp" aria-hidden="true"></iconify-icon><span></span></a></li>
+        <li><a class="artesaos-contato__link" id="modal-artesao-email" href="mailto:"><iconify-icon icon="lucide:mail" aria-hidden="true"></iconify-icon><span></span></a></li>
+    </ul>
+</dialog>

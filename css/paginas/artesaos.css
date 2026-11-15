@@ -2,3 +2,171 @@
    paginas/artesaos.css — estilos exclusivos da página
    Guia: docs/DESIGN.md (use só tokens e componentes do guia)
    ========================================================= */
+
+.artesaos-hero__grade {
+    display: grid;
+    gap: var(--espaco-5);
+    align-items: center;
+}
+
+.artesaos-hero__texto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+}
+
+.artesaos-hero__descricao {
+    font-size: var(--fonte-grande);
+}
+
+.artesaos-busca {
+    display: flex;
+    gap: var(--espaco-3);
+    margin-bottom: var(--espaco-4);
+}
+
+.artesaos-busca .btn {
+    flex-shrink: 0;
+}
+
+.artesaos-lista .filtros-chips {
+    margin-bottom: var(--espaco-2);
+}
+
+.artesaos-ordem {
+    width: auto;
+    min-width: 150px;
+}
+
+.artesaos-grade {
+    list-style: none;
+    padding: 0;
+}
+
+.artesaos-grade > li {
+    display: flex;
+}
+
+.artesaos-grade > li > .card {
+    width: 100%;
+}
+
+.artesaos-grade .card-artesao__nome {
+    overflow-wrap: anywhere;
+}
+
+.artesaos-vazio {
+    padding: var(--espaco-7) var(--espaco-5);
+    border: 2px dashed var(--cor-borda);
+    border-radius: var(--raio-medio);
+    text-align: center;
+    color: var(--cor-texto-suave);
+}
+
+.artesaos-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+}
+
+.artesaos-perfil__foto {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+    background-color: var(--cor-placeholder);
+}
+
+.artesaos-perfil__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    min-width: 0;
+}
+
+.artesaos-contato__titulo {
+    margin-bottom: var(--espaco-4);
+    font-size: var(--fonte-h2);
+    font-weight: var(--peso-extra);
+}
+
+.artesaos-contato {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+}
+
+.artesaos-contato__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    min-height: 44px;
+    overflow-wrap: anywhere;
+}
+
+.artesaos-contato__link iconify-icon {
+    font-size: 28px;
+}
+
+.artesaos-contato__link span {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.artesaos-contato__link:hover span {
+    text-decoration-thickness: 2px;
+}
+
+.artesaos-contato__link:focus-visible {
+    outline: 3px solid var(--cor-borda-forte);
+    outline-offset: 2px;
+}
+
+@media (min-width: 600px) {
+    .artesaos-perfil {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: var(--espaco-6);
+    }
+
+    .artesaos-perfil__foto {
+        flex: 0 0 280px;
+        width: 280px;
+    }
+
+    .artesaos-contato {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--espaco-3) var(--espaco-5);
+    }
+
+    .artesaos-grade--lista .card-artesao {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .artesaos-grade--lista .card-artesao__topo {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .artesaos-grade--lista .btn--bloco {
+        width: auto;
+        flex-shrink: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .artesaos-hero__grade {
+        grid-template-columns: 1fr 1.1fr;
+        gap: var(--espaco-7);
+    }
+}
+
+.artesaos-grade--lista {
+    grid-template-columns: 1fr;
+}
