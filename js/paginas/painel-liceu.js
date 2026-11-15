@@ -201,8 +201,12 @@ function imagemDe(trabalho) {
 /**
  * Troca o conteúdo dinâmico da aba por uma mensagem de erro.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
+ * @param {Element} marco elemento da parcial capturado antes da carga
  */
-function mostrarErroDeCarga(raiz) {
+function mostrarErroDeCarga(raiz, marco) {
+    if (!marco || !marco.isConnected) {
+        return;
+    }
     const cabecalho = raiz.querySelector(".painel-cabecalho");
     if (!cabecalho || !raiz.contains(cabecalho)) {
         return;
@@ -226,10 +230,14 @@ function mostrarErroDeCarga(raiz) {
  */
 function comTratamentoDeErro(iniciar) {
     return async function (raiz) {
+        const marco = raiz.firstElementChild;
         try {
             await iniciar(raiz);
-        } catch (ignore) {
-            mostrarErroDeCarga(raiz);
+        } catch (erro) {
+            if (marco && marco.isConnected) {
+                console.error(erro);
+            }
+            mostrarErroDeCarga(raiz, marco);
         }
     };
 }
@@ -396,7 +404,7 @@ function criarCardPendente(trabalho) {
     return (
         "<article class=\"card card-trabalho\">"
         + `<img class="card-trabalho__imagem" src="${imagemDe(trabalho)}"`
-        + ` alt="${escaparHtml(trabalho.titulo)}" width="400" height="160"`
+        + " alt=\"\" width=\"400\" height=\"160\""
         + " loading=\"lazy\">"
         + "<h3 class=\"card-trabalho__titulo\">"
         + escaparHtml(trabalho.titulo) + "</h3>"
@@ -416,7 +424,11 @@ function criarCardPendente(trabalho) {
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
 async function montarInicio(raiz) {
+    const marco = raiz.firstElementChild;
     const dados = await Promise.all([carregarArtesaos(), carregarTrabalhos()]);
+    if (!marco.isConnected) {
+        return;
+    }
     const contagem = contarPorStatus(dados[1]);
     const pendentes = filtrarPendentes(dados[1]);
     const resumo = [
@@ -445,6 +457,9 @@ async function montarInicio(raiz) {
     const exibidos = await comNomeDoArtesao(
         pendentes.slice(0, MAXIMO_CARDS_INICIO)
     );
+    if (!marco.isConnected) {
+        return;
+    }
 
     raiz.querySelector("[data-resumo]").innerHTML = resumo.map(
         criarCardEstatistica
@@ -497,10 +512,14 @@ function criarLinhaArtesao(artesao) {
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
 async function montarArtesaos(raiz) {
+    const marco = raiz.firstElementChild;
     const dados = await Promise.all([
         carregarArtesaos(),
         carregarCategorias()
     ]);
+    if (!marco.isConnected) {
+        return;
+    }
     preencherFiltroCategorias(
         raiz.querySelector("[data-filtro]"),
         dados[1]
@@ -610,7 +629,11 @@ function ligarTecnicas(raiz) {
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
 async function montarCadastro(raiz) {
+    const marco = raiz.firstElementChild;
     const categorias = await carregarCategorias();
+    if (!marco.isConnected) {
+        return;
+    }
     const formulario = raiz.querySelector("[data-formulario]");
     const senha = formulario.elements.senha;
     const confirmar = formulario.elements.confirmar;
@@ -696,11 +719,18 @@ function criarLinhaPendente(trabalho) {
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
 async function montarPendentes(raiz) {
+    const marco = raiz.firstElementChild;
     const dados = await Promise.all([
         carregarTrabalhos(),
         carregarCategorias()
     ]);
+    if (!marco.isConnected) {
+        return;
+    }
     const pendentes = await comNomeDoArtesao(filtrarPendentes(dados[0]));
+    if (!marco.isConnected) {
+        return;
+    }
     const contagem = contarPorStatus(pendentes);
     const resumo = [
         {
@@ -821,23 +851,29 @@ function criarLinhaPublicacao(trabalho) {
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
 async function montarPublicacoes(raiz) {
+    const marco = raiz.firstElementChild;
     const dados = await Promise.all([
         carregarTrabalhos(),
         carregarCategorias(),
         carregarArtesaos()
     ]);
+    if (!marco.isConnected) {
+        return;
+    }
     const publicados = await comNomeDoArtesao(
         dados[0].filter(function (trabalho) {
             return trabalho.status === "publicado";
         })
     );
-    const filtros = raiz.querySelectorAll("[data-filtro]");
+    if (!marco.isConnected) {
+        return;
+    }
 
-    filtros[1].insertAdjacentHTML(
+    raiz.querySelector("[data-filtro=\"categoria\"]").insertAdjacentHTML(
         "beforeend",
         criarOpcoes(dados[1].categorias)
     );
-    filtros[2].insertAdjacentHTML(
+    raiz.querySelector("[data-filtro=\"artesao\"]").insertAdjacentHTML(
         "beforeend",
         dados[2].map(function (artesao) {
             return (
