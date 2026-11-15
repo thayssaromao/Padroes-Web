@@ -482,6 +482,12 @@
             "lateral principal"
             "rodape rodape";
         grid-template-columns: var(--largura-lateral) 1fr;
+        /* Pinta a coluna do menu até o rodapé, mesmo em páginas longas */
+        background-image: linear-gradient(
+            to right,
+            var(--cor-lateral) var(--largura-lateral),
+            transparent var(--largura-lateral)
+        );
     }
 
     .painel__topo {
