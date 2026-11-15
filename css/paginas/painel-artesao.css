@@ -24,3 +24,143 @@
         padding: var(--espaco-6);
     }
 }
+
+/* ===== Meu perfil ===== */
+
+.artesao-perfil {
+    display: grid;
+    gap: var(--espaco-5);
+}
+
+.artesao-perfil__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-5);
+    min-width: 0;
+}
+
+.artesao-perfil .bloco-form {
+    min-width: 0;
+}
+
+.artesao-legenda {
+    float: left;
+    width: 100%;
+    padding: 0;
+}
+
+.artesao-pessoais {
+    display: grid;
+}
+
+.artesao-pessoais__foto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-3);
+}
+
+.artesao-avatar {
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--cor-borda);
+    background-color: var(--cor-placeholder);
+}
+
+.artesao-pessoais__campos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+}
+
+.artesao-tecnicas {
+    display: grid;
+    gap: var(--espaco-4);
+    align-items: center;
+}
+
+.previa-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+    padding: var(--espaco-4);
+    border: 1px solid var(--cor-borda-forte);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-superficie-forte);
+}
+
+.previa-perfil__cabecalho {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    font-size: var(--fonte-mini);
+}
+
+.previa-perfil__cabecalho iconify-icon {
+    font-size: 24px;
+}
+
+.previa-perfil__cabecalho h2 {
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-negrito);
+}
+
+.previa-perfil__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-3);
+    padding: var(--espaco-5);
+    background-color: var(--cor-fundo);
+    text-align: center;
+}
+
+.previa-perfil__nome {
+    font-size: var(--fonte-h3);
+    font-weight: var(--peso-extra);
+    overflow-wrap: anywhere;
+}
+
+.previa-perfil__tecnicas {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+}
+
+.previa-perfil__bio {
+    font-size: var(--fonte-pequena);
+    overflow-wrap: anywhere;
+}
+
+@media (min-width: 600px) {
+    .artesao-pessoais {
+        grid-template-columns: auto 1fr;
+        gap: var(--espaco-5);
+    }
+
+    .artesao-pessoais .artesao-legenda {
+        grid-column: 1 / -1;
+    }
+
+    .artesao-pessoais__campos {
+        padding-left: var(--espaco-5);
+        border-left: 1px solid var(--cor-borda-forte);
+    }
+
+    .artesao-tecnicas {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 1024px) {
+    .artesao-perfil {
+        grid-template-columns: 2fr 1fr;
+        align-items: start;
+    }
+
+    .previa-perfil {
+        position: sticky;
+        top: calc(var(--altura-barra) + var(--espaco-5));
+    }
+}
