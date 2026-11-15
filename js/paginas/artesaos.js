@@ -309,7 +309,9 @@ async function iniciarArtesaos(raiz) {
                 ),
                 block: "start"
             });
-            paginacao.querySelector("[aria-current]").focus();
+            paginacao.querySelector("[aria-current]").focus({
+                preventScroll: true
+            });
         }
     });
     grade.addEventListener("click", function (evento) {
