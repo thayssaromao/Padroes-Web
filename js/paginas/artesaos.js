@@ -209,10 +209,8 @@ async function abrirPerfil(raiz, id) {
  * @returns {Promise<void>}
  */
 async function iniciarArtesaos(raiz) {
-    const todos = await carregarArtesaos();
-    const ativos = todos.filter(function (artesao) {
-        return artesao.status === "ativo";
-    });
+    const marco = raiz.firstElementChild;
+    let ativos = [];
     const grade = raiz.querySelector("#artesaos-grade");
     const vazio = raiz.querySelector("#artesaos-vazio");
     const contagem = raiz.querySelector("#artesaos-contagem");
@@ -327,7 +325,24 @@ async function iniciarArtesaos(raiz) {
     estado.filtro = "Todos";
     estado.ordem = "recentes";
     estado.visualizacao = "grade";
-    recomecar();
+
+    try {
+        const todos = await carregarArtesaos();
+        if (!marco.isConnected) {
+            return;
+        }
+        ativos = todos.filter(function (artesao) {
+            return artesao.status === "ativo";
+        });
+        recomecar();
+    } catch (erro) {
+        if (!marco.isConnected) {
+            return;
+        }
+        console.error(erro);
+        vazio.textContent = "Não foi possível carregar os artesãos.";
+        vazio.hidden = false;
+    }
 }
 
 export {
