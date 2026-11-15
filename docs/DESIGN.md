@@ -296,6 +296,7 @@ Uso: `<iconify-icon icon="lucide:house" aria-hidden="true"></iconify-icon>`. Íc
 | Destaque | `lucide:star` | | Chave | `lucide:key-round` |
 | Ordenar | `lucide:arrow-up-down` | | Fechar | `lucide:circle-x` (modal), `lucide:x` (chip) |
 | Menu (hambúrguer) | `lucide:menu` | | Rascunho | `lucide:file` |
+| Empreendimento | `lucide:store` | | | |
 
 ---
 
@@ -417,6 +418,7 @@ assets/img/                   imagens (placeholders trocáveis)
 3. Se a página precisa de JS, exporta `iniciar<Nome>(raiz)` em `js/paginas/<pagina>.js`, já ligado em `js/rotas.js` pela branch de base. A função recebe o elemento `main` e só busca elementos dentro dele.
 4. Conteúdo dinâmico (listas de cards, linhas de tabela) é gerado a partir de `data/*.json` via `js/dados.js`. A parcial traz o **contêiner vazio** com um comentário dizendo o que é preenchido.
 5. Funções ainda não implementadas: declaradas, com JSDoc e `// A IMPLEMENTAR:` — o JSLint rejeita a palavra "TODO" (permitido pela disciplina).
+6. **Navegação rápida:** a função `iniciar` captura um elemento da parcial ANTES do primeiro `await` (ex.: `const marco = raiz.firstElementChild;`) e, depois de cada `await` e antes de mostrar erro, aborta se `!marco.isConnected` (o usuário já trocou de página).
 
 ### 10.3 Regras do JSLint (as que mais pegam)
 

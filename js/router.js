@@ -33,6 +33,7 @@ const CAMINHO_LOGIN = "/login";
 const raiz = document.getElementById("raiz");
 let layoutAtual = "";
 let primeiraCarga = true;
+let navegacao = 0;
 
 /** @returns {string} caminho atual, ex.: "/painel-liceu/artesaos" */
 function caminhoAtual() {
@@ -104,6 +105,8 @@ function prepararLayout(rota) {
 
 /** Carrega a rota atual. Chamado no início e a cada "hashchange". */
 async function carregarPagina() {
+    navegacao += 1;
+    const minha = navegacao;
     const caminho = caminhoAtual();
     let rota = encontrarRota(caminho);
     let html = "";
@@ -114,11 +117,17 @@ async function carregarPagina() {
     }
 
     const conteudo = await prepararLayout(rota);
+    if (minha !== navegacao) {
+        return;
+    }
     try {
         html = await buscarParcial(rota.arquivo);
     } catch (ignore) {
         rota = ROTA_NAO_ENCONTRADA;
         html = await buscarParcial(rota.arquivo);
+    }
+    if (minha !== navegacao) {
+        return;
     }
 
     conteudo.innerHTML = html;
