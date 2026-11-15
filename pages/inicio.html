@@ -1,6 +1,148 @@
-<section class="secao">
-    <div class="container pilha">
-        <h1 class="titulo-display">Portal do Artesão</h1>
-        <p class="em-construcao">Em construção.</p>
+<section class="secao inicio-hero" aria-labelledby="inicio-titulo">
+    <div class="container inicio-hero__grade">
+        <div class="inicio-hero__texto pilha">
+            <h1 id="inicio-titulo" class="titulo-display">Portal do Artesão</h1>
+            <p class="texto-apoio">
+                Conheça os artesãos do Liceu, descubra peças únicas feitas à
+                mão e aprenda sobre os saberes que mantêm vivo o ofício.
+            </p>
+            <div class="linha">
+                <a class="btn btn--suave" href="#/produtos">Explorar produtos</a>
+                <a class="btn btn--suave" href="#/o-liceu">Conhecer o Liceu</a>
+            </div>
+        </div>
+        <section class="carrossel" aria-roledescription="carrossel"
+            aria-label="Destaques do portal">
+            <div class="carrossel__janela">
+                <ul class="carrossel__trilho">
+                    <li class="carrossel__slide" aria-roledescription="slide"
+                        aria-label="1 de 4">
+                        <img src="assets/img/carrossel/inicio-1.jpg"
+                            alt="Artesã modelando uma peça de cerâmica"
+                            width="1200" height="525">
+                    </li>
+                    <li class="carrossel__slide" aria-roledescription="slide"
+                        aria-label="2 de 4">
+                        <img src="assets/img/carrossel/inicio-2.jpg"
+                            alt="Peças artesanais expostas em uma bancada"
+                            width="1200" height="525" loading="lazy">
+                    </li>
+                    <li class="carrossel__slide" aria-roledescription="slide"
+                        aria-label="3 de 4">
+                        <img src="assets/img/carrossel/inicio-3.jpg"
+                            alt="Detalhe de um trabalho em crochê"
+                            width="1200" height="525" loading="lazy">
+                    </li>
+                    <li class="carrossel__slide" aria-roledescription="slide"
+                        aria-label="4 de 4">
+                        <img src="assets/img/carrossel/inicio-4.jpg"
+                            alt="Oficina de artesanato no Liceu"
+                            width="1200" height="525" loading="lazy">
+                    </li>
+                </ul>
+            </div>
+            <button type="button"
+                class="btn btn--icone carrossel__seta carrossel__seta--anterior"
+                aria-label="Slide anterior">
+                <iconify-icon icon="lucide:chevron-left" aria-hidden="true"></iconify-icon>
+            </button>
+            <button type="button"
+                class="btn btn--icone carrossel__seta carrossel__seta--proxima"
+                aria-label="Próximo slide">
+                <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+            </button>
+            <div class="carrossel__indicadores">
+                <button type="button" class="carrossel__ponto"
+                    aria-label="Ir para slide 1" aria-current="true"></button>
+                <button type="button" class="carrossel__ponto"
+                    aria-label="Ir para slide 2"></button>
+                <button type="button" class="carrossel__ponto"
+                    aria-label="Ir para slide 3"></button>
+                <button type="button" class="carrossel__ponto"
+                    aria-label="Ir para slide 4"></button>
+            </div>
+        </section>
+    </div>
+</section>
+
+<section class="secao secao--alternada" aria-labelledby="inicio-explorar">
+    <div class="container">
+        <h2 id="inicio-explorar" class="inicio-titulo-secao">Como você quer explorar?</h2>
+        <div class="grade-cards">
+            <a class="card card--clicavel card-atalho" href="#/produtos">
+                <iconify-icon icon="lucide:shopping-bag" aria-hidden="true"></iconify-icon>
+                <span class="card-atalho__texto">
+                    <span class="card-atalho__titulo">Produtos</span>
+                    <span class="card-atalho__descricao">Peças únicas e autorais</span>
+                </span>
+                <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+            </a>
+            <a class="card card--clicavel card-atalho" href="#/artesaos">
+                <iconify-icon icon="lucide:users" aria-hidden="true"></iconify-icon>
+                <span class="card-atalho__texto">
+                    <span class="card-atalho__titulo">Artesãos</span>
+                    <span class="card-atalho__descricao">Conheça quem produz</span>
+                </span>
+                <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+            </a>
+            <a class="card card--clicavel card-atalho" href="#/saberes">
+                <iconify-icon icon="lucide:lightbulb" aria-hidden="true"></iconify-icon>
+                <span class="card-atalho__texto">
+                    <span class="card-atalho__titulo">Saberes</span>
+                    <span class="card-atalho__descricao">Técnicas e ofícios</span>
+                </span>
+                <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+            </a>
+            <a class="card card--clicavel card-atalho" href="#/o-liceu">
+                <iconify-icon icon="lucide:landmark" aria-hidden="true"></iconify-icon>
+                <span class="card-atalho__texto">
+                    <span class="card-atalho__titulo">Sobre o Liceu</span>
+                    <span class="card-atalho__descricao">História, objetivos e atuação</span>
+                </span>
+                <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="secao" aria-labelledby="inicio-destaques">
+    <div class="container">
+        <div class="secao-cabecalho">
+            <h2 id="inicio-destaques">Produtos em destaque</h2>
+            <a class="link-seta" href="#/produtos">Ver catálogo completo
+                <iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></a>
+        </div>
+        <!-- Preenchido via JS: cards de produtos publicados em destaque -->
+        <div class="grade-cards" id="inicio-produtos"></div>
+    </div>
+</section>
+
+<section class="secao secao--alternada" aria-labelledby="inicio-artesaos">
+    <div class="container">
+        <div class="secao-cabecalho">
+            <h2 id="inicio-artesaos">Conheça quem produz</h2>
+            <a class="link-seta" href="#/artesaos">Ver todos os artesãos
+                <iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></a>
+        </div>
+        <!-- Preenchido via JS: 4 artesãos ativos (card-artesao-mini) -->
+        <div class="grade-cards" id="inicio-artesaos-lista"></div>
+    </div>
+</section>
+
+<section class="secao" aria-labelledby="inicio-video">
+    <div class="container inicio-video pilha">
+        <h2 id="inicio-video">O Liceu em vídeo</h2>
+        <p class="texto-suave">
+            Conheça em poucos minutos o trabalho do Liceu e das pessoas que
+            transformam saberes tradicionais em arte.
+        </p>
+        <!-- TROCAR: ID do vídeo institucional do Liceu -->
+        <iframe class="video"
+            src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"
+            title="Vídeo institucional do Liceu de Artes e Ofícios"
+            loading="lazy"
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
 </section>
