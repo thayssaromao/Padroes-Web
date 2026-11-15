@@ -129,6 +129,18 @@ function atualizarMenuPainel(caminho) {
     );
 }
 
+/** Abre a lista de notificações. */
+function abrirNotificacoes() {
+    // A IMPLEMENTAR: dropdown de notificações (§8.2).
+    mostrarAviso("Em breve: notificações.");
+}
+
+/** Abre o menu do usuário. */
+function abrirMenuUsuario() {
+    // A IMPLEMENTAR: dropdown do menu do usuário (§8.2).
+    mostrarAviso("Em breve: menu do usuário.");
+}
+
 /** Encerra a sessão e volta ao portal. */
 function sair() {
     // A IMPLEMENTAR: pedir confirmação com o modal "Deseja sair?" (§8.2).
@@ -164,7 +176,14 @@ async function montarPainel(raiz, layout, painel, sessao) {
         alternarGaveta(botaoMenu, lateral, "painel__lateral--aberto");
     });
     raiz.querySelector("[data-acao=\"sair\"]").addEventListener("click", sair);
-    // A IMPLEMENTAR: dropdowns de notificações e do menu do usuário (§8.2).
+    raiz.querySelector("[data-acao=\"notificacoes\"]").addEventListener(
+        "click",
+        abrirNotificacoes
+    );
+    raiz.querySelector("[data-acao=\"menu-usuario\"]").addEventListener(
+        "click",
+        abrirMenuUsuario
+    );
 
     return raiz.querySelector("#conteudo");
 }
