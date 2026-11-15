@@ -65,6 +65,106 @@ function abrirMenuArtesao(id) {
     mostrarAviso("Em breve: mais ações para " + id + ".");
 }
 
+/**
+ * Abre a escolha de um trabalho aprovado para uma nova publicação.
+ */
+function novaPublicacao() {
+    // A IMPLEMENTAR: abrir o popup para escolher o trabalho aprovado.
+    mostrarAviso("Em breve: nova publicação.");
+}
+
+/**
+ * Mostra os detalhes de uma publicação.
+ * @param {string} id id do trabalho publicado
+ */
+function verPublicacao(id) {
+    // A IMPLEMENTAR: abrir o popup de detalhes da publicação.
+    mostrarAviso("Em breve: ver a publicação " + id + ".");
+}
+
+/**
+ * Edita uma publicação.
+ * @param {string} id id do trabalho publicado
+ */
+function editarPublicacao(id) {
+    // A IMPLEMENTAR: abrir o popup de edição da publicação.
+    mostrarAviso("Em breve: editar a publicação " + id + ".");
+}
+
+/**
+ * Oculta uma publicação do portal (com confirmação).
+ * @param {string} id id do trabalho publicado
+ */
+function ocultarPublicacao(id) {
+    // A IMPLEMENTAR: confirmar e ocultar a publicação.
+    mostrarAviso("Em breve: ocultar a publicação " + id + ".");
+}
+
+/**
+ * Exclui uma publicação (com confirmação destrutiva).
+ * @param {string} id id do trabalho publicado
+ */
+function excluirPublicacao(id) {
+    // A IMPLEMENTAR: confirmar e excluir a publicação.
+    mostrarAviso("Em breve: excluir a publicação " + id + ".");
+}
+
+/**
+ * Abre o cadastro de uma nova categoria.
+ */
+function adicionarCategoria() {
+    // A IMPLEMENTAR: abrir o popup para adicionar categoria.
+    mostrarAviso("Em breve: adicionar categoria.");
+}
+
+/**
+ * Abre o cadastro de uma nova técnica.
+ */
+function adicionarTecnica() {
+    // A IMPLEMENTAR: abrir o popup para adicionar técnica.
+    mostrarAviso("Em breve: adicionar técnica.");
+}
+
+/**
+ * Abre a troca de senha do administrador.
+ */
+function alterarSenhaAdmin() {
+    // A IMPLEMENTAR: abrir o popup de alteração de senha.
+    mostrarAviso("Em breve: alterar a senha.");
+}
+
+/**
+ * Abre a lista de categorias para edição.
+ */
+function gerenciarCategorias() {
+    // A IMPLEMENTAR: abrir o popup de gerenciamento de categorias.
+    mostrarAviso("Em breve: gerenciar categorias.");
+}
+
+/**
+ * Abre o gerenciamento de permissões.
+ */
+function gerenciarPermissoes() {
+    // A IMPLEMENTAR: abrir o popup de permissões do painel.
+    mostrarAviso("Em breve: gerenciar permissões.");
+}
+
+/**
+ * Abre a lista de técnicas para edição.
+ */
+function gerenciarTecnicas() {
+    // A IMPLEMENTAR: abrir o popup de gerenciamento de técnicas.
+    mostrarAviso("Em breve: gerenciar técnicas.");
+}
+
+/**
+ * Salva as configurações do painel (simulação).
+ */
+function salvarConfiguracoes() {
+    // A IMPLEMENTAR: persistir as configurações do Liceu.
+    mostrarAviso("Configurações salvas (simulação).");
+}
+
 // ===== Helpers compartilhados =====
 
 /**
@@ -141,6 +241,7 @@ function ligarListagem(raiz, config) {
     const vazio = raiz.querySelector("[data-vazio]");
     const busca = raiz.querySelector("[data-busca]");
     const ordem = raiz.querySelector("[data-ordem]");
+    const formulario = raiz.querySelector("[data-filtros]");
     const campos = Array.from(raiz.querySelectorAll("[data-filtro]"));
     let pagina = 1;
 
@@ -192,6 +293,12 @@ function ligarListagem(raiz, config) {
     }
 
     busca.addEventListener("input", recomecar);
+    if (formulario) {
+        formulario.addEventListener("submit", function (evento) {
+            evento.preventDefault();
+            recomecar();
+        });
+    }
     campos.forEach(function (campo) {
         campo.addEventListener("change", recomecar);
     });
@@ -596,22 +703,151 @@ async function iniciarLiceuPendentes(raiz) {
     });
 }
 
+// ===== Aba Publicações =====
+
 /**
- * Aba Publicações: tabela de publicações aprovadas.
- * @param {HTMLElement} ignore o <main id="conteudo"> com a parcial
+ * Botão de ícone de uma linha da tabela de publicações.
+ * @param {string} acao nome da ação
+ * @param {string} nomeIcone ícone Iconify
+ * @param {string} rotulo texto de acessibilidade, ex.: "Ver"
+ * @param {object} trabalho
+ * @returns {string}
  */
-function iniciarLiceuPublicacoes(ignore) {
-    // A IMPLEMENTAR: na branch da página.
-    return;
+function criarBotaoPublicacao(acao, nomeIcone, rotulo, trabalho) {
+    return (
+        "<button type=\"button\" class=\"btn btn--icone\""
+        + ` data-acao="${acao}" data-id="${escaparHtml(trabalho.id)}"`
+        + ` aria-label="${rotulo} ${escaparHtml(trabalho.titulo)}">`
+        + icone(nomeIcone) + "</button>"
+    );
 }
 
 /**
- * Aba Configurações: dados do Liceu e preferências.
- * @param {HTMLElement} ignore o <main id="conteudo"> com a parcial
+ * Linha da tabela de publicações.
+ * @param {object} trabalho com artesaoNome (comNomeDoArtesao)
+ * @returns {string}
  */
-function iniciarLiceuConfiguracoes(ignore) {
-    // A IMPLEMENTAR: na branch da página.
-    return;
+function criarLinhaPublicacao(trabalho) {
+    return (
+        "<tr>"
+        + "<td data-rotulo=\"Imagem\">"
+        + `<img class="tabela__miniatura" src="${trabalho.imagens[0]}"`
+        + " alt=\"\" width=\"64\" height=\"44\" loading=\"lazy\"></td>"
+        + "<td data-rotulo=\"Publicação / Produto\"><strong>"
+        + escaparHtml(trabalho.titulo) + "</strong></td>"
+        + "<td data-rotulo=\"Artesão\">"
+        + escaparHtml(trabalho.artesaoNome) + "</td>"
+        + "<td data-rotulo=\"Categoria\">"
+        + escaparHtml(trabalho.categoria) + "</td>"
+        + "<td data-rotulo=\"Data de publicação\">"
+        + formatarData(trabalho.publicadoEm, false) + "</td>"
+        + "<td data-rotulo=\"Status\">" + criarStatus("publicado") + "</td>"
+        + "<td data-rotulo=\"Ações\"><div class=\"tabela__acoes\">"
+        + criarBotaoPublicacao("ver", "lucide:eye", "Ver", trabalho)
+        + criarBotaoPublicacao("editar", "lucide:pencil", "Editar", trabalho)
+        + criarBotaoPublicacao(
+            "ocultar",
+            "lucide:eye-off",
+            "Ocultar",
+            trabalho
+        )
+        + criarBotaoPublicacao(
+            "excluir",
+            "lucide:trash-2",
+            "Excluir",
+            trabalho
+        )
+        + "</div></td></tr>"
+    );
+}
+
+/**
+ * Aba Publicações: tabela de publicações aprovadas.
+ * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
+ */
+async function iniciarLiceuPublicacoes(raiz) {
+    const dados = await Promise.all([
+        carregarTrabalhos(),
+        carregarCategorias(),
+        carregarArtesaos()
+    ]);
+    const publicados = await comNomeDoArtesao(
+        dados[0].filter(function (trabalho) {
+            return trabalho.status === "publicado";
+        })
+    );
+    const filtros = raiz.querySelectorAll("[data-filtro]");
+
+    filtros[1].insertAdjacentHTML(
+        "beforeend",
+        criarOpcoes(dados[1].categorias)
+    );
+    filtros[2].insertAdjacentHTML(
+        "beforeend",
+        dados[2].map(function (artesao) {
+            return (
+                `<option value="${escaparHtml(artesao.id)}">`
+                + escaparHtml(artesao.nome) + "</option>"
+            );
+        }).join("")
+    );
+    ligarListagem(raiz, {
+        criarLinha: criarLinhaPublicacao,
+        filtros: {
+            artesao: function (trabalho, valor) {
+                return trabalho.artesaoId === valor;
+            },
+            categoria: function (trabalho, valor) {
+                return trabalho.categoria === valor;
+            },
+            status: function (trabalho, valor) {
+                return trabalho.status === valor;
+            }
+        },
+        itens: publicados,
+        ordemPadrao: "recentes",
+        ordens: {
+            recentes: function (a, b) {
+                return new Date(b.publicadoEm) - new Date(a.publicadoEm);
+            }
+        },
+        plural: "publicações",
+        textos: function (trabalho) {
+            return trabalho.titulo + " " + trabalho.artesaoNome;
+        }
+    });
+    ligarAcoes(raiz.querySelector("[data-corpo]"), {
+        editar: editarPublicacao,
+        excluir: excluirPublicacao,
+        ocultar: ocultarPublicacao,
+        ver: verPublicacao
+    });
+    ligarAcoes(raiz.querySelector(".painel-cabecalho"), {
+        nova: novaPublicacao
+    });
+}
+
+// ===== Aba Configurações =====
+
+/**
+ * Aba Configurações: dados do Liceu e preferências.
+ * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
+ */
+function iniciarLiceuConfiguracoes(raiz) {
+    const formulario = raiz.querySelector("[data-formulario]");
+
+    formulario.addEventListener("submit", function (evento) {
+        evento.preventDefault();
+        salvarConfiguracoes();
+    });
+    ligarAcoes(formulario, {
+        "adicionar-categoria": adicionarCategoria,
+        "adicionar-tecnica": adicionarTecnica,
+        "alterar-senha": alterarSenhaAdmin,
+        "gerenciar-categorias": gerenciarCategorias,
+        "gerenciar-permissoes": gerenciarPermissoes,
+        "gerenciar-tecnicas": gerenciarTecnicas
+    });
 }
 
 export {
