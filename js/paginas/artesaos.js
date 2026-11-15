@@ -26,6 +26,8 @@ const CATEGORIAS = [
     "Cerâmica"
 ];
 
+const REDUZIR = window.matchMedia("(prefers-reduced-motion: reduce)");
+
 const estado = {
     busca: "",
     filtro: "Todos",
@@ -122,7 +124,8 @@ function criarCardArtesao(artesao) {
         + criarChips(rotulos(artesao))
         + "</div></div>"
         + "<button type=\"button\" class=\"btn btn--secundario btn--bloco"
-        + ` btn--pequeno" data-artesao="${escaparHtml(artesao.id)}">`
+        + ` btn--pequeno" data-artesao="${escaparHtml(artesao.id)}"`
+        + " aria-label=\"Ver perfil de " + escaparHtml(artesao.nome) + "\">"
         + "Ver perfil" + icone("lucide:arrow-right")
         + "</button></article></li>"
     );
@@ -135,6 +138,20 @@ function abrirFiltros() {
     // A IMPLEMENTAR: painel de filtros (categorias, técnicas, cidade),
     // DESIGN §8.3.
     mostrarAviso("Em breve: filtros avançados.");
+}
+
+/**
+ * Preenche um link de contato ou esconde o item quando não há valor.
+ * @param {HTMLAnchorElement} link
+ * @param {string} [valor]
+ * @param {function(string): string} montarHref
+ */
+function preencherContato(link, valor, montarHref) {
+    link.parentElement.hidden = !valor;
+    if (valor) {
+        link.href = montarHref(valor);
+        link.querySelector("span").textContent = valor;
+    }
 }
 
 /**
@@ -158,19 +175,30 @@ async function abrirPerfil(raiz, id) {
     );
     raiz.querySelector("#modal-artesao-bio").textContent = artesao.bio;
 
-    const instagram = raiz.querySelector("#modal-artesao-instagram");
-    instagram.href = (
-        "https://instagram.com/" + artesao.instagram.replace(/^@/, "")
+    preencherContato(
+        raiz.querySelector("#modal-artesao-instagram"),
+        artesao.instagram,
+        function (valor) {
+            return (
+                "https://instagram.com/"
+                + encodeURIComponent(valor.replace(/^@/, ""))
+            );
+        }
     );
-    instagram.querySelector("span").textContent = artesao.instagram;
-
-    const whatsapp = raiz.querySelector("#modal-artesao-whatsapp");
-    whatsapp.href = "https://wa.me/55" + artesao.whatsapp.replace(/\D/g, "");
-    whatsapp.querySelector("span").textContent = artesao.whatsapp;
-
-    const email = raiz.querySelector("#modal-artesao-email");
-    email.href = "mailto:" + artesao.email;
-    email.querySelector("span").textContent = artesao.email;
+    preencherContato(
+        raiz.querySelector("#modal-artesao-whatsapp"),
+        artesao.whatsapp,
+        function (valor) {
+            return "https://wa.me/55" + valor.replace(/\D/g, "");
+        }
+    );
+    preencherContato(
+        raiz.querySelector("#modal-artesao-email"),
+        artesao.email,
+        function (valor) {
+            return "mailto:" + valor;
+        }
+    );
 
     abrirModal("modal-artesao");
 }
@@ -273,7 +301,15 @@ async function iniciarArtesaos(raiz) {
         if (botao) {
             estado.pagina = Number(botao.dataset.pagina);
             renderizarGrade();
-            grade.scrollIntoView({behavior: "smooth", block: "start"});
+            grade.scrollIntoView({
+                behavior: (
+                    REDUZIR.matches
+                    ? "auto"
+                    : "smooth"
+                ),
+                block: "start"
+            });
+            paginacao.querySelector("[aria-current]").focus();
         }
     });
     grade.addEventListener("click", function (evento) {

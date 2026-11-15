@@ -43,12 +43,21 @@
     padding: 0;
 }
 
+.artesaos-grade--lista {
+    grid-template-columns: 1fr;
+}
+
 .artesaos-grade > li {
     display: flex;
 }
 
 .artesaos-grade > li > .card {
     width: 100%;
+    height: 100%;
+}
+
+.artesaos-grade .btn--bloco {
+    margin-top: auto;
 }
 
 .artesaos-grade .card-artesao__nome {
@@ -165,8 +174,4 @@
         grid-template-columns: 1fr 1.1fr;
         gap: var(--espaco-7);
     }
-}
-
-.artesaos-grade--lista {
-    grid-template-columns: 1fr;
 }
