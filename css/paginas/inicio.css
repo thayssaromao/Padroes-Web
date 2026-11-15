@@ -31,3 +31,18 @@
         gap: var(--espaco-7);
     }
 }
+
+.inicio-vazio {
+    grid-column: 1 / -1;
+}
+
+@media (min-width: 1024px) {
+    .inicio-atalhos .card-atalho {
+        gap: var(--espaco-3);
+        padding-inline: var(--espaco-4);
+    }
+
+    .inicio-atalhos .card-atalho__titulo {
+        white-space: nowrap;
+    }
+}

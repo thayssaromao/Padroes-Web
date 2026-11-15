@@ -72,14 +72,31 @@ function ligarFavoritos(conteiner) {
 }
 
 /**
+ * Mostra uma mensagem simples no lugar da lista.
+ * @param {HTMLElement} lista
+ * @param {string} mensagem
+ */
+function mostrarMensagem(lista, mensagem) {
+    lista.innerHTML = (
+        "<p class=\"texto-suave inicio-vazio\">"
+        + escaparHtml(mensagem) + "</p>"
+    );
+}
+
+/**
  * Renderiza os produtos publicados em destaque.
  * @param {HTMLElement} lista
  * @param {Array<object>} trabalhos
  */
 function renderizarDestaques(lista, trabalhos) {
-    lista.innerHTML = trabalhos.filter(function (trabalho) {
+    const destaques = trabalhos.filter(function (trabalho) {
         return trabalho.status === "publicado" && trabalho.destaque === true;
-    }).slice(0, MAXIMO_DESTAQUES).map(function (trabalho) {
+    }).slice(0, MAXIMO_DESTAQUES);
+    if (destaques.length === 0) {
+        mostrarMensagem(lista, "Nenhum produto em destaque no momento.");
+        return;
+    }
+    lista.innerHTML = destaques.map(function (trabalho) {
         return criarCardProduto(trabalho);
     }).join("");
 }
@@ -90,9 +107,30 @@ function renderizarDestaques(lista, trabalhos) {
  * @param {Array<object>} artesaos
  */
 function renderizarArtesaos(lista, artesaos) {
-    lista.innerHTML = artesaos.filter(function (artesao) {
+    const ativos = artesaos.filter(function (artesao) {
         return artesao.status === "ativo";
-    }).slice(0, MAXIMO_ARTESAOS).map(criarCardArtesaoMini).join("");
+    }).slice(0, MAXIMO_ARTESAOS);
+    if (ativos.length === 0) {
+        mostrarMensagem(lista, "Nenhum artesão ativo no momento.");
+        return;
+    }
+    lista.innerHTML = ativos.map(criarCardArtesaoMini).join("");
+}
+
+/**
+ * Carrega dados e renderiza uma seção, com mensagem própria em caso de erro.
+ * @param {Promise<Array<object>>} carga
+ * @param {HTMLElement} lista
+ * @param {function} renderizar
+ * @param {string} falha mensagem de erro da seção
+ * @returns {Promise<void>}
+ */
+async function preencherSecao(carga, lista, renderizar, falha) {
+    try {
+        renderizar(lista, await carga);
+    } catch (ignore) {
+        mostrarMensagem(lista, falha);
+    }
 }
 
 /**
@@ -106,19 +144,20 @@ async function iniciarInicio(raiz) {
 
     iniciarCarrossel(raiz.querySelector(".carrossel"));
     ligarFavoritos(produtos);
-    try {
-        const [trabalhos, lista] = await Promise.all([
+    await Promise.all([
+        preencherSecao(
             carregarTrabalhos(),
-            carregarArtesaos()
-        ]);
-        renderizarDestaques(produtos, trabalhos);
-        renderizarArtesaos(artesaos, lista);
-    } catch (ignore) {
-        produtos.innerHTML = (
-            "<p class=\"texto-suave\">"
-            + "Não foi possível carregar os dados agora.</p>"
-        );
-    }
+            produtos,
+            renderizarDestaques,
+            "Não foi possível carregar os produtos em destaque."
+        ),
+        preencherSecao(
+            carregarArtesaos(),
+            artesaos,
+            renderizarArtesaos,
+            "Não foi possível carregar os artesãos."
+        )
+    ]);
 }
 
 export {
