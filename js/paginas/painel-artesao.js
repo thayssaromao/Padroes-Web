@@ -39,6 +39,18 @@ const COMPARADORES = Object.freeze({
 });
 
 /**
+ * Minúsculas e sem acentos, para comparar textos na busca.
+ * @param {string} texto
+ * @returns {string}
+ */
+function semAcento(texto) {
+    return texto.normalize("NFD").replace(
+        /[\u0300-\u036f]/g,
+        ""
+    ).toLowerCase();
+}
+
+/**
  * Filtra trabalhos por status, busca no texto e (opcional) categoria ou
  * técnica. "em-analise" inclui os reenviados.
  * @param {Array<object>} trabalhos
@@ -46,13 +58,13 @@ const COMPARADORES = Object.freeze({
  * @returns {Array<object>}
  */
 function filtrarTrabalhos(trabalhos, filtros) {
-    const termo = filtros.busca.trim().toLowerCase();
+    const termo = semAcento(filtros.busca.trim());
     return trabalhos.filter(function (trabalho) {
-        const texto = [
+        const texto = semAcento([
             trabalho.titulo,
             trabalho.categoria,
             trabalho.tecnica
-        ].join(" ").toLowerCase();
+        ].join(" "));
         const statusOk = (
             !filtros.status
             || trabalho.status === filtros.status
@@ -91,11 +103,11 @@ async function artesaoLogado() {
 }
 
 /**
- * Trabalhos do artesão logado, do mais recente para o mais antigo.
+ * Trabalhos do artesão da sessão, do mais recente para o mais antigo.
+ * @param {{artesaoId: string}} sessao
  * @returns {Promise<Array<object>>}
  */
-async function trabalhosDoLogado() {
-    const {sessao} = await artesaoLogado();
+async function trabalhosDaSessao(sessao) {
     const trabalhos = await trabalhosDoArtesao(sessao.artesaoId);
     return trabalhos.slice().sort(function (a, b) {
         return new Date(b.atualizadoEm) - new Date(a.atualizadoEm);
@@ -103,12 +115,25 @@ async function trabalhosDoLogado() {
 }
 
 /**
+ * Trabalhos do artesão logado, do mais recente para o mais antigo.
+ * @returns {Promise<Array<object>>}
+ */
+async function trabalhosDoLogado() {
+    const {sessao} = await artesaoLogado();
+    return trabalhosDaSessao(sessao);
+}
+
+/**
  * Aba Início: resumo e últimos trabalhos.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
 async function montarInicio(raiz) {
+    const marco = raiz.firstElementChild;
     const {sessao} = await artesaoLogado();
-    const trabalhos = await trabalhosDoLogado();
+    const trabalhos = await trabalhosDaSessao(sessao);
+    if (!marco.isConnected) {
+        return;
+    }
     const contagem = contarPorStatus(trabalhos);
     const soma = function (...chaves) {
         return chaves.reduce(function (total, chave) {
@@ -285,8 +310,12 @@ function salvarPerfil(ignore) {
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
 async function montarPerfil(raiz) {
+    const marco = raiz.firstElementChild;
     const {artesao} = await artesaoLogado();
     const dadosCategorias = await carregarCategorias();
+    if (!marco.isConnected) {
+        return;
+    }
     const formulario = raiz.querySelector("[data-form-perfil]");
     const previaFoto = raiz.querySelector("[data-previa-foto]");
     const seletorCategoria = raiz.querySelector("#perfil-categoria");
@@ -436,7 +465,7 @@ function criarEstadoTrabalho(trabalho) {
     }
     if (trabalho.status === "rascunho") {
         return (
-            "<div class=\"artesao-estado\">"
+            "<div class=\"artesao-estado artesao-estado--compacto\">"
             + criarBotaoAcao(
                 "editar",
                 trabalho.id,
@@ -495,8 +524,12 @@ function criarAcoesTrabalho(trabalho) {
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
 async function montarTrabalhos(raiz) {
+    const marco = raiz.firstElementChild;
     const todos = await trabalhosDoLogado();
     const dadosCategorias = await carregarCategorias();
+    if (!marco.isConnected) {
+        return;
+    }
     const grade = raiz.querySelector("[data-grade]");
     const seletorCategoria = raiz.querySelector("[data-filtro-categoria]");
     const estado = {busca: "", ordem: "recentes", pagina: 1};
@@ -716,10 +749,8 @@ function ligarUpload(raiz) {
             area.classList.remove("upload--arrastando");
         }
     });
-    area.addEventListener("drop", function () {
-        area.classList.remove("upload--arrastando");
-    });
     area.addEventListener("drop", function (evento) {
+        area.classList.remove("upload--arrastando");
         evento.preventDefault();
         adicionar(evento.dataTransfer.files);
     });
@@ -749,7 +780,11 @@ function ligarUpload(raiz) {
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
 async function montarNovoTrabalho(raiz) {
+    const marco = raiz.firstElementChild;
     const dadosCategorias = await carregarCategorias();
+    if (!marco.isConnected) {
+        return;
+    }
     const formulario = raiz.querySelector("[data-form-trabalho]");
     const campoPreco = raiz.querySelector("[data-preco]");
     const upload = ligarUpload(raiz);
@@ -867,7 +902,11 @@ function criarLinhaStatus(trabalho) {
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
 async function montarStatus(raiz) {
+    const marco = raiz.firstElementChild;
     const todos = await trabalhosDoLogado();
+    if (!marco.isConnected) {
+        return;
+    }
     const contagem = contarPorStatus(todos);
     const corpo = raiz.querySelector("[data-linhas]");
     const estado = {busca: "", ordem: "recentes"};
@@ -942,9 +981,14 @@ async function montarStatus(raiz) {
  */
 function protegida(descricao, montar) {
     return async function (raiz) {
+        const marco = raiz.firstElementChild;
         try {
             await montar(raiz);
-        } catch (ignore) {
+        } catch (erro) {
+            if (!marco || !marco.isConnected) {
+                return;
+            }
+            console.error(erro);
             raiz.insertAdjacentHTML(
                 "beforeend",
                 "<p class=\"artesao-vazio\" role=\"alert\">"
