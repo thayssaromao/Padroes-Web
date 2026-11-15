@@ -242,3 +242,81 @@
         max-width: 560px;
     }
 }
+
+/* ===== Novo trabalho ===== */
+
+.artesao-novo {
+    display: grid;
+    gap: var(--espaco-5);
+}
+
+.artesao-novo__dados,
+.artesao-novo__imagens {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-5);
+    min-width: 0;
+}
+
+.artesao-novo .bloco-form {
+    min-width: 0;
+}
+
+.artesao-novo .upload:focus-within {
+    outline: 3px solid var(--cor-borda-forte);
+    outline-offset: 2px;
+}
+
+.artesao-preco {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    min-width: 0;
+    padding: 0;
+    border: 0;
+}
+
+.artesao-preco__opcao {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    font-size: var(--fonte-pequena);
+}
+
+.artesao-preco__opcao label {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.artesao-preco__opcao .campo__entrada {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (min-width: 600px) {
+    .artesao-cabecalho-acao {
+        grid-template-columns: 1fr auto;
+        align-items: start;
+    }
+
+    .artesao-cabecalho-acao .painel-cabecalho__acoes {
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .artesao-novo {
+        grid-template-columns: 3fr 2fr;
+        align-items: start;
+    }
+
+    .artesao-novo__acoes {
+        grid-column: 1 / -1;
+    }
+}
+
+.artesao-novo .upload .chip {
+    max-width: 100%;
+    white-space: normal;
+}

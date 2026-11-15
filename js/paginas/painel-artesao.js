@@ -18,6 +18,7 @@ import {
     carregarCategorias,
     contarPorStatus,
     obterSessao,
+    salvarTrabalho,
     sessaoDemonstracao,
     trabalhosDoArtesao
 } from "../dados.js";
@@ -585,13 +586,181 @@ async function iniciarArtesaoTrabalhos(raiz) {
     desenhar();
 }
 
+// ===== Novo trabalho =====
+
+const MAX_IMAGENS = 8;
+const MAX_BYTES = 10 * 1024 * 1024;
+const TIPOS_IMAGEM = ["image/jpeg", "image/png"];
+
+/**
+ * Abre a lista de rascunhos do artesão.
+ */
+function abrirRascunhos() {
+    // A IMPLEMENTAR: popup/lista com os rascunhos salvos do artesão.
+    mostrarAviso("Em breve: seus rascunhos.");
+}
+
+/**
+ * Salva ou envia o trabalho para análise.
+ * @param {object} dados campos do formulário e nomes das imagens
+ * @param {string} status "rascunho" | "em-analise"
+ * @returns {Promise<void>}
+ */
+async function enviarTrabalho(dados, status) {
+    // A IMPLEMENTAR: persistência real (salvarTrabalho ainda é um stub).
+    await salvarTrabalho(Object.assign({}, dados, {status}));
+    mostrarAviso(
+        status === "rascunho"
+        ? "Rascunho salvo (simulação)."
+        : "Trabalho enviado para análise (simulação)."
+    );
+}
+
+/**
+ * Área de upload: clique, arrastar-soltar, limite de 8 imagens e
+ * miniaturas com remoção e selo de capa.
+ * @param {HTMLElement} raiz
+ * @returns {{nomes: Function}}
+ */
+function ligarUpload(raiz) {
+    const area = raiz.querySelector("[data-upload]");
+    const entrada = raiz.querySelector("[data-upload-entrada]");
+    const lista = raiz.querySelector("[data-miniaturas]");
+    let imagens = [];
+
+    function desenhar() {
+        lista.innerHTML = imagens.map(function (imagem, indice) {
+            return (
+                "<li class=\"miniatura\">"
+                + `<img src="${imagem.url}" width="80" height="80"`
+                + ` alt="Imagem ${indice + 1}: `
+                + escaparHtml(imagem.arquivo.name) + "\">"
+                + "<button type=\"button\" class=\"miniatura__remover\""
+                + ` data-remover="${indice}"`
+                + ` aria-label="Remover imagem ${indice + 1}">`
+                + icone("lucide:x") + "</button>"
+                + (
+                    indice === 0
+                    ? "<span class=\"miniatura__capa\">★ Capa</span>"
+                    : ""
+                )
+                + "</li>"
+            );
+        }).join("");
+    }
+
+    function adicionar(arquivos) {
+        const validos = Array.from(arquivos).filter(function (arquivo) {
+            return TIPOS_IMAGEM.includes(arquivo.type)
+            && arquivo.size <= MAX_BYTES;
+        });
+        const vagas = MAX_IMAGENS - imagens.length;
+        if (validos.length < arquivos.length) {
+            mostrarAviso("Só JPG ou PNG de até 10 MB são aceitos.");
+        }
+        if (validos.length > vagas) {
+            mostrarAviso("Limite de 8 imagens por trabalho.");
+        }
+        imagens = imagens.concat(validos.slice(0, vagas).map(
+            function (arquivo) {
+                return {arquivo, url: URL.createObjectURL(arquivo)};
+            }
+        ));
+        desenhar();
+    }
+
+    entrada.addEventListener("change", function () {
+        adicionar(entrada.files);
+        entrada.value = "";
+    });
+    ["dragenter", "dragover"].forEach(function (evento) {
+        area.addEventListener(evento, function (ocorrencia) {
+            ocorrencia.preventDefault();
+            area.classList.add("upload--arrastando");
+        });
+    });
+    ["dragleave", "drop"].forEach(function (evento) {
+        area.addEventListener(evento, function () {
+            area.classList.remove("upload--arrastando");
+        });
+    });
+    area.addEventListener("drop", function (evento) {
+        evento.preventDefault();
+        adicionar(evento.dataTransfer.files);
+    });
+    lista.addEventListener("click", function (evento) {
+        const botao = evento.target.closest("[data-remover]");
+        if (botao) {
+            const indice = Number(botao.dataset.remover);
+            URL.revokeObjectURL(imagens[indice].url);
+            imagens = imagens.filter(function (ignore, posicao) {
+                return posicao !== indice;
+            });
+            desenhar();
+        }
+    });
+
+    return {
+        nomes: function () {
+            return imagens.map(function (imagem) {
+                return imagem.arquivo.name;
+            });
+        }
+    };
+}
+
 /**
  * Aba Novo trabalho: formulário e upload de imagens.
- * @param {HTMLElement} ignore o <main id="conteudo"> com a parcial
+ * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-function iniciarArtesaoNovoTrabalho(ignore) {
-    // A IMPLEMENTAR: na branch da página.
-    return;
+async function iniciarArtesaoNovoTrabalho(raiz) {
+    const dadosCategorias = await carregarCategorias();
+    const formulario = raiz.querySelector("[data-form-trabalho]");
+    const campoPreco = raiz.querySelector("[data-preco]");
+    const upload = ligarUpload(raiz);
+
+    preencherOpcoes(
+        raiz.querySelector("#trabalho-categoria"),
+        dadosCategorias.categorias
+    );
+    preencherOpcoes(
+        raiz.querySelector("#trabalho-tecnica"),
+        dadosCategorias.tecnicas
+    );
+    raiz.querySelectorAll("[data-preco-tipo]").forEach(function (opcao) {
+        opcao.addEventListener("change", function () {
+            const definir = opcao.value === "definir" && opcao.checked;
+            campoPreco.disabled = !definir;
+            campoPreco.required = definir;
+            if (definir) {
+                campoPreco.focus();
+            } else {
+                campoPreco.value = "";
+            }
+        });
+    });
+
+    function coletar() {
+        const dados = Object.fromEntries(new FormData(formulario));
+        return Object.assign(dados, {imagens: upload.nomes()});
+    }
+
+    formulario.addEventListener("submit", function (evento) {
+        evento.preventDefault();
+        if (formulario.reportValidity()) {
+            enviarTrabalho(coletar(), "em-analise");
+        }
+    });
+    raiz.querySelector("[data-salvar-rascunho]").addEventListener(
+        "click",
+        function () {
+            enviarTrabalho(coletar(), "rascunho");
+        }
+    );
+    raiz.querySelector("[data-rascunhos]").addEventListener(
+        "click",
+        abrirRascunhos
+    );
 }
 
 /**
