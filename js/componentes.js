@@ -98,9 +98,13 @@ function criarCardProduto(trabalho, opcoes = {}) {
         ? `<div class="card-produto__acoes">${opcoes.acoes}</div>`
         : ""
     );
+    const imagem = escaparHtml(
+        (trabalho.imagens && trabalho.imagens[0])
+        || "assets/img/avatar-padrao.jpg"
+    );
     return (
         "<article class=\"card card--clicavel card-produto\">"
-        + `<img class="card-produto__imagem" src="${trabalho.imagens[0]}"`
+        + `<img class="card-produto__imagem" src="${imagem}"`
         + ` alt="${escaparHtml(trabalho.titulo)}" width="400" height="150"`
         + " loading=\"lazy\">"
         + favorito
