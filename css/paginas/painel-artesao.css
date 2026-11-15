@@ -2,3 +2,25 @@
    paginas/painel-artesao.css — estilos exclusivos da página
    Guia: docs/DESIGN.md (use só tokens e componentes do guia)
    ========================================================= */
+
+/* ===== Início ===== */
+
+.artesao-resumo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-5);
+    margin-bottom: var(--espaco-6);
+    padding: var(--espaco-5);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-fundo-alternado);
+}
+
+.artesao-ultimos {
+    margin-bottom: var(--espaco-6);
+}
+
+@media (min-width: 1024px) {
+    .artesao-resumo {
+        padding: var(--espaco-6);
+    }
+}
