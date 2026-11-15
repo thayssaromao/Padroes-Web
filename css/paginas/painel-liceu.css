@@ -2,3 +2,47 @@
    paginas/painel-liceu.css — estilos exclusivos da página
    Guia: docs/DESIGN.md (use só tokens e componentes do guia)
    ========================================================= */
+
+/* ----- Estrutura comum às abas ----- */
+.liceu-secao {
+    margin-bottom: var(--espaco-6);
+}
+
+.liceu-secao__titulo {
+    margin-bottom: var(--espaco-5);
+}
+
+.liceu-vazio {
+    padding: var(--espaco-5);
+    border: 1px dashed var(--cor-borda);
+    border-radius: var(--raio-medio);
+    color: var(--cor-texto-suave);
+    text-align: center;
+}
+
+/* ----- Início: trabalhos aguardando análise ----- */
+.liceu-pendentes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espaco-4);
+}
+
+.liceu-pendentes .card-trabalho {
+    height: 100%;
+}
+
+.liceu-pendentes .card-trabalho .btn--bloco {
+    margin-top: auto;
+}
+
+@media (min-width: 600px) {
+    .liceu-pendentes {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .liceu-pendentes {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
