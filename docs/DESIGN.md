@@ -221,7 +221,7 @@ Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 | Atalho | `.card-atalho` | ícone · título + descrição · `chevron-right`; card inteiro é `<a>` | Home "Como você quer explorar?" |
 | Produto | `.card-produto` | `figure` com imagem 4:3 + botão favorito (círculo, canto sup. dir.) · nome · categoria · (opcional) status + ações | Home, Área do Artesão |
 | Artesão (mini) | `.card-artesao-mini` | avatar redondo 96px · nome · técnica principal | Home "Conheça quem produz" |
-| Artesão | `.card-artesao` | foto quadrada 88px · nome · local (`map-pin`) · chips · botão bloco "Ver perfil →" | Página Artesãos |
+| Artesão | `.card-artesao` | Na listagem pública: foto quadrada 64px · nome · empreendimento ou @ · local (`map-pin`) · chips · botão bloco "Ver perfil →" | Página Artesãos |
 | Estatística | `.card-estatistica` | ícone · divisória vertical · número grande (800) · rótulo | Resumos dos painéis |
 | Trabalho (painel) | `.card-trabalho` | imagem · título · artesão (`user`) · categorias (`tag`) · status · botão | Painel Liceu "aguardando análise" |
 
