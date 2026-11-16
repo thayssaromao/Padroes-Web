@@ -469,8 +469,21 @@
     display: none;
 }
 
+.painel .liceu-formulario .liceu-bloco__legenda {
+    align-items: center;
+}
+
 .painel .liceu-formulario .liceu-bloco__legenda > iconify-icon {
-    border-right-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    line-height: 1;
 }
 
 .painel .tabela tr[hidden] {
