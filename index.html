@@ -3,45 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/sobre.css">
-    <link rel="stylesheet" href="css/contato.css">
-
-    <script src="js/envio-menssagem.js" defer></script>
+    <meta name="description" content="Portal do Artesão do Liceu de Ofícios de Curitiba: vitrine de artesãos, produtos e saberes tradicionais.">
     <title>Liceu de Ofícios</title>
-</head>
-<body>
-    <header class="header">
-        <div class="container-header">
-            <div class="footer-brand">
-                <img src="assets/logo.png" alt="Logo Liceu de Ofícios" class="footer-logo">
-                <span class="footer-title">Liceu de Ofícios</span>
-            </div>
 
-            <nav id="nav" class="nav-menu">
-                 <div class="nav-underline"></div>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap">
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/componentes.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/paginas/inicio.css">
+    <link rel="stylesheet" href="css/paginas/artesaos.css">
+    <link rel="stylesheet" href="css/paginas/o-liceu.css">
+    <link rel="stylesheet" href="css/paginas/contato.css">
+    <link rel="stylesheet" href="css/paginas/sobre.css">
+    <link rel="stylesheet" href="css/paginas/painel-liceu.css">
+    <link rel="stylesheet" href="css/paginas/painel-artesao.css">
+
+    <!-- Iconify: biblioteca de ícones (justificativa em docs/DESIGN.md §6) -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.3.0/dist/iconify-icon.min.js" defer></script>
+    <script type="module" src="js/router.js"></script>
+</head>
+<body class="layout-portal">
+    <header class="cabecalho">
+        <div class="cabecalho__interno">
+            <a class="marca" href="#/inicio">
+                <img src="assets/logo.png" alt="" class="marca__logo" width="64" height="36">
+                <span>Liceu de Ofícios</span>
+            </a>
+
+            <button type="button" class="btn btn--icone cabecalho__menu" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu">
+                <iconify-icon icon="lucide:menu" aria-hidden="true"></iconify-icon>
+            </button>
+
+            <nav id="nav" class="nav-portal" aria-label="Menu principal">
+                <ul class="nav-portal__lista">
+                    <li><a class="nav-portal__link" href="#/inicio">Início</a></li>
+                    <li><a class="nav-portal__link" href="#/produtos">Produtos</a></li>
+                    <li><a class="nav-portal__link" href="#/artesaos">Artesãos</a></li>
+                    <li><a class="nav-portal__link" href="#/saberes">Saberes</a></li>
+                    <li><a class="nav-portal__link" href="#/o-liceu">Sobre o Liceu</a></li>
+                    <li><a class="nav-portal__link" href="#/contato">Contato</a></li>
+                </ul>
+                <a class="nav-portal__entrar" href="#/login">
+                    <iconify-icon icon="boxicons:user" aria-hidden="true"></iconify-icon>
+                    Entrar
+                </a>
             </nav>
         </div>
     </header>
 
-    <main id="conteudo"></main>
+    <!-- O roteador (js/router.js) injeta aqui o <main> do portal ou a casca do painel -->
+    <div id="raiz"></div>
 
-    <footer class="footer">
-        <div class="container-footer">
-            <div class="footer-brand">
-                <img src="assets/logo.png" alt="Logo Liceu de Ofícios" class="footer-logo">
-                <span class="footer-title">Liceu de Ofícios</span>
-            </div>
+    <footer class="rodape">
+        <div class="rodape__interno">
+            <a class="marca" href="#/inicio">
+                <img src="assets/logo.png" alt="" class="marca__logo" width="64" height="36">
+                <span>Liceu de Ofícios</span>
+            </a>
 
-            <ul class="footer-links">
-                <li></li><a href="https://www.instagram.com/liceudeoficioscriativos/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-                <li><a href="https://chat.whatsapp.com/I6yRJDD3BMAKhxMyINDmZZ" target="_blank" rel="noopener noreferrer">Whatsapp</a></li>
-                <li><a href="#/sobre">Sobre o Projeto</a></li>
-                <li><a href="#/contato">Contato</a></li>
+            <nav class="rodape__nav" aria-label="Rodapé">
+                <ul class="rodape__links">
+                    <li><a href="#/sobre">Sobre o Projeto</a></li>
+                </ul>
+            </nav>
+
+            <ul class="rodape__social">
+                <li>
+                    <a href="https://www.instagram.com/liceudeoficioscriativos/" target="_blank" rel="noopener noreferrer" aria-label="Instagram do Liceu (abre em nova aba)">
+                        <iconify-icon icon="lucide:instagram" aria-hidden="true"></iconify-icon>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://chat.whatsapp.com/I6yRJDD3BMAKhxMyINDmZZ" target="_blank" rel="noopener noreferrer" aria-label="Grupo de WhatsApp do Liceu (abre em nova aba)">
+                        <iconify-icon icon="mdi:whatsapp" aria-hidden="true"></iconify-icon>
+                    </a>
+                </li>
             </ul>
         </div>
     </footer>
-
-    <script type="module" src="js/router.js"></script>
 </body>
 </html>

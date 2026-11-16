@@ -1,0 +1,322 @@
+[
+  {
+    "id": "vaso-ceramica-rustica",
+    "titulo": "Vaso em Cerâmica Rústica",
+    "artesaoId": "ana-martins",
+    "categoria": "Decoração",
+    "tecnica": "Cerâmica",
+    "status": "publicado",
+    "imagens": [
+      "assets/img/trabalhos/vaso-ceramica-rustica.jpg"
+    ],
+    "descricao": "Vaso em Cerâmica Rústica feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-11-10T09:24:00-03:00",
+    "atualizadoEm": "2026-11-14T10:24:00-03:00",
+    "publicadoEm": "2026-11-14T10:24:00-03:00",
+    "motivoRejeicao": null,
+    "destaque": true
+  },
+  {
+    "id": "tapete-macrame",
+    "titulo": "Tapete Macramê",
+    "artesaoId": "carlos-silva",
+    "categoria": "Utilitários",
+    "tecnica": "Crochê",
+    "status": "em-analise",
+    "imagens": [
+      "assets/img/trabalhos/tapete-macrame.jpg"
+    ],
+    "descricao": "Tapete Macramê feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-11-10T10:17:00-03:00",
+    "atualizadoEm": "2026-11-13T16:37:00-03:00",
+    "publicadoEm": null,
+    "motivoRejeicao": null,
+    "destaque": false
+  },
+  {
+    "id": "cesto-trancado",
+    "titulo": "Cesto Trançado",
+    "artesaoId": "mariana-costa",
+    "categoria": "Organização",
+    "tecnica": "Cestaria",
+    "status": "reenviado",
+    "imagens": [
+      "assets/img/trabalhos/cesto-trancado.jpg"
+    ],
+    "descricao": "Cesto Trançado feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-11-11T08:52:00-03:00",
+    "atualizadoEm": "2026-11-12T09:15:00-03:00",
+    "publicadoEm": null,
+    "motivoRejeicao": null,
+    "destaque": false
+  },
+  {
+    "id": "almofada-bordada",
+    "titulo": "Almofada Bordada",
+    "artesaoId": "beatriz-lima",
+    "categoria": "Decoração",
+    "tecnica": "Bordado",
+    "status": "em-analise",
+    "imagens": [
+      "assets/img/trabalhos/almofada-bordada.jpg"
+    ],
+    "descricao": "Almofada Bordada feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-11-11T09:31:00-03:00",
+    "atualizadoEm": "2026-11-11T14:02:00-03:00",
+    "publicadoEm": null,
+    "motivoRejeicao": null,
+    "destaque": false
+  },
+  {
+    "id": "porta-joias-ceramica",
+    "titulo": "Porta-joias em Cerâmica",
+    "artesaoId": "ana-martins",
+    "categoria": "Acessórios",
+    "tecnica": "Cerâmica",
+    "status": "em-analise",
+    "imagens": [
+      "assets/img/trabalhos/porta-joias-ceramica.jpg"
+    ],
+    "descricao": "Porta-joias em Cerâmica feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-11-11T10:08:00-03:00",
+    "atualizadoEm": "2026-11-11T10:08:00-03:00",
+    "publicadoEm": null,
+    "motivoRejeicao": null,
+    "destaque": false
+  },
+  {
+    "id": "bolsa-fibra-natural",
+    "titulo": "Bolsa de Fibra Natural",
+    "artesaoId": "joao-santos",
+    "categoria": "Acessórios",
+    "tecnica": "Fibras naturais",
+    "status": "publicado",
+    "imagens": [
+      "assets/img/trabalhos/bolsa-fibra-natural.jpg"
+    ],
+    "descricao": "Bolsa de Fibra Natural feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-01-14T10:00:00-03:00",
+    "atualizadoEm": "2026-01-14T10:00:00-03:00",
+    "publicadoEm": "2026-01-14T10:00:00-03:00",
+    "motivoRejeicao": null,
+    "destaque": true
+  },
+  {
+    "id": "escultura-madeira",
+    "titulo": "Escultura em Madeira",
+    "artesaoId": "ana-costa",
+    "categoria": "Decoração",
+    "tecnica": "Madeira",
+    "status": "publicado",
+    "imagens": [
+      "assets/img/trabalhos/escultura-madeira.jpg"
+    ],
+    "descricao": "Escultura em Madeira feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-01-12T10:00:00-03:00",
+    "atualizadoEm": "2026-01-12T10:00:00-03:00",
+    "publicadoEm": "2026-01-12T10:00:00-03:00",
+    "motivoRejeicao": null,
+    "destaque": true
+  },
+  {
+    "id": "toalha-bordada",
+    "titulo": "Toalha Bordada",
+    "artesaoId": "luciana-mendes",
+    "categoria": "Utilitários",
+    "tecnica": "Bordado",
+    "status": "publicado",
+    "imagens": [
+      "assets/img/trabalhos/toalha-bordada.jpg"
+    ],
+    "descricao": "Toalha Bordada feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-01-10T10:00:00-03:00",
+    "atualizadoEm": "2026-01-10T10:00:00-03:00",
+    "publicadoEm": "2026-01-10T10:00:00-03:00",
+    "motivoRejeicao": null,
+    "destaque": true
+  },
+  {
+    "id": "peca-decorativa-croche",
+    "titulo": "Peça Decorativa em Crochê",
+    "artesaoId": "carlos-lima",
+    "categoria": "Decoração",
+    "tecnica": "Crochê",
+    "status": "publicado",
+    "imagens": [
+      "assets/img/trabalhos/peca-decorativa-croche.jpg"
+    ],
+    "descricao": "Peça Decorativa em Crochê feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-01-08T10:00:00-03:00",
+    "atualizadoEm": "2026-01-08T10:00:00-03:00",
+    "publicadoEm": "2026-01-08T10:00:00-03:00",
+    "motivoRejeicao": null,
+    "destaque": false
+  },
+  {
+    "id": "travessa-ceramica",
+    "titulo": "Travessa em Cerâmica",
+    "artesaoId": "ana-martins",
+    "categoria": "Utilitários",
+    "tecnica": "Cerâmica",
+    "status": "publicado",
+    "imagens": [
+      "assets/img/trabalhos/travessa-ceramica.jpg"
+    ],
+    "descricao": "Travessa em Cerâmica feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-10-02T11:00:00-03:00",
+    "atualizadoEm": "2026-10-05T15:00:00-03:00",
+    "publicadoEm": "2026-10-05T15:00:00-03:00",
+    "motivoRejeicao": null,
+    "destaque": false
+  },
+  {
+    "id": "luminaria-ceramica",
+    "titulo": "Luminária em Cerâmica",
+    "artesaoId": "ana-martins",
+    "categoria": "Decoração",
+    "tecnica": "Cerâmica",
+    "status": "publicado",
+    "imagens": [
+      "assets/img/trabalhos/luminaria-ceramica.jpg"
+    ],
+    "descricao": "Luminária em Cerâmica feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-09-20T11:00:00-03:00",
+    "atualizadoEm": "2026-09-22T15:00:00-03:00",
+    "publicadoEm": "2026-09-22T15:00:00-03:00",
+    "motivoRejeicao": null,
+    "destaque": false
+  },
+  {
+    "id": "jogo-xicaras",
+    "titulo": "Jogo de Xícaras",
+    "artesaoId": "ana-martins",
+    "categoria": "Utilitários",
+    "tecnica": "Cerâmica",
+    "status": "rascunho",
+    "imagens": [
+      "assets/img/trabalhos/jogo-xicaras.jpg"
+    ],
+    "descricao": "Jogo de Xícaras feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-11-12T09:15:00-03:00",
+    "atualizadoEm": "2026-11-12T09:15:00-03:00",
+    "publicadoEm": null,
+    "motivoRejeicao": null,
+    "destaque": false
+  },
+  {
+    "id": "painel-ceramica",
+    "titulo": "Painel em Azulejo",
+    "artesaoId": "ana-martins",
+    "categoria": "Decoração",
+    "tecnica": "Cerâmica",
+    "status": "rejeitado",
+    "imagens": [
+      "assets/img/trabalhos/painel-ceramica.jpg"
+    ],
+    "descricao": "Painel em Azulejo feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-11-05T14:02:00-03:00",
+    "atualizadoEm": "2026-11-11T14:02:00-03:00",
+    "publicadoEm": null,
+    "motivoRejeicao": "As fotos estão escuras. Envie novas imagens com boa iluminação e fundo neutro.",
+    "destaque": false
+  },
+  {
+    "id": "colar-ceramica",
+    "titulo": "Colar de Contas de Cerâmica",
+    "artesaoId": "ana-martins",
+    "categoria": "Acessórios",
+    "tecnica": "Cerâmica",
+    "status": "em-analise",
+    "imagens": [
+      "assets/img/trabalhos/colar-ceramica.jpg"
+    ],
+    "descricao": "Colar de Contas de Cerâmica feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-11-13T16:37:00-03:00",
+    "atualizadoEm": "2026-11-13T16:37:00-03:00",
+    "publicadoEm": null,
+    "motivoRejeicao": null,
+    "destaque": false
+  },
+  {
+    "id": "quadro-retalhos",
+    "titulo": "Quadro de Retalhos",
+    "artesaoId": "rosa-almeida",
+    "categoria": "Arte em tecido",
+    "tecnica": "Patchwork",
+    "status": "publicado",
+    "imagens": [
+      "assets/img/trabalhos/quadro-retalhos.jpg"
+    ],
+    "descricao": "Quadro de Retalhos feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-08-20T10:00:00-03:00",
+    "atualizadoEm": "2026-08-22T10:00:00-03:00",
+    "publicadoEm": "2026-08-22T10:00:00-03:00",
+    "motivoRejeicao": null,
+    "destaque": false
+  },
+  {
+    "id": "chaveiro-macrame",
+    "titulo": "Chaveiro em Macramê",
+    "artesaoId": "pedro-rocha",
+    "categoria": "Acessórios",
+    "tecnica": "Macramê",
+    "status": "publicado",
+    "imagens": [
+      "assets/img/trabalhos/chaveiro-macrame.jpg"
+    ],
+    "descricao": "Chaveiro em Macramê feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+    "materiais": "A definir",
+    "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+    "preco": null,
+    "enviadoEm": "2026-10-01T10:00:00-03:00",
+    "atualizadoEm": "2026-10-03T10:00:00-03:00",
+    "publicadoEm": "2026-10-03T10:00:00-03:00",
+    "motivoRejeicao": null,
+    "destaque": false
+  }
+]

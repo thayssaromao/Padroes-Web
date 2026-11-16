@@ -1,0 +1,95 @@
+/* =========================================================
+   paginas/o-liceu.css — estilos exclusivos da página
+   Guia: docs/DESIGN.md (use só tokens e componentes do guia)
+   ========================================================= */
+
+.o-liceu-hero__grade {
+    display: grid;
+    gap: var(--espaco-6);
+    align-items: center;
+}
+
+.o-liceu-hero__texto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+}
+
+.o-liceu-imagem {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-placeholder);
+}
+
+/* Linha do tempo */
+.o-liceu-linha-tempo li {
+    margin-bottom: var(--espaco-5);
+    break-inside: avoid;
+}
+
+.o-liceu-ano {
+    display: block;
+    font-size: var(--fonte-grande);
+    font-weight: var(--peso-extra);
+}
+
+/* Objetivos */
+.o-liceu-objetivos {
+    display: grid;
+    gap: var(--espaco-6);
+    align-items: center;
+}
+
+.o-liceu-objetivos__texto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+}
+
+.o-liceu-objetivos__cards {
+    display: grid;
+    gap: var(--espaco-4);
+}
+
+.o-liceu-objetivo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-2);
+    height: 100%;
+    padding: var(--espaco-5);
+    text-align: center;
+}
+
+.o-liceu-objetivo iconify-icon {
+    font-size: 40px;
+}
+
+@media (min-width: 600px) {
+    .o-liceu-objetivos__cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .o-liceu-hero__grade {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espaco-8);
+    }
+
+    .o-liceu-linha-tempo {
+        column-count: 2;
+        column-gap: var(--espaco-8);
+    }
+
+    .o-liceu-objetivos {
+        grid-template-columns: 1fr 2fr;
+        gap: var(--espaco-7);
+    }
+
+    .o-liceu-objetivos__texto {
+        padding-right: var(--espaco-6);
+        border-right: 1px solid var(--cor-borda-forte);
+    }
+}

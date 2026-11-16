@@ -1,0 +1,66 @@
+/* =========================================================
+   paginas/contato.css — estilos exclusivos da página
+   Guia: docs/DESIGN.md (use só tokens e componentes do guia)
+   ========================================================= */
+
+.contato-hero__grade {
+    display: grid;
+    gap: var(--espaco-6);
+    align-items: center;
+}
+
+.contato-imagem {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-placeholder);
+}
+
+/* Formulário + canais */
+.contato-principal {
+    display: grid;
+    gap: var(--espaco-7);
+}
+
+.contato-formulario {
+    padding-bottom: var(--espaco-7);
+    border-bottom: 1px solid var(--cor-borda-forte);
+}
+
+.contato-feedback {
+    min-height: 1.5em;
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-semi);
+}
+
+/* Explore mais */
+.contato-explora {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-5);
+}
+
+@media (min-width: 1024px) {
+    .contato-hero__grade {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espaco-8);
+    }
+
+    .contato-principal {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espaco-8);
+    }
+
+    .contato-formulario {
+        padding-bottom: 0;
+        padding-right: var(--espaco-8);
+        border-bottom: none;
+        border-right: 1px solid var(--cor-borda-forte);
+    }
+
+    .contato-explora {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
