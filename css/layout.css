@@ -640,6 +640,13 @@
 
 /* ===== Desktop dos painéis ===== */
 @media (min-width: 1024px) {
+    .painel .liceu-tabela--artesaos {
+        --altura-linha-artesaos: 84px;
+        --altura-cabecalho-artesaos: 48px;
+        /* Reserva uma página de cinco registros, sem criar linhas vazias. */
+        min-height: calc(var(--altura-cabecalho-artesaos) + 5 * var(--altura-linha-artesaos));
+    }
+
     .painel .tabela--artesaos {
         table-layout: fixed;
         min-width: 1120px;
@@ -667,8 +674,25 @@
     }
 
     .painel .tabela--artesaos td {
-        height: 84px;
+        height: var(--altura-linha-artesaos, 84px);
         overflow-wrap: anywhere;
+    }
+
+    .painel .tabela--artesaos .avatar {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+    }
+
+    .painel .tabela--artesaos .chip {
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .painel .tabela--artesaos .tabela__acoes > button {
+        flex-shrink: 0;
     }
 
     .painel .tabela--artesaos .liceu-contato > span {
