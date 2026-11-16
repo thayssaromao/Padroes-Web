@@ -106,7 +106,7 @@ const ROTAS = Object.freeze([
     {
         arquivo: "pages/painel-liceu/artesaos.html",
         caminho: "/painel-liceu/artesaos",
-        icone: "lucide:user",
+        icone: "boxicons:user",
         iniciar: iniciarLiceuArtesaos,
         layout: "painel-liceu",
         nome: "Artesãos",
@@ -163,7 +163,7 @@ const ROTAS = Object.freeze([
     {
         arquivo: "pages/painel-artesao/meu-perfil.html",
         caminho: "/painel-artesao/meu-perfil",
-        icone: "lucide:user",
+        icone: "boxicons:user",
         iniciar: iniciarArtesaoPerfil,
         layout: "painel-artesao",
         nome: "Meu perfil",

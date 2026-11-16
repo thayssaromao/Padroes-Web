@@ -25,6 +25,9 @@ function alternarGaveta(botao, gaveta, classeAberta, abrir) {
     );
     botao.setAttribute("aria-expanded", String(aberta));
     gaveta.classList.toggle(classeAberta, aberta);
+    if (botao.getAttribute("aria-controls") === "nav") {
+        botao.setAttribute("aria-label", aberta ? "Fechar menu" : "Abrir menu");
+    }
 }
 
 /** Fecha todas as gavetas (chamado a cada troca de rota e com Esc). */
@@ -43,30 +46,13 @@ function fecharGavetas() {
 
 // ===== Portal =====
 
-/** Move o sublinhado animado até o link ativo do menu (desktop). */
-function moverSublinhado() {
-    const ativo = document.querySelector(
-        ".nav-portal__link[aria-current=\"page\"]"
-    );
-    const sublinhado = document.querySelector(".nav-portal__sublinhado");
-    if (!sublinhado) {
-        return;
-    }
-    if (!ativo) {
-        sublinhado.style.width = "0";
-        return;
-    }
-    sublinhado.style.width = `${ativo.offsetWidth}px`;
-    sublinhado.style.transform = `translateX(${ativo.offsetLeft}px)`;
-}
-
 /**
  * Marca o link da rota atual no menu e no rodapé do portal.
  * @param {string} caminho
  */
 function atualizarNavPortal(caminho) {
     document.querySelectorAll(
-        ".nav-portal__link, .rodape__links a"
+        ".nav-portal__link, .nav-portal__entrar, .rodape__links a"
     ).forEach(function (link) {
         if (link.getAttribute("href") === "#" + caminho) {
             link.setAttribute("aria-current", "page");
@@ -74,25 +60,55 @@ function atualizarNavPortal(caminho) {
             link.removeAttribute("aria-current");
         }
     });
-    moverSublinhado();
 }
 
 /** Liga o botão hambúrguer do portal (uma vez, no carregamento). */
 function iniciarMenuPortal() {
     const botao = document.querySelector(".cabecalho__menu");
     const nav = document.getElementById("nav");
+    const desktop = window.matchMedia("(min-width: 1280px)");
     nav.dataset.classeAberta = "nav-portal--aberto";
     botao.addEventListener("click", function () {
         alternarGaveta(botao, nav, "nav-portal--aberto");
     });
-    window.addEventListener("resize", moverSublinhado);
+    nav.addEventListener("click", function (evento) {
+        const link = evento.target.closest("a");
+        if (!link || desktop.matches) {
+            return;
+        }
+        alternarGaveta(botao, nav, "nav-portal--aberto", false);
+        // A rota atual não dispara hashchange; retire o foco da gaveta fechada.
+        if (link.hash === (window.location.hash || "#/inicio")) {
+            document.getElementById("conteudo").focus({preventScroll: true});
+        }
+    });
+    document.addEventListener("click", function (evento) {
+        if (!nav.contains(evento.target) && !botao.contains(evento.target)) {
+            if (!desktop.matches && nav.contains(document.activeElement)) {
+                botao.focus();
+            }
+            alternarGaveta(botao, nav, "nav-portal--aberto", false);
+        }
+    });
+    document.addEventListener("focusin", function (evento) {
+        if (!nav.contains(evento.target) && !botao.contains(evento.target)) {
+            alternarGaveta(botao, nav, "nav-portal--aberto", false);
+        }
+    });
+    desktop.addEventListener("change", function () {
+        if (!desktop.matches && nav.contains(document.activeElement)) {
+            botao.focus();
+        }
+        alternarGaveta(botao, nav, "nav-portal--aberto", false);
+    });
     document.addEventListener("keydown", function (evento) {
         if (evento.key === "Escape") {
+            if (botao.getAttribute("aria-expanded") === "true") {
+                botao.focus();
+            }
             fecharGavetas();
         }
     });
-    // A fonte muda a largura dos links depois que carrega.
-    document.fonts.ready.then(moverSublinhado);
 }
 
 // ===== Painel =====
