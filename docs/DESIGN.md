@@ -197,6 +197,8 @@ Link que parece botão: usar `<a class="btn …">`. Ação na mesma tela: `<butt
 - Toggle (Configurações): `<input type="checkbox" role="switch" class="interruptor">`.
 - Radio (Preço): nativo com `accent-color: var(--cor-primaria)`.
 
+Cabeçalhos legados de cards, métricas e avisos não usam bordas verticais entre ícone e conteúdo. O espaçamento incorpora a antiga área da divisória para preservar posições e dimensões. A variante de cabeçalho de seção mantém seu wrapper e seus tokens próprios. Barras de filtro não incluem elementos separadores decorativos; `.barra-filtros--grupos` separa os grupos apenas com gap. Bordas externas, separadores horizontais e divisórias do header permanecem preservados.
+
 ### 5.3 Chips e etiquetas
 
 - `.chip` — etiqueta estática (categoria/técnica): fundo `--cor-superficie-forte`, borda `--cor-borda`, raio `--raio-pequeno`, `--fonte-mini`.
@@ -227,7 +229,7 @@ Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 | Produto | `.card-produto` | `figure` com imagem 4:3 + botão favorito (círculo, canto sup. dir.) · nome · categoria · (opcional) status + ações | Home, Área do Artesão |
 | Artesão (mini) | `.card-artesao-mini` | avatar redondo 96px · nome · técnica principal | Home "Conheça quem produz" |
 | Artesão | `.card-artesao` | Na listagem pública: foto quadrada 64px · nome · empreendimento ou @ · local (`map-pin`) · chips abaixo da identificação, usando toda a largura · botão bloco "Ver perfil →" na base, com intervalo mínimo de 12px após os chips. Na grade desktop, fileiras de mesma altura, determinada pelo conteúdo, sem reserva de linhas vazias para chips; celular e lista têm altura adaptável. | Página Artesãos |
-| Estatística | `.card-estatistica` | ícone · divisória vertical · número grande (800) · rótulo | Resumos dos painéis |
+| Estatística | `.card-estatistica` | ícone · espaçamento · número grande (800) · rótulo, sem divisória vertical | Resumos dos painéis |
 | Trabalho (painel) | `.card-trabalho` | imagem · título · artesão (`user`) · categorias (`tag`) · status · botão | Painel Liceu "aguardando análise" |
 
 Todos: fundo branco (ou `--cor-superficie`), borda 1px `--cor-borda`, raio `--raio-medio`. **Hover** em cards clicáveis: `translateY(-3px)` + `--sombra-elevada` + borda forte (`transition: var(--transicao)`). Cards de lista são `<article>` com título `h3`.
