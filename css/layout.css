@@ -469,6 +469,10 @@
     display: none;
 }
 
+.painel .liceu-formulario .liceu-bloco__legenda > iconify-icon {
+    border-right-color: transparent;
+}
+
 .painel .tabela tr[hidden] {
     display: none;
 }
