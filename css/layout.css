@@ -461,6 +461,10 @@
     font-size: 1.75rem;
 }
 
+.painel .tabela-container {
+    overflow-x: auto;
+}
+
 .painel .liceu-titulo-icone > iconify-icon {
     font-size: 28px;
 }
