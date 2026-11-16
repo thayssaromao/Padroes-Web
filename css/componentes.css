@@ -544,6 +544,11 @@ input[type="checkbox"] {
     text-decoration: none;
 }
 
+.card-artesao-mini > .pilha {
+    gap: 0;
+    line-height: 1.2;
+}
+
 .card-artesao-mini img {
     width: 96px;
     height: 96px;
