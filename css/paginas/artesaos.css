@@ -225,6 +225,19 @@
 
 .artesaos-grade .card-artesao__topo {
     gap: var(--espaco-3);
+    align-items: flex-start;
+}
+
+.artesaos-grade .card-artesao > .chips {
+    align-content: flex-start;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+.artesaos-grade .card-artesao > .chips .chip {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .artesaos-grade .card-artesao__foto {
@@ -288,9 +301,23 @@
     .artesaos-grade--lista .btn--bloco {
         margin-top: 0;
     }
+
+    .artesaos-grade--lista .card-artesao {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+        align-items: center;
+    }
 }
 
 @media (min-width: 1024px) {
+    .artesaos-grade:not(.artesaos-grade--lista) {
+        grid-auto-rows: 1fr;
+    }
+
+    .artesaos-grade:not(.artesaos-grade--lista) .card-artesao > .chips {
+        min-height: calc(var(--espaco-5) * 2);
+    }
+
     .artesaos-lista .filtros-chips {
         grid-template-columns: repeat(8, minmax(0, 1fr));
         gap: var(--espaco-4);
