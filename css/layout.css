@@ -448,13 +448,12 @@
 }
 
 .painel .card-estatistica {
-    gap: var(--espaco-3);
+    gap: calc(2 * var(--espaco-3) + 1px);
     padding: var(--espaco-4);
 }
 
 .painel .card-estatistica > iconify-icon {
     font-size: 28px;
-    padding-right: var(--espaco-3);
 }
 
 .painel .card-estatistica__numero {
@@ -463,10 +462,6 @@
 
 .painel .tabela-container {
     overflow-x: auto;
-}
-
-.painel .liceu-barra--artesaos > .barra-filtros__divisor {
-    display: none;
 }
 
 .painel .tabela tr[hidden] {

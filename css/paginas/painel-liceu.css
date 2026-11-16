@@ -94,9 +94,6 @@
         flex: 1 1 100%;
     }
 
-    .liceu-barra .busca + .barra-filtros__divisor {
-        display: none;
-    }
 }
 
 /* ----- Cadastrar artesão ----- */
