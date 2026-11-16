@@ -314,10 +314,6 @@
         grid-auto-rows: 1fr;
     }
 
-    .artesaos-grade:not(.artesaos-grade--lista) .card-artesao > .chips {
-        min-height: calc(var(--espaco-5) * 2);
-    }
-
     .artesaos-lista .filtros-chips {
         grid-template-columns: repeat(8, minmax(0, 1fr));
         gap: var(--espaco-4);
