@@ -12,7 +12,7 @@
 .artesaos-hero__texto {
     display: flex;
     flex-direction: column;
-    gap: var(--espaco-3);
+    gap: var(--espaco-2);
 }
 
 .artesaos-hero__descricao {
@@ -171,7 +171,128 @@
 
 @media (min-width: 1024px) {
     .artesaos-hero__grade {
-        grid-template-columns: 1fr 1.1fr;
+        grid-template-columns: 1fr 1fr;
         gap: var(--espaco-7);
+    }
+}
+
+/* Proporções da listagem pública definidas pelo wireframe. */
+.artesaos-hero .titulo-display {
+    font-size: var(--fonte-h1);
+    max-width: 28rem;
+}
+
+.artesaos-hero__descricao {
+    max-width: 28rem;
+    font-size: var(--fonte-corpo);
+    line-height: 1.35;
+}
+
+.artesaos-hero .carrossel__slide img {
+    aspect-ratio: 5 / 2;
+}
+
+.artesaos-lista {
+    padding-top: var(--espaco-3);
+}
+
+.artesaos-busca .busca {
+    flex: 1;
+    min-width: 0;
+}
+
+.artesaos-lista .filtros-chips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espaco-3);
+}
+
+.artesaos-lista .filtro-chip {
+    width: 100%;
+    min-height: 40px;
+    padding-inline: var(--espaco-2);
+    text-align: center;
+}
+
+.artesaos-grade {
+    scroll-margin-top: calc(var(--altura-barra) + var(--espaco-4));
+}
+
+.artesaos-grade .card-artesao {
+    padding: var(--espaco-4);
+    gap: var(--espaco-3);
+}
+
+.artesaos-grade .card-artesao__topo {
+    gap: var(--espaco-3);
+}
+
+.artesaos-grade .card-artesao__foto {
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+    object-fit: cover;
+}
+
+.artesaos-grade .card-artesao__nome {
+    font-size: var(--fonte-corpo);
+    line-height: 1.2;
+}
+
+.card-artesao__empreendimento {
+    font-size: var(--fonte-mini);
+    color: var(--cor-texto-suave);
+    overflow-wrap: anywhere;
+}
+
+.artesaos-grade .local,
+.artesaos-grade .chip {
+    font-size: var(--fonte-mini);
+}
+
+.artesaos-grade .chip {
+    padding: 0 var(--espaco-1);
+}
+
+.artesaos-grade .btn--bloco {
+    background-color: var(--cor-superficie);
+    border-color: var(--cor-borda);
+}
+
+.artesaos-perfil__empreendimento {
+    color: var(--cor-texto-suave);
+}
+
+.artesaos-filtros {
+    display: grid;
+    gap: var(--espaco-5);
+}
+
+.artesaos-filtros__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--espaco-3);
+}
+
+.artesaos-lista .paginacao__botao:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+@media (min-width: 600px) {
+    .artesaos-lista .filtros-chips {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .artesaos-grade--lista .btn--bloco {
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .artesaos-lista .filtros-chips {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: var(--espaco-4);
     }
 }
