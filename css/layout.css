@@ -465,6 +465,10 @@
     overflow-x: auto;
 }
 
+.painel .liceu-barra--artesaos > .barra-filtros__divisor {
+    display: none;
+}
+
 .painel .tabela tr[hidden] {
     display: none;
 }
