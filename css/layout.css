@@ -469,43 +469,6 @@
     display: none;
 }
 
-.painel .liceu-formulario .liceu-bloco__legenda {
-    display: grid;
-    grid-template-columns: 32px minmax(0, 1fr);
-    align-items: center;
-    column-gap: var(--espaco-4);
-    row-gap: var(--espaco-1);
-}
-
-.painel .liceu-formulario .liceu-bloco__legenda .liceu-bloco__texto {
-    display: contents;
-}
-
-.painel .liceu-formulario .liceu-bloco__legenda .bloco-form__titulo {
-    grid-column: 2;
-    grid-row: 1;
-}
-
-.painel .liceu-formulario .liceu-bloco__legenda .bloco-form__descricao {
-    grid-column: 2;
-    grid-row: 2;
-}
-
-.painel .liceu-formulario .liceu-bloco__legenda > iconify-icon {
-    grid-column: 1;
-    grid-row: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 32px;
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    border: 0;
-    box-sizing: border-box;
-    line-height: 1;
-}
-
 .painel .tabela tr[hidden] {
     display: none;
 }

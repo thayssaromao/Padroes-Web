@@ -126,12 +126,6 @@
     margin-top: var(--espaco-4);
 }
 
-.liceu-bloco__texto {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-1);
-}
-
 .campo__grupo > .liceu-senha {
     padding-left: var(--espaco-3);
     padding-right: 48px;

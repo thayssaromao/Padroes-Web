@@ -192,6 +192,7 @@ Link que parece botão: usar `<a class="btn …">`. Ação na mesma tela: `<butt
 - `select` nativo estilizado (seta própria via `background-image` SVG inline). `textarea` com `resize: vertical`.
 - Obrigatório: `*` no rótulo + atributo `required`. Agrupar blocos com `<fieldset class="bloco-form">` + `<legend>`.
 - **Bloco de formulário** (`.bloco-form`): card com borda, raio `--raio-medio`, padding `--espaco-5`; cabeçalho com ícone + título (h2 visual de `--fonte-h3`) + descrição.
+- **Cabeçalho de seção**: `.bloco-form__cabecalho.bloco-form__cabecalho--secao` usa flex com alinhamento central e gap de 16px. Contém `.bloco-form__icone` (caixa de 40px, token `--tamanho-caixa-icone-secao`, com ícone de 28px pelo token `--tamanho-icone-secao`) e `.bloco-form__texto` (título e descrição em coluna, gap de 4px e margens zeradas). O ícone é centralizado no conjunto título + descrição, nunca deslocado individualmente. Título usa line-height de 1.25 e descrição usa `--altura-linha`. Nos fieldsets do cadastro, o cabeçalho permanece em `legend`, com 16px até os campos. A variante é reutilizável em cadastro/edição, sem mudar outros cabeçalhos legados que não a utilizam.
 - Seletor de técnicas: `select` + lista de **chips removíveis** (§5.3).
 - Toggle (Configurações): `<input type="checkbox" role="switch" class="interruptor">`.
 - Radio (Preço): nativo com `accent-color: var(--cor-primaria)`.
