@@ -78,6 +78,8 @@
     --largura-conteudo: 1180px;
     --largura-lateral: 280px;
     --altura-barra: 72px;
+    --tamanho-caixa-icone-secao: 2.5rem;
+    --tamanho-icone-secao: 1.75rem;
 }
 
 /* ===== Reset ===== */

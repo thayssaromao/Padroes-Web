@@ -275,6 +275,48 @@ textarea.campo__entrada {
     color: var(--cor-texto-suave);
 }
 
+/* Cabeçalho de seção reutilizável, inclusive dentro de legend. */
+.bloco-form__cabecalho--secao {
+    align-items: center;
+}
+
+.bloco-form__cabecalho--secao .bloco-form__icone {
+    display: grid;
+    place-items: center;
+    flex: 0 0 var(--tamanho-caixa-icone-secao);
+    width: var(--tamanho-caixa-icone-secao);
+    height: var(--tamanho-caixa-icone-secao);
+}
+
+.bloco-form__cabecalho--secao .bloco-form__icone > iconify-icon {
+    display: block;
+    width: 1em;
+    height: 1em;
+    padding: 0;
+    border: 0;
+    font-size: var(--tamanho-icone-secao);
+    line-height: 1;
+}
+
+.bloco-form__cabecalho--secao .bloco-form__texto {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: var(--espaco-1);
+}
+
+.bloco-form__cabecalho--secao .bloco-form__texto > * {
+    margin: 0;
+}
+
+.bloco-form__cabecalho--secao .bloco-form__titulo {
+    line-height: 1.25;
+}
+
+.bloco-form__cabecalho--secao .bloco-form__descricao {
+    line-height: var(--altura-linha);
+}
+
 .form-acoes {
     display: flex;
     flex-wrap: wrap;
