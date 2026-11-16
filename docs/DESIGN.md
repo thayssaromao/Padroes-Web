@@ -1,8 +1,8 @@
 # Design System — Portal do Artesão
 
-Guia visual e técnico do projeto. Vale para **quem escreve código (pessoas e agentes de IA)** e para **quem desenha as telas que ainda faltam** (popups de ação, páginas novas). Derivado dos wireframes do Figma (`Tela Principal`, `Tela Perfil do Artesão`, `Tela Adm *`, `Tela do Artesão *`).
+Guia visual e técnico do projeto. Vale para **quem escreve código** e para **quem desenha as telas que ainda faltam** (popups de ação, páginas novas). Derivado dos wireframes do Figma (`Tela Principal`, `Tela Perfil do Artesão`, `Tela Adm *`, `Tela do Artesão *`).
 
-> O visual atual é **wireframe em tons de cinza**. Quando a identidade visual oficial do Liceu chegar, troque apenas os valores dos tokens em [`css/global.css`](../css/global.css). Nenhum outro arquivo deve conter cor, fonte ou raio "chumbados".
+> O visual atual é **wireframe em tons de cinza**. Quando a identidade visual oficial do Liceu chegar, trocar apenas os valores dos tokens em [`css/global.css`](../css/global.css). Nenhum outro arquivo deve conter cor, fonte ou raio "chumbados".
 
 ---
 
@@ -116,8 +116,10 @@ O site é uma SPA com roteamento por hash (ver [`ESPECIFICACOES.md`](ESPECIFICAC
 └───────────────────────────────────────────────────────────────┘
 ```
 
-- Cabeçalho: fundo `--cor-barra`, altura `--altura-barra`. O link ativo recebe `aria-current="page"` e o **underline animado** (barra de 3px `--cor-borda-forte` que desliza até o link ativo).
-- Smartphone/tablet: o menu vira **gaveta** aberta por botão hambúrguer (`button.cabecalho__menu`, `aria-expanded`, `aria-controls="nav"`).
+- Cabeçalho: fundo `--cor-barra`, altura `--altura-barra`. O link ativo recebe `aria-current="page"` e uma barra de 3px `--cor-borda-forte`. No hover e foco por teclado, a linha expande do centro com `scaleX` em 200ms, usando `--cor-indicador-hover` nos links inativos. Não há mudança de peso da fonte.
+- Links do cabeçalho e rodapé clareiam para `--cor-link-barra-hover` (`#333333`) no hover e foco. A ação Entrar mantém sua divisória e usa apenas a transição de cor. Os ícones sociais têm desenho de 24px dentro de alvos de 44px.
+- Abaixo de 1280px, o menu vira **gaveta** aberta por botão hambúrguer (`button.cabecalho__menu`, `aria-expanded`, `aria-controls="nav"`). Fecha ao selecionar qualquer link, clicar fora, sair com o foco ou pressionar Escape. Escape devolve o foco ao botão. Os painéis mantêm o breakpoint de 1024px.
+- No desktop, os links do rodapé ocupam a altura do componente e ancoram a linha diretamente no topo, sem deslocamentos negativos. Em telas menores, os links podem quebrar em linhas e o indicador fica no topo de cada item.
 - Seções alternam fundo `--cor-fundo` / `--cor-fundo-alternado`, padding vertical `--espaco-7` (desktop) / `--espaco-6` (mobile).
 
 ### 4.2 Layout `painel` (Área do Liceu e Área do Artesão)
@@ -219,7 +221,7 @@ Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 | Atalho | `.card-atalho` | ícone · título + descrição · `chevron-right`; card inteiro é `<a>` | Home "Como você quer explorar?" |
 | Produto | `.card-produto` | `figure` com imagem 4:3 + botão favorito (círculo, canto sup. dir.) · nome · categoria · (opcional) status + ações | Home, Área do Artesão |
 | Artesão (mini) | `.card-artesao-mini` | avatar redondo 96px · nome · técnica principal | Home "Conheça quem produz" |
-| Artesão | `.card-artesao` | foto quadrada 88px · nome · local (`map-pin`) · chips · botão bloco "Ver perfil →" | Página Artesãos |
+| Artesão | `.card-artesao` | Na listagem pública: foto quadrada 64px · nome · empreendimento ou @ · local (`map-pin`) · chips abaixo da identificação, usando toda a largura · botão bloco "Ver perfil →" na base, com intervalo mínimo de 12px após os chips. Na grade desktop, fileiras de mesma altura, determinada pelo conteúdo, sem reserva de linhas vazias para chips; celular e lista têm altura adaptável. | Página Artesãos |
 | Estatística | `.card-estatistica` | ícone · divisória vertical · número grande (800) · rótulo | Resumos dos painéis |
 | Trabalho (painel) | `.card-trabalho` | imagem · título · artesão (`user`) · categorias (`tag`) · status · botão | Painel Liceu "aguardando análise" |
 
@@ -275,13 +277,13 @@ Uso: `<iconify-icon icon="lucide:house" aria-hidden="true"></iconify-icon>`. Íc
 | Conceito | Ícone | | Conceito | Ícone |
 |---|---|---|---|---|
 | Início | `lucide:house` | | Notificações | `lucide:bell` |
-| Usuário / Entrar / Artesão | `lucide:user` | | Sair | `lucide:log-out` |
-| Artesãos (grupo) | `lucide:users` | | Voltar ao portal | `lucide:external-link` |
-| Cadastrar artesão | `lucide:user-plus` | | Novo / adicionar | `lucide:square-plus` / `lucide:plus` |
+| Usuário / Entrar / Artesão | `boxicons:user` | | Sair | `lucide:log-out` |
+| Artesãos / grupos / pessoas | `boxicons:user` | | Voltar ao portal | `lucide:external-link` |
+| Cadastrar artesão | `boxicons:user` | | Novo / adicionar | `lucide:square-plus` / `lucide:plus` |
 | Trabalhos pendentes | `lucide:file-text` | | Meus trabalhos | `lucide:layers` |
 | Publicações / Status | `lucide:chart-no-axes-column` | | Configurações | `lucide:settings` |
-| Produtos | `lucide:shopping-bag` | | Saberes | `lucide:lightbulb` |
-| O Liceu | `lucide:landmark` | | Local | `lucide:map-pin` |
+| Produtos | `bx:shopping-bag` | | Ideias / Saberes | `akar-icons:light-bulb` |
+| O Liceu | `uix-sharp:greek-temple` | | Local | `lucide:map-pin` |
 | Filtrar | `lucide:sliders-horizontal` | | Busca | `lucide:search` |
 | Grade / Lista | `lucide:layout-grid` / `lucide:list` | | Setas | `lucide:chevron-left/right/down`, `lucide:arrow-right` |
 | Ver | `lucide:eye` | | Ocultar | `lucide:eye-off` |
@@ -372,7 +374,7 @@ Após salvar/aprovar/excluir: **toast** (`.aviso-flutuante`, `role="status"`) no
 
 | Elemento | Animação |
 |---|---|
-| Underline do menu | desliza até o link ativo (`transform` + `width`, 300ms) |
+| Indicadores da navegação | expansão do centro (`scaleX`, 200ms) no hover/foco; linha escura persistente na página ativa |
 | Carrossel | slide horizontal 500ms + autoplay |
 | Cards clicáveis | eleva 3px + sombra no hover |
 | Botões | eleva 1px no hover; ícone de seta anda 3px para a direita em `.link-seta:hover` |
