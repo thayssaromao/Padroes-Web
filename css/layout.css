@@ -684,6 +684,20 @@
         flex-shrink: 0;
     }
 
+    .painel .tabela--artesaos td:nth-child(2),
+    .painel .tabela--artesaos .tabela__texto {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .painel .tabela--artesaos .liceu-contato,
+    .painel .tabela--artesaos .liceu-contato > span {
+        min-width: 0;
+        max-width: 100%;
+    }
+
     .painel .tabela--artesaos .chip {
         display: block;
         max-width: 100%;
