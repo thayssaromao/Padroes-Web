@@ -53,7 +53,7 @@ A tabela completa (com arquivo, ícone e função de cada aba) fica em `js/rotas
 Rotas inexistentes recaem na parcial de fallback `pages/nao-encontrado.html`.
 
 **Proteção de rotas restritas:**
-Como não há back-end, as áreas restritas (`#/painel-artesao` e `#/painel-liceu`) são protegidas no cliente por uma guarda de rota no `router.js`: antes de carregar a parcial, verifica-se a sessão persistida no `localStorage` e, na ausência de sessão válida (ou de permissão compatível com o painel), o usuário é redirecionado para `#/login`.
+Como ainda não há back-end, as áreas restritas (`#/painel-artesao` e `#/painel-liceu`) são protegidas no cliente por uma guarda de rota no `router.js`: antes de carregar a parcial, verifica-se a sessão persistida no `localStorage` e, na ausência de sessão válida (ou de permissão compatível com o painel), o usuário é redirecionado para `#/login`.
 
 > Enquanto a tela de login não existe, a guarda fica desligada pela constante `GUARDA_ATIVA = false` em `js/router.js`, e os painéis usam uma sessão de demonstração (`sessaoDemonstracao` em `js/dados.js`).
 

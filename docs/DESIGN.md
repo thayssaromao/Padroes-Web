@@ -1,8 +1,8 @@
 # Design System — Portal do Artesão
 
-Guia visual e técnico do projeto. Vale para **quem escreve código (pessoas e agentes de IA)** e para **quem desenha as telas que ainda faltam** (popups de ação, páginas novas). Derivado dos wireframes do Figma (`Tela Principal`, `Tela Perfil do Artesão`, `Tela Adm *`, `Tela do Artesão *`).
+Guia visual e técnico do projeto. Vale para **quem escreve código** e para **quem desenha as telas que ainda faltam** (popups de ação, páginas novas). Derivado dos wireframes do Figma (`Tela Principal`, `Tela Perfil do Artesão`, `Tela Adm *`, `Tela do Artesão *`).
 
-> O visual atual é **wireframe em tons de cinza**. Quando a identidade visual oficial do Liceu chegar, troque apenas os valores dos tokens em [`css/global.css`](../css/global.css). Nenhum outro arquivo deve conter cor, fonte ou raio "chumbados".
+> O visual atual é **wireframe em tons de cinza**. Quando a identidade visual oficial do Liceu chegar, trocar apenas os valores dos tokens em [`css/global.css`](../css/global.css). Nenhum outro arquivo deve conter cor, fonte ou raio "chumbados".
 
 ---
 
