@@ -469,6 +469,10 @@
     display: none;
 }
 
+.painel .tabela--artesaos tbody > tr:nth-last-child(1 of :not([hidden])) {
+    border-bottom-color: transparent;
+}
+
 .painel .tabela--artesaos colgroup {
     display: none;
 }
