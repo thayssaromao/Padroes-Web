@@ -274,8 +274,18 @@ function prepararModais(raiz) {
                 modal.close();
             });
         });
+        // O fundo (::backdrop) e o espaço vazio do próprio <dialog> têm o
+        // mesmo target, então decide pela posição do clique: só fecha se
+        // ele cair fora do retângulo do modal.
         modal.addEventListener("click", function (evento) {
-            if (evento.target === modal) {
+            const area = modal.getBoundingClientRect();
+            const fora = (
+                evento.clientX < area.left ||
+                evento.clientX > area.right ||
+                evento.clientY < area.top ||
+                evento.clientY > area.bottom
+            );
+            if (evento.target === modal && fora) {
                 modal.close();
             }
         });
