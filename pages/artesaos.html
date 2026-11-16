@@ -1,8 +1,8 @@
-<section class="secao artesaos-hero">
+<section class="secao artesaos-hero" aria-labelledby="artesaos-titulo">
     <div class="container artesaos-hero__grade">
         <header class="artesaos-hero__texto">
             <span class="sobretitulo">Nossas pessoas</span>
-            <h1 class="titulo-display">Artesãos e Empreendimentos</h1>
+            <h1 class="titulo-display" id="artesaos-titulo">Artesãos e Empreendimentos</h1>
             <p class="artesaos-hero__descricao">Conheça as histórias, os saberes e os empreendimentos que fazem parte do Liceu. São pessoas que mantêm viva a cultura local por meio do seu trabalho manual.</p>
         </header>
         <section class="carrossel" aria-roledescription="carrossel" aria-label="Fotos dos artesãos">
@@ -43,7 +43,7 @@
                 <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
                 <input type="search" id="artesaos-busca" class="busca__entrada" placeholder="Buscar artesãos ou empreendimentos..." autocomplete="off">
             </div>
-            <button type="button" class="btn btn--suave" id="artesaos-filtrar"><iconify-icon icon="lucide:sliders-horizontal" aria-hidden="true"></iconify-icon>Filtrar</button>
+            <button type="button" class="btn btn--suave" id="artesaos-filtrar" aria-haspopup="dialog" aria-controls="modal-filtros-artesaos"><iconify-icon icon="lucide:sliders-horizontal" aria-hidden="true"></iconify-icon><span id="artesaos-filtrar-texto">Filtrar</span></button>
         </form>
 
         <div class="filtros-chips" role="group" aria-label="Filtrar por categoria">
@@ -74,13 +74,32 @@
         </div>
 
         <!-- Preenchido via JS: cards de artesãos (renderizarGrade) -->
-        <ul class="grade-cards artesaos-grade" id="artesaos-grade"></ul>
-        <p class="artesaos-vazio" id="artesaos-vazio" hidden>Nenhum artesão encontrado.</p>
+        <ul class="grade-cards artesaos-grade" id="artesaos-grade" aria-busy="true"></ul>
+        <p class="artesaos-vazio" id="artesaos-vazio" role="status" hidden>Nenhum artesão encontrado.</p>
 
         <!-- Preenchido via JS: criarPaginacao -->
         <nav class="paginacao paginacao--centro" id="artesaos-paginacao" aria-label="Paginação"></nav>
     </div>
 </section>
+
+<dialog class="modal" id="modal-filtros-artesaos" aria-labelledby="artesaos-filtros-titulo">
+    <button type="button" class="modal__fechar" aria-label="Fechar filtros"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
+    <h2 class="modal__titulo" id="artesaos-filtros-titulo">Filtrar artesãos</h2>
+    <form class="artesaos-filtros" id="artesaos-filtros-form">
+        <div class="campo">
+            <label class="campo__rotulo" for="artesaos-filtro-categoria">Categoria</label>
+            <select class="campo__entrada" id="artesaos-filtro-categoria"><option value="">Todas as categorias</option></select>
+        </div>
+        <div class="campo">
+            <label class="campo__rotulo" for="artesaos-filtro-tecnica">Técnica</label>
+            <select class="campo__entrada" id="artesaos-filtro-tecnica"><option value="">Todas as técnicas</option></select>
+        </div>
+        <div class="artesaos-filtros__acoes">
+            <button type="button" class="btn btn--secundario" id="artesaos-limpar-filtros">Limpar filtros</button>
+            <button type="submit" class="btn btn--primario">Aplicar filtros</button>
+        </div>
+    </form>
+</dialog>
 
 <dialog class="modal modal--grande" id="modal-artesao" aria-labelledby="modal-artesao-titulo">
     <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
@@ -88,6 +107,7 @@
         <img class="artesaos-perfil__foto" id="modal-artesao-foto" src="assets/img/avatar-padrao.jpg" alt="" width="320" height="320">
         <div class="artesaos-perfil__info">
             <h2 class="modal__titulo" id="modal-artesao-titulo"></h2>
+            <p class="artesaos-perfil__empreendimento" id="modal-artesao-empreendimento"></p>
             <p class="local"><iconify-icon icon="lucide:map-pin" aria-hidden="true"></iconify-icon><span id="modal-artesao-cidade"></span></p>
             <!-- Preenchido via JS: chips de categorias e técnicas -->
             <div id="modal-artesao-chips"></div>

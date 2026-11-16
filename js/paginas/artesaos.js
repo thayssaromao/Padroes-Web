@@ -10,6 +10,7 @@ import {
     criarChips,
     criarPaginacao,
     escaparHtml,
+    fecharModal,
     icone,
     iniciarCarrossel,
     mostrarAviso,
@@ -30,9 +31,11 @@ const REDUZIR = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 const estado = {
     busca: "",
+    categoria: "",
     filtro: "Todos",
     ordem: "recentes",
     pagina: 1,
+    tecnica: "",
     visualizacao: "grade"
 };
 
@@ -66,7 +69,11 @@ function filtrarArtesaos(artesaos) {
     const termo = normalizar(estado.busca).trim();
     return artesaos.filter(function (artesao) {
         const lista = rotulos(artesao);
-        const texto = normalizar(artesao.nome + " " + artesao.empreendimento);
+        const texto = normalizar([
+            artesao.nome,
+            artesao.empreendimento,
+            artesao.instagram
+        ].join(" "));
         const passaBusca = texto.includes(termo);
         const passaFiltro = (
             estado.filtro === "Todos"
@@ -78,7 +85,13 @@ function filtrarArtesaos(artesaos) {
                 : lista.includes(estado.filtro)
             )
         );
-        return passaBusca && passaFiltro;
+        const passaCategoria = (
+            !estado.categoria || artesao.categorias.includes(estado.categoria)
+        );
+        const passaTecnica = (
+            !estado.tecnica || artesao.tecnicas.includes(estado.tecnica)
+        );
+        return passaBusca && passaFiltro && passaCategoria && passaTecnica;
     });
 }
 
@@ -111,18 +124,21 @@ function ordenarArtesaos(artesaos) {
  * @returns {string}
  */
 function criarCardArtesao(artesao) {
+    const foto = artesao.foto || "assets/img/avatar-padrao.jpg";
     return (
         "<li><article class=\"card card-artesao\">"
         + "<div class=\"card-artesao__topo\">"
-        + `<img class="card-artesao__foto" src="${escaparHtml(artesao.foto)}"`
+        + `<img class="card-artesao__foto" src="${escaparHtml(foto)}"`
         + ` alt="Foto de ${escaparHtml(artesao.nome)}" width="88"`
         + " height=\"88\" loading=\"lazy\">"
         + "<div class=\"card-artesao__info\">"
         + "<h3 class=\"card-artesao__nome\">" + escaparHtml(artesao.nome)
-        + "</h3><p class=\"local\">" + icone("lucide:map-pin")
+        + "</h3><p class=\"card-artesao__empreendimento\">"
+        + escaparHtml(artesao.empreendimento || artesao.instagram || "")
+        + "</p><p class=\"local\">" + icone("lucide:map-pin")
         + escaparHtml(artesao.cidade) + "</p>"
-        + criarChips(rotulos(artesao))
         + "</div></div>"
+        + criarChips(rotulos(artesao))
         + "<button type=\"button\" class=\"btn btn--secundario btn--bloco"
         + ` btn--pequeno" data-artesao="${escaparHtml(artesao.id)}"`
         + " aria-label=\"Ver perfil de " + escaparHtml(artesao.nome) + "\">"
@@ -133,11 +149,12 @@ function criarCardArtesao(artesao) {
 
 /**
  * Abre o painel de filtros avançados.
+ * @param {HTMLElement} raiz conteúdo da página
  */
-function abrirFiltros() {
-    // A IMPLEMENTAR: painel de filtros (categorias, técnicas, cidade),
-    // DESIGN §8.3.
-    mostrarAviso("Em breve: filtros avançados.");
+function abrirFiltros(raiz) {
+    raiz.querySelector("#artesaos-filtro-categoria").value = estado.categoria;
+    raiz.querySelector("#artesaos-filtro-tecnica").value = estado.tecnica;
+    abrirModal("modal-filtros-artesaos");
 }
 
 /**
@@ -161,14 +178,18 @@ function preencherContato(link, valor, montarHref) {
  * @returns {Promise<void>}
  */
 async function abrirPerfil(raiz, id) {
+    const modal = raiz.querySelector("#modal-artesao");
     const artesao = await buscarArtesao(id);
-    if (!artesao) {
+    if (!artesao || !modal.isConnected) {
         return;
     }
     const foto = raiz.querySelector("#modal-artesao-foto");
-    foto.src = artesao.foto;
+    foto.src = artesao.foto || "assets/img/avatar-padrao.jpg";
     foto.alt = "Foto de " + artesao.nome;
     raiz.querySelector("#modal-artesao-titulo").textContent = artesao.nome;
+    raiz.querySelector("#modal-artesao-empreendimento").textContent = (
+        artesao.empreendimento || artesao.instagram || ""
+    );
     raiz.querySelector("#modal-artesao-cidade").textContent = artesao.cidade;
     raiz.querySelector("#modal-artesao-chips").innerHTML = criarChips(
         rotulos(artesao)
@@ -217,6 +238,25 @@ async function iniciarArtesaos(raiz) {
     const paginacao = raiz.querySelector("#artesaos-paginacao");
     const chips = raiz.querySelectorAll(".filtro-chip");
     const modos = raiz.querySelectorAll("[data-visualizacao]");
+    const filtroCategoria = raiz.querySelector("#artesaos-filtro-categoria");
+    const filtroTecnica = raiz.querySelector("#artesaos-filtro-tecnica");
+
+    function preencherFiltros() {
+        [
+            {campo: filtroCategoria, chave: "categorias"},
+            {campo: filtroTecnica, chave: "tecnicas"}
+        ].forEach(function (filtro) {
+            const opcoes = Array.from(new Set(ativos.flatMap(function (artesao) {
+                return artesao[filtro.chave];
+            }))).sort(function (a, b) {
+                return a.localeCompare(b, "pt-BR");
+            });
+            filtro.campo.insertAdjacentHTML("beforeend", opcoes.map(function (opcao) {
+                return `<option value="${escaparHtml(opcao)}">`
+                    + escaparHtml(opcao) + "</option>";
+            }).join(""));
+        });
+    }
 
     function renderizarPaginacao(total) {
         const paginas = Math.ceil(total / POR_PAGINA);
@@ -226,10 +266,17 @@ async function iniciarArtesaos(raiz) {
             ? criarPaginacao(estado.pagina, paginas)
             : ""
         );
+        paginacao.querySelectorAll(".paginacao__botao--seta").forEach(function (botao, indice) {
+            botao.disabled = (
+                indice === 0 ? estado.pagina === 1 : estado.pagina === paginas
+            );
+        });
     }
 
     function renderizarGrade() {
         const lista = ordenarArtesaos(filtrarArtesaos(ativos));
+        const ultimaPagina = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
+        estado.pagina = Math.min(estado.pagina, ultimaPagina);
         const inicio = (estado.pagina - 1) * POR_PAGINA;
         const pagina = lista.slice(inicio, inicio + POR_PAGINA);
         grade.innerHTML = pagina.map(criarCardArtesao).join("");
@@ -238,6 +285,7 @@ async function iniciarArtesaos(raiz) {
             estado.visualizacao === "lista"
         );
         vazio.hidden = lista.length > 0;
+        vazio.textContent = "Nenhum artesão encontrado. Ajuste a busca ou os filtros.";
         contagem.textContent = (
             lista.length === 0
             ? "Exibindo 0 de 0 artesãos"
@@ -245,6 +293,10 @@ async function iniciarArtesaos(raiz) {
             + `${lista.length} artesãos`
         );
         renderizarPaginacao(lista.length);
+        const filtros = Number(Boolean(estado.categoria)) + Number(Boolean(estado.tecnica));
+        raiz.querySelector("#artesaos-filtrar-texto").textContent = (
+            filtros > 0 ? `Filtrar (${filtros})` : "Filtrar"
+        );
     }
 
     function recomecar() {
@@ -267,11 +319,38 @@ async function iniciarArtesaos(raiz) {
     );
     raiz.querySelector("#artesaos-filtrar").addEventListener(
         "click",
-        abrirFiltros
+        function () {
+            abrirFiltros(raiz);
+        }
     );
+    raiz.querySelector("#artesaos-filtros-form").addEventListener("submit", function (evento) {
+        evento.preventDefault();
+        estado.categoria = filtroCategoria.value;
+        estado.tecnica = filtroTecnica.value;
+        // A categoria do diálogo substitui o chip para evitar filtros conflitantes.
+        estado.filtro = "Todos";
+        chips.forEach(function (chip) {
+            chip.setAttribute("aria-pressed", String(chip.textContent.trim() === "Todos"));
+        });
+        recomecar();
+        fecharModal("modal-filtros-artesaos");
+    });
+    raiz.querySelector("#artesaos-limpar-filtros").addEventListener("click", function () {
+        estado.categoria = "";
+        estado.tecnica = "";
+        estado.filtro = "Todos";
+        filtroCategoria.value = "";
+        filtroTecnica.value = "";
+        chips.forEach(function (chip) {
+            chip.setAttribute("aria-pressed", String(chip.textContent.trim() === "Todos"));
+        });
+        recomecar();
+        fecharModal("modal-filtros-artesaos");
+    });
     chips.forEach(function (chip) {
         chip.addEventListener("click", function () {
             estado.filtro = chip.textContent.trim();
+            estado.categoria = "";
             chips.forEach(function (outro) {
                 outro.setAttribute("aria-pressed", String(outro === chip));
             });
@@ -296,7 +375,7 @@ async function iniciarArtesaos(raiz) {
     });
     paginacao.addEventListener("click", function (evento) {
         const botao = evento.target.closest("[data-pagina]");
-        if (botao) {
+        if (botao && !botao.disabled) {
             estado.pagina = Number(botao.dataset.pagina);
             renderizarGrade();
             grade.scrollIntoView({
@@ -315,16 +394,32 @@ async function iniciarArtesaos(raiz) {
     grade.addEventListener("click", function (evento) {
         const botao = evento.target.closest("[data-artesao]");
         if (botao) {
-            abrirPerfil(raiz, botao.dataset.artesao);
+            abrirPerfil(raiz, botao.dataset.artesao).catch(function () {
+                if (marco.isConnected) {
+                    mostrarAviso("Não foi possível abrir o perfil. Tente novamente.");
+                }
+            });
         }
     });
+
+    raiz.addEventListener("error", function (evento) {
+        const imagem = evento.target;
+        if (
+            imagem.matches(".card-artesao__foto, .artesaos-perfil__foto")
+            && imagem.getAttribute("src") !== "assets/img/avatar-padrao.jpg"
+        ) {
+            imagem.src = "assets/img/avatar-padrao.jpg";
+        }
+    }, true);
 
     iniciarCarrossel(raiz.querySelector(".carrossel"));
     prepararModais(raiz);
     estado.busca = "";
+    estado.categoria = "";
     estado.filtro = "Todos";
     estado.ordem = "recentes";
     estado.visualizacao = "grade";
+    estado.tecnica = "";
 
     try {
         const todos = await carregarArtesaos();
@@ -334,6 +429,7 @@ async function iniciarArtesaos(raiz) {
         ativos = todos.filter(function (artesao) {
             return artesao.status === "ativo";
         });
+        preencherFiltros();
         recomecar();
     } catch (erro) {
         if (!marco.isConnected) {
@@ -342,6 +438,9 @@ async function iniciarArtesaos(raiz) {
         console.error(erro);
         vazio.textContent = "Não foi possível carregar os artesãos.";
         vazio.hidden = false;
+        contagem.textContent = "Lista de artesãos indisponível.";
+    } finally {
+        grade.setAttribute("aria-busy", "false");
     }
 }
 
