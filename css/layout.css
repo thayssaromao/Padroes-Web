@@ -469,6 +469,10 @@
     display: none;
 }
 
+.painel .tabela--artesaos colgroup {
+    display: none;
+}
+
 .painel .tabela iconify-icon,
 .painel .paginacao iconify-icon {
     width: 1em;
@@ -649,27 +653,32 @@
 
     .painel .tabela--artesaos {
         table-layout: fixed;
+        width: 100%;
         min-width: 1120px;
     }
 
-    .painel .tabela--artesaos th:nth-child(1) {
+    .painel .tabela--artesaos colgroup {
+        display: table-column-group;
+    }
+
+    .painel .tabela--artesaos .col-artesao {
         width: 18%;
     }
 
-    .painel .tabela--artesaos th:nth-child(2),
-    .painel .tabela--artesaos th:nth-child(3) {
+    .painel .tabela--artesaos .col-empreendimento,
+    .painel .tabela--artesaos .col-categoria {
         width: 15%;
     }
 
-    .painel .tabela--artesaos th:nth-child(4) {
+    .painel .tabela--artesaos .col-contato {
         width: 21%;
     }
 
-    .painel .tabela--artesaos th:nth-child(5) {
+    .painel .tabela--artesaos .col-status {
         width: 9%;
     }
 
-    .painel .tabela--artesaos th:nth-child(6) {
+    .painel .tabela--artesaos .col-acoes {
         width: 22%;
     }
 
