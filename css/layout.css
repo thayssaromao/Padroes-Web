@@ -648,11 +648,18 @@
 
 /* ===== Desktop dos painéis ===== */
 @media (min-width: 1024px) {
-    .painel .liceu-tabela--artesaos {
+    .painel .liceu-listagem-artesaos {
         --altura-linha-artesaos: 84px;
         --altura-cabecalho-artesaos: 48px;
-        /* Reserva uma página de cinco registros, sem criar linhas vazias. */
-        min-height: calc(var(--altura-cabecalho-artesaos) + 5 * var(--altura-linha-artesaos));
+        display: flex;
+        flex-direction: column;
+        row-gap: var(--espaco-6);
+        /* Reserva a página completa fora da caixa com borda da tabela. */
+        min-height: calc(var(--altura-cabecalho-artesaos) + 5 * var(--altura-linha-artesaos) + var(--espaco-6) + 40px);
+    }
+
+    .painel .liceu-listagem-artesaos > .paginacao {
+        margin-top: auto;
     }
 
     .painel .tabela--artesaos {
