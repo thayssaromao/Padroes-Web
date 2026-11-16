@@ -21,6 +21,7 @@ import {
     montarPainel
 } from "./layout.js";
 import {obterSessao, sessaoDemonstracao} from "./dados.js";
+import {padronizarIcones} from "./componentes.js";
 
 /**
  * Guarda das áreas restritas. Fica desligada até a tela de login existir;
@@ -131,6 +132,7 @@ async function carregarPagina() {
     }
 
     conteudo.innerHTML = html;
+    padronizarIcones(conteudo);
     conteudo.classList.remove("entrando");
     conteudo.getBoundingClientRect();
     conteudo.classList.add("entrando");
