@@ -144,6 +144,7 @@ Os dois painéis usam **a mesma casca** ([`pages/layouts/painel.html`](../pages/
 
 - Menu lateral: fundo `--cor-lateral`, largura `--largura-lateral`; item ativo com fundo `--cor-lateral-ativo`, `--raio-grande`, peso 700 e `aria-current="page"`.
 - Escala compacta dos painéis, isolada em `.layout-painel`: lateral de 240px, topo de 64px, corpo/menu de 14px, título principal de 24–30px e títulos de seção de 18–22px. Links do menu mantêm altura mínima de 44px e ícones de 20px; indicadores usam ícones e números de 28px. O portal público mantém sua escala própria.
+- Tabelas largas rolam horizontalmente dentro de `.tabela-container`, preservando todas as colunas sem ampliar a largura da página. A apresentação em cards nas telas menores é mantida.
 - **Abas = sub-rotas.** Cada item do menu é uma rota (`#/painel-liceu/artesaos`). A casca fica montada; só o `main` troca.
 - Desktop: lateral fixa à esquerda. Tablet/smartphone: lateral vira **gaveta** sobre o conteúdo, aberta pelo `☰` do topo.
 - Cabeçalho de página do painel (`.painel-cabecalho`): sobretítulo + `h1` + parágrafo + linha de botões. Pode ter imagem à direita no desktop (banner).
