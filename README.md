@@ -35,3 +35,11 @@ Se você estiver utilizando o Visual Studio Code:
 3. Clique com o botão direito no arquivo index.html e selecione "Open with Live Server".
 
 4. O navegador abrirá automaticamente no endereço local sincronizado.
+5. 
+### Opção 3: Usando Python
+Caso você tenha o Python instalado no seu computador:
+
+1. Abra o terminal na pasta raiz do projeto.
+2. Execute o comando abaixo:
+   ```bash
+   python3 -m http.server 8000
