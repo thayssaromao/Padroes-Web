@@ -465,6 +465,17 @@
     overflow-x: auto;
 }
 
+.painel .tabela tr[hidden] {
+    display: none;
+}
+
+.painel .tabela iconify-icon,
+.painel .paginacao iconify-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+}
+
 .painel .liceu-titulo-icone > iconify-icon {
     font-size: 28px;
 }
@@ -629,6 +640,42 @@
 
 /* ===== Desktop dos painéis ===== */
 @media (min-width: 1024px) {
+    .painel .tabela--artesaos {
+        table-layout: fixed;
+        min-width: 1120px;
+    }
+
+    .painel .tabela--artesaos th:nth-child(1) {
+        width: 18%;
+    }
+
+    .painel .tabela--artesaos th:nth-child(2),
+    .painel .tabela--artesaos th:nth-child(3) {
+        width: 15%;
+    }
+
+    .painel .tabela--artesaos th:nth-child(4) {
+        width: 21%;
+    }
+
+    .painel .tabela--artesaos th:nth-child(5) {
+        width: 9%;
+    }
+
+    .painel .tabela--artesaos th:nth-child(6) {
+        width: 22%;
+    }
+
+    .painel .tabela--artesaos td {
+        height: 76px;
+        overflow-wrap: anywhere;
+    }
+
+    .painel .tabela--artesaos .liceu-contato > span {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
     .painel__menu {
         display: none;
     }
