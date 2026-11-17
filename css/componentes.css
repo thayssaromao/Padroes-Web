@@ -533,8 +533,12 @@ input[type="checkbox"] {
     transform: scale(1.1);
 }
 
+.card-produto__favorito[aria-pressed="true"] {
+    background-color: var(--cor-primaria);
+}
+
 .card-produto__favorito[aria-pressed="true"] iconify-icon {
-    color: var(--cor-borda-forte);
+    color: var(--cor-texto-invertido);
 }
 
 .card-produto__corpo {
