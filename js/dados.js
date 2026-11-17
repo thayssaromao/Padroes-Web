@@ -24,7 +24,7 @@ const SESSOES_DEMONSTRACAO = Object.freeze({
     "painel-artesao": {
         artesaoId: "ana-martins",
         foto: "assets/img/artesaos/ana-martins.jpg",
-        nome: "Ana Martins",
+        nome: "Ana Martins Mock",
         perfil: "painel-artesao"
     },
     "painel-liceu": {

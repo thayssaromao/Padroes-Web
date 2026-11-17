@@ -1,7 +1,7 @@
 [
   {
     "id": "vaso-ceramica-rustica",
-    "titulo": "Vaso em Cerâmica Rústica",
+    "titulo": "Vaso em Cerâmica Rústica Mock",
     "artesaoId": "ana-martins",
     "categoria": "Decoração",
     "tecnica": "Cerâmica",
@@ -21,7 +21,7 @@
   },
   {
     "id": "tapete-macrame",
-    "titulo": "Tapete Macramê",
+    "titulo": "Tapete Macramê Mock",
     "artesaoId": "carlos-silva",
     "categoria": "Utilitários",
     "tecnica": "Crochê",
@@ -41,7 +41,7 @@
   },
   {
     "id": "cesto-trancado",
-    "titulo": "Cesto Trançado",
+    "titulo": "Cesto Trançado Mock",
     "artesaoId": "mariana-costa",
     "categoria": "Organização",
     "tecnica": "Cestaria",
@@ -61,7 +61,7 @@
   },
   {
     "id": "almofada-bordada",
-    "titulo": "Almofada Bordada",
+    "titulo": "Almofada Bordada Mock",
     "artesaoId": "beatriz-lima",
     "categoria": "Decoração",
     "tecnica": "Bordado",
@@ -81,7 +81,7 @@
   },
   {
     "id": "porta-joias-ceramica",
-    "titulo": "Porta-joias em Cerâmica",
+    "titulo": "Porta-joias em Cerâmica Mock",
     "artesaoId": "ana-martins",
     "categoria": "Acessórios",
     "tecnica": "Cerâmica",
@@ -101,7 +101,7 @@
   },
   {
     "id": "bolsa-fibra-natural",
-    "titulo": "Bolsa de Fibra Natural",
+    "titulo": "Bolsa de Fibra Natural Mock",
     "artesaoId": "joao-santos",
     "categoria": "Acessórios",
     "tecnica": "Fibras naturais",
@@ -121,7 +121,7 @@
   },
   {
     "id": "escultura-madeira",
-    "titulo": "Escultura em Madeira",
+    "titulo": "Escultura em Madeira Mock",
     "artesaoId": "ana-costa",
     "categoria": "Decoração",
     "tecnica": "Madeira",
@@ -141,7 +141,7 @@
   },
   {
     "id": "toalha-bordada",
-    "titulo": "Toalha Bordada",
+    "titulo": "Toalha Bordada Mock",
     "artesaoId": "luciana-mendes",
     "categoria": "Utilitários",
     "tecnica": "Bordado",
@@ -161,7 +161,7 @@
   },
   {
     "id": "peca-decorativa-croche",
-    "titulo": "Peça Decorativa em Crochê",
+    "titulo": "Peça Decorativa em Crochê Mock",
     "artesaoId": "carlos-lima",
     "categoria": "Decoração",
     "tecnica": "Crochê",
@@ -181,7 +181,7 @@
   },
   {
     "id": "travessa-ceramica",
-    "titulo": "Travessa em Cerâmica",
+    "titulo": "Travessa em Cerâmica Mock",
     "artesaoId": "ana-martins",
     "categoria": "Utilitários",
     "tecnica": "Cerâmica",
@@ -201,7 +201,7 @@
   },
   {
     "id": "luminaria-ceramica",
-    "titulo": "Luminária em Cerâmica",
+    "titulo": "Luminária em Cerâmica Mock",
     "artesaoId": "ana-martins",
     "categoria": "Decoração",
     "tecnica": "Cerâmica",
@@ -221,7 +221,7 @@
   },
   {
     "id": "jogo-xicaras",
-    "titulo": "Jogo de Xícaras",
+    "titulo": "Jogo de Xícaras Mock",
     "artesaoId": "ana-martins",
     "categoria": "Utilitários",
     "tecnica": "Cerâmica",
@@ -241,7 +241,7 @@
   },
   {
     "id": "painel-ceramica",
-    "titulo": "Painel em Azulejo",
+    "titulo": "Painel em Azulejo Mock",
     "artesaoId": "ana-martins",
     "categoria": "Decoração",
     "tecnica": "Cerâmica",
@@ -261,7 +261,7 @@
   },
   {
     "id": "colar-ceramica",
-    "titulo": "Colar de Contas de Cerâmica",
+    "titulo": "Colar de Contas de Cerâmica Mock",
     "artesaoId": "ana-martins",
     "categoria": "Acessórios",
     "tecnica": "Cerâmica",
@@ -281,7 +281,7 @@
   },
   {
     "id": "quadro-retalhos",
-    "titulo": "Quadro de Retalhos",
+    "titulo": "Quadro de Retalhos Mock",
     "artesaoId": "rosa-almeida",
     "categoria": "Arte em tecido",
     "tecnica": "Patchwork",
@@ -301,7 +301,7 @@
   },
   {
     "id": "chaveiro-macrame",
-    "titulo": "Chaveiro em Macramê",
+    "titulo": "Chaveiro em Macramê Mock",
     "artesaoId": "pedro-rocha",
     "categoria": "Acessórios",
     "tecnica": "Macramê",
