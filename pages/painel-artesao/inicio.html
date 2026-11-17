@@ -1,7 +1,44 @@
-<header class="painel-cabecalho">
+<header class="painel-cabecalho painel-cabecalho--com-imagem">
     <div class="painel-cabecalho__texto">
-        <span class="sobretitulo">Boas-vindas</span>
+        <span class="sobretitulo">Boas-vindas, <span data-artesao-nome>artesão</span></span>
         <h1>Área do artesão</h1>
+        <p class="texto-apoio">Gerencie seu perfil, cadastre seus trabalhos e acompanhe as publicações no Portal do Liceu.</p>
+        <div class="painel-cabecalho__acoes">
+            <a class="btn btn--primario" href="#/painel-artesao/novo-trabalho">
+                <iconify-icon icon="lucide:square-plus" aria-hidden="true"></iconify-icon>
+                Cadastrar novo trabalho
+            </a>
+            <a class="btn btn--suave" href="#/painel-artesao/meus-trabalhos">
+                <iconify-icon icon="lucide:layers" aria-hidden="true"></iconify-icon>
+                Ver meus trabalhos
+            </a>
+        </div>
     </div>
+    <img class="painel-cabecalho__imagem" src="assets/img/paineis/artesao.jpg" alt="Ateliê de artesanato com peças feitas à mão" width="1000" height="400">
 </header>
-<p class="em-construcao">Em construção.</p>
+
+<section class="artesao-resumo" aria-labelledby="artesao-resumo-titulo">
+    <h2 id="artesao-resumo-titulo">Resumo das publicações</h2>
+    <!-- Quatro cards de estatística preenchidos via JS (contagem por status) -->
+    <div class="grade-estatisticas" data-resumo></div>
+</section>
+
+<section class="artesao-ultimos" aria-labelledby="artesao-ultimos-titulo">
+    <div class="secao-cabecalho">
+        <h2 id="artesao-ultimos-titulo">Seus últimos trabalhos</h2>
+        <a class="link-seta" href="#/painel-artesao/meus-trabalhos">
+            Ver todos os trabalhos
+            <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+        </a>
+    </div>
+    <!-- Os 4 trabalhos mais recentes (criarCardProduto) preenchidos via JS -->
+    <div class="grade-cards" data-ultimos></div>
+</section>
+
+<aside class="aviso" aria-labelledby="artesao-dicas-titulo">
+    <iconify-icon icon="lucide:info" aria-hidden="true"></iconify-icon>
+    <div class="aviso__texto">
+        <h2 class="aviso__titulo" id="artesao-dicas-titulo">Dicas do Liceu</h2>
+        <p>Mantenha seus trabalhos atualizados e com boas fotos para alcançar mais pessoas no portal.</p>
+    </div>
+</aside>
