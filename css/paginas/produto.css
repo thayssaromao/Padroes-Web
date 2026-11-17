@@ -1,0 +1,22 @@
+/* Composição do detalhe definido no wireframe; componentes são compartilhados. */
+.produto-contexto {
+    align-items: start;
+}
+
+.produto-tecnica {
+    display: grid;
+    gap: var(--espaco-4);
+    align-items: start;
+}
+
+.produto-tecnica > img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--raio-medio);
+}
+
+@media (min-width: 600px) {
+    .produto-tecnica {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+}

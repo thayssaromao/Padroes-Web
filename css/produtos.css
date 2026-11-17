@@ -1,0 +1,34 @@
+
+/* O modo lista reutiliza o card compartilhado sem cortar seus metadados. */
+.catalogo-conteudo {
+    min-width: 0;
+}
+
+.catalogo-controles,
+.controles-direita {
+    flex-wrap: wrap;
+    gap: var(--espaco-3);
+}
+
+.grade-produtos.modo-lista .card-produto {
+    height: auto;
+    min-height: 140px;
+    align-items: stretch;
+}
+
+.grade-produtos.modo-lista .card-produto__imagem {
+    width: 32%;
+    max-width: 180px;
+    min-height: 140px;
+    flex: none;
+    align-self: stretch;
+    aspect-ratio: auto;
+    border-bottom: none;
+}
+
+.grade-produtos.modo-lista .card-produto__corpo {
+    flex: 1;
+    min-width: 0;
+    padding-right: var(--espaco-7);
+    overflow-wrap: anywhere;
+}

@@ -479,3 +479,9 @@ assets/img/                   imagens (placeholders trocáveis)
 - [ ] Navegável por teclado (foco visível, `Esc` fecha modal/gaveta).
 - [ ] Usa só tokens e componentes deste guia.
 - [ ] Imagens apontam para os caminhos de `assets/img/LEIAME.md`.
+
+### Detalhe público de produto
+
+A composição segue a página Produto Individual dos wireframes: galeria com favorito e miniaturas ao lado das informações, faixa com produtor e técnica, e produtos relacionados. A faixa usa alinhamento superior entre os títulos; o resumo da técnica combina imagem e texto, empilhados no smartphone. `css/paginas/produto.css` define apenas essa composição usando tokens; carrossel, card, favoritos e botões permanecem compartilhados.
+
+O catálogo em modo lista limita a imagem a 32% do card (máximo 180px), mantém altura natural para não cortar título/autor/preço e reserva espaço para o favorito. Seus controles podem quebrar em linhas no mobile. Essas regras se restringem ao catálogo; tabelas, paginação administrativa e cards em grade mantêm suas dimensões.
