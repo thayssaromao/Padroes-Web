@@ -220,6 +220,14 @@
 .opcao-categoria { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem; align-items: center; }
 .opcao { padding: 0 1.2rem; border: 1px solid #ddd; background-color: #fff; border-radius: 4px; cursor: pointer; font-size: 0.85rem; color: #333; transition: background-color 0.2s ease, border-color 0.2s ease; white-space: nowrap; display: inline-flex; align-items: center; height: 38px; }
 .opcao:hover { background-color: #f0f0f0; border-color: #ccc; }
+/* Selecionada: mesmo estado do .filtro-chip[aria-pressed="true"] (componentes.css) */
+.opcao.ativa,
+.opcao.ativa:hover {
+    border-color: var(--cor-borda-forte);
+    background-color: var(--cor-superficie-forte);
+    color: var(--cor-texto);
+    font-weight: var(--peso-semi);
+}
 
 
 

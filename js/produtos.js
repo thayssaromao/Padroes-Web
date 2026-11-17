@@ -1,8 +1,8 @@
 const produtosData = [
-    { id: 1, nome: "Vaso Rústico", artesao: "Maria Silva", preco: 45.00, categoria: "Cerâmica", tecnica: "Cerâmica", material: "Argila", favorito: false },
-    { id: 2, nome: "Cesto de Palha", artesao: "João Souza", preco: 85.00, categoria: "Cestaria", tecnica: "Arte sustentável", material: "Fibra Natural", favorito: true },
-    { id: 3, nome: "Manta Bordada", artesao: "Ana Clara", preco: 120.00, categoria: "Arte em tecido", tecnica: "Bordado", material: "Algodão", favorito: false },
-    { id: 4, nome: "Centro de Mesa", artesao: "Pedro Alves", preco: 60.00, categoria: "Decoração", tecnica: "Macramê", material: "Linha", favorito: false },
+    { id: 1, nome: "Vaso Rústico Mock", artesao: "Maria Silva Mock", preco: 45.00, categoria: "Cerâmica", tecnica: "Cerâmica", material: "Argila", favorito: false },
+    { id: 2, nome: "Cesto de Palha Mock", artesao: "João Souza Mock", preco: 85.00, categoria: "Cestaria", tecnica: "Arte sustentável", material: "Fibra Natural", favorito: true },
+    { id: 3, nome: "Manta Bordada Mock", artesao: "Ana Clara Mock", preco: 120.00, categoria: "Arte em tecido", tecnica: "Bordado", material: "Algodão", favorito: false },
+    { id: 4, nome: "Centro de Mesa Mock", artesao: "Pedro Alves Mock", preco: 60.00, categoria: "Decoração", tecnica: "Macramê", material: "Linha", favorito: false },
 ];
 
 export function inicializarProdutos(conteudo) {
@@ -17,7 +17,6 @@ export function inicializarProdutos(conteudo) {
     const btnGrid = catalogo.querySelector('#btnViewGrade');
     const btnList = catalogo.querySelector('#btnViewLista');
     const pilulas = catalogo.querySelectorAll('.opcao-categoria .opcao');
-    const pilulaTodos = catalogo.querySelector('.opcao-categoria .opcao[data-categoria="Todos"]');
     const precoTodos = painelFiltros.querySelector('input[name="faixaPreco"][value="todos"]');
 
     painelFiltros.querySelectorAll('.acordeao-toggle').forEach(titulo => {
@@ -64,7 +63,6 @@ export function inicializarProdutos(conteudo) {
 
     function aplicarFiltros() {
         const termoBusca = inputBusca.value.toLowerCase();
-        const categoriaAtiva = catalogo.querySelector('.opcao-categoria .ativa').dataset.categoria;
         const categoriasCheck = Array.from(painelFiltros.querySelectorAll('.chk-categoria:checked'), campo => campo.value);
         const tecnicasCheck = Array.from(painelFiltros.querySelectorAll('.chk-tecnica:checked'), campo => campo.value);
         const materiaisCheck = Array.from(painelFiltros.querySelectorAll('.chk-material:checked'), campo => campo.value);
@@ -73,7 +71,6 @@ export function inicializarProdutos(conteudo) {
         const produtosFiltrados = produtosData.filter(produto => {
             const bateBusca = produto.nome.toLowerCase().includes(termoBusca) ||
                 produto.artesao.toLowerCase().includes(termoBusca);
-            const batePilula = categoriaAtiva === 'Todos' || produto.categoria === categoriaAtiva;
             const bateCategoria = categoriasCheck.length === 0 || categoriasCheck.includes(produto.categoria);
             const bateTecnica = tecnicasCheck.length === 0 || tecnicasCheck.includes(produto.tecnica);
             const bateMaterial = materiaisCheck.length === 0 || materiaisCheck.includes(produto.material);
@@ -83,7 +80,7 @@ export function inicializarProdutos(conteudo) {
             if (precoCheck === '50a100') batePreco = produto.preco > 50 && produto.preco <= 100;
             if (precoCheck === 'acima100') batePreco = produto.preco > 100;
 
-            return bateBusca && batePilula && bateCategoria && bateTecnica && bateMaterial && batePreco;
+            return bateBusca && bateCategoria && bateTecnica && bateMaterial && batePreco;
         });
 
         switch (selectOrdenacao.value) {
@@ -101,11 +98,30 @@ export function inicializarProdutos(conteudo) {
         renderizarProdutos(produtosFiltrados);
     }
 
-    function selecionarPilula(selecionada) {
-        pilulas.forEach(pilula => pilula.classList.toggle('ativa', pilula === selecionada));
+    // Botões de categoria e caixinhas "Categoria" controlam o mesmo filtro:
+    // as caixinhas guardam o estado e os botões só refletem/alteram elas.
+    // Nenhuma marcada = "Todos"; uma marcada = o botão dela; várias = nenhum botão.
+    function sincronizarPilulas() {
+        const marcadas = Array.from(painelFiltros.querySelectorAll('.chk-categoria:checked'), campo => campo.value);
+        const ativa = marcadas.length === 0 ? 'Todos' : (marcadas.length === 1 ? marcadas[0] : null);
+        pilulas.forEach(pilula => {
+            const selecionada = pilula.dataset.categoria === ativa;
+            pilula.classList.toggle('ativa', selecionada);
+            pilula.setAttribute('aria-pressed', String(selecionada));
+        });
     }
 
-    painelFiltros.addEventListener('change', aplicarFiltros);
+    function selecionarCategoria(categoria) {
+        painelFiltros.querySelectorAll('.chk-categoria').forEach(campo => {
+            campo.checked = campo.value === categoria;
+        });
+        sincronizarPilulas();
+    }
+
+    painelFiltros.addEventListener('change', () => {
+        sincronizarPilulas();
+        aplicarFiltros();
+    });
     selectOrdenacao.addEventListener('change', aplicarFiltros);
 
     inputBusca.addEventListener('keydown', evento => {
@@ -117,7 +133,7 @@ export function inicializarProdutos(conteudo) {
 
     pilulas.forEach(botao => {
         botao.addEventListener('click', () => {
-            selecionarPilula(botao);
+            selecionarCategoria(botao.dataset.categoria);
             aplicarFiltros();
         });
     });
@@ -128,7 +144,7 @@ export function inicializarProdutos(conteudo) {
             campo.checked = false;
         });
         precoTodos.checked = true;
-        selecionarPilula(pilulaTodos);
+        sincronizarPilulas();
         aplicarFiltros();
     });
 
@@ -144,5 +160,6 @@ export function inicializarProdutos(conteudo) {
         btnGrid.classList.remove('ativa');
     });
 
+    sincronizarPilulas();
     aplicarFiltros();
 }
