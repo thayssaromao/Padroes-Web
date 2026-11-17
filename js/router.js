@@ -1,3 +1,4 @@
+import {inicializarProdutos} from './produtos.js';
 const rotas = [
   { nome: 'Início',   caminho: '/inicio',   arquivo: 'pages/inicio.html',   titulo: 'Tela Inicial' },
   { nome: 'Produtos', caminho: '/produtos', arquivo: 'pages/produtos.html', titulo: 'Produtos | Liceu' },
@@ -66,11 +67,15 @@ async function carregarPagina() {
     const fallback = await fetch(rotaNaoEncontrada.arquivo);
     conteudo.innerHTML = await fallback.text();
     document.title = rotaNaoEncontrada.titulo;
+    return;
+  }
+
+  if (rota.caminho === '/produtos') {
+    inicializarProdutos(conteudo);
   }
 }
 
-window.addEventListener('hashchange', carregarPagina);
-window.addEventListener('resize', atualizarLinhaIndicadora);
+
 window.addEventListener('hashchange', carregarPagina);
 window.addEventListener('resize', atualizarLinhaIndicadora);
 

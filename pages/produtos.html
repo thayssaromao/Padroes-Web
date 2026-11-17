@@ -1,1 +1,165 @@
-<h1>Produtos</h1>
+<div class="catalogo-container">
+    <!-- Cabeçalho do Catálogo -->
+    <section class="catalogo-produto-cabecalho">
+        <div class="introducao-catalogo">
+            <p class="sub_ideia">NOSSOS PRODUTOS</p>
+            <h1>Catálogo de Produtos</h1>
+            <p>Descubra peças únicas, feitas à mão por nossos artesãos.<br>Cada produto carrega história, cultura e identidade local.</p>
+        </div>
+        
+<div class="busca-container">
+    <div class="input-com-icone">
+        <span class="icone-busca">
+            <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+        </span>
+        <input type="text" id="inputBusca" placeholder="Buscar produtos...">
+    </div>
+    
+
+</div>
+    </section>
+
+    <!-- Corpo do Catálogo (Filtros + Grade) -->
+    <section class="catalogo-corpo">
+        
+        <!-- Barra Lateral de Filtros -->
+        <aside class="tabela-filtros" id="painelFiltros">
+            <div class="filtros-cabecalho">
+                <span class="icone-filtro">
+                    <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="4" y1="5" x2="16" y2="5" stroke="#000" stroke-width="1.5" stroke-linecap="round"></line>
+                        <line x1="4" y1="12" x2="10" y2="12" stroke="#000" stroke-width="1.5" stroke-linecap="round"></line>
+                        <line x1="14" y1="12" x2="20" y2="12" stroke="#000" stroke-width="1.5" stroke-linecap="round"></line>
+                        <line x1="8" y1="19" x2="20" y2="19" stroke="#000" stroke-width="1.5" stroke-linecap="round"></line>
+                        <circle cx="18" cy="5" r="2" stroke="#000" stroke-width="1.5"></circle>
+                        <circle cx="12" cy="12" r="2" stroke="#000" stroke-width="1.5"></circle>
+                        <circle cx="6" cy="19" r="2" stroke="#000" stroke-width="1.5"></circle>
+                    </svg> 
+                </span>
+                <h2>Filtrar resultados</h2>
+            </div>
+            
+            <div class="grupo-filtro aberto">
+                <h3 class="acordeao-toggle">Categoria 
+                    <span class="seta">
+                        <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
+                        </svg>
+                    </span>
+                </h3>
+                <div class="lista-checkboxes">
+                    <label><input type="checkbox" value="Decoração" class="chk-categoria"> Decoração</label>
+                    <label><input type="checkbox" value="Utilitários" class="chk-categoria"> Utilitários</label>
+                    <label><input type="checkbox" value="Acessórios" class="chk-categoria"> Acessórios</label>
+                    <label><input type="checkbox" value="Arte em tecido" class="chk-categoria"> Arte em tecido</label>
+                    <label><input type="checkbox" value="Cestaria" class="chk-categoria"> Cestaria</label>
+                    <label><input type="checkbox" value="Cerâmica" class="chk-categoria"> Cerâmica</label>
+                    <label><input type="checkbox" value="Outros" class="chk-categoria"> Outros</label>
+                </div>
+            </div>
+
+            <div class="grupo-filtro">
+                <h3 class="acordeao-toggle">Técnica                     
+                    <span class="seta">
+                        <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
+                        </svg>
+                    </span>
+                </h3>
+                <div class="lista-checkboxes">
+                    <label><input type="checkbox" value="Tricô" class="chk-tecnica"> Tricô</label>
+                    <label><input type="checkbox" value="Crochê" class="chk-tecnica"> Crochê</label>
+                    <label><input type="checkbox" value="Macramê" class="chk-tecnica"> Macramê</label>
+                    <label><input type="checkbox" value="Bordado" class="chk-tecnica"> Bordado</label>
+                    <label><input type="checkbox" value="Pintura" class="chk-tecnica"> Pintura</label>
+                    <label><input type="checkbox" value="Biscuit" class="chk-tecnica"> Biscuit</label>
+                    <label><input type="checkbox" value="Cerâmica" class="chk-tecnica"> Cerâmica</label>
+                    <label><input type="checkbox" value="Arte sustentável" class="chk-tecnica"> Arte sustentável</label>
+                </div>
+            </div>
+
+            <div class="grupo-filtro">
+                <h3 class="acordeao-toggle">Material                     
+                    <span class="seta">
+                        <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
+                        </svg>
+                    </span>
+                </h3>
+                <div class="lista-checkboxes">
+                    <label><input type="checkbox" value="Argila" class="chk-material"> Argila</label>
+                    <label><input type="checkbox" value="Algodão" class="chk-material"> Algodão</label>
+                    <label><input type="checkbox" value="Linha" class="chk-material"> Linha</label>
+                    <label><input type="checkbox" value="Fibra Natural" class="chk-material"> Fibra Natural</label>
+                    <label><input type="checkbox" value="Tecido" class="chk-material"> Tecido</label>
+                    <label><input type="checkbox" value="Lã" class="chk-material"> Lã</label>
+                    <label><input type="checkbox" value="Bambu" class="chk-material"> Bambu</label>
+                </div>
+            </div>
+
+            <div class="grupo-filtro">
+                <h3 class="acordeao-toggle">Faixa de preço                     
+                    <span class="seta">
+                        <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
+                        </svg>
+                    </span>
+                </h3>
+                <div class="lista-checkboxes">
+                    <label><input type="radio" name="faixaPreco" value="todos" checked> Todos</label>
+                    <label><input type="radio" name="faixaPreco" value="ate50"> Até R$ 50,00</label>
+                    <label><input type="radio" name="faixaPreco" value="50a100"> R$ 50,00 a R$ 100,00</label>
+                    <label><input type="radio" name="faixaPreco" value="acima100"> Acima de R$ 100,00</label>
+                </div>
+            </div>
+
+            <button id="btnLimparFiltros" type="button">Limpar filtros</button>
+        </aside>
+
+        <!-- Área dos Produtos -->
+        <div class="catalogo-conteudo">
+            <div class="opcao-categoria" id="pilulasCategoria">
+                <button class="opcao ativa" data-categoria="Todos">Todos</button>
+                <button class="opcao" data-categoria="Decoração">Decoração</button>
+                <button class="opcao" data-categoria="Utilitários">Utilitários</button>
+                <button class="opcao" data-categoria="Acessórios">Acessórios</button>
+                <button class="opcao" data-categoria="Arte em tecido">Arte em tecido</button>
+                <button class="opcao" data-categoria="Cestaria">Cestaria</button>
+                <button class="opcao" data-categoria="Cerâmica">Cerâmica</button>
+                <button class="opcao" data-categoria="Outros">Outros</button>
+            </div>
+
+            <div class="catalogo-controles">
+                <span id="contadorResultados">Exibindo 0 de 0 produtos</span>
+                <div class="controles-direita">
+                    <label for="selectOrdenacao">Ordenar por:</label>
+                    <select id="selectOrdenacao">
+                        <option value="recentes">Mais recentes</option>
+                        <option value="menor_preco">Menor preço</option>
+                        <option value="maior_preco">Maior preço</option>
+                    </select>
+                    <div class="botoes-visualizacao">
+                        <button class="btn-view ativa" id="btnViewGrade" title="Visualização em grade">
+                            <svg width="15" viewBox="0 0 56 56" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M 10.9 26.06 L 21.58 26.06 C 24.56 26.06 26.06 24.56 26.06 21.47 L 26.06 10.99 C 26.06 7.9 24.56 6.42 21.58 6.42 L 10.9 6.42 C 7.92 6.42 6.42 7.9 6.42 10.99 L 6.42 21.47 C 6.42 24.56 7.92 26.06 10.9 26.06 Z M 34.43 26.06 L 45.09 26.06 C 48.09 26.06 49.57 24.56 49.57 21.47 L 49.57 10.99 C 49.57 7.9 48.09 6.42 45.09 6.42 L 34.43 6.42 C 31.45 6.42 29.95 7.9 29.95 10.99 L 29.95 21.47 C 29.95 24.56 31.45 26.06 34.43 26.06 Z M 10.9 49.57 L 21.58 49.57 C 24.56 49.57 26.06 48.09 26.06 45.00 L 26.06 34.50 C 26.06 31.43 24.56 29.93 21.58 29.93 L 10.9 29.93 C 7.92 29.93 6.42 31.43 6.42 34.50 L 6.42 45.00 C 6.42 48.09 7.92 49.57 10.9 49.57 Z M 34.43 49.57 L 45.09 49.57 C 48.09 49.57 49.57 48.09 49.57 45.00 L 49.57 34.50 C 49.57 31.43 48.09 29.93 45.09 29.93 L 34.43 29.93 C 31.45 29.93 29.95 31.43 29.95 34.50 L 29.95 45.00 C 29.95 48.09 31.45 49.57 34.43 49.57 Z"></path>
+                            </svg>
+                        </button>
+                        <button class="btn-view" id="btnViewLista" title="Visualização em lista">
+                            <svg width="15" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="26.7" x2="486.25" y1="30.24" y2="30.24" stroke="currentColor" stroke-width="40" stroke-linecap="round"></line>
+                                <line x1="26.7" x2="486.25" y1="181.04" y2="181.04" stroke="currentColor" stroke-width="40" stroke-linecap="round"></line>
+                                <line x1="26.7" x2="486.25" y1="331.84" y2="331.84" stroke="currentColor" stroke-width="40" stroke-linecap="round"></line>
+                                <line x1="26.7" x2="486.25" y1="482.71" y2="482.71" stroke="currentColor" stroke-width="40" stroke-linecap="round"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grade-produtos" id="gradeProdutos"></div>
+            <div class="paginacao" id="paginacaoCatalogo"></div>
+        </div>
+    </section>
+</div>
