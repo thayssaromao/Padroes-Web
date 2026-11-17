@@ -16,20 +16,19 @@ import {PAINEIS, ROTA_NAO_ENCONTRADA, ROTAS} from "./rotas.js";
 import {
     atualizarMenuPainel,
     atualizarNavPortal,
+    atualizarUsuarioPainel,
     fecharGavetas,
     iniciarMenuPortal,
     montarPainel
 } from "./layout.js";
 import {obterSessao, sessaoDemonstracao} from "./dados.js";
-import {padronizarIcones} from "./componentes.js";
+import {mostrarAviso, padronizarIcones} from "./componentes.js";
 import {abrirLogin} from "./paginas/login.js";
 
 /**
- * Guarda das áreas restritas. Fica desligada até a autenticação existir
- * (o modal de login ainda é só visual, issue #25); enquanto isso os
- * painéis usam uma sessão de demonstração.
+ * Guarda local das áreas restritas, conforme o papel da sessão mock.
  */
-const GUARDA_ATIVA = false;
+const GUARDA_ATIVA = true;
 const CAMINHO_PADRAO = "/inicio";
 const CAMINHO_LOGIN = "/login";
 
@@ -50,7 +49,7 @@ function caminhoAtual() {
  */
 function encontrarRota(caminho) {
     return ROTAS.find(function (rota) {
-        return rota.caminho === caminho;
+        return rota.caminho === caminho.split("?")[0];
     }) ?? ROTA_NAO_ENCONTRADA;
 }
 
@@ -84,27 +83,32 @@ async function buscarParcial(arquivo) {
  * @param {object} rota
  * @returns {Promise<HTMLElement>} o <main id="conteudo">
  */
-function prepararLayout(rota) {
+async function prepararLayout(rota, minha) {
     if (rota.layout === layoutAtual) {
-        return Promise.resolve(document.getElementById("conteudo"));
+        return document.getElementById("conteudo");
     }
-    layoutAtual = rota.layout;
-
+    const recipiente = document.createElement("div");
+    let conteudo;
     if (rota.layout === "portal") {
-        document.body.className = "layout-portal";
-        raiz.innerHTML = (
-            "<main id=\"conteudo\" class=\"conteudo\" tabindex=\"-1\"></main>"
+        recipiente.innerHTML = "<main id=\"conteudo\" "
+            + "class=\"conteudo\" tabindex=\"-1\"></main>";
+        conteudo = recipiente.firstElementChild;
+    } else {
+        conteudo = await montarPainel(
+            recipiente,
+            rota.layout,
+            PAINEIS[rota.layout],
+            obterSessao() ?? sessaoDemonstracao(rota.layout)
         );
-        return Promise.resolve(document.getElementById("conteudo"));
     }
-
-    document.body.className = "layout-painel";
-    return montarPainel(
-        raiz,
-        rota.layout,
-        PAINEIS[rota.layout],
-        obterSessao() ?? sessaoDemonstracao(rota.layout)
-    );
+    if (minha !== navegacao) {
+        return null;
+    }
+    document.body.className = rota.layout === "portal"
+        ? "layout-portal" : "layout-painel";
+    raiz.replaceChildren(...recipiente.childNodes);
+    layoutAtual = rota.layout;
+    return conteudo;
 }
 
 /** Carrega a rota atual. Chamado no início e a cada "hashchange". */
@@ -127,14 +131,30 @@ async function carregarPagina() {
 
     rota = encontrarRota(caminho);
     if (!podeAcessar(rota)) {
-        window.location.hash = "#" + CAMINHO_LOGIN;
+        if (!obterSessao()) {
+            caminhoAnterior = CAMINHO_PADRAO;
+            window.history.replaceState(null, "", "#" + CAMINHO_PADRAO);
+            await carregarPagina();
+            abrirLogin();
+        } else {
+            window.location.hash = "#" + CAMINHO_LOGIN;
+        }
         return;
     }
+    atualizarUsuarioPainel(raiz, obterSessao());
     caminhoAnterior = caminho;
     navegacao += 1;
     minha = navegacao;
 
-    const conteudo = await prepararLayout(rota);
+    let conteudo;
+    try {
+        conteudo = await prepararLayout(rota, minha);
+    } catch (falha) {
+        layoutAtual = "";
+        raiz.textContent = "Não foi possível carregar a página. Recarregue "
+            + "para tentar novamente.";
+        return;
+    }
     if (minha !== navegacao) {
         return;
     }
@@ -155,8 +175,8 @@ async function carregarPagina() {
     conteudo.classList.add("entrando");
     document.title = rota.titulo;
 
-    atualizarNavPortal(caminho);
-    atualizarMenuPainel(caminho);
+    atualizarNavPortal(caminho.split("?")[0]);
+    atualizarMenuPainel(caminho.split("?")[0]);
     fecharGavetas();
 
     if (!primeiraCarga) {
@@ -166,7 +186,14 @@ async function carregarPagina() {
     primeiraCarga = false;
 
     if (rota.iniciar) {
-        rota.iniciar(conteudo);
+        try {
+            await rota.iniciar(conteudo);
+        } catch (falha) {
+            if (minha === navegacao) {
+                mostrarAviso("Não foi possível concluir o carregamento. "
+                    + "Tente novamente.");
+            }
+        }
     }
 }
 
@@ -198,3 +225,24 @@ iniciarMenuPortal();
 document.addEventListener("click", interceptarLinkLogin);
 window.addEventListener("hashchange", carregarPagina);
 carregarPagina();
+
+// Uma sessão encerrada em outra aba também encerra o acesso neste painel.
+window.addEventListener("storage", function (evento) {
+    if (evento.key === "liceu:sessao" || evento.key === "liceu:base:v1") {
+        if (evento.key === "liceu:sessao") {
+            layoutAtual = "";
+        }
+        carregarPagina();
+    }
+});
+
+// Uma nova conta exige remontar a casca, mesmo quando o hash não muda.
+window.addEventListener("conta-autenticada", function (evento) {
+    const destino = "#/" + evento.detail;
+    layoutAtual = "";
+    if (window.location.hash === destino) {
+        carregarPagina();
+    } else {
+        window.location.hash = destino;
+    }
+});

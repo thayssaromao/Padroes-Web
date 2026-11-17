@@ -8,6 +8,7 @@ const STATUS = Object.freeze({
     "ativo": {icone: "lucide:circle-check", texto: "Ativo"},
     "em-analise": {icone: "lucide:clock", texto: "Em análise"},
     "inativo": {icone: "lucide:circle-x", texto: "Inativo"},
+    "oculto": {icone: "lucide:eye-off", texto: "Oculto pelo Liceu"},
     "publicado": {icone: "lucide:circle-check", texto: "Publicado"},
     "rascunho": {icone: "lucide:file-text", texto: "Rascunho"},
     "reenviado": {icone: "lucide:refresh-cw", texto: "Reenviado"},
@@ -15,6 +16,8 @@ const STATUS = Object.freeze({
 });
 
 const INTERVALO_CARROSSEL = 6000;
+const modaisPreparados = new WeakSet();
+let numeroDialogo = 0;
 
 // Compatibilidade das páginas antigas com os ícones aprovados no design system.
 const ICONES_PADRAO = Object.freeze({
@@ -106,7 +109,8 @@ function criarChips(itens) {
  * @returns {string}
  */
 function criarCardProduto(trabalho, opcoes = {}) {
-    const href = opcoes.href ?? "#/produtos";
+    const href = opcoes.href ?? "#/produto?id="
+        + encodeURIComponent(trabalho.id);
     const favorito = (
         opcoes.favorito === false
         ? ""
@@ -188,11 +192,13 @@ function criarPaginacao(atual, total) {
         "<ul class=\"paginacao__lista\">"
         + "<li><button type=\"button\" class=\"paginacao__botao "
         + `paginacao__botao--seta" data-pagina="${anterior}"`
+        + (atual <= 1 ? " disabled" : "")
         + " aria-label=\"Página anterior\">" + icone("lucide:chevron-left")
         + "</button></li>"
         + numeros
         + "<li><button type=\"button\" class=\"paginacao__botao "
         + `paginacao__botao--seta" data-pagina="${proxima}"`
+        + (atual >= total ? " disabled" : "")
         + " aria-label=\"Próxima página\">" + icone("lucide:chevron-right")
         + "</button></li></ul>"
     );
@@ -294,6 +300,10 @@ function fecharModal(id) {
  */
 function prepararModais(raiz) {
     raiz.querySelectorAll("dialog.modal").forEach(function (modal) {
+        if (modaisPreparados.has(modal)) {
+            return;
+        }
+        modaisPreparados.add(modal);
         modal.querySelectorAll(
             ".modal__fechar, [data-fechar-modal]"
         ).forEach(function (botao) {
@@ -317,6 +327,32 @@ function prepararModais(raiz) {
             }
         });
     });
+}
+
+/** Cria conteúdo variável na anatomia compartilhada dos modais. */
+function criarDialogo(titulo, corpo, acoes = "", opcoes = {}) {
+    const raiz = opcoes.raiz || document.getElementById("conteudo");
+    const modal = document.createElement("dialog");
+    numeroDialogo += 1;
+    const id = "dialogo-" + numeroDialogo;
+    modal.id = id;
+    modal.className = "modal modal--" + (opcoes.tamanho || "medio");
+    modal.setAttribute("aria-labelledby", id + "-titulo");
+    modal.innerHTML = (
+        "<button type=\"button\" class=\"modal__fechar\""
+        + " aria-label=\"Fechar\">" + icone("lucide:circle-x")
+        + "</button><h2 class=\"modal__titulo\" id=\"" + id + "-titulo\">"
+        + escaparHtml(titulo) + "</h2><div class=\"modal__corpo\">"
+        + corpo + "</div>"
+        + (acoes ? "<div class=\"modal__acoes\">" + acoes + "</div>" : "")
+    );
+    raiz.append(modal);
+    prepararModais(raiz);
+    modal.addEventListener("close", function () {
+        modal.remove();
+    });
+    abrirModal(id);
+    return modal;
 }
 
 /**
@@ -362,6 +398,7 @@ export {
     criarCardEstatistica,
     criarCardProduto,
     criarChips,
+    criarDialogo,
     criarPaginacao,
     criarStatus,
     escaparHtml,

@@ -1,5 +1,5 @@
 <!-- Janela de login: <dialog> aberto por js/paginas/login.js quando o caminho é "#/login".
-     Por enquanto é só o visual; a lógica de autenticação vai ser feita depois (issue #25). -->
+     Autenticação acadêmica local: contas descritas no README. -->
 <dialog class="modal modal--pequeno modal-login" id="modal-login" aria-labelledby="login-titulo">
     <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
 
@@ -32,11 +32,10 @@
                 <input type="checkbox" name="lembrar">
                 Lembrar de mim
             </label>
-            <!-- ainda nao existe pagina de recuperar senha -->
-            <a href="#/login" class="modal-login__esqueci">Esqueci minha senha</a>
+            <button type="button" class="btn btn--link modal-login__esqueci" data-recuperar-senha>Esqueci minha senha</button>
         </div>
 
-        <!-- type="button" pra nao recarregar a pagina, quando tiver a logica muda pra submit -->
-        <button type="button" class="btn btn--primario btn--bloco modal-login__entrar">Entrar</button>
+        <p class="campo__ajuda" role="alert" data-login-erro></p>
+        <button type="submit" class="btn btn--primario btn--bloco modal-login__entrar">Entrar</button>
     </form>
 </dialog>
