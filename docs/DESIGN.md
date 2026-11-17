@@ -460,6 +460,8 @@ assets/img/                   imagens (placeholders trocáveis)
 
 ### 10.4 CSS
 
+- O atributo HTML `hidden` controla estados condicionais e prevalece sobre `display` de componentes, incluindo flex/grid. Remova o atributo para exibir; não substitua essa regra em CSS de páginas.
+
 - Mobile-first; só `min-width` nas media queries (§3).
 - Nada de cor/fonte/raio fora dos tokens.
 - Seletores por classe; sem `id` no CSS; profundidade máxima 3.
