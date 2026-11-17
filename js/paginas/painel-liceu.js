@@ -7,6 +7,7 @@
 import {
     criarCardEstatistica,
     criarChips,
+    criarDialogo,
     criarPaginacao,
     criarStatus,
     escaparHtml,
@@ -15,154 +16,485 @@ import {
     prepararCamposSenha
 } from "../componentes.js";
 import {
+    atualizarStatusTrabalho,
+    buscarArtesao,
     carregarArtesaos,
     carregarCategorias,
     carregarTrabalhos,
     comNomeDoArtesao,
     contarPorStatus,
+    excluirTrabalho,
     formatarData,
-    salvarArtesao
+    salvarArtesao,
+    salvarTrabalho
 } from "../dados.js";
 
 const MAXIMO_CARDS_INICIO = 4;
 const POR_PAGINA = 5;
 
-// ===== Ações ainda sem tela (stubs) =====
+// ===== Ações dos painéis =====
 
-/**
- * Abre a análise de um trabalho pendente.
- * @param {string} id id do trabalho
- */
-function analisarTrabalho(id) {
-    // A IMPLEMENTAR: abrir o popup de análise (aprovar ou rejeitar).
-    mostrarAviso("Em breve: analisar o trabalho " + id + ".");
+/** Monta um diálogo usando exclusivamente a anatomia do design system. */
+function dialogo(titulo, conteudo, tamanho = "medio") {
+    return criarDialogo(titulo, conteudo, "", {tamanho});
 }
 
-/**
- * Abre o perfil de um artesão.
- * @param {string} id id do artesão
- */
-function verPerfilArtesao(id) {
-    // A IMPLEMENTAR: abrir o popup com o perfil do artesão.
-    mostrarAviso("Em breve: ver o perfil de " + id + ".");
+/** Recarrega apenas a parcial atual após uma mutação confirmada. */
+async function atualizarAba() {
+    const raiz = document.getElementById("conteudo");
+    const marco = raiz.firstElementChild;
+    const hash = window.location.hash;
+    if (!hash.startsWith("#/painel-liceu")) {
+        return;
+    }
+    const aba = hash.split("/")[2] || "inicio";
+    const inicios = {
+        artesaos: montarArtesaos,
+        "cadastrar-artesao": montarCadastro,
+        inicio: montarInicio,
+        publicacoes: montarPublicacoes,
+        "trabalhos-pendentes": montarPendentes
+    };
+    if (!inicios[aba]) {
+        return;
+    }
+    const resposta = await fetch("pages/painel-liceu/" + aba + ".html");
+    if (!resposta.ok) {
+        throw new Error("Não foi possível atualizar a listagem.");
+    }
+    const html = await resposta.text();
+    if (!marco.isConnected || window.location.hash !== hash) {
+        return;
+    }
+    raiz.innerHTML = html;
+    await inicios[aba](raiz);
 }
 
-/**
- * Abre a edição rápida de um artesão.
- * @param {string} id id do artesão
- */
-function editarArtesao(id) {
-    // A IMPLEMENTAR: abrir o popup de edição do artesão.
-    mostrarAviso("Em breve: editar o cadastro de " + id + ".");
+function campo(nome, rotulo, valor = "", tipo = "text", obrigatorio = false) {
+    return (
+        "<div class=\"campo\"><label class=\"campo__rotulo\""
+        + ` for="liceu-${nome}">${escaparHtml(rotulo)}</label>`
+        + `<input class="campo__entrada" id="liceu-${nome}"`
+        + ` name="${nome}" type="${tipo}" value="${escaparHtml(valor)}"`
+        + (obrigatorio ? " required" : "") + "></div>"
+    );
 }
 
-/**
- * Abre o menu de ações de um artesão (ativar/desativar, redefinir senha).
- * @param {string} id id do artesão
- */
-function abrirMenuArtesao(id) {
-    // A IMPLEMENTAR: abrir o menu de ações do artesão.
-    mostrarAviso("Em breve: mais ações para " + id + ".");
+function areaTexto(nome, rotulo, valor = "") {
+    return (
+        "<div class=\"campo\"><label class=\"campo__rotulo\""
+        + ` for="liceu-${nome}">${escaparHtml(rotulo)}</label>`
+        + `<textarea class="campo__entrada" id="liceu-${nome}"`
+        + ` name="${nome}" rows="4">${escaparHtml(valor || "")}`
+        + "</textarea></div>"
+    );
 }
 
-/**
- * Abre a escolha de um trabalho aprovado para uma nova publicação.
- */
-function novaPublicacao() {
-    // A IMPLEMENTAR: abrir o popup para escolher o trabalho aprovado.
-    mostrarAviso("Em breve: nova publicação.");
+function selecionarCampo(nome, rotulo, opcoes, valores, multiplo = false) {
+    return (
+        "<div class=\"campo\"><label class=\"campo__rotulo\""
+        + ` for="liceu-${nome}">${escaparHtml(rotulo)}</label>`
+        + `<select class="campo__entrada" id="liceu-${nome}"`
+        + ` name="${nome}"${multiplo ? " multiple" : " required"}>`
+        + opcoes.map(function (valor) {
+            return (
+                `<option value="${escaparHtml(valor)}"`
+                + (valores.includes(valor) ? " selected" : "") + ">"
+                + escaparHtml(valor) + "</option>"
+            );
+        }).join("") + "</select></div>"
+    );
 }
 
-/**
- * Mostra os detalhes de uma publicação.
- * @param {string} id id do trabalho publicado
- */
-function verPublicacao(id) {
-    // A IMPLEMENTAR: abrir o popup de detalhes da publicação.
-    mostrarAviso("Em breve: ver a publicação " + id + ".");
+function acoesFormulario(rotulo = "Salvar alterações") {
+    return (
+        "<p role=\"alert\" data-erro></p><div class=\"modal__acoes\">"
+        + "<button type=\"button\" class=\"btn btn--secundario\""
+        + " data-fechar-modal>Cancelar</button>"
+        + "<button type=\"submit\" class=\"btn btn--primario\">"
+        + escaparHtml(rotulo) + "</button></div>"
+    );
 }
 
-/**
- * Edita uma publicação.
- * @param {string} id id do trabalho publicado
- */
-function editarPublicacao(id) {
-    // A IMPLEMENTAR: abrir o popup de edição da publicação.
-    mostrarAviso("Em breve: editar a publicação " + id + ".");
+/** Evita envios duplicados e conserva os dados quando a escrita falha. */
+function ligarSalvar(modal, salvar, mensagem) {
+    const formulario = modal.querySelector("form");
+    formulario.querySelectorAll("input[type=tel]").forEach(function (telefone) {
+        telefone.addEventListener("input", function () {
+            const digitos = telefone.value.replace(/\D/g, "");
+            telefone.setCustomValidity(telefone.value && (digitos.length < 10
+                || digitos.length > 13)
+                ? "Informe um telefone válido com DDD." : "");
+        });
+    });
+    formulario.addEventListener("submit", async function (evento) {
+        evento.preventDefault();
+        const botao = formulario.querySelector("[type=submit]");
+        if (botao.disabled || !formulario.reportValidity()) {
+            return;
+        }
+        botao.disabled = true;
+        try {
+            await salvar(formulario.elements);
+            if (!modal.isConnected) {
+                return;
+            }
+            modal.close();
+            mostrarAviso(mensagem);
+            await atualizarAba();
+        } catch (erro) {
+            const alvo = formulario.querySelector("[data-erro]");
+            alvo.textContent = erro.message || "Não foi possível salvar.";
+        } finally {
+            botao.disabled = false;
+        }
+    });
 }
 
-/**
- * Oculta uma publicação do portal (com confirmação).
- * @param {string} id id do trabalho publicado
- */
-function ocultarPublicacao(id) {
-    // A IMPLEMENTAR: confirmar e ocultar a publicação.
-    mostrarAviso("Em breve: ocultar a publicação " + id + ".");
+async function obterTrabalho(id) {
+    const trabalhos = await carregarTrabalhos();
+    const trabalho = trabalhos.find(function (item) {
+        return item.id === id;
+    });
+    if (!trabalho) {
+        throw new Error("Trabalho não encontrado.");
+    }
+    return trabalho;
 }
 
-/**
- * Exclui uma publicação (com confirmação destrutiva).
- * @param {string} id id do trabalho publicado
- */
-function excluirPublicacao(id) {
-    // A IMPLEMENTAR: confirmar e excluir a publicação.
-    mostrarAviso("Em breve: excluir a publicação " + id + ".");
+function detalhesTrabalho(trabalho) {
+    return (
+        "<div class=\"grade-cards\">"
+        + (trabalho.imagens || []).map(function (imagem) {
+            return (
+                `<img class="card-produto__imagem" src="${escaparHtml(imagem)}"`
+                + ` alt="${escaparHtml(trabalho.titulo)}" width="240"`
+                + " height=\"180\" loading=\"lazy\">"
+            );
+        }).join("") + "</div><p><strong>Artesão:</strong> "
+        + escaparHtml(trabalho.artesaoNome || "") + "</p><p>"
+        + criarStatus(trabalho.status) + "</p>"
+        + criarChips([trabalho.categoria, trabalho.tecnica])
+        + "<p>" + escaparHtml(trabalho.descricao || "") + "</p>"
+        + "<p><strong>Materiais:</strong> "
+        + escaparHtml(trabalho.materiais || "Não informado") + "</p>"
+        + "<p><strong>Dimensões:</strong> "
+        + escaparHtml(trabalho.dimensoes || "Não informado") + "</p>"
+        + "<p><strong>Preço:</strong> "
+        + (trabalho.preco === null || trabalho.preco === undefined
+            ? "Sob consulta"
+            : Number(trabalho.preco).toLocaleString("pt-BR", {
+                currency: "BRL",
+                style: "currency"
+            })) + "</p>"
+    );
 }
 
-/**
- * Abre o cadastro de uma nova categoria.
- */
-function adicionarCategoria() {
-    // A IMPLEMENTAR: abrir o popup para adicionar categoria.
-    mostrarAviso("Em breve: adicionar categoria.");
+async function analisarTrabalho(id) {
+    const marco = document.getElementById("conteudo").firstElementChild;
+    const itens = await comNomeDoArtesao([await obterTrabalho(id)]);
+    if (!marco.isConnected) {
+        return;
+    }
+    const trabalho = itens[0];
+    if (!filtrarPendentes([trabalho]).length) {
+        mostrarAviso("Este trabalho já foi analisado.");
+        await atualizarAba();
+        return;
+    }
+    const modal = dialogo("Analisar: " + trabalho.titulo,
+        detalhesTrabalho(trabalho)
+        + "<form><div class=\"campo\" data-motivo hidden>"
+        + "<label for=\"liceu-motivo\" class=\"campo__rotulo\">"
+        + "Motivo da rejeição *</label><textarea id=\"liceu-motivo\""
+        + " name=\"motivo\" class=\"campo__entrada\" rows=\"4\"></textarea>"
+        + "</div><p role=\"alert\" data-erro></p>"
+        + "<div class=\"modal__acoes\">"
+        + "<button type=\"button\" class=\"btn btn--secundario\""
+        + " data-rejeitar>Rejeitar</button>"
+        + "<button type=\"submit\" class=\"btn btn--primario\""
+        + " data-aprovar formnovalidate>Aprovar</button></div></form>", "grande");
+    const formulario = modal.querySelector("form");
+    const rejeitar = modal.querySelector("[data-rejeitar]");
+    const aprovar = modal.querySelector("[data-aprovar]");
+    const motivo = formulario.elements.motivo;
+    let ocupado = false;
+
+    async function decidir(status) {
+        if (ocupado) {
+            return;
+        }
+        ocupado = true;
+        aprovar.disabled = true;
+        rejeitar.disabled = true;
+        try {
+            await atualizarStatusTrabalho(id, status, motivo.value.trim());
+            if (!marco.isConnected) {
+                return;
+            }
+            modal.close();
+            mostrarAviso(status === "publicado"
+                ? "Trabalho aprovado e publicado no portal."
+                : "Trabalho rejeitado. O artesão poderá consultar o motivo.");
+            await atualizarAba();
+        } catch (erro) {
+            modal.querySelector("[data-erro]").textContent = erro.message;
+        } finally {
+            ocupado = false;
+            aprovar.disabled = false;
+            rejeitar.disabled = false;
+        }
+    }
+
+    formulario.addEventListener("submit", function (evento) {
+        evento.preventDefault();
+        decidir("publicado");
+    });
+    rejeitar.addEventListener("click", function () {
+        const area = modal.querySelector("[data-motivo]");
+        if (area.hidden) {
+            area.hidden = false;
+            motivo.focus();
+            rejeitar.textContent = "Confirmar rejeição";
+            return;
+        }
+        motivo.setCustomValidity(motivo.value.trim()
+            ? "" : "Informe o motivo da rejeição.");
+        if (motivo.reportValidity()) {
+            decidir("rejeitado");
+        }
+    });
+    motivo.addEventListener("input", function () {
+        motivo.setCustomValidity("");
+    });
 }
 
-/**
- * Abre o cadastro de uma nova técnica.
- */
-function adicionarTecnica() {
-    // A IMPLEMENTAR: abrir o popup para adicionar técnica.
-    mostrarAviso("Em breve: adicionar técnica.");
+async function verPerfilArtesao(id) {
+    const marco = document.getElementById("conteudo").firstElementChild;
+    const artesao = await buscarArtesao(id);
+    if (!artesao || !marco.isConnected) {
+        return;
+    }
+    dialogo(artesao.nome,
+        `<img class="avatar" src="${escaparHtml(artesao.foto)}"`
+        + " alt=\"\" width=\"80\" height=\"80\"><p>"
+        + escaparHtml(artesao.empreendimento) + "</p><p>"
+        + escaparHtml(artesao.cidade) + "</p>"
+        + criarChips(artesao.categorias.concat(artesao.tecnicas))
+        + "<p>" + escaparHtml(artesao.bio || "Perfil em elaboração.")
+        + "</p><h3>Contato</h3><p>"
+        + escaparHtml(artesao.email) + "</p><p>"
+        + escaparHtml(artesao.whatsapp || "WhatsApp não informado")
+        + "</p><p>" + escaparHtml(artesao.instagram || "") + "</p>",
+        "grande");
 }
 
-/**
- * Abre a troca de senha do administrador.
- */
-function alterarSenhaAdmin() {
-    // A IMPLEMENTAR: abrir o popup de alteração de senha.
-    mostrarAviso("Em breve: alterar a senha.");
+async function editarArtesao(id) {
+    const marco = document.getElementById("conteudo").firstElementChild;
+    const dados = await Promise.all([buscarArtesao(id), carregarCategorias()]);
+    if (!dados[0] || !marco.isConnected) {
+        return;
+    }
+    const artesao = dados[0];
+    const modal = dialogo("Editar artesão", "<form>"
+        + campo("nome", "Nome completo *", artesao.nome, "text", true)
+        + campo("email", "E-mail *", artesao.email, "email", true)
+        + campo("empreendimento", "Empreendimento", artesao.empreendimento)
+        + campo("cidade", "Cidade", artesao.cidade)
+        + selecionarCampo("categorias", "Categorias (selecione uma ou mais)",
+            dados[1].categorias, artesao.categorias, true)
+        + selecionarCampo("tecnicas", "Técnicas (selecione uma ou mais)",
+            dados[1].tecnicas, artesao.tecnicas, true)
+        + areaTexto("bio", "História e apresentação", artesao.bio)
+        + campo("whatsapp", "WhatsApp", artesao.whatsapp, "tel")
+        + campo("instagram", "Instagram / Rede social", artesao.instagram)
+        + acoesFormulario() + "</form>");
+    ligarSalvar(modal, async function (campos) {
+        if (!campos.nome.value.trim()) {
+            throw new Error("Informe o nome do artesão.");
+        }
+        await salvarArtesao(Object.assign({}, artesao, {
+            bio: campos.bio.value.trim(),
+            categorias: Array.from(campos.categorias.selectedOptions,
+                function (opcao) { return opcao.value; }),
+            cidade: campos.cidade.value.trim(),
+            email: campos.email.value.trim(),
+            empreendimento: campos.empreendimento.value.trim(),
+            instagram: campos.instagram.value.trim(),
+            nome: campos.nome.value.trim(),
+            tecnicas: Array.from(campos.tecnicas.selectedOptions,
+                function (opcao) { return opcao.value; }),
+            whatsapp: campos.whatsapp.value.trim()
+        }));
+    }, "Cadastro do artesão atualizado.");
 }
 
-/**
- * Abre a lista de categorias para edição.
- */
-function gerenciarCategorias() {
-    // A IMPLEMENTAR: abrir o popup de gerenciamento de categorias.
-    mostrarAviso("Em breve: gerenciar categorias.");
+async function abrirMenuArtesao(id) {
+    const marco = document.getElementById("conteudo").firstElementChild;
+    const artesao = await buscarArtesao(id);
+    if (!artesao || !marco.isConnected) {
+        return;
+    }
+    const ativo = artesao.status === "ativo";
+    const modal = dialogo("Acesso de " + artesao.nome,
+        "<p>" + criarStatus(artesao.status) + "</p><p>"
+        + "Desativar o cadastro retira o perfil e os trabalhos do portal "
+        + "e impede novos acessos enquanto estiver inativo.</p>"
+        + "<div class=\"modal__acoes\"><button type=\"button\""
+        + " class=\"btn btn--secundario\" data-alterar-status>"
+        + (ativo ? "Desativar artesão" : "Ativar artesão") + "</button>"
+        + "<button type=\"button\" class=\"btn btn--secundario\""
+        + " data-senha>Redefinir senha</button></div>"
+        + "<p role=\"alert\" data-erro></p>");
+    modal.querySelector("[data-alterar-status]").addEventListener(
+        "click", function () {
+            modal.close();
+            const confirmar = dialogo(ativo ? "Desativar artesão?"
+                : "Ativar artesão?", "<form><p>"
+                + escaparHtml(artesao.nome) + "</p>"
+                + acoesFormulario(ativo ? "Desativar" : "Ativar")
+                + "</form>", "pequeno");
+            ligarSalvar(confirmar, async function () {
+                await salvarArtesao(Object.assign({}, artesao, {
+                    status: ativo ? "inativo" : "ativo"
+                }));
+            }, "Status do artesão atualizado.");
+        }
+    );
+    modal.querySelector("[data-senha]").addEventListener("click", function () {
+        modal.close();
+        const senha = dialogo("Redefinir senha provisória", "<form>"
+            + campo("senha", "Nova senha provisória *", "", "password", true)
+            + campo("confirmar", "Confirmar senha *", "", "password", true)
+            + acoesFormulario("Redefinir senha") + "</form>", "pequeno");
+        senha.querySelector("[name=senha]").minLength = 6;
+        ligarSalvar(senha, async function (campos) {
+            if (campos.senha.value !== campos.confirmar.value) {
+                throw new Error("As senhas não conferem.");
+            }
+            await salvarArtesao(Object.assign({}, artesao, {
+                senha: campos.senha.value
+            }));
+        }, "Senha provisória redefinida neste navegador.");
+    });
 }
 
-/**
- * Abre o gerenciamento de permissões.
- */
-function gerenciarPermissoes() {
-    // A IMPLEMENTAR: abrir o popup de permissões do painel.
-    mostrarAviso("Em breve: gerenciar permissões.");
+async function verPublicacao(id) {
+    const marco = document.getElementById("conteudo").firstElementChild;
+    const dados = await comNomeDoArtesao([await obterTrabalho(id)]);
+    if (marco.isConnected) {
+        dialogo(dados[0].titulo, detalhesTrabalho(dados[0]), "grande");
+    }
 }
 
-/**
- * Abre a lista de técnicas para edição.
- */
-function gerenciarTecnicas() {
-    // A IMPLEMENTAR: abrir o popup de gerenciamento de técnicas.
-    mostrarAviso("Em breve: gerenciar técnicas.");
+async function editarPublicacao(id) {
+    const marco = document.getElementById("conteudo").firstElementChild;
+    const dados = await Promise.all([obterTrabalho(id), carregarCategorias()]);
+    if (!marco.isConnected) {
+        return;
+    }
+    const trabalho = dados[0];
+    const modal = dialogo("Editar publicação", "<form>"
+        + campo("titulo", "Título *", trabalho.titulo, "text", true)
+        + areaTexto("descricao", "Descrição *", trabalho.descricao)
+        + selecionarCampo("categoria", "Categoria *", dados[1].categorias,
+            [trabalho.categoria])
+        + selecionarCampo("tecnica", "Técnica *", dados[1].tecnicas,
+            [trabalho.tecnica])
+        + campo("materiais", "Materiais", trabalho.materiais)
+        + campo("dimensoes", "Dimensões", trabalho.dimensoes)
+        + campo("preco", "Preço (R$)", trabalho.preco ?? "", "number")
+        + acoesFormulario() + "</form>");
+    modal.querySelector("[name=descricao]").required = true;
+    modal.querySelector("[name=preco]").min = "0";
+    modal.querySelector("[name=preco]").step = "0.01";
+    ligarSalvar(modal, async function (campos) {
+        if (!campos.titulo.value.trim() || !campos.descricao.value.trim()) {
+            throw new Error("Preencha título e descrição.");
+        }
+        await salvarTrabalho(Object.assign({}, trabalho, {
+            categoria: campos.categoria.value,
+            descricao: campos.descricao.value.trim(),
+            dimensoes: campos.dimensoes.value.trim(),
+            materiais: campos.materiais.value.trim(),
+            preco: campos.preco.value ? Number(campos.preco.value) : null,
+            tecnica: campos.tecnica.value,
+            titulo: campos.titulo.value.trim()
+        }));
+    }, "Publicação atualizada.");
 }
 
-/**
- * Salva as configurações do painel (simulação).
- */
-function salvarConfiguracoes() {
-    // A IMPLEMENTAR: persistir as configurações do Liceu.
-    mostrarAviso("Configurações salvas (simulação).");
+async function ocultarPublicacao(id) {
+    const marco = document.getElementById("conteudo").firstElementChild;
+    const trabalho = await obterTrabalho(id);
+    if (!marco.isConnected) {
+        return;
+    }
+    const ocultar = trabalho.status === "publicado";
+    const modal = dialogo(ocultar ? "Ocultar publicação?"
+        : "Republicar trabalho?", "<form><p>"
+        + escaparHtml(trabalho.titulo)
+        + (ocultar ? " deixará de aparecer no portal."
+            : " voltará a aparecer no portal com a aprovação já registrada.")
+        + "</p>" + acoesFormulario(ocultar ? "Ocultar" : "Republicar")
+        + "</form>", "pequeno");
+    ligarSalvar(modal, async function () {
+        await salvarTrabalho(Object.assign({}, trabalho, {
+            status: ocultar ? "oculto" : "publicado"
+        }));
+    }, ocultar ? "Publicação ocultada." : "Trabalho republicado.");
+}
+
+async function excluirPublicacao(id) {
+    const marco = document.getElementById("conteudo").firstElementChild;
+    const trabalho = await obterTrabalho(id);
+    if (!marco.isConnected) {
+        return;
+    }
+    const modal = dialogo("Excluir publicação?", "<form><p>"
+        + escaparHtml(trabalho.titulo)
+        + " será removido das listagens do portal e do artesão neste navegador."
+        + " Esta ação não pode ser desfeita pela interface.</p>"
+        + acoesFormulario("Excluir") + "</form>", "pequeno");
+    modal.querySelector("[type=submit]").className = "btn btn--perigo";
+    ligarSalvar(modal, async function () {
+        await excluirTrabalho(id);
+    }, "Publicação excluída.");
+}
+
+async function novaPublicacao() {
+    const marco = document.getElementById("conteudo").firstElementChild;
+    const trabalhos = await carregarTrabalhos();
+    if (!marco.isConnected) {
+        return;
+    }
+    const ocultos = trabalhos.filter(function (trabalho) {
+        return trabalho.status === "oculto";
+    });
+    if (!ocultos.length) {
+        dialogo("Nova publicação",
+            "<p>Trabalhos aprovados são publicados automaticamente. "
+            + "Não há publicações ocultas para republicar.</p>"
+            + "<a class=\"btn btn--primario\""
+            + " href=\"#/painel-liceu/trabalhos-pendentes\">"
+            + "Analisar trabalhos pendentes</a>", "pequeno");
+        return;
+    }
+    const modal = dialogo("Republicar trabalho aprovado", "<form>"
+        + selecionarCampo("trabalho", "Trabalho aprovado", ocultos.map(
+            function (trabalho) { return trabalho.id; }), [])
+        + acoesFormulario("Republicar") + "</form>");
+    modal.querySelectorAll("option").forEach(function (opcao) {
+        opcao.textContent = ocultos.find(function (item) {
+            return item.id === opcao.value;
+        }).titulo;
+    });
+    ligarSalvar(modal, async function (campos) {
+        const trabalho = ocultos.find(function (item) {
+            return item.id === campos.trabalho.value;
+        });
+        await salvarTrabalho(Object.assign({}, trabalho, {status: "publicado"}));
+    }, "Trabalho republicado.");
 }
 
 // ===== Helpers compartilhados =====
@@ -181,7 +513,9 @@ function ligarAcoes(alvo, acoes) {
             : undefined
         );
         if (acao) {
-            acao(botao.dataset.id);
+            Promise.resolve(acao(botao.dataset.id)).catch(function (erro) {
+                mostrarAviso(erro.message || "Não foi possível concluir a ação.");
+            });
         }
     });
 }
@@ -529,7 +863,9 @@ async function montarInicio(raiz) {
     raiz.querySelector("[data-resumo]").innerHTML = resumo.map(
         criarCardEstatistica
     ).join("");
-    lista.innerHTML = exibidos.map(criarCardPendente).join("");
+    lista.innerHTML = exibidos.length
+        ? exibidos.map(criarCardPendente).join("")
+        : "<p class=\"liceu-vazio\">Nenhum trabalho aguarda análise.</p>";
     ligarAcoes(lista, {analisar: analisarTrabalho});
 }
 
@@ -633,17 +969,6 @@ async function montarArtesaos(raiz) {
 // ===== Aba Cadastrar Artesão =====
 
 /**
- * Simula o cadastro de um novo artesão (sem a senha, que não é guardada).
- * @param {object} dados campos do formulário
- * @returns {Promise<void>}
- */
-async function cadastrarArtesao(dados) {
-    // A IMPLEMENTAR: enviar ao servidor e criar o acesso do artesão.
-    await salvarArtesao(dados);
-    mostrarAviso("Artesão cadastrado (simulação).");
-}
-
-/**
  * Liga o seletor de técnicas: escolher adiciona um chip removível e
  * mantém o campo oculto com os valores separados por vírgula.
  * @param {HTMLElement} raiz
@@ -730,28 +1055,56 @@ async function montarCadastro(raiz) {
     prepararCamposSenha(formulario);
     senha.addEventListener("input", conferirSenhas);
     confirmar.addEventListener("input", conferirSenhas);
-    formulario.addEventListener("submit", function (evento) {
-        const campos = formulario.elements;
-        const categoria = campos.categoria.value;
+    const erro = document.createElement("p");
+    erro.setAttribute("role", "alert");
+    formulario.querySelector(".form-acoes").before(erro);
+    formulario.elements.whatsapp.addEventListener("input", function () {
+        const telefone = formulario.elements.whatsapp;
+        const digitos = telefone.value.replace(/\D/g, "");
+        telefone.setCustomValidity(telefone.value && (digitos.length < 10
+            || digitos.length > 13) ? "Informe um telefone válido com DDD." : "");
+    });
+    formulario.addEventListener("submit", async function (evento) {
         evento.preventDefault();
-        cadastrarArtesao({
-            categorias: (
-                categoria
-                ? [categoria]
-                : []
-            ),
-            email: campos.email.value.trim(),
-            empreendimento: campos.empreendimento.value.trim(),
-            instagram: campos.instagram.value.trim(),
-            nome: campos.nome.value.trim(),
-            status: "ativo",
-            tecnicas: lerTecnicas(),
-            whatsapp: campos.whatsapp.value.trim()
-        }).then(function () {
-            formulario.reset();
-        }).catch(function () {
-            mostrarAviso("Não foi possível cadastrar o artesão.");
-        });
+        const campos = formulario.elements;
+        const botao = formulario.querySelector("[type=submit]");
+        const categoria = campos.categoria.value;
+        conferirSenhas();
+        if (botao.disabled || !formulario.reportValidity()) {
+            return;
+        }
+        if (!campos.nome.value.trim()) {
+            erro.textContent = "Informe o nome completo do artesão.";
+            campos.nome.focus();
+            return;
+        }
+        botao.disabled = true;
+        erro.textContent = "";
+        try {
+            await salvarArtesao({
+                bio: "",
+                categorias: categoria ? [categoria] : [],
+                cidade: "Curitiba - PR",
+                email: campos.email.value.trim(),
+                empreendimento: campos.empreendimento.value.trim(),
+                foto: "assets/img/avatar-padrao.jpg",
+                instagram: campos.instagram.value.trim(),
+                nome: campos.nome.value.trim(),
+                senha: campos.senha.value,
+                status: "ativo",
+                tecnicas: lerTecnicas(),
+                whatsapp: campos.whatsapp.value.trim()
+            });
+            mostrarAviso("Artesão cadastrado. O acesso já pode ser usado neste navegador.");
+            if (!marco.isConnected) {
+                return;
+            }
+            window.location.hash = "#/painel-liceu/artesaos";
+        } catch (falha) {
+            erro.textContent = falha.message || "Não foi possível cadastrar o artesão.";
+        } finally {
+            botao.disabled = false;
+        }
     });
 }
 
@@ -817,8 +1170,12 @@ async function montarPendentes(raiz) {
         },
         {
             icone: "lucide:circle-check",
-            // A IMPLEMENTAR: contar os trabalhos analisados no dia.
-            numero: 2,
+            numero: dados[0].filter(function (trabalho) {
+                return trabalho.analisadoEm && new Date(
+                    trabalho.analisadoEm
+                ).toLocaleDateString("pt-BR") === new Date(
+                ).toLocaleDateString("pt-BR");
+            }).length,
             rotulo: "Analisados hoje"
         }
     ];
@@ -898,14 +1255,14 @@ function criarLinhaPublicacao(trabalho) {
         + escaparHtml(trabalho.categoria) + "</td>"
         + "<td data-rotulo=\"Data de publicação\">"
         + formatarData(trabalho.publicadoEm, false) + "</td>"
-        + "<td data-rotulo=\"Status\">" + criarStatus("publicado") + "</td>"
+        + "<td data-rotulo=\"Status\">" + criarStatus(trabalho.status) + "</td>"
         + "<td data-rotulo=\"Ações\"><div class=\"tabela__acoes\">"
         + criarBotaoPublicacao("ver", "lucide:eye", "Ver", trabalho)
         + criarBotaoPublicacao("editar", "lucide:pencil", "Editar", trabalho)
         + criarBotaoPublicacao(
             "ocultar",
-            "lucide:eye-off",
-            "Ocultar",
+            trabalho.status === "oculto" ? "lucide:eye" : "lucide:eye-off",
+            trabalho.status === "oculto" ? "Republicar" : "Ocultar",
             trabalho
         )
         + criarBotaoPublicacao(
@@ -934,7 +1291,7 @@ async function montarPublicacoes(raiz) {
     }
     const publicados = await comNomeDoArtesao(
         dados[0].filter(function (trabalho) {
-            return trabalho.status === "publicado";
+            return trabalho.status === "publicado" || trabalho.status === "oculto";
         })
     );
     if (!marco.isConnected) {
@@ -993,23 +1350,33 @@ async function montarPublicacoes(raiz) {
 // ===== Aba Configurações =====
 
 /**
- * Aba Configurações: dados do Liceu e preferências.
+ * Configurações futuras ficam identificadas sem simular salvamentos.
  * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
  */
-function montarConfiguracoes(raiz) {
+async function montarConfiguracoes(raiz) {
+    const marco = raiz.firstElementChild;
+    const categorias = await carregarCategorias();
+    if (!marco.isConnected) {
+        return;
+    }
     const formulario = raiz.querySelector("[data-formulario]");
-
+    formulario.insertAdjacentHTML("beforebegin",
+        "<aside class=\"aviso\" id=\"config-mvp\"><p>"
+        + "As configurações institucionais, preferências, gestão de listas e "
+        + "permissões são previstas para uma etapa futura. No MVP, os papéis "
+        + "são fixos e categorias e técnicas usam as opções predefinidas.</p>"
+        + "</aside>");
+    formulario.querySelectorAll("input, button").forEach(function (controle) {
+        controle.disabled = true;
+        controle.setAttribute("aria-describedby", "config-mvp");
+    });
+    const listas = raiz.querySelector("#config-categorias").closest("section");
+    listas.insertAdjacentHTML("beforeend", "<p><strong>Categorias:</strong> "
+        + escaparHtml(categorias.categorias.join(", "))
+        + "</p><p><strong>Técnicas:</strong> "
+        + escaparHtml(categorias.tecnicas.join(", ")) + "</p>");
     formulario.addEventListener("submit", function (evento) {
         evento.preventDefault();
-        salvarConfiguracoes();
-    });
-    ligarAcoes(formulario, {
-        "adicionar-categoria": adicionarCategoria,
-        "adicionar-tecnica": adicionarTecnica,
-        "alterar-senha": alterarSenhaAdmin,
-        "gerenciar-categorias": gerenciarCategorias,
-        "gerenciar-permissoes": gerenciarPermissoes,
-        "gerenciar-tecnicas": gerenciarTecnicas
     });
 }
 
