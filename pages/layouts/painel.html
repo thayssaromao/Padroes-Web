@@ -1,0 +1,63 @@
+<!-- Casca compartilhada da Área do Liceu e da Área do Artesão (docs/DESIGN.md §4.2).
+     Título, itens do menu e usuário são preenchidos por js/layout.js. -->
+<div class="painel">
+    <header class="painel__topo">
+        <button type="button" class="btn btn--icone painel__menu" aria-expanded="false" aria-controls="painel-lateral" aria-label="Abrir menu do painel">
+            <iconify-icon icon="lucide:menu" aria-hidden="true"></iconify-icon>
+        </button>
+
+        <a class="marca" href="#/inicio">
+            <img src="assets/logo.png" alt="" class="marca__logo" width="64" height="36">
+            <span>Liceu de Ofícios</span>
+        </a>
+
+        <div class="painel__usuario">
+            <button type="button" class="btn btn--icone btn--circular" aria-label="Notificações" data-acao="notificacoes">
+                <iconify-icon icon="lucide:bell" aria-hidden="true"></iconify-icon>
+            </button>
+            <span class="painel__divisor" aria-hidden="true"></span>
+            <button type="button" class="painel__perfil" aria-haspopup="menu" aria-expanded="false" data-acao="menu-usuario">
+                <img src="assets/img/avatar-padrao.jpg" alt="" class="avatar" width="40" height="40" data-usuario-foto>
+                <span class="painel__perfil-nome" data-usuario-nome>Usuário</span>
+                <iconify-icon icon="lucide:chevron-down" aria-hidden="true"></iconify-icon>
+            </button>
+        </div>
+    </header>
+
+    <nav id="painel-lateral" class="painel__lateral" aria-label="Menu do painel">
+        <p class="painel__titulo" data-painel-titulo>Área</p>
+
+        <!-- Itens gerados a partir de js/rotas.js -->
+        <ul class="painel__menu-lista" data-painel-menu></ul>
+
+        <hr class="painel__separador">
+
+        <ul class="painel__menu-lista">
+            <li>
+                <a class="painel__link" href="#/inicio">
+                    <iconify-icon icon="lucide:external-link" aria-hidden="true"></iconify-icon>
+                    Voltar ao Portal
+                </a>
+            </li>
+        </ul>
+
+        <button type="button" class="painel__link painel__sair" data-acao="sair">
+            <iconify-icon icon="lucide:log-out" aria-hidden="true"></iconify-icon>
+            Sair
+        </button>
+    </nav>
+
+    <main id="conteudo" class="painel__principal" tabindex="-1"></main>
+
+    <footer class="painel__rodape">
+        <a class="marca" href="#/inicio">
+            <img src="assets/logo.png" alt="" class="marca__logo" width="64" height="36">
+            <span>Liceu de Ofícios</span>
+        </a>
+        <ul class="painel__rodape-links">
+            <li><a href="#/contato">Ajuda</a></li>
+            <li><a href="#/sobre">Sobre o projeto</a></li>
+            <li><small>&copy; 2026 Liceu de Ofícios Criativos</small></li>
+        </ul>
+    </footer>
+</div>

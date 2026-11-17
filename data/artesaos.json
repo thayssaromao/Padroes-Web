@@ -1,0 +1,230 @@
+[
+  {
+    "id": "ana-martins",
+    "nome": "Ana Martins Mock",
+    "empreendimento": "Cerâmica da Ana Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Decoração"
+    ],
+    "tecnicas": [
+      "Cerâmica"
+    ],
+    "foto": "assets/img/artesaos/ana-martins.jpg",
+    "bio": "Ana trabalha com cerâmica há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@anamartins.ceramica",
+    "whatsapp": "(41) 98848-7161",
+    "email": "ana@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-02-10T10:00:00-03:00"
+  },
+  {
+    "id": "carlos-silva",
+    "nome": "Carlos Silva Mock",
+    "empreendimento": "Tramas do Carlos Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Utilitários"
+    ],
+    "tecnicas": [
+      "Crochê"
+    ],
+    "foto": "assets/img/artesaos/carlos-silva.jpg",
+    "bio": "Carlos trabalha com crochê há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@tramasdocarlos",
+    "whatsapp": "(41) 99765-4321",
+    "email": "carlos@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-03-02T10:00:00-03:00"
+  },
+  {
+    "id": "mariana-costa",
+    "nome": "Mariana Costa Mock",
+    "empreendimento": "Cestaria Raiz Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Organização"
+    ],
+    "tecnicas": [
+      "Cestaria"
+    ],
+    "foto": "assets/img/artesaos/mariana-costa.jpg",
+    "bio": "Mariana trabalha com cestaria há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@cestariaraiz",
+    "whatsapp": "(41) 99123-9876",
+    "email": "mariana@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-03-15T10:00:00-03:00"
+  },
+  {
+    "id": "beatriz-lima",
+    "nome": "Beatriz Lima Mock",
+    "empreendimento": "Bordados da Bia Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Decoração"
+    ],
+    "tecnicas": [
+      "Bordado"
+    ],
+    "foto": "assets/img/artesaos/beatriz-lima.jpg",
+    "bio": "Beatriz trabalha com bordado há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@bordadosdabia",
+    "whatsapp": "(41) 98901-2345",
+    "email": "beatriz@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-04-01T10:00:00-03:00"
+  },
+  {
+    "id": "paulo-mendes",
+    "nome": "Paulo Mendes Mock",
+    "empreendimento": "Madeira Criativa Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Utilitários"
+    ],
+    "tecnicas": [
+      "Madeira"
+    ],
+    "foto": "assets/img/artesaos/paulo-mendes.jpg",
+    "bio": "Paulo trabalha com madeira há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@madeiracriativa",
+    "whatsapp": "(41) 99555-6789",
+    "email": "paulo@exemplo.com",
+    "status": "inativo",
+    "cadastradoEm": "2026-04-20T10:00:00-03:00"
+  },
+  {
+    "id": "maria-oliveira",
+    "nome": "Maria Oliveira Mock",
+    "empreendimento": "Barro & Arte Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Decoração"
+    ],
+    "tecnicas": [
+      "Cerâmica"
+    ],
+    "foto": "assets/img/artesaos/maria-oliveira.jpg",
+    "bio": "Maria trabalha com cerâmica há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@barroearte",
+    "whatsapp": "(41) 99811-2020",
+    "email": "maria@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-05-05T10:00:00-03:00"
+  },
+  {
+    "id": "joao-santos",
+    "nome": "João Santos Mock",
+    "empreendimento": "Fibras do Sul Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Acessórios"
+    ],
+    "tecnicas": [
+      "Fibras naturais"
+    ],
+    "foto": "assets/img/artesaos/joao-santos.jpg",
+    "bio": "João trabalha com fibras naturais há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@fibrasdosul",
+    "whatsapp": "(41) 99702-3030",
+    "email": "joao@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-05-18T10:00:00-03:00"
+  },
+  {
+    "id": "ana-costa",
+    "nome": "Ana Costa Mock",
+    "empreendimento": "Ateliê Entalhe Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Decoração"
+    ],
+    "tecnicas": [
+      "Madeira"
+    ],
+    "foto": "assets/img/artesaos/ana-costa.jpg",
+    "bio": "Ana trabalha com madeira há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@atelieentalhe",
+    "whatsapp": "(41) 99633-4040",
+    "email": "anacosta@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-06-03T10:00:00-03:00"
+  },
+  {
+    "id": "luciana-mendes",
+    "nome": "Luciana Mendes Mock",
+    "empreendimento": "Linha & Agulha Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Utilitários"
+    ],
+    "tecnicas": [
+      "Bordado"
+    ],
+    "foto": "assets/img/artesaos/luciana-mendes.jpg",
+    "bio": "Luciana trabalha com bordado há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@linhaeagulha",
+    "whatsapp": "(41) 99544-5050",
+    "email": "luciana@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-06-21T10:00:00-03:00"
+  },
+  {
+    "id": "carlos-lima",
+    "nome": "Carlos Lima Mock",
+    "empreendimento": "Crochê do Carlos Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Decoração"
+    ],
+    "tecnicas": [
+      "Crochê"
+    ],
+    "foto": "assets/img/artesaos/carlos-lima.jpg",
+    "bio": "Carlos trabalha com crochê há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@crochedocarlos",
+    "whatsapp": "(41) 99455-6060",
+    "email": "carloslima@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-07-09T10:00:00-03:00"
+  },
+  {
+    "id": "rosa-almeida",
+    "nome": "Rosa Almeida Mock",
+    "empreendimento": "Retalhos da Rosa Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Arte em tecido"
+    ],
+    "tecnicas": [
+      "Patchwork"
+    ],
+    "foto": "assets/img/artesaos/rosa-almeida.jpg",
+    "bio": "Rosa trabalha com patchwork há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@retalhosdarosa",
+    "whatsapp": "(41) 99366-7070",
+    "email": "rosa@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-08-14T10:00:00-03:00"
+  },
+  {
+    "id": "pedro-rocha",
+    "nome": "Pedro Rocha Mock",
+    "empreendimento": "Macramê Rocha Mock",
+    "cidade": "Curitiba - PR",
+    "categorias": [
+      "Acessórios"
+    ],
+    "tecnicas": [
+      "Macramê"
+    ],
+    "foto": "assets/img/artesaos/pedro-rocha.jpg",
+    "bio": "Pedro trabalha com macramê há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+    "instagram": "@macramerocha",
+    "whatsapp": "(41) 99277-8080",
+    "email": "pedro@exemplo.com",
+    "status": "ativo",
+    "cadastradoEm": "2026-09-30T10:00:00-03:00"
+  }
+]

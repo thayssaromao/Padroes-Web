@@ -1,0 +1,46 @@
+/* =========================================================
+   paginas/inicio.css — estilos exclusivos da página
+   Guia: docs/DESIGN.md (use só tokens e componentes do guia)
+   ========================================================= */
+
+.inicio-hero__grade {
+    display: grid;
+    gap: var(--espaco-6);
+    align-items: center;
+}
+
+.inicio-hero__texto {
+    gap: var(--espaco-5);
+}
+
+.inicio-titulo-secao {
+    margin-bottom: var(--espaco-5);
+}
+
+.inicio-video {
+    max-width: 880px;
+}
+
+.inicio-video .video {
+    margin-top: var(--espaco-2);
+}
+
+.inicio-vazio {
+    grid-column: 1 / -1;
+}
+
+@media (min-width: 1024px) {
+    .inicio-hero__grade {
+        grid-template-columns: 1fr 1.25fr;
+        gap: var(--espaco-7);
+    }
+
+    .inicio-atalhos .card-atalho {
+        gap: var(--espaco-3);
+        padding-inline: var(--espaco-4);
+    }
+
+    .inicio-atalhos .card-atalho__titulo {
+        white-space: nowrap;
+    }
+}

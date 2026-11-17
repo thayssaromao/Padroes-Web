@@ -1,1 +1,111 @@
-<h1>Contato</h1>
+<section class="secao">
+    <div class="container contato-hero__grade">
+        <header class="pilha">
+            <span class="sobretitulo">Entre em contato</span>
+            <h1>Contato</h1>
+            <p class="texto-suave">
+                Fale com o Liceu para saber mais sobre os produtos,
+                tirar dúvidas ou obter informações.
+            </p>
+        </header>
+        <!-- A IMPLEMENTAR: trocar pelo <img> representativo de contato -->
+        <div class="contato-imagem" aria-hidden="true"></div>
+    </div>
+</section>
+
+<section class="secao secao--alternada">
+    <div class="container contato-principal">
+        <section class="contato-formulario pilha" aria-labelledby="contato-form-titulo">
+            <header>
+                <h2 id="contato-form-titulo">Envie uma mensagem</h2>
+                <p class="texto-suave">Preencha o formulário abaixo e entraremos em contato em breve.</p>
+            </header>
+
+            <!-- Enviado por js/paginas/contato.js (serviço Web3Forms) -->
+            <form class="pilha" id="contato-form">
+                <div class="campo">
+                    <label for="contato-nome" class="campo__rotulo">Nome completo *</label>
+                    <input id="contato-nome" class="campo__entrada" type="text" name="name" autocomplete="name" required>
+                </div>
+
+                <div class="campo">
+                    <label for="contato-email" class="campo__rotulo">E-mail *</label>
+                    <input id="contato-email" class="campo__entrada" type="email" name="email" autocomplete="email" required>
+                </div>
+
+                <div class="campo">
+                    <label for="contato-mensagem" class="campo__rotulo">Mensagem *</label>
+                    <textarea id="contato-mensagem" class="campo__entrada" name="message" rows="5" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn--primario btn--bloco">
+                    <iconify-icon icon="lucide:send" aria-hidden="true"></iconify-icon>
+                    Enviar mensagem
+                </button>
+
+                <p class="contato-feedback" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="contato-canais pilha" aria-labelledby="contato-canais-titulo">
+            <header>
+                <h2 id="contato-canais-titulo">Outros canais de contato</h2>
+                <p class="texto-suave">Você também pode falar conosco pelos canais oficiais.</p>
+            </header>
+
+            <ul class="pilha">
+                <li>
+                    <a class="card card--clicavel card-atalho" href="https://chat.whatsapp.com/I6yRJDD3BMAKhxMyINDmZZ" target="_blank" rel="noopener noreferrer">
+                        <iconify-icon icon="mdi:whatsapp" aria-hidden="true"></iconify-icon>
+                        <span class="card-atalho__texto">
+                            <span class="card-atalho__titulo">WhatsApp</span>
+                            <span class="card-atalho__descricao">Fale diretamente com o Liceu (abre em nova aba).</span>
+                        </span>
+                        <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+                    </a>
+                </li>
+                <li>
+                    <a class="card card--clicavel card-atalho" href="https://www.instagram.com/liceudeoficioscriativos/" target="_blank" rel="noopener noreferrer">
+                        <iconify-icon icon="lucide:instagram" aria-hidden="true"></iconify-icon>
+                        <span class="card-atalho__texto">
+                            <span class="card-atalho__titulo">Instagram</span>
+                            <span class="card-atalho__descricao">Acompanhe novidades, produtos e iniciativas (abre em nova aba).</span>
+                        </span>
+                        <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+                    </a>
+                </li>
+                <li>
+                    <a class="card card--clicavel card-atalho" href="mailto:liceucriativo@curitiba.pr.gov.br">
+                        <iconify-icon icon="lucide:mail" aria-hidden="true"></iconify-icon>
+                        <span class="card-atalho__texto">
+                            <span class="card-atalho__titulo">E-mail</span>
+                            <span class="card-atalho__descricao">Envie suas dúvidas ou mensagens para o Liceu.</span>
+                        </span>
+                        <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+                    </a>
+                </li>
+            </ul>
+        </section>
+    </div>
+</section>
+
+<section class="secao" aria-labelledby="contato-explora-titulo">
+    <div class="container contato-explora">
+        <header>
+            <span class="sobretitulo">Conheça também</span>
+            <h2 id="contato-explora-titulo">Explore mais sobre o Liceu</h2>
+            <p class="texto-suave">Descubra nossos produtos, conheça nossos artesãos e saiba mais sobre os trabalhos.</p>
+        </header>
+
+        <div class="linha">
+            <a class="btn btn--suave" href="#/produtos">
+                <iconify-icon icon="bx:shopping-bag" aria-hidden="true"></iconify-icon>
+                Ver produtos
+            </a>
+            <a class="btn btn--suave" href="#/artesaos">
+                <iconify-icon icon="boxicons:user" aria-hidden="true"></iconify-icon>
+                Conhecer artesãos
+            </a>
+        </div>
+    </div>
+</section>

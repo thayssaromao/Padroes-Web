@@ -1,0 +1,61 @@
+/* =========================================================
+   paginas/sobre.css — estilos exclusivos da página
+   Guia: docs/DESIGN.md (use só tokens e componentes do guia)
+   ========================================================= */
+
+.sobre-hero__grade {
+    display: grid;
+    gap: var(--espaco-6);
+    align-items: center;
+}
+
+.sobre-imagem {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-placeholder);
+}
+
+/* Equipe */
+.sobre-equipe {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--espaco-4);
+}
+
+.sobre-membro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-4);
+    height: 100%;
+    padding: var(--espaco-6) var(--espaco-4);
+    text-align: center;
+}
+
+.sobre-membro img {
+    width: 110px;
+    height: 110px;
+    border-radius: var(--raio-pilula);
+}
+
+.sobre-membro figcaption {
+    font-weight: var(--peso-negrito);
+}
+
+@media (min-width: 600px) {
+    .sobre-equipe {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .sobre-hero__grade {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espaco-8);
+    }
+
+    .sobre-equipe {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
