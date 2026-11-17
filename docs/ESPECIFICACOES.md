@@ -38,7 +38,7 @@ Cada rota corresponde a uma parcial em `pages/` (um fragmento HTML, não um docu
 | `#/o-liceu`        | `pages/o-liceu.html`       | Sobre o Liceu (história, objetivos e atuação).                   | Público   |
 | `#/sobre`          | `pages/sobre.html`         | Sobre o projeto.                                                 | Público   |
 | `#/contato`        | `pages/contato.html`       | Contato.                                                         | Público   |
-| `#/login`          | `pages/login.html`         | Tela unificada de acesso (Artesão / Liceu).                      | Público   |
+| `#/login`          | `pages/login.html`         | Modal unificado de acesso (Artesão / Liceu) — ver nota abaixo.   | Público   |
 | `#/cadastro`       | `pages/cadastro.html`      | Registro inicial de novos artesãos (nome, e-mail e senha).       | Público   |
 | `#/painel-artesao` | `pages/painel-artesao/inicio.html` | Área do artesão: gerenciar perfil e cadastrar trabalhos. | Restrito  |
 | `#/painel-liceu`   | `pages/painel-liceu/inicio.html`   | Área do Liceu: aprovar/rejeitar os trabalhos submetidos. | Restrito  |
@@ -52,10 +52,14 @@ A tabela completa (com arquivo, ícone e função de cada aba) fica em `js/rotas
 
 Rotas inexistentes recaem na parcial de fallback `pages/nao-encontrado.html`.
 
-**Proteção de rotas restritas:**
-Como ainda não há back-end, as áreas restritas (`#/painel-artesao` e `#/painel-liceu`) são protegidas no cliente por uma guarda de rota no `router.js`: antes de carregar a parcial, verifica-se a sessão persistida no `localStorage` e, na ausência de sessão válida (ou de permissão compatível com o painel), o usuário é redirecionado para `#/login`.
+**Login como modal.** `#/login` não é uma rota de `js/rotas.js`: `pages/login.html` é um `<dialog>` carregado sob demanda por `js/paginas/login.js` e aberto sobre a página atual.
+- Links para `#/login` (como o "Entrar" do cabeçalho) são interceptados no `router.js` e abrem o modal direto, sem alterar o hash nem criar entrada no histórico.
+- Se o endereço `#/login` for acessado diretamente (ou pela guarda de rota), o `router.js` troca o hash de volta para a página anterior com `history.replaceState` e abre o modal; num primeiro acesso, a página por baixo é `#/inicio`.
 
-> Enquanto a tela de login não existe, a guarda fica desligada pela constante `GUARDA_ATIVA = false` em `js/router.js`, e os painéis usam uma sessão de demonstração (`sessaoDemonstracao` em `js/dados.js`).
+**Proteção de rotas restritas:**
+Como ainda não há back-end, as áreas restritas (`#/painel-artesao` e `#/painel-liceu`) são protegidas no cliente por uma guarda de rota no `router.js`: antes de carregar a parcial, verifica-se a sessão persistida no `localStorage` e, na ausência de sessão válida (ou de permissão compatível com o painel), o usuário é redirecionado para `#/login`, que abre o modal de login sobre a última página permitida.
+
+> Enquanto a autenticação não existe (o modal de login ainda é só visual — issue #25), a guarda fica desligada pela constante `GUARDA_ATIVA = false` em `js/router.js`, e os painéis usam uma sessão de demonstração (`sessaoDemonstracao` em `js/dados.js`).
 
 # Convenções
 - Pull Requests (PRs): Todo merge para a main deve passar por revisão cruzada de pelo menos um colega da equipe
