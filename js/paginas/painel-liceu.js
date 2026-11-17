@@ -299,7 +299,54 @@ function ligarListagem(raiz, config) {
     const ordem = raiz.querySelector("[data-ordem]");
     const formulario = raiz.querySelector("[data-filtros]");
     const campos = Array.from(raiz.querySelectorAll("[data-filtro]"));
+    const linhas = new Map();
+    const fragmento = document.createDocumentFragment();
     let pagina = 1;
+    let ordemAtual = [];
+    let totalPaginas = 0;
+
+    // Dados locais já carregados: prepare cada linha uma única vez, inclusive
+    // seus ícones e imagens, sem reiniciá-los a cada clique na paginação.
+    config.itens.forEach(function (item) {
+        const auxiliar = document.createElement("tbody");
+        auxiliar.innerHTML = config.criarLinha(item);
+        const linha = auxiliar.firstElementChild;
+        linha.hidden = true;
+        linha.querySelectorAll("iconify-icon").forEach(function (elemento) {
+            elemento.setAttribute("noobserver", "");
+        });
+        linha.querySelectorAll("img").forEach(function (imagem) {
+            imagem.loading = "eager";
+        });
+        linhas.set(item, linha);
+        fragmento.append(linha);
+    });
+    corpo.replaceChildren(fragmento);
+
+    function atualizarPaginacao(total) {
+        if (total !== totalPaginas) {
+            paginacao.innerHTML = criarPaginacao(pagina, total);
+            paginacao.querySelectorAll("iconify-icon").forEach(function (elemento) {
+                elemento.setAttribute("noobserver", "");
+            });
+            totalPaginas = total;
+        }
+        paginacao.querySelectorAll(".paginacao__botao").forEach(function (botao) {
+            if (!botao.classList.contains("paginacao__botao--seta")) {
+                if (Number(botao.dataset.pagina) === pagina) {
+                    botao.setAttribute("aria-current", "page");
+                } else {
+                    botao.removeAttribute("aria-current");
+                }
+            }
+        });
+        paginacao.querySelectorAll(".paginacao__botao--seta").forEach(function (botao, indice) {
+            botao.dataset.pagina = String(
+                indice === 0 ? Math.max(1, pagina - 1) : Math.min(total, pagina + 1)
+            );
+            botao.disabled = indice === 0 ? pagina === 1 : pagina === total;
+        });
+    }
 
     function selecionar() {
         const texto = normalizar(busca.value.trim());
@@ -330,7 +377,23 @@ function ligarListagem(raiz, config) {
         const inicio = (Math.min(pagina, total) - 1) * POR_PAGINA;
         const visiveis = lista.slice(inicio, inicio + POR_PAGINA);
         pagina = Math.min(pagina, total);
-        corpo.innerHTML = visiveis.map(config.criarLinha).join("");
+        // Só mova as linhas quando a busca/ordenação mudar. A paginação
+        // alterna visibilidade, mantendo os elementos e seus SVGs montados.
+        if (
+            lista.length !== ordemAtual.length
+            || lista.some(function (item, indice) {
+                return item !== ordemAtual[indice];
+            })
+        ) {
+            lista.forEach(function (item) {
+                corpo.append(linhas.get(item));
+            });
+            ordemAtual = lista;
+        }
+        const selecionados = new Set(visiveis);
+        linhas.forEach(function (linha, item) {
+            linha.hidden = !selecionados.has(item);
+        });
         vazio.hidden = lista.length > 0;
         contagem.textContent = (
             lista.length
@@ -340,7 +403,8 @@ function ligarListagem(raiz, config) {
             )
             : "Nenhum resultado"
         );
-        paginacao.innerHTML = criarPaginacao(pagina, total);
+        paginacao.hidden = lista.length === 0;
+        atualizarPaginacao(total);
         if (focar) {
             paginacao.querySelector("[aria-current]").focus({
                 preventScroll: true
@@ -368,8 +432,9 @@ function ligarListagem(raiz, config) {
     }
     paginacao.addEventListener("click", function (evento) {
         const botao = evento.target.closest("[data-pagina]");
-        if (botao) {
-            pagina = Number(botao.dataset.pagina);
+        const destino = botao ? Number(botao.dataset.pagina) : pagina;
+        if (botao && !botao.disabled && destino !== pagina) {
+            pagina = destino;
             exibir(true);
         }
     });
@@ -477,20 +542,27 @@ async function montarInicio(raiz) {
  */
 function criarLinhaArtesao(artesao) {
     const nome = escaparHtml(artesao.nome);
+    const empreendimento = escaparHtml(artesao.empreendimento);
+    const email = escaparHtml(artesao.email);
+    const whatsapp = escaparHtml(artesao.whatsapp);
     const id = `data-id="${escaparHtml(artesao.id)}"`;
     return (
         "<tr>"
         + "<td data-rotulo=\"Artesão\"><span class=\"tabela__principal\">"
         + `<img class="avatar" src="${escaparHtml(artesao.foto)}" alt=""`
-        + ` width="40" height="40" loading="lazy">${nome}</span></td>`
-        + "<td data-rotulo=\"Empreendimento\">"
-        + escaparHtml(artesao.empreendimento) + "</td>"
+        + " width=\"40\" height=\"40\" loading=\"lazy\">"
+        + `<span class="tabela__texto" title="${nome}">${nome}</span>`
+        + "</span></td>"
+        + `<td data-rotulo="Empreendimento" title="${empreendimento}">`
+        + empreendimento + "</td>"
         + "<td data-rotulo=\"Categoria / Técnica\">"
         + criarChips(artesao.tecnicas.concat(artesao.categorias)) + "</td>"
         + "<td data-rotulo=\"Contato\"><span class=\"liceu-contato\">"
-        + "<span>" + icone("lucide:mail") + escaparHtml(artesao.email)
+        + "<span>" + icone("lucide:mail")
+        + `<span class="tabela__texto" title="${email}">${email}</span>`
         + "</span><span>" + icone("mdi:whatsapp")
-        + escaparHtml(artesao.whatsapp) + "</span></span></td>"
+        + `<span class="tabela__texto" title="${whatsapp}">${whatsapp}</span>`
+        + "</span></span></td>"
         + "<td data-rotulo=\"Status\">" + criarStatus(artesao.status)
         + "</td>"
         + "<td data-rotulo=\"Ações\"><div class=\"tabela__acoes\">"

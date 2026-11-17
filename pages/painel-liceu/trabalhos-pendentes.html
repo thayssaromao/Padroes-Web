@@ -11,12 +11,11 @@
     <div class="grade-estatisticas grade-estatisticas--3" data-resumo></div>
 </section>
 
-<search class="barra-filtros liceu-barra">
+<search class="barra-filtros barra-filtros--grupos liceu-barra">
     <div class="busca">
         <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
         <input type="search" class="busca__entrada" data-busca aria-label="Buscar trabalhos pendentes" placeholder="Buscar por trabalho ou artesão...">
     </div>
-    <span class="barra-filtros__divisor" aria-hidden="true"></span>
     <div class="barra-filtros__item">
         <label for="liceu-pendentes-filtro">Filtrar por categoria/técnica:</label>
         <!-- Opções de categorias e técnicas preenchidas via JS -->
@@ -24,7 +23,6 @@
             <option value="">Todas</option>
         </select>
     </div>
-    <span class="barra-filtros__divisor" aria-hidden="true"></span>
     <div class="barra-filtros__item">
         <label for="liceu-pendentes-ordem">Ordenar por:</label>
         <select id="liceu-pendentes-ordem" class="campo__entrada" data-ordem>

@@ -17,7 +17,6 @@
         <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
         <input type="search" class="busca__entrada" data-busca aria-label="Buscar artesãos" placeholder="Buscar por nome, e-mail ou empreendimento...">
     </div>
-    <span class="barra-filtros__divisor" aria-hidden="true"></span>
     <div class="barra-filtros__item">
         <label for="liceu-artesaos-filtro">Filtrar por categoria/técnica:</label>
         <!-- Opções de categorias e técnicas preenchidas via JS -->
@@ -25,7 +24,6 @@
             <option value="">Todas</option>
         </select>
     </div>
-    <span class="barra-filtros__divisor" aria-hidden="true"></span>
     <div class="barra-filtros__item">
         <label for="liceu-artesaos-ordem">Ordenar por:</label>
         <select id="liceu-artesaos-ordem" class="campo__entrada" data-ordem>
@@ -35,10 +33,18 @@
     </div>
 </search>
 
-<section aria-label="Lista de artesãos">
-    <div class="tabela-container liceu-tabela">
-        <table class="tabela">
+<section class="liceu-listagem-artesaos" aria-label="Lista de artesãos">
+    <div class="tabela-container liceu-tabela liceu-tabela--artesaos">
+        <table class="tabela tabela--artesaos">
             <caption class="visualmente-oculto">Artesãos cadastrados</caption>
+            <colgroup>
+                <col class="col-artesao">
+                <col class="col-empreendimento">
+                <col class="col-categoria">
+                <col class="col-contato">
+                <col class="col-status">
+                <col class="col-acoes">
+            </colgroup>
             <thead>
                 <tr>
                     <th scope="col">Artesão</th>
