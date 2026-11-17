@@ -1,7 +1,118 @@
-<header class="painel-cabecalho">
+<header class="painel-cabecalho artesao-cabecalho-acao">
     <div class="painel-cabecalho__texto">
         <span class="sobretitulo">Novo trabalho</span>
         <h1>Novo Trabalho</h1>
+        <p class="texto-apoio">Cadastre um novo trabalho para enviar à análise do Liceu.</p>
+    </div>
+    <div class="painel-cabecalho__acoes">
+        <button type="button" class="btn btn--suave" data-rascunhos>
+            <iconify-icon icon="lucide:file-text" aria-hidden="true"></iconify-icon>
+            Rascunho
+        </button>
     </div>
 </header>
-<p class="em-construcao">Em construção.</p>
+
+<form class="artesao-novo" data-form-trabalho>
+    <div class="artesao-novo__dados">
+        <fieldset class="bloco-form">
+            <legend class="bloco-form__titulo artesao-legenda">Informações principais</legend>
+            <div class="campo">
+                <label for="trabalho-nome" class="campo__rotulo">Nome do trabalho *</label>
+                <input type="text" id="trabalho-nome" class="campo__entrada" name="titulo" placeholder="Digite o nome do trabalho" required>
+            </div>
+            <div class="campos-duplos">
+                <div class="campo">
+                    <label for="trabalho-categoria" class="campo__rotulo">Categoria *</label>
+                    <select id="trabalho-categoria" class="campo__entrada" name="categoria" required>
+                        <option value="">Selecione uma categoria</option>
+                        <!-- Categorias preenchidas via JS (data/categorias.json) -->
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="trabalho-tecnica" class="campo__rotulo">Técnica *</label>
+                    <select id="trabalho-tecnica" class="campo__entrada" name="tecnica" required>
+                        <option value="">Selecione uma técnica</option>
+                        <!-- Técnicas preenchidas via JS (data/categorias.json) -->
+                    </select>
+                </div>
+            </div>
+            <div class="campo">
+                <label for="trabalho-materiais" class="campo__rotulo">Materiais</label>
+                <input type="text" id="trabalho-materiais" class="campo__entrada" name="materiais" placeholder="Ex.: algodão, cerâmica, madeira, linha, tinta...">
+            </div>
+        </fieldset>
+
+        <fieldset class="bloco-form">
+            <legend class="bloco-form__titulo artesao-legenda">Descrição do trabalho</legend>
+            <div class="campo">
+                <label for="trabalho-descricao" class="visualmente-oculto">Descrição do trabalho</label>
+                <textarea id="trabalho-descricao" class="campo__entrada" name="descricao" rows="4" placeholder="Conte sobre a peça, inspiração, processo de criação, uso e diferenciais..."></textarea>
+            </div>
+        </fieldset>
+
+        <fieldset class="bloco-form">
+            <legend class="bloco-form__titulo artesao-legenda">Detalhes adicionais</legend>
+            <div class="campos-duplos">
+                <div class="campo">
+                    <label for="trabalho-dimensoes" class="campo__rotulo">Dimensões</label>
+                    <input type="text" id="trabalho-dimensoes" class="campo__entrada" name="dimensoes" placeholder="Ex.: 30 cm (A) x 20 cm (L) x 15 cm (P)">
+                </div>
+                <fieldset class="artesao-preco">
+                    <legend class="campo__rotulo artesao-legenda">Preço</legend>
+                    <label class="artesao-preco__opcao">
+                        <input type="radio" name="preco-tipo" value="consulta" checked data-preco-tipo>
+                        Valor sob consulta
+                    </label>
+                    <div class="artesao-preco__opcao">
+                        <label>
+                            <input type="radio" name="preco-tipo" value="definir" data-preco-tipo>
+                            Definir valor
+                        </label>
+                        <label for="trabalho-preco" class="visualmente-oculto">Valor em reais</label>
+                        <input type="text" id="trabalho-preco" class="campo__entrada" name="preco" inputmode="decimal" placeholder="R$ 0,00" disabled data-preco>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="campo">
+                <label for="trabalho-observacoes" class="campo__rotulo">Observações / Cuidados</label>
+                <textarea id="trabalho-observacoes" class="campo__entrada" name="observacoes" rows="3" placeholder="Ex.: cuidados de uso, limpeza, informações adicionais..."></textarea>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="artesao-novo__imagens">
+        <section class="bloco-form" aria-labelledby="trabalho-imagens-titulo">
+            <h2 class="bloco-form__titulo" id="trabalho-imagens-titulo">Imagens do trabalho</h2>
+            <p class="bloco-form__descricao">Adicione fotos de boa qualidade para apresentar seu trabalho (até 8 imagens).</p>
+            <label class="upload" data-upload>
+                <iconify-icon icon="lucide:image-plus" aria-hidden="true"></iconify-icon>
+                <span class="upload__titulo">Adicionar imagens</span>
+                <span>Arraste e solte arquivos aqui ou clique para selecionar</span>
+                <span class="chip">Até 8 fotos • JPG, PNG • Máx. 10 MB por arquivo</span>
+                <input type="file" class="visualmente-oculto" multiple accept="image/png, image/jpeg" data-upload-entrada>
+            </label>
+            <!-- Miniaturas das imagens escolhidas (com × e selo Capa), via JS -->
+            <ul class="miniaturas" aria-label="Imagens selecionadas" data-miniaturas></ul>
+        </section>
+
+        <aside class="aviso" aria-labelledby="trabalho-aviso-titulo">
+            <iconify-icon icon="lucide:info" aria-hidden="true"></iconify-icon>
+            <div class="aviso__texto">
+                <h2 class="aviso__titulo" id="trabalho-aviso-titulo">Antes de enviar:</h2>
+                <p>Revise as informações. O trabalho ficará “Em análise” até a aprovação do Liceu.</p>
+            </div>
+        </aside>
+    </div>
+
+    <div class="form-acoes artesao-novo__acoes">
+        <a class="btn btn--link" href="#/painel-artesao/meus-trabalhos">Cancelar</a>
+        <button type="button" class="btn btn--secundario" data-salvar-rascunho>
+            <iconify-icon icon="lucide:file" aria-hidden="true"></iconify-icon>
+            Salvar como rascunho
+        </button>
+        <button type="submit" class="btn btn--primario">
+            <iconify-icon icon="lucide:send" aria-hidden="true"></iconify-icon>
+            Enviar para análise
+        </button>
+    </div>
+</form>

@@ -31,7 +31,12 @@ Caso você tenha o Node.js instalado no seu computador:
 1. Abra o terminal na pasta raiz do projeto.
 2. Execute o comando abaixo (o npm perguntará se deseja instalar o pacote, basta digitar `y`):
    ```bash
-   npx http-server
+   npx http-server -p 8080 -c-1
+   ```
+
+3. Acesse `http://localhost:8080`. A opção `-c-1` desativa o cache do servidor durante o desenvolvimento, evitando arquivos antigos ao trocar de branch.
+
+Se o servidor já estava rodando sem essa opção, encerre-o com `Ctrl+C` e execute novamente o comando acima. Depois faça uma recarga completa no navegador (`Ctrl+Shift+R`) para descartar os arquivos que já estavam em cache.
 
 ## Opção 2: Usando o Live Server (VS Code)
 Se você estiver utilizando o Visual Studio Code:
