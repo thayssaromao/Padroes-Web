@@ -1,8 +1,8 @@
 # Design System — Portal do Artesão
 
-Guia visual e técnico do projeto. Vale para **quem escreve código (pessoas e agentes de IA)** e para **quem desenha as telas que ainda faltam** (popups de ação, páginas novas). Derivado dos wireframes do Figma (`Tela Principal`, `Tela Perfil do Artesão`, `Tela Adm *`, `Tela do Artesão *`).
+Guia visual e técnico do projeto. Vale para **quem escreve código** e para **quem desenha as telas que ainda faltam** (popups de ação, páginas novas). Derivado dos wireframes do Figma (`Tela Principal`, `Tela Perfil do Artesão`, `Tela Adm *`, `Tela do Artesão *`).
 
-> O visual atual é **wireframe em tons de cinza**. Quando a identidade visual oficial do Liceu chegar, troque apenas os valores dos tokens em [`css/global.css`](../css/global.css). Nenhum outro arquivo deve conter cor, fonte ou raio "chumbados".
+> O visual atual é **wireframe em tons de cinza**. Quando a identidade visual oficial do Liceu chegar, trocar apenas os valores dos tokens em [`css/global.css`](../css/global.css). Nenhum outro arquivo deve conter cor, fonte ou raio "chumbados".
 
 ---
 
@@ -116,8 +116,10 @@ O site é uma SPA com roteamento por hash (ver [`ESPECIFICACOES.md`](ESPECIFICAC
 └───────────────────────────────────────────────────────────────┘
 ```
 
-- Cabeçalho: fundo `--cor-barra`, altura `--altura-barra`. O link ativo recebe `aria-current="page"` e o **underline animado** (barra de 3px `--cor-borda-forte` que desliza até o link ativo).
-- Smartphone/tablet: o menu vira **gaveta** aberta por botão hambúrguer (`button.cabecalho__menu`, `aria-expanded`, `aria-controls="nav"`).
+- Cabeçalho: fundo `--cor-barra`, altura `--altura-barra`. O link ativo recebe `aria-current="page"` e uma barra de 3px `--cor-borda-forte`. No hover e foco por teclado, a linha expande do centro com `scaleX` em 200ms, usando `--cor-indicador-hover` nos links inativos. Não há mudança de peso da fonte.
+- Links do cabeçalho e rodapé clareiam para `--cor-link-barra-hover` (`#333333`) no hover e foco. A ação Entrar mantém sua divisória e usa apenas a transição de cor. Os ícones sociais têm desenho de 24px dentro de alvos de 44px.
+- Abaixo de 1280px, o menu vira **gaveta** aberta por botão hambúrguer (`button.cabecalho__menu`, `aria-expanded`, `aria-controls="nav"`). Fecha ao selecionar qualquer link, clicar fora, sair com o foco ou pressionar Escape. Escape devolve o foco ao botão. Os painéis mantêm o breakpoint de 1024px.
+- No desktop, os links do rodapé ocupam a altura do componente e ancoram a linha diretamente no topo, sem deslocamentos negativos. Em telas menores, os links podem quebrar em linhas e o indicador fica no topo de cada item.
 - Seções alternam fundo `--cor-fundo` / `--cor-fundo-alternado`, padding vertical `--espaco-7` (desktop) / `--espaco-6` (mobile).
 
 ### 4.2 Layout `painel` (Área do Liceu e Área do Artesão)
@@ -141,7 +143,11 @@ Os dois painéis usam **a mesma casca** ([`pages/layouts/painel.html`](../pages/
 ```
 
 - Menu lateral: fundo `--cor-lateral`, largura `--largura-lateral`; item ativo com fundo `--cor-lateral-ativo`, `--raio-grande`, peso 700 e `aria-current="page"`.
+- Escala compacta dos painéis, isolada em `.layout-painel`: lateral de 240px, topo de 64px, corpo/menu de 14px, título principal de 24–30px e títulos de seção de 18–22px. Links do menu mantêm altura mínima de 44px e ícones de 20px; indicadores usam ícones e números de 28px. O portal público mantém sua escala própria.
+- Tabelas largas rolam horizontalmente dentro de `.tabela-container`, preservando todas as colunas sem ampliar a largura da página. A apresentação em cards nas telas menores é mantida.
+- A listagem administrativa de artesãos usa `.tabela--artesaos`: `table-layout: fixed`, largura de 100% e mínima de 1120px no desktop. Um único `colgroup` define, via classes CSS dos elementos `col`, as proporções de 18% / 15% / 15% / 21% / 9% / 22% (identificação, empreendimento, categorias, contato, status e ações), preservando a distribuição da página 1. Não atribuir larguras independentes a `th` ou `td`. Células têm altura mínima de 84px, acomodando duas fileiras de etiquetas. Na paginação, `colgroup` e `thead` permanecem intactos, e as linhas do `tbody` alternam `hidden`; ícones recebem `noobserver` para serem preparados mesmo fora da página visível. Tabela e paginação reservam as dimensões dos ícones antes da renderização. Abaixo de 1024px, o `colgroup` não interfere na apresentação existente em cards.
 - **Abas = sub-rotas.** Cada item do menu é uma rota (`#/painel-liceu/artesaos`). A casca fica montada; só o `main` troca.
+- A região externa `.liceu-listagem-artesaos` reserva no desktop cinco linhas de 84px, 48px de cabeçalho, 32px de intervalo e 40px de paginação. O contêiner com borda da tabela tem altura natural e termina na última linha real; o espaço reservado fica fora dele, e a paginação é alinhada à base da região. A última página mantém a posição do contador, paginação e rodapé, sem registros fictícios. Avatares permanecem em 40px, botões de ação não encolhem e chips longos usam reticências dentro da coluna. Nomes e contatos usam `.tabela__texto`; textos longos são truncados visualmente, mantendo o conteúdo completo no DOM e em `title`. No celular, permanece a apresentação adaptável em cards.
 - Desktop: lateral fixa à esquerda. Tablet/smartphone: lateral vira **gaveta** sobre o conteúdo, aberta pelo `☰` do topo.
 - Cabeçalho de página do painel (`.painel-cabecalho`): sobretítulo + `h1` + parágrafo + linha de botões. Pode ter imagem à direita no desktop (banner).
 
@@ -186,9 +192,12 @@ Link que parece botão: usar `<a class="btn …">`. Ação na mesma tela: `<butt
 - `select` nativo estilizado (seta própria via `background-image` SVG inline). `textarea` com `resize: vertical`.
 - Obrigatório: `*` no rótulo + atributo `required`. Agrupar blocos com `<fieldset class="bloco-form">` + `<legend>`.
 - **Bloco de formulário** (`.bloco-form`): card com borda, raio `--raio-medio`, padding `--espaco-5`; cabeçalho com ícone + título (h2 visual de `--fonte-h3`) + descrição.
+- **Cabeçalho de seção**: `.bloco-form__cabecalho.bloco-form__cabecalho--secao` usa flex com alinhamento central e gap de 16px. Contém `.bloco-form__icone` (caixa de 40px, token `--tamanho-caixa-icone-secao`, com ícone de 28px pelo token `--tamanho-icone-secao`) e `.bloco-form__texto` (título e descrição em coluna, gap de 4px e margens zeradas). O ícone é centralizado no conjunto título + descrição, nunca deslocado individualmente. Título usa line-height de 1.25 e descrição usa `--altura-linha`. Nos fieldsets do cadastro, o cabeçalho permanece em `legend`, com 16px até os campos. A variante é reutilizável em cadastro/edição, sem mudar outros cabeçalhos legados que não a utilizam.
 - Seletor de técnicas: `select` + lista de **chips removíveis** (§5.3).
 - Toggle (Configurações): `<input type="checkbox" role="switch" class="interruptor">`.
 - Radio (Preço): nativo com `accent-color: var(--cor-primaria)`.
+
+Cabeçalhos legados de cards, métricas e avisos não usam bordas verticais entre ícone e conteúdo. O espaçamento incorpora a antiga área da divisória para preservar posições e dimensões. A variante de cabeçalho de seção mantém seu wrapper e seus tokens próprios. Barras de filtro não incluem elementos separadores decorativos; `.barra-filtros--grupos` separa os grupos apenas com gap. Bordas externas, separadores horizontais e divisórias do header permanecem preservados.
 
 ### 5.3 Chips e etiquetas
 
@@ -219,8 +228,8 @@ Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 | Atalho | `.card-atalho` | ícone · título + descrição · `chevron-right`; card inteiro é `<a>` | Home "Como você quer explorar?" |
 | Produto | `.card-produto` | `figure` com imagem 4:3 + botão favorito (círculo, canto sup. dir.) · nome · categoria · (opcional) status + ações | Home, Área do Artesão |
 | Artesão (mini) | `.card-artesao-mini` | avatar redondo 96px · nome · técnica principal | Home "Conheça quem produz" |
-| Artesão | `.card-artesao` | foto quadrada 88px · nome · local (`map-pin`) · chips · botão bloco "Ver perfil →" | Página Artesãos |
-| Estatística | `.card-estatistica` | ícone · divisória vertical · número grande (800) · rótulo | Resumos dos painéis |
+| Artesão | `.card-artesao` | Na listagem pública: foto quadrada 64px · nome · empreendimento ou @ · local (`map-pin`) · chips abaixo da identificação, usando toda a largura · botão bloco "Ver perfil →" na base, com intervalo mínimo de 12px após os chips. Na grade desktop, fileiras de mesma altura, determinada pelo conteúdo, sem reserva de linhas vazias para chips; celular e lista têm altura adaptável. | Página Artesãos |
+| Estatística | `.card-estatistica` | ícone · espaçamento · número grande (800) · rótulo, sem divisória vertical | Resumos dos painéis |
 | Trabalho (painel) | `.card-trabalho` | imagem · título · artesão (`user`) · categorias (`tag`) · status · botão | Painel Liceu "aguardando análise" |
 
 Todos: fundo branco (ou `--cor-superficie`), borda 1px `--cor-borda`, raio `--raio-medio`. **Hover** em cards clicáveis: `translateY(-3px)` + `--sombra-elevada` + borda forte (`transition: var(--transicao)`). Cards de lista são `<article>` com título `h3`.
@@ -275,13 +284,13 @@ Uso: `<iconify-icon icon="lucide:house" aria-hidden="true"></iconify-icon>`. Íc
 | Conceito | Ícone | | Conceito | Ícone |
 |---|---|---|---|---|
 | Início | `lucide:house` | | Notificações | `lucide:bell` |
-| Usuário / Entrar / Artesão | `lucide:user` | | Sair | `lucide:log-out` |
-| Artesãos (grupo) | `lucide:users` | | Voltar ao portal | `lucide:external-link` |
-| Cadastrar artesão | `lucide:user-plus` | | Novo / adicionar | `lucide:square-plus` / `lucide:plus` |
+| Usuário / Entrar / Artesão | `boxicons:user` | | Sair | `lucide:log-out` |
+| Artesãos / grupos / pessoas | `boxicons:user` | | Voltar ao portal | `lucide:external-link` |
+| Cadastrar artesão | `boxicons:user` | | Novo / adicionar | `lucide:square-plus` / `lucide:plus` |
 | Trabalhos pendentes | `lucide:file-text` | | Meus trabalhos | `lucide:layers` |
 | Publicações / Status | `lucide:chart-no-axes-column` | | Configurações | `lucide:settings` |
-| Produtos | `lucide:shopping-bag` | | Saberes | `lucide:lightbulb` |
-| O Liceu | `lucide:landmark` | | Local | `lucide:map-pin` |
+| Produtos | `bx:shopping-bag` | | Ideias / Saberes | `akar-icons:light-bulb` |
+| O Liceu | `uix-sharp:greek-temple` | | Local | `lucide:map-pin` |
 | Filtrar | `lucide:sliders-horizontal` | | Busca | `lucide:search` |
 | Grade / Lista | `lucide:layout-grid` / `lucide:list` | | Setas | `lucide:chevron-left/right/down`, `lucide:arrow-right` |
 | Ver | `lucide:eye` | | Ocultar | `lucide:eye-off` |
@@ -297,6 +306,8 @@ Uso: `<iconify-icon icon="lucide:house" aria-hidden="true"></iconify-icon>`. Íc
 | Ordenar | `lucide:arrow-up-down` | | Fechar | `lucide:circle-x` (modal), `lucide:x` (chip) |
 | Menu (hambúrguer) | `lucide:menu` | | Rascunho | `lucide:file` |
 | Empreendimento | `lucide:store` | | | |
+
+As referências legadas desses conceitos são normalizadas em `js/componentes.js`: `icone()` cobre conteúdo gerado por JavaScript e `padronizarIcones()` é chamada pelo roteador para as parciais HTML. Novos usos devem empregar diretamente os identificadores aprovados acima.
 
 ---
 
@@ -372,7 +383,7 @@ Após salvar/aprovar/excluir: **toast** (`.aviso-flutuante`, `role="status"`) no
 
 | Elemento | Animação |
 |---|---|
-| Underline do menu | desliza até o link ativo (`transform` + `width`, 300ms) |
+| Indicadores da navegação | expansão do centro (`scaleX`, 200ms) no hover/foco; linha escura persistente na página ativa |
 | Carrossel | slide horizontal 500ms + autoplay |
 | Cards clicáveis | eleva 3px + sombra no hover |
 | Botões | eleva 1px no hover; ícone de seta anda 3px para a direita em `.link-seta:hover` |

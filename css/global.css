@@ -16,6 +16,8 @@
     --cor-superficie-forte: #ececec;
 
     --cor-barra: #a9a9a9;
+    --cor-link-barra-hover: #333333;
+    --cor-indicador-hover: #666666;
     --cor-lateral: #d9d9d9;
     --cor-lateral-ativo: #b3b3b3;
 
@@ -76,6 +78,8 @@
     --largura-conteudo: 1180px;
     --largura-lateral: 280px;
     --altura-barra: 72px;
+    --tamanho-caixa-icone-secao: 2.5rem;
+    --tamanho-icone-secao: 1.75rem;
 }
 
 /* ===== Reset ===== */

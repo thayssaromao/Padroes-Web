@@ -255,14 +255,12 @@ textarea.campo__entrada {
 .bloco-form__cabecalho {
     display: flex;
     align-items: flex-start;
-    gap: var(--espaco-4);
+    /* Incorpora ao gap o espaço antes ocupado pelo padding e pela borda. */
+    gap: calc(2 * var(--espaco-4) + 1px);
 }
 
 .bloco-form__cabecalho > iconify-icon {
     font-size: 32px;
-    padding-right: var(--espaco-4);
-    border-right: 1px solid var(--cor-borda-forte);
-    box-sizing: content-box;
 }
 
 .bloco-form__titulo {
@@ -273,6 +271,49 @@ textarea.campo__entrada {
 .bloco-form__descricao {
     font-size: var(--fonte-pequena);
     color: var(--cor-texto-suave);
+}
+
+/* Cabeçalho de seção reutilizável, inclusive dentro de legend. */
+.bloco-form__cabecalho--secao {
+    align-items: center;
+    gap: var(--espaco-4);
+}
+
+.bloco-form__cabecalho--secao .bloco-form__icone {
+    display: grid;
+    place-items: center;
+    flex: 0 0 var(--tamanho-caixa-icone-secao);
+    width: var(--tamanho-caixa-icone-secao);
+    height: var(--tamanho-caixa-icone-secao);
+}
+
+.bloco-form__cabecalho--secao .bloco-form__icone > iconify-icon {
+    display: block;
+    width: 1em;
+    height: 1em;
+    padding: 0;
+    border: 0;
+    font-size: var(--tamanho-icone-secao);
+    line-height: 1;
+}
+
+.bloco-form__cabecalho--secao .bloco-form__texto {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: var(--espaco-1);
+}
+
+.bloco-form__cabecalho--secao .bloco-form__texto > * {
+    margin: 0;
+}
+
+.bloco-form__cabecalho--secao .bloco-form__titulo {
+    line-height: 1.25;
+}
+
+.bloco-form__cabecalho--secao .bloco-form__descricao {
+    line-height: var(--altura-linha);
 }
 
 .form-acoes {
@@ -544,6 +585,11 @@ input[type="checkbox"] {
     text-decoration: none;
 }
 
+.card-artesao-mini > .pilha {
+    gap: 0;
+    line-height: 1.2;
+}
+
 .card-artesao-mini img {
     width: 96px;
     height: 96px;
@@ -602,16 +648,13 @@ input[type="checkbox"] {
 .card-estatistica {
     display: flex;
     align-items: center;
-    gap: var(--espaco-4);
+    gap: calc(2 * var(--espaco-4) + 1px);
     padding: var(--espaco-4) var(--espaco-5);
     background-color: var(--cor-superficie);
 }
 
 .card-estatistica > iconify-icon {
     font-size: 40px;
-    padding-right: var(--espaco-4);
-    border-right: 1px solid var(--cor-borda-forte);
-    box-sizing: content-box;
 }
 
 .card-estatistica__numero {
@@ -785,6 +828,10 @@ input[type="checkbox"] {
     flex-direction: column;
     gap: var(--espaco-3);
     margin-bottom: var(--espaco-5);
+}
+
+.barra-filtros--grupos {
+    gap: calc(2 * var(--espaco-3));
 }
 
 .barra-filtros__item {
@@ -1246,9 +1293,7 @@ input[type="checkbox"] {
     }
 
     .aviso > iconify-icon {
-        padding-right: var(--espaco-4);
-        border-right: 1px solid var(--cor-borda-forte);
-        box-sizing: content-box;
+        margin-inline-end: calc(var(--espaco-4) + 1px);
     }
 
     .carrossel__slide img {
@@ -1291,10 +1336,9 @@ input[type="checkbox"] {
         flex-wrap: nowrap;
     }
 
-    .barra-filtros__divisor {
-        width: 1px;
-        height: 32px;
-        background-color: var(--cor-borda-forte);
+    .barra-filtros--grupos {
+        row-gap: var(--espaco-3);
+        column-gap: calc(2 * var(--espaco-3) + 1px);
     }
 
     .tabela thead {
