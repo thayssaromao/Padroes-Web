@@ -4,7 +4,10 @@
  * Guia: docs/DESIGN.md §5.5, §5.8, §5.9 e §8.
  */
 
-import {buscarArtesao, carregarArtesaos} from "../dados.js";
+import {
+    buscarArtesao, carregarArtesaos, carregarCategorias
+} from "../dados.js";
+import {parametrosPublicos} from "./publico.js";
 import {
     abrirModal,
     criarChips,
@@ -18,14 +21,7 @@ import {
 } from "../componentes.js";
 
 const POR_PAGINA = 8;
-const CATEGORIAS = [
-    "Decoração",
-    "Utilitários",
-    "Acessórios",
-    "Arte em tecido",
-    "Cestaria",
-    "Cerâmica"
-];
+let categoriasPredefinidas = [];
 
 const REDUZIR = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -68,23 +64,14 @@ function rotulos(artesao) {
 function filtrarArtesaos(artesaos) {
     const termo = normalizar(estado.busca).trim();
     return artesaos.filter(function (artesao) {
-        const lista = rotulos(artesao);
         const texto = normalizar([
             artesao.nome,
             artesao.empreendimento,
             artesao.instagram
         ].join(" "));
         const passaBusca = texto.includes(termo);
-        const passaFiltro = (
-            estado.filtro === "Todos"
-            || (
-                estado.filtro === "Outros"
-                ? !lista.some(function (rotulo) {
-                    return CATEGORIAS.includes(rotulo);
-                })
-                : lista.includes(estado.filtro)
-            )
-        );
+        const passaFiltro = estado.filtro === "Todos"
+            || artesao.categorias.includes(estado.filtro);
         const passaCategoria = (
             !estado.categoria || artesao.categorias.includes(estado.categoria)
         );
@@ -164,9 +151,10 @@ function abrirFiltros(raiz) {
  * @param {function(string): string} montarHref
  */
 function preencherContato(link, valor, montarHref) {
-    link.parentElement.hidden = !valor;
-    if (valor) {
-        link.href = montarHref(valor);
+    const href = valor ? montarHref(valor) : "";
+    link.parentElement.hidden = !href;
+    if (href) {
+        link.href = href;
         link.querySelector("span").textContent = valor;
     }
 }
@@ -180,7 +168,7 @@ function preencherContato(link, valor, montarHref) {
 async function abrirPerfil(raiz, id) {
     const modal = raiz.querySelector("#modal-artesao");
     const artesao = await buscarArtesao(id);
-    if (!artesao || !modal.isConnected) {
+    if (!artesao || artesao.status !== "ativo" || !modal.isConnected) {
         return;
     }
     const foto = raiz.querySelector("#modal-artesao-foto");
@@ -200,9 +188,27 @@ async function abrirPerfil(raiz, id) {
         raiz.querySelector("#modal-artesao-instagram"),
         artesao.instagram,
         function (valor) {
-            return (
-                "https://instagram.com/"
-                + encodeURIComponent(valor.replace(/^@/, ""))
+            const texto = valor.trim();
+            if (/^(https?:|www\.|instagram\.com)/i.test(texto)) {
+                try {
+                    const url = new URL(
+                        /^https?:/i.test(texto) ? texto : "https://" + texto
+                    );
+                    if (url.protocol !== "https:" || ![
+                        "instagram.com", "www.instagram.com"
+                    ].includes(url.hostname)) {
+                        return "";
+                    }
+                    return "https://www.instagram.com" + url.pathname;
+                } catch (ignore) {
+                    return "";
+                }
+            }
+            if (!/^@?[a-z0-9_.]+$/i.test(texto)) {
+                return "";
+            }
+            return "https://www.instagram.com/" + encodeURIComponent(
+                texto.replace(/^@/, "")
             );
         }
     );
@@ -210,7 +216,10 @@ async function abrirPerfil(raiz, id) {
         raiz.querySelector("#modal-artesao-whatsapp"),
         artesao.whatsapp,
         function (valor) {
-            return "https://wa.me/55" + valor.replace(/\D/g, "");
+            const numero = valor.replace(/\D/g, "");
+            return "https://wa.me/" + (
+                numero.length > 11 ? numero : "55" + numero
+            );
         }
     );
     preencherContato(
@@ -236,7 +245,8 @@ async function iniciarArtesaos(raiz) {
     const vazio = raiz.querySelector("#artesaos-vazio");
     const contagem = raiz.querySelector("#artesaos-contagem");
     const paginacao = raiz.querySelector("#artesaos-paginacao");
-    const chips = raiz.querySelectorAll(".filtro-chip");
+    let chips = raiz.querySelectorAll(".filtro-chip");
+    let opcoesPredefinidas;
     const modos = raiz.querySelectorAll("[data-visualizacao]");
     const filtroCategoria = raiz.querySelector("#artesaos-filtro-categoria");
     const filtroTecnica = raiz.querySelector("#artesaos-filtro-tecnica");
@@ -246,11 +256,7 @@ async function iniciarArtesaos(raiz) {
             {campo: filtroCategoria, chave: "categorias"},
             {campo: filtroTecnica, chave: "tecnicas"}
         ].forEach(function (filtro) {
-            const opcoes = Array.from(new Set(ativos.flatMap(function (artesao) {
-                return artesao[filtro.chave];
-            }))).sort(function (a, b) {
-                return a.localeCompare(b, "pt-BR");
-            });
+            const opcoes = opcoesPredefinidas[filtro.chave];
             filtro.campo.insertAdjacentHTML("beforeend", opcoes.map(function (opcao) {
                 return `<option value="${escaparHtml(opcao)}">`
                     + escaparHtml(opcao) + "</option>";
@@ -347,15 +353,16 @@ async function iniciarArtesaos(raiz) {
         recomecar();
         fecharModal("modal-filtros-artesaos");
     });
-    chips.forEach(function (chip) {
-        chip.addEventListener("click", function () {
+    raiz.querySelector(".filtros-chips").addEventListener("click", function (evento) {
+        const chip = evento.target.closest(".filtro-chip");
+        if (chip) {
             estado.filtro = chip.textContent.trim();
             estado.categoria = "";
             chips.forEach(function (outro) {
                 outro.setAttribute("aria-pressed", String(outro === chip));
             });
             recomecar();
-        });
+        }
     });
     raiz.querySelector("#artesaos-ordem").addEventListener(
         "change",
@@ -422,7 +429,12 @@ async function iniciarArtesaos(raiz) {
     estado.tecnica = "";
 
     try {
-        const todos = await carregarArtesaos();
+        const listas = await Promise.all([
+            carregarArtesaos(), carregarCategorias()
+        ]);
+        const todos = listas[0];
+        opcoesPredefinidas = listas[1];
+        categoriasPredefinidas = opcoesPredefinidas.categorias;
         if (!marco.isConnected) {
             return;
         }
@@ -430,7 +442,22 @@ async function iniciarArtesaos(raiz) {
             return artesao.status === "ativo";
         });
         preencherFiltros();
+        const grupoChips = raiz.querySelector(".filtros-chips");
+        grupoChips.innerHTML = ["Todos"].concat(categoriasPredefinidas).map(
+            function (opcao) {
+                return "<button type=\"button\" class=\"filtro-chip\""
+                    + " aria-pressed=\"" + String(opcao === "Todos")
+                    + "\">" + escaparHtml(opcao) + "</button>";
+            }
+        ).join("");
+        chips = grupoChips.querySelectorAll(".filtro-chip");
         recomecar();
+        const id = parametrosPublicos().get("id");
+        if (id && ativos.some(function (artesao) {
+            return artesao.id === id;
+        })) {
+            await abrirPerfil(raiz, id);
+        }
     } catch (erro) {
         if (!marco.isConnected) {
             return;

@@ -3,11 +3,14 @@
  * paginas/inicio.js — Home do portal (#/inicio).
  * Guia: docs/DESIGN.md.
  */
-import {carregarArtesaos, carregarTrabalhos} from "../dados.js";
+import {carregarArtesaos} from "../dados.js";
 import {
-    criarCardProduto,
+    carregarVitrine,
+    criarCardPublico,
+    ligarFavoritos
+} from "./publico.js";
+import {
     escaparHtml,
-    icone,
     iniciarCarrossel
 } from "../componentes.js";
 
@@ -21,7 +24,8 @@ const MAXIMO_ARTESAOS = 4;
  */
 function criarCardArtesaoMini(artesao) {
     return (
-        "<a class=\"card-artesao-mini\" href=\"#/artesaos\">"
+        "<a class=\"card-artesao-mini\" href=\"#/artesaos?id="
+        + encodeURIComponent(artesao.id) + "\">"
         + `<img src="${escaparHtml(artesao.foto)}"`
         + ` alt="Foto de ${escaparHtml(artesao.nome)}"`
         + " width=\"96\" height=\"96\" loading=\"lazy\">"
@@ -32,43 +36,6 @@ function criarCardArtesaoMini(artesao) {
         + escaparHtml(artesao.tecnicas[0]) + "</span>"
         + "</span></a>"
     );
-}
-
-/**
- * Persiste o favorito do produto.
- * @param {HTMLButtonElement} ignore botão já com o novo aria-pressed
- */
-function salvarFavorito(ignore) {
-    // A IMPLEMENTAR: guardar favoritos do visitante (localStorage).
-    return;
-}
-
-/**
- * Alterna o estado e o ícone de um botão de favorito.
- * @param {HTMLButtonElement} botao
- */
-function alternarFavorito(botao) {
-    const ativo = botao.getAttribute("aria-pressed") !== "true";
-    botao.setAttribute("aria-pressed", String(ativo));
-    botao.innerHTML = icone(
-        ativo
-        ? "mdi:heart"
-        : "lucide:heart"
-    );
-    salvarFavorito(botao);
-}
-
-/**
- * Liga os botões de favorito dentro do contêiner (delegação de eventos).
- * @param {HTMLElement} conteiner
- */
-function ligarFavoritos(conteiner) {
-    conteiner.addEventListener("click", function (evento) {
-        const botao = evento.target.closest(".card-produto__favorito");
-        if (botao) {
-            alternarFavorito(botao);
-        }
-    });
 }
 
 /**
@@ -97,7 +64,7 @@ function renderizarDestaques(lista, trabalhos) {
         return;
     }
     lista.innerHTML = destaques.map(function (trabalho) {
-        return criarCardProduto(trabalho);
+        return criarCardPublico(trabalho);
     }).join("");
 }
 
@@ -127,9 +94,14 @@ function renderizarArtesaos(lista, artesaos) {
  */
 async function preencherSecao(carga, lista, renderizar, falha) {
     try {
-        renderizar(lista, await carga);
+        const dados = await carga;
+        if (lista.isConnected) {
+            renderizar(lista, dados);
+        }
     } catch (ignore) {
-        mostrarMensagem(lista, falha);
+        if (lista.isConnected) {
+            mostrarMensagem(lista, falha);
+        }
     }
 }
 
@@ -146,7 +118,9 @@ async function iniciarInicio(raiz) {
     ligarFavoritos(produtos);
     await Promise.all([
         preencherSecao(
-            carregarTrabalhos(),
+            carregarVitrine().then(function (vitrine) {
+                return vitrine.trabalhos;
+            }),
             produtos,
             renderizarDestaques,
             "Não foi possível carregar os produtos em destaque."
