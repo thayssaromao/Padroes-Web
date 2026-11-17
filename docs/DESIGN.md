@@ -485,3 +485,5 @@ assets/img/                   imagens (placeholders trocáveis)
 A composição segue a página Produto Individual dos wireframes: galeria com favorito e miniaturas ao lado das informações, faixa com produtor e técnica, e produtos relacionados. A faixa usa alinhamento superior entre os títulos; o resumo da técnica combina imagem e texto, empilhados no smartphone. `css/paginas/produto.css` define apenas essa composição usando tokens; carrossel, card, favoritos e botões permanecem compartilhados.
 
 O catálogo em modo lista limita a imagem a 32% do card (máximo 180px), mantém altura natural para não cortar título/autor/preço e reserva espaço para o favorito. Seus controles podem quebrar em linhas no mobile. Essas regras se restringem ao catálogo; tabelas, paginação administrativa e cards em grade mantêm suas dimensões.
+
+O favorito ativo usa o mesmo ícone Lucide do estado inativo, com `aria-pressed="true"`, fundo primário e ícone invertido. O contraste do botão comunica o estado sem recorrer a outra coleção de ícones.
