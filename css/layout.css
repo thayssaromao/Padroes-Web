@@ -219,6 +219,17 @@
 
 /* ===== Casca do painel ===== */
 
+.layout-painel {
+    --largura-lateral: 240px;
+    --altura-barra: 64px;
+    --fonte-corpo: 0.875rem;
+    --fonte-pequena: 0.8125rem;
+    --fonte-grande: 1rem;
+    --fonte-h1: clamp(1.5rem, 2.2vw, 1.875rem);
+    --fonte-h2: clamp(1.125rem, 1.8vw, 1.375rem);
+    --fonte-h3: 1rem;
+}
+
 .painel {
     flex: 1;
     display: grid;
@@ -245,6 +256,16 @@
 
 .painel__topo .marca {
     margin-right: auto;
+}
+
+.painel__topo .marca__logo {
+    width: 48px;
+    height: 32px;
+}
+
+.painel__perfil .avatar {
+    width: 32px;
+    height: 32px;
 }
 
 .painel__topo .marca span {
@@ -300,7 +321,7 @@
     flex-direction: column;
     gap: var(--espaco-2);
     width: min(85vw, var(--largura-lateral));
-    padding: var(--espaco-5) var(--espaco-4);
+    padding: var(--espaco-4) var(--espaco-3);
     overflow-y: auto;
     background-color: var(--cor-lateral);
     box-shadow: var(--sombra-elevada);
@@ -317,7 +338,7 @@
 .painel__titulo {
     margin-bottom: var(--espaco-4);
     padding-inline: var(--espaco-3);
-    font-size: 1.5rem;
+    font-size: 1.125rem;
     font-weight: var(--peso-extra);
     line-height: 1.15;
 }
@@ -333,17 +354,19 @@
     align-items: center;
     gap: var(--espaco-3);
     width: 100%;
-    min-height: 48px;
+    min-height: 44px;
     padding: var(--espaco-2) var(--espaco-3);
     border-radius: var(--raio-grande);
-    font-size: 1.0625rem;
+    font-size: var(--fonte-corpo);
     text-align: left;
     text-decoration: none;
     transition: background-color var(--transicao);
 }
 
 .painel__link iconify-icon {
-    font-size: 1.5em;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
 }
 
 .painel__link:hover {
@@ -399,7 +422,7 @@
 .painel-cabecalho {
     display: grid;
     gap: var(--espaco-5);
-    margin-bottom: var(--espaco-6);
+    margin-bottom: var(--espaco-5);
 }
 
 .painel-cabecalho__texto {
@@ -412,15 +435,60 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--espaco-3);
-    margin-top: var(--espaco-3);
+    margin-top: var(--espaco-2);
 }
 
 .painel-cabecalho__imagem {
     display: none;
     width: 100%;
     aspect-ratio: 5 / 2;
+    max-height: 180px;
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-medio);
+}
+
+.painel .card-estatistica {
+    gap: calc(2 * var(--espaco-3) + 1px);
+    padding: var(--espaco-4);
+}
+
+.painel .card-estatistica > iconify-icon {
+    font-size: 28px;
+}
+
+.painel .card-estatistica__numero {
+    font-size: 1.75rem;
+}
+
+.painel .tabela-container {
+    overflow-x: auto;
+}
+
+.painel .tabela tr[hidden] {
+    display: none;
+}
+
+.painel .tabela--artesaos tbody > tr:nth-last-child(1 of :not([hidden])) {
+    border-bottom-color: transparent;
+}
+
+.painel .tabela--artesaos colgroup {
+    display: none;
+}
+
+.painel .tabela iconify-icon,
+.painel .paginacao iconify-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+}
+
+.painel .liceu-titulo-icone > iconify-icon {
+    font-size: 28px;
+}
+
+.painel .liceu-linha > iconify-icon {
+    font-size: 20px;
 }
 
 /* Fundo escuro atrás das gavetas */
@@ -439,7 +507,7 @@
     }
 
     .painel__principal {
-        padding: var(--espaco-6) var(--espaco-6) var(--espaco-7);
+        padding: var(--espaco-5) var(--espaco-5) var(--espaco-6);
     }
 
     .rodape__interno,
@@ -579,6 +647,92 @@
 
 /* ===== Desktop dos painéis ===== */
 @media (min-width: 1024px) {
+    .painel .liceu-listagem-artesaos {
+        --altura-linha-artesaos: 84px;
+        --altura-cabecalho-artesaos: 48px;
+        display: flex;
+        flex-direction: column;
+        row-gap: var(--espaco-6);
+        /* Reserva a página completa fora da caixa com borda da tabela. */
+        min-height: calc(var(--altura-cabecalho-artesaos) + 5 * var(--altura-linha-artesaos) + var(--espaco-6) + 40px);
+    }
+
+    .painel .liceu-listagem-artesaos > .paginacao {
+        margin-top: auto;
+    }
+
+    .painel .tabela--artesaos {
+        table-layout: fixed;
+        width: 100%;
+        min-width: 1120px;
+    }
+
+    .painel .tabela--artesaos colgroup {
+        display: table-column-group;
+    }
+
+    .painel .tabela--artesaos .col-artesao {
+        width: 18%;
+    }
+
+    .painel .tabela--artesaos .col-empreendimento,
+    .painel .tabela--artesaos .col-categoria {
+        width: 15%;
+    }
+
+    .painel .tabela--artesaos .col-contato {
+        width: 21%;
+    }
+
+    .painel .tabela--artesaos .col-status {
+        width: 9%;
+    }
+
+    .painel .tabela--artesaos .col-acoes {
+        width: 22%;
+    }
+
+    .painel .tabela--artesaos td {
+        height: var(--altura-linha-artesaos, 84px);
+        overflow-wrap: anywhere;
+    }
+
+    .painel .tabela--artesaos .avatar {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+    }
+
+    .painel .tabela--artesaos td:nth-child(2),
+    .painel .tabela--artesaos .tabela__texto {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .painel .tabela--artesaos .liceu-contato,
+    .painel .tabela--artesaos .liceu-contato > span {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .painel .tabela--artesaos .chip {
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .painel .tabela--artesaos .tabela__acoes > button {
+        flex-shrink: 0;
+    }
+
+    .painel .tabela--artesaos .liceu-contato > span {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
     .painel__menu {
         display: none;
     }
@@ -598,7 +752,7 @@
     }
 
     .painel__topo {
-        padding-inline: var(--espaco-7) var(--espaco-6);
+        padding-inline: var(--espaco-5);
     }
 
     .painel__lateral {
@@ -614,11 +768,11 @@
     }
 
     .painel__principal {
-        padding: var(--espaco-6) var(--espaco-7) var(--espaco-8);
+        padding: var(--espaco-5) var(--espaco-6) var(--espaco-7);
     }
 
     .painel__rodape {
-        padding-inline: var(--espaco-7);
+        padding-inline: var(--espaco-6);
     }
 
     .painel-cabecalho--com-imagem {

@@ -16,6 +16,19 @@ const STATUS = Object.freeze({
 
 const INTERVALO_CARROSSEL = 6000;
 
+// Compatibilidade das páginas antigas com os ícones aprovados no design system.
+const ICONES_PADRAO = Object.freeze({
+    "lucide:landmark": "uix-sharp:greek-temple",
+    "lucide:lightbulb": "akar-icons:light-bulb",
+    "lucide:shopping-bag": "bx:shopping-bag",
+    "lucide:user": "boxicons:user",
+    "lucide:user-plus": "boxicons:user",
+    "lucide:users": "boxicons:user",
+    "solar:bag-4-bold": "bx:shopping-bag",
+    "solar:buildings-2-bold": "uix-sharp:greek-temple",
+    "solar:user-bold": "boxicons:user"
+});
+
 const ENTIDADES = Object.freeze({
     "&": "&amp;",
     "'": "&#39;",
@@ -41,7 +54,21 @@ function escaparHtml(texto) {
  * @returns {string}
  */
 function icone(nome) {
-    return `<iconify-icon icon="${nome}" aria-hidden="true"></iconify-icon>`;
+    const padrao = ICONES_PADRAO[nome] || nome;
+    return `<iconify-icon icon="${escaparHtml(padrao)}" aria-hidden="true"></iconify-icon>`;
+}
+
+/**
+ * Aplica os ícones aprovados às parciais HTML de páginas ainda não migradas.
+ * @param {HTMLElement} raiz conteúdo recém-carregado
+ */
+function padronizarIcones(raiz) {
+    raiz.querySelectorAll("iconify-icon[icon]").forEach(function (elemento) {
+        const padrao = ICONES_PADRAO[elemento.getAttribute("icon")];
+        if (padrao) {
+            elemento.setAttribute("icon", padrao);
+        }
+    });
 }
 
 /**
@@ -342,6 +369,7 @@ export {
     icone,
     iniciarCarrossel,
     mostrarAviso,
+    padronizarIcones,
     prepararCamposSenha,
     prepararModais
 };

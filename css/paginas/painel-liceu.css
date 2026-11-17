@@ -2,3 +2,306 @@
    paginas/painel-liceu.css — estilos exclusivos da página
    Guia: docs/DESIGN.md (use só tokens e componentes do guia)
    ========================================================= */
+
+/* ----- Estrutura comum às abas ----- */
+.liceu-secao {
+    margin-bottom: var(--espaco-6);
+}
+
+.liceu-secao__titulo {
+    margin-bottom: var(--espaco-5);
+}
+
+.liceu-vazio {
+    padding: var(--espaco-5);
+    border: 1px dashed var(--cor-borda);
+    border-radius: var(--raio-medio);
+    color: var(--cor-texto-suave);
+    text-align: center;
+}
+
+/* ----- Início: trabalhos aguardando análise ----- */
+.liceu-pendentes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espaco-4);
+}
+
+.liceu-pendentes .card-trabalho {
+    height: 100%;
+}
+
+.liceu-pendentes .card-trabalho .btn--bloco {
+    margin-top: auto;
+}
+
+@media (min-width: 600px) {
+    .liceu-pendentes {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .liceu-pendentes {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ----- Artesãos: contato em duas linhas ----- */
+.liceu-contato {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+}
+
+.liceu-contato > span {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    overflow-wrap: anywhere;
+}
+
+/* ----- Tabelas do painel: colunas mais justas no desktop ----- */
+@media (min-width: 1024px) {
+    .liceu-tabela .tabela th,
+    .liceu-tabela .tabela td {
+        padding-inline: var(--espaco-3);
+    }
+
+    .liceu-tabela .tabela th {
+        font-size: var(--fonte-pequena);
+    }
+
+    .liceu-contato > span {
+        overflow-wrap: normal;
+        white-space: nowrap;
+    }
+
+    .liceu-tabela .tabela__acoes {
+        flex-wrap: nowrap;
+        gap: var(--espaco-1);
+    }
+
+    .liceu-tabela .tabela__acoes .btn--pequeno {
+        padding-inline: var(--espaco-2);
+    }
+
+    .liceu-barra {
+        flex-wrap: wrap;
+    }
+
+    .liceu-barra .busca {
+        flex: 1 1 100%;
+    }
+
+}
+
+/* ----- Cadastrar artesão ----- */
+.liceu-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+}
+
+.liceu-bloco {
+    display: block;
+    min-width: 0;
+}
+
+.liceu-bloco__legenda {
+    float: left;
+    width: 100%;
+    margin-bottom: var(--espaco-4);
+    padding: 0;
+}
+
+.liceu-bloco__legenda + * {
+    clear: both;
+}
+
+.liceu-bloco > * + * {
+    margin-top: var(--espaco-4);
+}
+
+.campo__grupo > .liceu-senha {
+    padding-left: var(--espaco-3);
+    padding-right: 48px;
+}
+
+/* ----- Pendentes: data com ícone ----- */
+.liceu-data {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+@media (min-width: 1024px) {
+    .liceu-data {
+        white-space: nowrap;
+    }
+}
+
+/* ----- Publicações: cabeçalho com ação ao lado e caixa de filtros ----- */
+.liceu-filtros {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+    margin-bottom: var(--espaco-5);
+    padding: var(--espaco-4);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-superficie-forte);
+}
+
+.liceu-filtros__busca {
+    flex: 1;
+    min-width: 0;
+}
+
+.liceu-filtros .busca__entrada {
+    background-color: var(--cor-fundo);
+}
+
+@media (min-width: 600px) {
+    .liceu-filtros {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-end;
+    }
+
+    .liceu-filtros__busca {
+        flex-basis: 100%;
+    }
+
+    .liceu-filtros .campo {
+        flex: 1;
+        min-width: 140px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .liceu-cabecalho--lado {
+        grid-template-columns: 1fr auto;
+        align-items: start;
+    }
+
+    .liceu-cabecalho--lado .painel-cabecalho__acoes {
+        margin-top: 0;
+    }
+
+    .liceu-filtros .campo {
+        min-width: 195px;
+    }
+}
+
+/* ----- Configurações ----- */
+.liceu-titulo-icone {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+}
+
+.liceu-titulo-icone > iconify-icon {
+    font-size: 48px;
+}
+
+.liceu-config__grade {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espaco-5);
+}
+
+.liceu-bloco-config {
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.liceu-bloco-config__cabecalho {
+    align-items: center;
+    padding: var(--espaco-4) var(--espaco-5);
+    background-color: var(--cor-superficie-forte);
+}
+
+.liceu-bloco-config__corpo {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--espaco-4);
+    padding: var(--espaco-5);
+}
+
+.liceu-linha {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espaco-4);
+}
+
+.liceu-linha + .liceu-linha {
+    padding-top: var(--espaco-4);
+    border-top: 1px solid var(--cor-borda);
+}
+
+.liceu-linha > iconify-icon {
+    flex-shrink: 0;
+    font-size: 28px;
+}
+
+.liceu-linha__texto {
+    flex: 1 1 180px;
+    min-width: 0;
+}
+
+.liceu-linha__titulo {
+    display: block;
+    font-weight: var(--peso-semi);
+}
+
+.liceu-linha__descricao {
+    font-size: var(--fonte-pequena);
+    color: var(--cor-texto-suave);
+}
+
+.liceu-botoes-duplos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espaco-3);
+}
+
+.liceu-gerenciar {
+    justify-content: space-between;
+    padding-inline: var(--espaco-3);
+    font-size: var(--fonte-pequena);
+}
+
+.liceu-gerenciar > span {
+    flex: 1;
+    text-align: left;
+}
+
+.liceu-config__divisor {
+    margin-block: var(--espaco-5);
+    border: none;
+    border-top: 1px solid var(--cor-borda);
+}
+
+@media (min-width: 600px) {
+    .liceu-botoes-duplos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .liceu-config__grade {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ----- Erro ao carregar dados ----- */
+.liceu-erro {
+    padding: var(--espaco-5);
+    border: 1px solid var(--cor-borda-forte);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-superficie-forte);
+    font-weight: var(--peso-semi);
+}

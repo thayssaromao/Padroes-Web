@@ -1,7 +1,75 @@
-<header class="painel-cabecalho">
+<header class="painel-cabecalho liceu-cabecalho--lado">
     <div class="painel-cabecalho__texto">
         <span class="sobretitulo">Administração</span>
         <h1>Publicações</h1>
+        <p>Gerencie as publicações já aprovadas e visíveis no portal.</p>
+    </div>
+    <div class="painel-cabecalho__acoes">
+        <button type="button" class="btn btn--primario" data-acao="nova">
+            <iconify-icon icon="lucide:plus" aria-hidden="true"></iconify-icon>
+            Nova publicação
+        </button>
     </div>
 </header>
-<p class="em-construcao">Em construção.</p>
+
+<form class="liceu-filtros" role="search" data-filtros>
+    <div class="liceu-filtros__busca">
+        <label for="liceu-publicacoes-busca" class="visualmente-oculto">Buscar publicação</label>
+        <div class="busca">
+            <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
+            <input id="liceu-publicacoes-busca" type="search" class="busca__entrada" data-busca placeholder="Buscar publicação...">
+        </div>
+    </div>
+    <div class="campo">
+        <label for="liceu-publicacoes-status" class="campo__rotulo">Status</label>
+        <select id="liceu-publicacoes-status" class="campo__entrada" data-filtro="status">
+            <option value="">Todos</option>
+            <option value="publicado">Publicado</option>
+            <option value="oculto">Oculto</option>
+        </select>
+    </div>
+    <div class="campo">
+        <label for="liceu-publicacoes-categoria" class="campo__rotulo">Categoria</label>
+        <!-- Opções preenchidas via JS (carregarCategorias) -->
+        <select id="liceu-publicacoes-categoria" class="campo__entrada" data-filtro="categoria">
+            <option value="">Todas</option>
+        </select>
+    </div>
+    <div class="campo">
+        <label for="liceu-publicacoes-artesao" class="campo__rotulo">Artesão</label>
+        <!-- Opções preenchidas via JS (carregarArtesaos) -->
+        <select id="liceu-publicacoes-artesao" class="campo__entrada" data-filtro="artesao">
+            <option value="">Todos os artesãos</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn--primario">
+        <iconify-icon icon="lucide:filter" aria-hidden="true"></iconify-icon>
+        Filtrar
+    </button>
+</form>
+
+<section aria-label="Lista de publicações">
+    <div class="tabela-container liceu-tabela liceu-tabela--icones">
+        <table class="tabela">
+            <caption class="visualmente-oculto">Publicações aprovadas</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Imagem</th>
+                    <th scope="col">Publicação / Produto</th>
+                    <th scope="col">Artesão</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Data de publicação</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <!-- Linhas preenchidas via JS (trabalhos com status publicado) -->
+            <tbody data-corpo></tbody>
+        </table>
+    </div>
+    <p class="liceu-vazio" data-vazio hidden>Nenhuma publicação encontrada para esta busca.</p>
+    <div class="paginacao paginacao--bordas">
+        <p class="resultado-contagem" data-contagem aria-live="polite"></p>
+        <nav aria-label="Paginação" data-paginacao></nav>
+    </div>
+</section>

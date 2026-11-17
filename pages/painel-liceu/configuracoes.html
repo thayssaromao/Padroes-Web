@@ -1,7 +1,164 @@
 <header class="painel-cabecalho">
     <div class="painel-cabecalho__texto">
-        <span class="sobretitulo">Administração</span>
-        <h1>Configurações</h1>
+        <div class="liceu-titulo-icone">
+            <iconify-icon icon="lucide:settings" aria-hidden="true"></iconify-icon>
+            <h1>Configurações</h1>
+        </div>
+        <p>Aqui você pode ajustar preferências e informações do painel administrativo.</p>
     </div>
 </header>
-<p class="em-construcao">Em construção.</p>
+
+<form class="liceu-config" data-formulario>
+    <div class="liceu-config__grade">
+        <section class="bloco-form liceu-bloco-config" aria-labelledby="config-institucional">
+            <header class="bloco-form__cabecalho liceu-bloco-config__cabecalho">
+                <iconify-icon icon="lucide:landmark" aria-hidden="true"></iconify-icon>
+                <div>
+                    <h2 id="config-institucional" class="bloco-form__titulo">Informações institucionais</h2>
+                    <p class="bloco-form__descricao">Dados de identificação e contato do Liceu.</p>
+                </div>
+            </header>
+            <div class="liceu-bloco-config__corpo">
+                <div class="campo">
+                    <label for="config-nome" class="campo__rotulo">Nome da instituição *</label>
+                    <input id="config-nome" name="nome" type="text" class="campo__entrada" value="Liceu de Artes e Ofícios" required>
+                </div>
+                <div class="campo">
+                    <label for="config-email" class="campo__rotulo">E-mail de contato *</label>
+                    <div class="campo__grupo">
+                        <iconify-icon icon="lucide:mail" aria-hidden="true"></iconify-icon>
+                        <input id="config-email" name="email" type="email" class="campo__entrada" value="contato@liceu.org.br" required>
+                    </div>
+                </div>
+                <div class="campo">
+                    <label for="config-telefone" class="campo__rotulo">Telefone</label>
+                    <div class="campo__grupo">
+                        <iconify-icon icon="lucide:phone" aria-hidden="true"></iconify-icon>
+                        <input id="config-telefone" name="telefone" type="tel" class="campo__entrada" value="(00) 0000-0000">
+                    </div>
+                </div>
+                <div class="campo">
+                    <label for="config-whatsapp" class="campo__rotulo">WhatsApp</label>
+                    <div class="campo__grupo">
+                        <iconify-icon icon="mdi:whatsapp" aria-hidden="true"></iconify-icon>
+                        <input id="config-whatsapp" name="whatsapp" type="tel" class="campo__entrada" value="(00) 00000-0000">
+                    </div>
+                </div>
+                <div class="campo">
+                    <label for="config-instagram" class="campo__rotulo">Instagram</label>
+                    <div class="campo__grupo">
+                        <iconify-icon icon="lucide:instagram" aria-hidden="true"></iconify-icon>
+                        <input id="config-instagram" name="instagram" type="text" class="campo__entrada" value="@liceu">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bloco-form liceu-bloco-config" aria-labelledby="config-preferencias">
+            <header class="bloco-form__cabecalho liceu-bloco-config__cabecalho">
+                <iconify-icon icon="lucide:sliders-horizontal" aria-hidden="true"></iconify-icon>
+                <div>
+                    <h2 id="config-preferencias" class="bloco-form__titulo">Preferências do portal</h2>
+                    <p class="bloco-form__descricao">Defina o comportamento e recursos do portal público.</p>
+                </div>
+            </header>
+            <div class="liceu-bloco-config__corpo">
+                <div class="liceu-linha">
+                    <iconify-icon icon="lucide:bell" aria-hidden="true"></iconify-icon>
+                    <div class="liceu-linha__texto">
+                        <label for="pref-notificacoes" class="liceu-linha__titulo">Ativar notificações</label>
+                        <p id="pref-notificacoes-descricao" class="liceu-linha__descricao">Receber alertas sobre novas publicações, aprovações e pendências.</p>
+                    </div>
+                    <input id="pref-notificacoes" name="pref-notificacoes" type="checkbox" role="switch" class="interruptor" aria-describedby="pref-notificacoes-descricao">
+                </div>
+                <div class="liceu-linha">
+                    <iconify-icon icon="lucide:star" aria-hidden="true"></iconify-icon>
+                    <div class="liceu-linha__texto">
+                        <label for="pref-destaque" class="liceu-linha__titulo">Permitir destaque automático de publicações aprovadas</label>
+                        <p id="pref-destaque-descricao" class="liceu-linha__descricao">Exibir em destaque, no portal, as publicações assim que forem aprovadas.</p>
+                    </div>
+                    <input id="pref-destaque" name="pref-destaque" type="checkbox" role="switch" class="interruptor" aria-describedby="pref-destaque-descricao">
+                </div>
+                <div class="liceu-linha">
+                    <iconify-icon icon="lucide:arrow-up-down" aria-hidden="true"></iconify-icon>
+                    <div class="liceu-linha__texto">
+                        <label for="pref-recentes" class="liceu-linha__titulo">Ordenar itens por mais recentes</label>
+                        <p id="pref-recentes-descricao" class="liceu-linha__descricao">Exibir publicações, artesãos e trabalhos sempre do mais novo para o mais antigo.</p>
+                    </div>
+                    <input id="pref-recentes" name="pref-recentes" type="checkbox" role="switch" class="interruptor" aria-describedby="pref-recentes-descricao">
+                </div>
+            </div>
+        </section>
+
+        <section class="bloco-form liceu-bloco-config" aria-labelledby="config-categorias">
+            <header class="bloco-form__cabecalho liceu-bloco-config__cabecalho">
+                <iconify-icon icon="lucide:tag" aria-hidden="true"></iconify-icon>
+                <div>
+                    <h2 id="config-categorias" class="bloco-form__titulo">Categorias e técnicas</h2>
+                    <p class="bloco-form__descricao">Gerencie as listas de categorias e técnicas utilizadas no portal.</p>
+                </div>
+            </header>
+            <div class="liceu-bloco-config__corpo">
+                <div class="liceu-botoes-duplos">
+                    <button type="button" class="btn btn--secundario" data-acao="adicionar-categoria">
+                        <iconify-icon icon="lucide:plus" aria-hidden="true"></iconify-icon>
+                        Adicionar categoria
+                    </button>
+                    <button type="button" class="btn btn--secundario" data-acao="adicionar-tecnica">
+                        <iconify-icon icon="lucide:plus" aria-hidden="true"></iconify-icon>
+                        Adicionar técnica
+                    </button>
+                </div>
+                <div class="liceu-botoes-duplos">
+                    <button type="button" class="btn btn--secundario liceu-gerenciar" data-acao="gerenciar-categorias">
+                        <iconify-icon icon="lucide:list" aria-hidden="true"></iconify-icon>
+                        <span>Gerenciar categorias</span>
+                        <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+                    </button>
+                    <button type="button" class="btn btn--secundario liceu-gerenciar" data-acao="gerenciar-tecnicas">
+                        <iconify-icon icon="lucide:list" aria-hidden="true"></iconify-icon>
+                        <span>Gerenciar técnicas</span>
+                        <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="bloco-form liceu-bloco-config" aria-labelledby="config-seguranca">
+            <header class="bloco-form__cabecalho liceu-bloco-config__cabecalho">
+                <iconify-icon icon="lucide:lock" aria-hidden="true"></iconify-icon>
+                <div>
+                    <h2 id="config-seguranca" class="bloco-form__titulo">Acesso e segurança</h2>
+                    <p class="bloco-form__descricao">Gerencie o acesso ao painel e as permissões de uso.</p>
+                </div>
+            </header>
+            <div class="liceu-bloco-config__corpo">
+                <div class="liceu-linha">
+                    <iconify-icon icon="lucide:key-round" aria-hidden="true"></iconify-icon>
+                    <div class="liceu-linha__texto">
+                        <p class="liceu-linha__titulo">Alterar senha do administrador</p>
+                        <p class="liceu-linha__descricao">Atualize a senha de acesso ao painel administrativo.</p>
+                    </div>
+                    <button type="button" class="btn btn--secundario btn--pequeno" data-acao="alterar-senha">Alterar senha</button>
+                </div>
+                <div class="liceu-linha">
+                    <iconify-icon icon="lucide:users" aria-hidden="true"></iconify-icon>
+                    <div class="liceu-linha__texto">
+                        <p class="liceu-linha__titulo">Gerenciar permissões</p>
+                        <p class="liceu-linha__descricao">Defina perfis de acesso e permissões dos usuários do painel.</p>
+                    </div>
+                    <button type="button" class="btn btn--secundario btn--pequeno" data-acao="gerenciar-permissoes">Gerenciar</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <hr class="liceu-config__divisor">
+    <div class="form-acoes">
+        <button type="reset" class="btn btn--secundario">Cancelar</button>
+        <button type="submit" class="btn btn--primario">
+            <iconify-icon icon="lucide:check" aria-hidden="true"></iconify-icon>
+            Salvar alterações
+        </button>
+    </div>
+</form>
