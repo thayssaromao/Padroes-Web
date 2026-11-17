@@ -21,10 +21,12 @@ import {
     montarPainel
 } from "./layout.js";
 import {obterSessao, sessaoDemonstracao} from "./dados.js";
+import {abrirLogin} from "./paginas/login.js";
 
 /**
- * Guarda das áreas restritas. Fica desligada até a tela de login existir;
- * enquanto isso os painéis usam uma sessão de demonstração.
+ * Guarda das áreas restritas. Fica desligada até a autenticação existir
+ * (o modal de login ainda é só visual, issue #25); enquanto isso os
+ * painéis usam uma sessão de demonstração.
  */
 const GUARDA_ATIVA = false;
 const CAMINHO_PADRAO = "/inicio";
@@ -34,6 +36,7 @@ const raiz = document.getElementById("raiz");
 let layoutAtual = "";
 let primeiraCarga = true;
 let navegacao = 0;
+let caminhoAnterior = CAMINHO_PADRAO;
 
 /** @returns {string} caminho atual, ex.: "/painel-liceu/artesaos" */
 function caminhoAtual() {
@@ -105,16 +108,30 @@ function prepararLayout(rota) {
 
 /** Carrega a rota atual. Chamado no início e a cada "hashchange". */
 async function carregarPagina() {
-    navegacao += 1;
-    const minha = navegacao;
-    const caminho = caminhoAtual();
-    let rota = encontrarRota(caminho);
+    let caminho = caminhoAtual();
+    let rota;
     let html = "";
+    let minha;
 
+    // O login não é uma página: é um <dialog> aberto sobre a página atual.
+    // Volta o endereço para a página anterior sem recarregá-la.
+    if (caminho === CAMINHO_LOGIN) {
+        window.history.replaceState(null, "", "#" + caminhoAnterior);
+        abrirLogin();
+        if (!primeiraCarga) {
+            return;
+        }
+        caminho = caminhoAnterior;
+    }
+
+    rota = encontrarRota(caminho);
     if (!podeAcessar(rota)) {
         window.location.hash = "#" + CAMINHO_LOGIN;
         return;
     }
+    caminhoAnterior = caminho;
+    navegacao += 1;
+    minha = navegacao;
 
     const conteudo = await prepararLayout(rota);
     if (minha !== navegacao) {
@@ -151,6 +168,31 @@ async function carregarPagina() {
     }
 }
 
+/**
+ * Links para "#/login" abrem o modal direto, sem passar pelo hash: assim
+ * não fica uma entrada duplicada da página atual no histórico.
+ * Ctrl/Cmd/Shift + clique e botão do meio seguem o link normalmente.
+ * @param {MouseEvent} evento
+ */
+function interceptarLinkLogin(evento) {
+    const link = evento.target.closest(
+        "a[href=\"#" + CAMINHO_LOGIN + "\"]"
+    );
+    if (
+        !link ||
+        evento.button !== 0 ||
+        evento.ctrlKey ||
+        evento.metaKey ||
+        evento.shiftKey ||
+        evento.altKey
+    ) {
+        return;
+    }
+    evento.preventDefault();
+    abrirLogin();
+}
+
 iniciarMenuPortal();
+document.addEventListener("click", interceptarLinkLogin);
 window.addEventListener("hashchange", carregarPagina);
 carregarPagina();

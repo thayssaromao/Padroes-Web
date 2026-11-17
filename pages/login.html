@@ -1,9 +1,42 @@
-<section class="secao">
-    <div class="container pilha">
-        <header>
-            <span class="sobretitulo">Acesso restrito</span>
-            <h1>Entrar</h1>
-        </header>
-        <p class="em-construcao">Em construção: login unificado de Artesão e Liceu. Enquanto isso, acesse a Área do Liceu (#/painel-liceu) ou a Área do Artesão (#/painel-artesao) diretamente.</p>
-    </div>
-</section>
+<!-- Janela de login: <dialog> aberto por js/paginas/login.js quando o caminho é "#/login".
+     Por enquanto é só o visual; a lógica de autenticação vai ser feita depois (issue #25). -->
+<dialog class="modal modal--pequeno modal-login" id="modal-login" aria-labelledby="login-titulo">
+    <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
+
+    <img src="assets/logo.png" alt="" class="modal-login__logo" width="64" height="64">
+    <h2 class="modal__titulo" id="login-titulo">Acesse sua conta</h2>
+    <p class="modal__descricao">Entre para acessar os recursos do portal do artesão</p>
+
+    <form class="modal__corpo modal-login__form">
+        <div class="campo">
+            <label for="login-email" class="visualmente-oculto">E-mail</label>
+            <div class="campo__grupo">
+                <iconify-icon icon="lucide:mail" aria-hidden="true"></iconify-icon>
+                <input type="email" id="login-email" name="email" class="campo__entrada" placeholder="Digite seu e-mail" autocomplete="email" required autofocus>
+            </div>
+        </div>
+
+        <div class="campo">
+            <label for="login-senha" class="visualmente-oculto">Senha</label>
+            <div class="campo__grupo">
+                <iconify-icon icon="lucide:lock" aria-hidden="true"></iconify-icon>
+                <input type="password" id="login-senha" name="senha" class="campo__entrada modal-login__senha" placeholder="Digite sua senha" autocomplete="current-password" required>
+                <button type="button" class="btn btn--icone" data-alternar-senha="login-senha" aria-pressed="false" aria-label="Mostrar senha">
+                    <iconify-icon icon="lucide:eye" aria-hidden="true"></iconify-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="modal-login__opcoes">
+            <label class="modal-login__lembrar">
+                <input type="checkbox" name="lembrar">
+                Lembrar de mim
+            </label>
+            <!-- ainda nao existe pagina de recuperar senha -->
+            <a href="#/login" class="modal-login__esqueci">Esqueci minha senha</a>
+        </div>
+
+        <!-- type="button" pra nao recarregar a pagina, quando tiver a logica muda pra submit -->
+        <button type="button" class="btn btn--primario btn--bloco modal-login__entrar">Entrar</button>
+    </form>
+</dialog>
