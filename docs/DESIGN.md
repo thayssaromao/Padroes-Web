@@ -353,7 +353,7 @@ Todos os popups usam o elemento nativo **`<dialog>`** aberto com `showModal()` (
 | **Menu de ações** (popover `.menu-acoes`) | Botão `⋯` das tabelas/cards | Lista de `button` em `ul`, `role="menu"` não é necessário; fecha com `Esc`/clique fora. Itens destrutivos por último, separados por `hr` |
 | **Dropdown** do topo | Sino (notificações) e avatar (menu do usuário) | Popover alinhado à direita, largura 320px |
 
-### 8.3 Popups a desenhar (inventário a partir das telas)
+### 8.3 Inventário de interações dos popups
 
 | Origem | Popup | Tipo |
 |---|---|---|
@@ -361,7 +361,7 @@ Todos os popups usam o elemento nativo **`<dialog>`** aberto com `showModal()` (
 | Portal › Artesãos › "Filtrar" | Painel de filtros (categorias, técnicas, cidade) | Formulário (gaveta lateral no mobile) |
 | Portal › Home › card de produto | Detalhe do produto | Detalhe |
 | Liceu › "Analisar" | Analisar trabalho: imagens, dados, `Aprovar` / `Rejeitar` (rejeitar pede motivo) | Detalhe + formulário |
-| Liceu › Artesãos › "Ver perfil" / "Editar" / `⋯` | Perfil, edição rápida, menu (Ativar/Desativar, Redefinir senha, Excluir) | Detalhe / Formulário / Menu |
+| Liceu › Artesãos › "Ver perfil" / "Editar" / `⋯` | Perfil, edição rápida, menu (Ativar/Desativar, Redefinir senha) | Detalhe / Formulário / Menu |
 | Liceu › Publicações › olho / lápis / olho-cortado / lixeira | Ver, editar, ocultar (confirmação), excluir (confirmação destrutiva) | vários |
 | Liceu › Publicações › "Nova publicação" | Escolher trabalho aprovado para destacar | Formulário |
 | Liceu › Configurações › categorias/técnicas | Adicionar categoria, adicionar técnica, gerenciar listas | Formulário |
@@ -373,9 +373,13 @@ Todos os popups usam o elemento nativo **`<dialog>`** aberto com `showModal()` (
 | Ambos › "Sair" | "Deseja sair do painel?" | Confirmação |
 | Ambos › sino / avatar | Notificações / menu do usuário | Dropdown |
 
+Os diálogos de conteúdo variável são montados por `criarDialogo(titulo, corpo, acoes, opcoes)` em `js/componentes.js`, que reutiliza fechamento, backdrop, foco nativo e remoção após fechar. `opcoes` aceita `raiz` e `tamanho`; o padrão é o conteúdo atual e tamanho médio. Textos provenientes de registros devem passar por `escaparHtml` antes de entrar no corpo HTML.
+
+No MVP, notificações e menu da conta da topbar reutilizam esse diálogo; notificações mostram o estado atual dos trabalhos. Gestão de taxonomias, senha administrativa e permissões continua futura e desabilitada. O inventário não amplia o escopo definido nas especificações.
+
 ### 8.4 Feedback
 
-Após salvar/aprovar/excluir: **toast** (`.aviso-flutuante`, `role="status"`) no canto inferior direito por 4s. Função `mostrarAviso(mensagem)` (stub).
+Após salvar/aprovar/excluir: **toast** (`.aviso-flutuante`, `role="status"`) no canto inferior direito por 4s. Função `mostrarAviso(mensagem)`.
 
 ---
 

@@ -7,7 +7,7 @@ O Portal do Artesão do Liceu de Ofícios é uma plataforma digital de divulgaç
 
 - Listagem pública de artesãos com cards interativos e modais de detalhes.
 
-- Área de cadastro e login para artesãos e para a equipe administrativa do Liceu.
+- Login para artesãos e equipe administrativa do Liceu; cadastro de artesãos realizado exclusivamente pelo administrador, com senha provisória. Não existe autocadastro público.
 
 - Cadastro de produtos/trabalhos pelos artesãos com fluxo de moderação (necessidade de aprovação prévia pelo Liceu antes de irem ao ar).
 
@@ -33,13 +33,13 @@ Cada rota corresponde a uma parcial em `pages/` (um fragmento HTML, não um docu
 | ------------------ | -------------------------- | ---------------------------------------------------------------- | --------- |
 | `#/inicio`         | `pages/inicio.html`        | Home / Vitrine principal.                                        | Público   |
 | `#/produtos`       | `pages/produtos.html`      | Catálogo de produtos/trabalhos.                                  | Público   |
+| `#/produto?id=<id>` | `pages/produto.html` | Detalhe de um trabalho publicado de artesão ativo. | Público |
 | `#/artesaos`       | `pages/artesaos.html`      | Listagem de artesãos com cards e modais de detalhes.             | Público   |
 | `#/saberes`        | `pages/saberes.html`       | Saberes e técnicas tradicionais.                                 | Público   |
 | `#/o-liceu`        | `pages/o-liceu.html`       | Sobre o Liceu (história, objetivos e atuação).                   | Público   |
 | `#/sobre`          | `pages/sobre.html`         | Sobre o projeto.                                                 | Público   |
 | `#/contato`        | `pages/contato.html`       | Contato.                                                         | Público   |
 | `#/login`          | `pages/login.html`         | Modal unificado de acesso (Artesão / Liceu) — ver nota abaixo.   | Público   |
-| `#/cadastro`       | `pages/cadastro.html`      | Registro inicial de novos artesãos (nome, e-mail e senha).       | Público   |
 | `#/painel-artesao` | `pages/painel-artesao/inicio.html` | Área do artesão: gerenciar perfil e cadastrar trabalhos. | Restrito  |
 | `#/painel-liceu`   | `pages/painel-liceu/inicio.html`   | Área do Liceu: aprovar/rejeitar os trabalhos submetidos. | Restrito  |
 
@@ -59,7 +59,11 @@ Rotas inexistentes recaem na parcial de fallback `pages/nao-encontrado.html`.
 **Proteção de rotas restritas:**
 Como ainda não há back-end, as áreas restritas (`#/painel-artesao` e `#/painel-liceu`) são protegidas no cliente por uma guarda de rota no `router.js`: antes de carregar a parcial, verifica-se a sessão persistida no `localStorage` e, na ausência de sessão válida (ou de permissão compatível com o painel), o usuário é redirecionado para `#/login`, que abre o modal de login sobre a última página permitida.
 
-> Enquanto a autenticação não existe (o modal de login ainda é só visual — issue #25), a guarda fica desligada pela constante `GUARDA_ATIVA = false` em `js/router.js`, e os painéis usam uma sessão de demonstração (`sessaoDemonstracao` em `js/dados.js`).
+A guarda está ativa (`GUARDA_ATIVA = true`). O modal autentica as contas mock e as senhas provisórias criadas pelo Liceu. Sem sessão válida, o painel não é montado e o login abre sobre o portal; uma tentativa de acessar outro papel abre o login sobre a página anteriormente permitida. Sair exige confirmação e remove a sessão.
+
+A opção “Lembrar de mim” utiliza `localStorage`; desmarcada, utiliza `sessionStorage` (mantém reload, encerra ao fechar a aba). A desativação de um artesão impede login e invalida sua sessão local. Trata-se de autenticação simulada no navegador, sem proteção de servidor; use somente credenciais fictícias. Contas de demonstração e detalhes dos fluxos em [FLUXOS.md](FLUXOS.md).
+
+Parâmetros após `?` no hash não alteram o reconhecimento da rota. O detalhe recebe `id`; a edição do artesão reutiliza `#/painel-artesao/novo-trabalho?id=<id>`. `#/artesaos?id=<id>` abre o perfil público correspondente, `#/produtos?categoria=<valor>&tecnica=<valor>` filtra o catálogo e `#/saberes?tecnica=<valor>` seleciona a técnica.
 
 # Convenções
 - Pull Requests (PRs): Todo merge para a main deve passar por revisão cruzada de pelo menos um colega da equipe
@@ -67,9 +71,18 @@ Como ainda não há back-end, as áreas restritas (`#/painel-artesao` e `#/paine
 - Branches de Trabalho: Nomes descritivos baseados na tarefa, ex: feat/modal-artesao, fix/responsividade-cards, refactor/fluxo-aprovacao.
 
 # Fonte de Dados
-Como o projeto acadêmico foca inicialmente na interface e na lógica de front-end com Padrões Web, os dados da aplicação (artesãos, produtos, status de aprovação e categorias) serão persistidos em um arquivo .json.
 
-Para simular o comportamento de banco de dados e persistência entre telas sem back-end, utilizaremos o localStorage do navegador integrado às funções do JavaScript.
+Os arquivos `data/*.json` são a base inicial, somente para leitura. A camada `js/dados.js` combina esses registros com alterações persistidas em `localStorage` (`liceu:base:v1`), compartilhadas entre os painéis e o portal na mesma origem/navegador. Os arquivos JSON não são reescritos pelo navegador. O registro local guarda artesãos, trabalhos, exclusões lógicas e credenciais mock; uma única escrita confirma perfil e senha provisória juntos.
+
+Categorias/nichos e técnicas são opções predefinidas de `data/categorias.json`, carregadas por todas as telas equivalentes. Não há gestão dinâmica dessas listas no MVP.
+
+O trabalho segue `rascunho → em-analise → publicado` ou `em-analise → rejeitado (com motivo) → reenviado → publicado/rejeitado`. Reenviados pertencem à mesma fila de análise. Trabalhos em análise não podem ser editados pelo artesão; alterações em publicados/ocultos exigem nova análise. O Liceu pode ocultar e republicar trabalhos aprovados, ou excluir uma publicação com confirmação. Artesãos só excluem os próprios rascunhos/rejeitados. O portal mostra exclusivamente publicados de artesãos ativos.
+
+Fotos JPEG/PNG são lidas no navegador, reduzidas e persistidas como data URLs, até oito por trabalho; sem imagem, usa-se o placeholder existente. Falhas de espaço no armazenamento mantêm o formulário aberto e mostram erro. Os dados não sincronizam entre dispositivos; favoritos também são locais. Limpar o armazenamento remove alterações locais e restaura a base JSON.
+
+O contato preserva a integração Web3Forms existente. O envio real depende desse serviço e de conectividade. Recuperação de acesso orienta contato com o Liceu, que pode redefinir a senha provisória; não há recuperação automática por e-mail.
+
+Configurações institucionais, gestão de categorias/técnicas, troca da senha administrativa e gestão de permissões são representação de evolução futura. Os controles estão desabilitados com explicação no painel.
 
 # Hospedagem
 

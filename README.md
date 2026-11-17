@@ -56,3 +56,23 @@ Caso você tenha o Python instalado no seu computador:
 2. Execute o comando abaixo:
    ```bash
    python3 -m http.server 8000
+
+
+## Contas e fluxos de demonstração
+
+Este MVP usa dados e autenticação locais. Use apenas dados fictícios.
+
+| Papel | E-mail | Senha |
+|---|---|---|
+| Liceu | `liceu@exemplo.com` | `liceu123` |
+| Artesã (Ana) | `ana@exemplo.com` | `artesao123` |
+
+Os demais artesãos ativos da base inicial usam seus e-mails de `data/artesaos.json` e a senha `artesao123`, até uma redefinição pelo Liceu. Novos cadastros usam o e-mail e a senha provisória definidos no painel administrativo.
+
+O ciclo de envio, moderação e reenvio funciona compartilhando o `localStorage` na mesma origem. “Lembrar de mim” controla a persistência da sessão; os cadastros/trabalhos permanecem locais independentemente dessa opção. Não existe autocadastro público nem backend de autenticação.
+
+Veja [rotas e comportamentos](docs/FLUXOS.md) e [evidências da revisão funcional](docs/REVISAO-FUNCIONAL.md). Para verificar a camada de dados sem instalar dependências:
+
+```bash
+node tests/dados.mjs
+```
