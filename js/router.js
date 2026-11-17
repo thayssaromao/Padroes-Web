@@ -24,8 +24,9 @@ import {obterSessao, sessaoDemonstracao} from "./dados.js";
 import {abrirLogin} from "./paginas/login.js";
 
 /**
- * Guarda das áreas restritas. Fica desligada até a tela de login existir;
- * enquanto isso os painéis usam uma sessão de demonstração.
+ * Guarda das áreas restritas. Fica desligada até a autenticação existir
+ * (o modal de login ainda é só visual, issue #25); enquanto isso os
+ * painéis usam uma sessão de demonstração.
  */
 const GUARDA_ATIVA = false;
 const CAMINHO_PADRAO = "/inicio";
@@ -167,6 +168,31 @@ async function carregarPagina() {
     }
 }
 
+/**
+ * Links para "#/login" abrem o modal direto, sem passar pelo hash: assim
+ * não fica uma entrada duplicada da página atual no histórico.
+ * Ctrl/Cmd/Shift + clique e botão do meio seguem o link normalmente.
+ * @param {MouseEvent} evento
+ */
+function interceptarLinkLogin(evento) {
+    const link = evento.target.closest(
+        "a[href=\"#" + CAMINHO_LOGIN + "\"]"
+    );
+    if (
+        !link ||
+        evento.button !== 0 ||
+        evento.ctrlKey ||
+        evento.metaKey ||
+        evento.shiftKey ||
+        evento.altKey
+    ) {
+        return;
+    }
+    evento.preventDefault();
+    abrirLogin();
+}
+
 iniciarMenuPortal();
+document.addEventListener("click", interceptarLinkLogin);
 window.addEventListener("hashchange", carregarPagina);
 carregarPagina();
