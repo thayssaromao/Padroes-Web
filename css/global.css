@@ -92,6 +92,11 @@
     padding: 0;
 }
 
+/* O estado HTML hidden prevalece sobre flex/grid de componentes. */
+[hidden] {
+    display: none !important;
+}
+
 html {
     scroll-behavior: smooth;
 }
