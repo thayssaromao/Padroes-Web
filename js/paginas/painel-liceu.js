@@ -5,16 +5,21 @@
  */
 
 import {
+    abrirModal,
     criarCardEstatistica,
     criarChips,
     criarPaginacao,
     criarStatus,
     escaparHtml,
+    fecharModal,
     icone,
     mostrarAviso,
-    prepararCamposSenha
+    prepararCamposSenha,
+    prepararModais
 } from "../componentes.js";
 import {
+    atualizarStatusTrabalho,
+    buscarArtesao,
     carregarArtesaos,
     carregarCategorias,
     carregarTrabalhos,
@@ -24,18 +29,156 @@ import {
     salvarArtesao
 } from "../dados.js";
 
+const IMAGEM_PADRAO = "assets/img/avatar-padrao.jpg";
 const MAXIMO_CARDS_INICIO = 4;
 const POR_PAGINA = 5;
 
 // ===== Ações ainda sem tela (stubs) =====
 
+// ===== Modal de analisar trabalho (aprovar / rejeitar) =====
+
+const ARQUIVO_ANALISE = "pages/painel-liceu/analisar-trabalho.html";
+const ID_ANALISE = "modal-analisar";
+
+let carregamentoAnalise;
+let idEmAnalise = "";
+
+/** recarrega a aba atual pra lista mostrar o status novo */
+function recarregarAba() {
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+}
+
+/**
+ * Aprova ou rejeita o trabalho que esta aberto no modal.
+ * @param {HTMLDialogElement} modal
+ * @param {string} decisao "publicado" | "rejeitado"
+ * @returns {Promise<void>}
+ */
+async function decidirTrabalho(modal, decisao) {
+    const campoMotivo = modal.querySelector("#analisar-motivo");
+    const motivo = campoMotivo.value.trim();
+    campoMotivo.setCustomValidity("");
+    if (decisao === "rejeitado" && !motivo) {
+        campoMotivo.setCustomValidity(
+            "Escreva o motivo pra o artesão saber o que corrigir."
+        );
+        campoMotivo.reportValidity();
+        return;
+    }
+    try {
+        const trabalho = await atualizarStatusTrabalho(idEmAnalise, decisao, {
+            motivo
+        });
+        fecharModal(ID_ANALISE);
+        mostrarAviso(
+            decisao === "publicado"
+            ? "\"" + trabalho.titulo + "\" foi aprovado e publicado."
+            : "\"" + trabalho.titulo + "\" foi rejeitado."
+        );
+        recarregarAba();
+    } catch (erro) {
+        console.error(erro);
+        mostrarAviso("Não foi possível salvar a análise. Tente novamente.");
+    }
+}
+
+/**
+ * Busca o html do modal uma vez so e coloca no fim do body.
+ * @returns {Promise<HTMLDialogElement>}
+ */
+async function carregarModalAnalise() {
+    const resposta = await fetch(ARQUIVO_ANALISE);
+    const recipiente = document.createElement("div");
+    if (!resposta.ok) {
+        throw new Error(String(resposta.status));
+    }
+    recipiente.innerHTML = await resposta.text();
+    document.body.append(recipiente);
+    prepararModais(recipiente);
+    const modal = recipiente.querySelector("dialog");
+    modal.querySelector("#analisar-motivo").addEventListener(
+        "input",
+        function (evento) {
+            evento.target.setCustomValidity("");
+        }
+    );
+    modal.querySelectorAll("[data-decisao]").forEach(function (botao) {
+        botao.addEventListener("click", function () {
+            decidirTrabalho(modal, botao.dataset.decisao);
+        });
+    });
+    return modal;
+}
+
+/**
+ * Coloca os dados do trabalho e do artesão no modal.
+ * @param {HTMLDialogElement} modal
+ * @param {object} trabalho
+ * @param {object} [artesao]
+ */
+function preencherAnalise(modal, trabalho, artesao = {}) {
+    const textos = {
+        "artesao-cidade": artesao.cidade,
+        "artesao-email": artesao.email,
+        "artesao-empreendimento": artesao.empreendimento,
+        "artesao-nome": artesao.nome,
+        "categoria": trabalho.categoria,
+        "descricao": trabalho.descricao,
+        "dimensoes": trabalho.dimensoes,
+        "enviado": formatarData(trabalho.enviadoEm),
+        "materiais": trabalho.materiais,
+        "motivo-anterior": trabalho.motivoRejeicao,
+        "tecnica": trabalho.tecnica,
+        "titulo": trabalho.titulo
+    };
+    const imagem = modal.querySelector("[data-analise=\"imagem\"]");
+    const foto = modal.querySelector("[data-analise=\"artesao-foto\"]");
+    Object.keys(textos).forEach(function (chave) {
+        modal.querySelector(`[data-analise="${chave}"]`).textContent = (
+            textos[chave] || "—"
+        );
+    });
+    imagem.src = (trabalho.imagens && trabalho.imagens[0]) || IMAGEM_PADRAO;
+    imagem.alt = "Foto do trabalho " + trabalho.titulo;
+    foto.src = artesao.foto || IMAGEM_PADRAO;
+    foto.alt = "Foto de " + (artesao.nome || "artesão");
+    modal.querySelector("[data-analise=\"status\"]").innerHTML = criarStatus(
+        trabalho.status
+    );
+    // mostra o motivo antigo so se o trabalho voltou depois de rejeitado
+    modal.querySelector("[data-analise-anterior]").hidden = !(
+        trabalho.status === "reenviado" && trabalho.motivoRejeicao
+    );
+    modal.querySelector("#analisar-motivo").value = "";
+}
+
 /**
  * Abre a análise de um trabalho pendente.
  * @param {string} id id do trabalho
+ * @returns {Promise<void>}
  */
-function analisarTrabalho(id) {
-    // A IMPLEMENTAR: abrir o popup de análise (aprovar ou rejeitar).
-    mostrarAviso("Em breve: analisar o trabalho " + id + ".");
+async function analisarTrabalho(id) {
+    try {
+        carregamentoAnalise = carregamentoAnalise ?? carregarModalAnalise();
+        const modal = await carregamentoAnalise;
+        const trabalhos = await carregarTrabalhos();
+        const trabalho = trabalhos.find(function (item) {
+            return item.id === id;
+        });
+        if (!trabalho) {
+            mostrarAviso("Trabalho não encontrado.");
+            return;
+        }
+        preencherAnalise(modal, trabalho, await buscarArtesao(
+            trabalho.artesaoId
+        ));
+        idEmAnalise = id;
+        abrirModal(ID_ANALISE);
+    } catch (erro) {
+        carregamentoAnalise = undefined;
+        console.error(erro);
+        mostrarAviso("Não foi possível abrir a análise. Tente novamente.");
+    }
 }
 
 /**
@@ -804,6 +947,14 @@ async function montarPendentes(raiz) {
         return;
     }
     const contagem = contarPorStatus(pendentes);
+    const hoje = new Date().toDateString();
+    // conta os que foram aprovados ou rejeitados hoje
+    const analisadosHoje = dados[0].filter(function (trabalho) {
+        return (
+            Boolean(trabalho.analisadoEm)
+            && new Date(trabalho.analisadoEm).toDateString() === hoje
+        );
+    }).length;
     const resumo = [
         {
             icone: "lucide:hourglass",
@@ -817,8 +968,7 @@ async function montarPendentes(raiz) {
         },
         {
             icone: "lucide:circle-check",
-            // A IMPLEMENTAR: contar os trabalhos analisados no dia.
-            numero: 2,
+            numero: analisadosHoje,
             rotulo: "Analisados hoje"
         }
     ];

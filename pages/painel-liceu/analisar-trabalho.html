@@ -1,0 +1,75 @@
+<!-- modal de analisar trabalho, carregado pelo painel-liceu.js quando clica em Analisar.
+     fica no fim do body pq e usado no Inicio e nos Trabalhos Pendentes -->
+<dialog class="modal modal--grande liceu-analise" id="modal-analisar" aria-labelledby="analisar-titulo">
+    <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
+
+    <div class="liceu-analise__topo">
+        <img class="liceu-analise__imagem" data-analise="imagem" src="assets/img/avatar-padrao.jpg" alt="" width="320" height="320">
+        <div class="liceu-analise__info">
+            <span class="sobretitulo">Analisar trabalho</span>
+            <h2 class="modal__titulo" id="analisar-titulo" data-analise="titulo"></h2>
+            <p data-analise="status"></p>
+            <dl class="liceu-analise__dados">
+                <div>
+                    <dt><iconify-icon icon="lucide:tag" aria-hidden="true"></iconify-icon>Categoria</dt>
+                    <dd data-analise="categoria"></dd>
+                </div>
+                <div>
+                    <dt><iconify-icon icon="lucide:layers" aria-hidden="true"></iconify-icon>Técnica</dt>
+                    <dd data-analise="tecnica"></dd>
+                </div>
+                <div>
+                    <dt><iconify-icon icon="lucide:calendar" aria-hidden="true"></iconify-icon>Enviado em</dt>
+                    <dd data-analise="enviado"></dd>
+                </div>
+                <div>
+                    <dt>Dimensões</dt>
+                    <dd data-analise="dimensoes"></dd>
+                </div>
+                <div>
+                    <dt>Materiais</dt>
+                    <dd data-analise="materiais"></dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <h3 class="liceu-analise__subtitulo">Descrição</h3>
+    <p data-analise="descricao"></p>
+
+    <!-- so aparece quando o trabalho foi reenviado -->
+    <aside class="aviso liceu-analise__anterior" data-analise-anterior hidden>
+        <iconify-icon icon="lucide:info" aria-hidden="true"></iconify-icon>
+        <div class="aviso__texto">
+            <h3 class="aviso__titulo">Motivo da rejeição anterior</h3>
+            <p data-analise="motivo-anterior"></p>
+        </div>
+    </aside>
+
+    <hr class="modal__divisoria">
+
+    <h3 class="liceu-analise__subtitulo">Artesão</h3>
+    <div class="liceu-analise__artesao">
+        <img class="avatar" data-analise="artesao-foto" src="assets/img/avatar-padrao.jpg" alt="" width="64" height="64">
+        <div>
+            <p class="liceu-analise__nome" data-analise="artesao-nome"></p>
+            <p class="texto-suave" data-analise="artesao-empreendimento"></p>
+            <p class="local"><iconify-icon icon="lucide:map-pin" aria-hidden="true"></iconify-icon><span data-analise="artesao-cidade"></span></p>
+            <p class="local"><iconify-icon icon="lucide:mail" aria-hidden="true"></iconify-icon><span data-analise="artesao-email"></span></p>
+        </div>
+    </div>
+
+    <hr class="modal__divisoria">
+
+    <form class="liceu-analise__form" data-form-analise novalidate>
+        <div class="campo">
+            <label for="analisar-motivo" class="campo__rotulo">Motivo da rejeição</label>
+            <textarea id="analisar-motivo" name="motivo" class="campo__entrada" rows="3" maxlength="500" aria-describedby="analisar-motivo-ajuda"></textarea>
+            <p class="campo__ajuda" id="analisar-motivo-ajuda">Obrigatório só pra rejeitar. O artesão vai ver esse texto pra corrigir o trabalho.</p>
+        </div>
+        <div class="modal__acoes">
+            <button type="button" class="btn btn--secundario" data-decisao="rejeitado"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon>Rejeitar</button>
+            <button type="button" class="btn btn--primario" data-decisao="publicado"><iconify-icon icon="lucide:circle-check" aria-hidden="true"></iconify-icon>Aprovar</button>
+        </div>
+    </form>
+</dialog>

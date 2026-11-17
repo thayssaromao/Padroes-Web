@@ -305,3 +305,84 @@
     background-color: var(--cor-superficie-forte);
     font-weight: var(--peso-semi);
 }
+
+/* ----- modal de analisar trabalho ----- */
+.liceu-analise__topo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+    margin-bottom: var(--espaco-5);
+}
+
+.liceu-analise__imagem {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+}
+
+.liceu-analise__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    min-width: 0;
+}
+
+.liceu-analise__info .sobretitulo {
+    margin-bottom: 0;
+}
+
+.liceu-analise__dados {
+    display: grid;
+    gap: var(--espaco-3);
+}
+
+.liceu-analise__dados dt {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+    color: var(--cor-texto-suave);
+}
+
+.liceu-analise__dados dd {
+    font-weight: var(--peso-semi);
+}
+
+.liceu-analise__subtitulo {
+    margin-bottom: var(--espaco-2);
+    font-size: var(--fonte-h3);
+}
+
+.liceu-analise__anterior {
+    margin-top: var(--espaco-5);
+}
+
+.liceu-analise__artesao {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--espaco-4);
+}
+
+.liceu-analise__nome {
+    font-weight: var(--peso-negrito);
+}
+
+@media (min-width: 600px) {
+    .liceu-analise__topo {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: var(--espaco-6);
+    }
+
+    .liceu-analise__imagem {
+        flex: 0 0 240px;
+        width: 240px;
+    }
+
+    .liceu-analise__dados {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

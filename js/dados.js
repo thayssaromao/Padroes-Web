@@ -3,12 +3,22 @@
  * dados.js — acesso aos dados simulados (pasta data) e à sessão.
  *
  * Sem back-end: os JSON são a "base de dados" inicial e o localStorage
- * guarda a sessão e, no futuro, as alterações feitas nos painéis.
+ * guarda a sessão e as alterações feitas nos painéis.
  * Guia: docs/DESIGN.md §10 e docs/ESPECIFICACOES.md (Fonte de Dados).
  */
 
 const CHAVE_SESSAO = "liceu:sessao";
+const CHAVE_TRABALHOS = "liceu:trabalhos";
 const cache = new Map();
+
+// pra qual status cada um pode ir (fluxo de publicacao)
+const FLUXO_STATUS = Object.freeze({
+    "em-analise": ["publicado", "rejeitado"],
+    "publicado": [],
+    "rascunho": ["em-analise"],
+    "reenviado": ["publicado", "rejeitado"],
+    "rejeitado": ["reenviado"]
+});
 
 const SESSOES_DEMONSTRACAO = Object.freeze({
     "painel-artesao": {
@@ -47,9 +57,32 @@ function carregarArtesaos() {
     return lerJson("data/artesaos.json");
 }
 
-/** @returns {Promise<Array<object>>} lista de trabalhos (produtos) */
-function carregarTrabalhos() {
-    return lerJson("data/trabalhos.json");
+/** @returns {object} trabalhos alterados nos paineis, por id */
+function lerTrabalhosSalvos() {
+    try {
+        return JSON.parse(localStorage.getItem(CHAVE_TRABALHOS)) || {};
+    } catch (ignore) {
+        return {};
+    }
+}
+
+/**
+ * lista de trabalhos (produtos). o json e a base e o que foi mudado
+ * nos paineis fica no localStorage por cima
+ * @returns {Promise<Array<object>>}
+ */
+async function carregarTrabalhos() {
+    const base = await lerJson("data/trabalhos.json");
+    const salvos = lerTrabalhosSalvos();
+    const lista = base.map(function (trabalho) {
+        return salvos[trabalho.id] || trabalho;
+    });
+    // trabalhos novos que nao estao no json
+    return lista.concat(Object.values(salvos).filter(function (trabalho) {
+        return !base.some(function (item) {
+            return item.id === trabalho.id;
+        });
+    }));
 }
 
 /** @returns {Promise<{categorias: string[], tecnicas: string[]}>} */
@@ -160,7 +193,7 @@ function sessaoDemonstracao(layout) {
     return SESSOES_DEMONSTRACAO[layout];
 }
 
-// ===== Escrita (a implementar) =====
+// ===== Escrita =====
 
 /**
  * Cria ou atualiza um trabalho no localStorage.
@@ -168,20 +201,68 @@ function sessaoDemonstracao(layout) {
  * @returns {Promise<object>}
  */
 function salvarTrabalho(trabalho) {
-    // A IMPLEMENTAR: salvar no localStorage + data/trabalhos.json.
+    // A IMPLEMENTAR: criar trabalho novo (id, datas) quando o form
+    // de novo trabalho for ligado. por enquanto so salva o que vier
+    const salvos = lerTrabalhosSalvos();
+    salvos[trabalho.id] = trabalho;
+    localStorage.setItem(CHAVE_TRABALHOS, JSON.stringify(salvos));
     return Promise.resolve(trabalho);
 }
 
 /**
- * Aprova ou rejeita um trabalho (fluxo de moderação do Liceu).
- * @param {string} id
- * @param {string} status "publicado" | "rejeitado"
- * @param {string} [motivo]
- * @returns {Promise<void>}
+ * @param {string} atual status de agora
+ * @param {string} novo status que quer ir
+ * @returns {boolean} se o fluxo deixa mudar
  */
-function atualizarStatusTrabalho(id, status, motivo) {
-    // A IMPLEMENTAR: alterar status, registrar motivo e data de análise.
-    return Promise.resolve({id, motivo, status});
+function podeMudarStatus(atual, novo) {
+    return (FLUXO_STATUS[atual] || []).includes(novo);
+}
+
+/**
+ * Muda o status de um trabalho seguindo o fluxo.
+ * aprovar/rejeitar (Liceu), enviar rascunho e reenviar (artesao)
+ * @param {string} id
+ * @param {string} status novo status (ver FLUXO_STATUS)
+ * @param {object} [extra] motivo (pra rejeitar) e campos editados (reenvio)
+ * @returns {Promise<object>} o trabalho atualizado
+ */
+async function atualizarStatusTrabalho(id, status, extra = {}) {
+    const trabalhos = await carregarTrabalhos();
+    const atual = trabalhos.find(function (item) {
+        return item.id === id;
+    });
+    const agora = new Date().toISOString();
+    const motivo = String(extra.motivo || "").trim();
+    if (!atual) {
+        throw new Error("Trabalho não encontrado: " + id);
+    }
+    if (!podeMudarStatus(atual.status, status)) {
+        throw new Error(
+            "Não pode mudar de " + atual.status + " para " + status
+        );
+    }
+    if (status === "rejeitado" && !motivo) {
+        throw new Error("Informe o motivo da rejeição.");
+    }
+    const novo = Object.assign({}, atual, extra.campos, {
+        atualizadoEm: agora,
+        status
+    });
+    if (status === "publicado" || status === "rejeitado") {
+        novo.analisadoEm = agora;
+    }
+    if (status === "publicado") {
+        novo.publicadoEm = agora;
+        novo.motivoRejeicao = null;
+    }
+    if (status === "rejeitado") {
+        novo.motivoRejeicao = motivo;
+    }
+    // enviar ou reenviar conta como envio novo pra fila do Liceu
+    if (status === "em-analise" || status === "reenviado") {
+        novo.enviadoEm = agora;
+    }
+    return salvarTrabalho(novo);
 }
 
 /**
@@ -205,6 +286,7 @@ export {
     encerrarSessao,
     formatarData,
     obterSessao,
+    podeMudarStatus,
     salvarArtesao,
     salvarSessao,
     salvarTrabalho,
