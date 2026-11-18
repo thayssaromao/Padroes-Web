@@ -793,5 +793,6 @@ existentes, mesmo quando ampliam a altura em relação ao wireframe.
   com seleção anunciada; materiais (`layers`), técnica (`hammer`) e
   dimensões (`ruler`) em lista de descrição com ícones Lucide; descrição
   separada por borda, produtor com foto e texto, técnica e relacionados
-  preservados. Preço usa a escala de título de seção existente.
+  preservados. Preço numérico usa a escala de título de seção existente;
+  a mensagem de preço sob consulta usa texto de apoio e cor suave.
 - Aviso do MVP tem `--espaco-5` de distância do formulário de configurações.
