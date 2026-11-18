@@ -834,6 +834,16 @@ Figma) e página Produto Individual de `../wireframes.pdf`.
   apenas por CSS nem alterar o footer público.
 
 
+### Refinamento dos botoes secundarios e seletores
+
+- Botoes secundarios utilizam superficie suave e borda discreta.
+- Menus personalizados utilizam raio medio.
+- Hover e selecao empregam superficies suaves.
+- A selecao continua indicada por peso tipografico.
+- Estados de foco por teclado devem permanecer visiveis.
+- As dimensoes minimas de interacao sao preservadas.
+- Os ajustes pertencem aos componentes compartilhados.
+
 ## Rodada adicional: seletores, validação, cards e favoritos
 
 Referência: `../capturas_ajustes_ui_liceu_rodada_atual.pdf`.
