@@ -76,10 +76,22 @@
     font-size: var(--tamanho-icone-acao);
 }
 
-/* Plano editorial do catálogo, sem alterar o espaço dos controles. */
+/* Faixa editorial inteira; conteúdo e controles mantêm a grade limitada. */
 .catalogo-produto-cabecalho {
+    position: relative;
+    isolation: isolate;
     background-color: var(--cor-editorial);
-    box-shadow: 0 0 0 var(--espaco-4) var(--cor-editorial);
+}
+
+.catalogo-produto-cabecalho::before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--espaco-6)) 0 calc(-1 * var(--espaco-4));
+    z-index: -1;
+    background-color: var(--cor-editorial);
+    box-shadow: 0 0 0 100vmax var(--cor-editorial);
+    clip-path: inset(0 -100vmax);
+    pointer-events: none;
 }
 
 .btn-view[aria-pressed="true"] {
