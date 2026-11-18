@@ -20,6 +20,7 @@ node tests/fluxos.cjs
 node tests/regressoes.cjs
 node tests/ui.cjs
 node tests/portal.cjs
+node tests/complemento.cjs
 ```
 
 Se o módulo não estiver na resolução padrão, defina `PLAYWRIGHT_MODULE` como o caminho absoluto da instalação existente. `PLAYWRIGHT_BROWSERS_PATH` e `LD_LIBRARY_PATH` podem ser necessários conforme a instalação dos navegadores. `PORTAL_URL` aceita outra origem/porta, com `/` final. `RELATORIO_DIR` escolhe onde salvar relatórios e screenshots; o padrão é `liceu-fluxos` na pasta temporária do sistema.
@@ -47,3 +48,10 @@ e cancelamentos de aprovação/rejeição sem alterações no armazenamento.
 `fluxos.cjs` exige a confirmação explícita antes de aprovar. `portal.cjs`
 verifica ícones dos atributos e seleção das miniaturas por setas e teclado em
 uma galeria com duas imagens de teste.
+
+`complemento.cjs` verifica as três barras administrativas (incluindo aplicação
+automática dos filtros de Status/Categoria/Artesão em Publicações), limpeza do
+catálogo, distribuição do produto e relacionados, ações de Minha conta e Ajuda
+por perfil. Executa Chromium/Firefox em 1280/768/375px, com capturas e relatório
+em `RELATORIO_DIR/complemento/depois`. O caso de três relacionados utiliza
+o produto existente Escultura em Madeira, sem alterar dados persistidos.
