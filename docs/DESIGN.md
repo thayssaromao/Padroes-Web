@@ -302,6 +302,21 @@ Pílula com ícone + texto. **Nunca só cor** — o texto sempre aparece.
 
 Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 
+**Integracao dos cards no catalogo de Produtos**
+
+- O catalogo renderiza os produtos com `criarCardPublico()`,
+  reutilizando `criarCardProduto()` e `.card-produto`.
+- Borda, raio, sombra e hover pertencem ao componente
+  compartilhado em `css/componentes.css`.
+- `css/produtos.css` nao deve redefinir globalmente
+  `.card-produto` ou `.card-produto:hover`.
+- As regras de grade e modo lista permanecem especificas
+  do catalogo.
+- Os ajustes de `.card-produto__imagem` e
+  `.card-produto__corpo` no modo lista sao preservados.
+- A remocao de CSS legado nao modifica HTML, JavaScript,
+  favoritos, filtros, paginacao ou ordenacao.
+
 ### 5.5 Cards
 
 | Card | Classe | Conteúdo | Onde |
