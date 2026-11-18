@@ -531,3 +531,5 @@ A preparação de ações é idempotente: não reaplica atributos de ícones já
 Os cabeçalhos de configurações reutilizam `.bloco-form__cabecalho--secao`, com wrapper de ícone e texto. No grid desktop, a altura mínima comum acomoda as descrições sem deslocar o início do conteúdo entre cards vizinhos; em telas menores, a altura volta a ser natural.
 
 Não reposicione um `iconify-icon` conectado apenas para remover espaços em branco. O preparador mantém nós já corretos; quando realmente precisa trocar um ícone de posição, cria uma instância nova. Isso evita estado interno de SVG inválido ao reconectar o custom element.
+
+Ícones de status e envio não são ocultados em cards compactos no desktop. O ajuste de densidade acontece por quebra de linha e altura natural, não por remoção de informação. Em uma fileira com apenas “Mais ações”, o botão permanece quadrado; somente ações com texto podem crescer para preencher a largura.
