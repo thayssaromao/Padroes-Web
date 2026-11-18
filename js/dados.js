@@ -10,7 +10,13 @@
 const CHAVE_SESSAO = "liceu:sessao";
 const cache = new Map();
 
+const CHAVE_ARTESAOS = "liceu:artesaos";
 const CHAVE_TRABALHOS = "liceu:trabalhos";
+const CHAVE_USUARIOS = "liceu:usuarios";
+const FOTO_PADRAO = "assets/img/avatar-padrao.jpg";
+const SENHA_MAXIMO = 12;
+const SENHA_MINIMO = 8;
+const PADRAO_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PERFIL_ARTESAO = "painel-artesao";
 const PERFIL_LICEU = "painel-liceu";
 
@@ -32,9 +38,30 @@ async function lerJson(caminho) {
     return dados;
 }
 
-/** @returns {Promise<Array<object>>} lista de artesãos */
-function carregarArtesaos() {
-    return lerJson("data/artesaos.json");
+/**
+ * @param {string} chave
+ * @returns {Array<object>} lista guardada no navegador (vazia se não houver)
+ */
+function lerLista(chave) {
+    try {
+        return JSON.parse(localStorage.getItem(chave)) ?? [];
+    } catch (ignore) {
+        return [];
+    }
+}
+
+/**
+ * @param {string} chave
+ * @param {object} item acrescentado ao fim da lista guardada
+ */
+function acrescentarNaLista(chave, item) {
+    localStorage.setItem(chave, JSON.stringify(lerLista(chave).concat(item)));
+}
+
+/** @returns {Promise<Array<object>>} artesãos do JSON mais os cadastrados */
+async function carregarArtesaos() {
+    const base = await lerJson("data/artesaos.json");
+    return base.concat(lerLista(CHAVE_ARTESAOS));
 }
 
 /** @returns {Promise<Array<object>>} trabalhos do JSON com as alterações salvas no navegador */
@@ -59,9 +86,92 @@ function carregarTecnicas() {
     return lerJson("data/tecnicas.json");
 }
 
-/** @returns {Promise<Array<object>>} contas de teste (sem back-end) */
-function carregarUsuarios() {
-    return lerJson("data/usuarios.json");
+/** @returns {Promise<Array<object>>} contas de teste mais as cadastradas */
+async function carregarUsuarios() {
+    const base = await lerJson("data/usuarios.json");
+    return base.concat(lerLista(CHAVE_USUARIOS));
+}
+
+/**
+ * @param {string} email
+ * @returns {boolean} true se tem o formato nome@dominio.ext
+ */
+function emailValido(email) {
+    return PADRAO_EMAIL.test(String(email).trim());
+}
+
+/**
+ * Regra da senha: de 8 a 12 caracteres, com pelo menos um número e um
+ * caractere especial (qualquer símbolo que não seja letra, número ou espaço).
+ * @param {string} senha
+ * @returns {boolean}
+ */
+function senhaValida(senha) {
+    const tamanho = Array.from(String(senha)).length;
+    return (
+        tamanho >= SENHA_MINIMO
+        && tamanho <= SENHA_MAXIMO
+        && /\d/.test(senha)
+        && /[^\p{L}\p{N}\s]/u.test(senha)
+    );
+}
+
+/**
+ * Cadastra um artesão: cria o usuário (perfil artesão) e o registro do
+ * artesão (inativo até o perfil ser completado) e já abre a sessão.
+ * @param {{nome: string, email: string, senha: string, confirmar: string}} dados
+ * @returns {Promise<object>} a sessão aberta
+ */
+async function registrarArtesao(dados) {
+    const nome = String(dados.nome ?? "").trim();
+    const email = String(dados.email ?? "").trim().toLowerCase();
+    if (!nome || !email || !dados.senha) {
+        throw new Error("Preencha todos os campos.");
+    }
+    if (!emailValido(email)) {
+        throw new Error("Digite um e-mail válido, como nome@exemplo.com.");
+    }
+    if (!senhaValida(dados.senha)) {
+        throw new Error(
+            "A senha deve ter de 8 a 12 caracteres, com pelo menos um número"
+            + " e um caractere especial."
+        );
+    }
+    if (dados.senha !== dados.confirmar) {
+        throw new Error("As senhas não são iguais.");
+    }
+    const usuarios = await carregarUsuarios();
+    if (usuarios.some(function (usuario) {
+        return usuario.email === email;
+    })) {
+        throw new Error("Este e-mail já está cadastrado.");
+    }
+    const id = "artesao-" + Date.now();
+    acrescentarNaLista(CHAVE_ARTESAOS, {
+        bio: "",
+        cadastradoEm: new Date().toISOString(),
+        categorias: [],
+        cidade: "",
+        email,
+        empreendimento: "",
+        foto: FOTO_PADRAO,
+        id,
+        instagram: "",
+        nome,
+        status: "inativo",
+        tecnicas: [],
+        whatsapp: ""
+    });
+    acrescentarNaLista(CHAVE_USUARIOS, {
+        artesaoId: id,
+        email,
+        foto: FOTO_PADRAO,
+        id: "usuario-" + id,
+        nome,
+        perfil: PERFIL_ARTESAO,
+        senha: dados.senha
+    });
+    return autenticar(email, dados.senha);
 }
 
 /**
@@ -319,12 +429,15 @@ export {
     carregarUsuarios,
     comNomeDoArtesao,
     contarPorStatus,
+    emailValido,
     encerrarSessao,
     exigirPerfil,
     formatarData,
     obterSessao,
+    registrarArtesao,
     salvarArtesao,
     salvarSessao,
     salvarTrabalho,
+    senhaValida,
     trabalhosDoArtesao
 };

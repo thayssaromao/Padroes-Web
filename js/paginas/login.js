@@ -54,6 +54,13 @@ async function carregarLogin() {
     prepararModais(recipiente);
     prepararCamposSenha(recipiente);
     ligarFormulario(recipiente);
+    // "Criar conta" navega para #/cadastro: o modal precisa fechar antes.
+    recipiente.querySelector("[data-ir-cadastro]").addEventListener(
+        "click",
+        function () {
+            fecharModal(ID_MODAL);
+        }
+    );
 }
 
 /** Abre a janela de login. */
