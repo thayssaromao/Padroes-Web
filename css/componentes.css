@@ -478,6 +478,11 @@ input[type="checkbox"] {
     background-color: var(--cor-alerta-fundo);
 }
 
+.status[data-status="oculto"] {
+    color: var(--cor-informacao);
+    background-color: var(--cor-informacao-fundo);
+}
+
 /* ===== 5.5 Cards ===== */
 
 .card {
@@ -1436,6 +1441,7 @@ input[type="checkbox"] {
     }
 
     .tabela th {
+        color: var(--cor-texto-invertido);
         background-color: var(--marca-petroleo);
         font-size: var(--fonte-corpo);
         font-weight: var(--peso-negrito);
@@ -1458,7 +1464,6 @@ input[type="checkbox"] {
     .tabela tbody tr {
         border-top: 1px solid var(--cor-borda);
     }
-        color: var(--cor-texto-invertido);
 }
 
 /* Ações, detalhes e estados partilham a mesma escala e anatomia. */
