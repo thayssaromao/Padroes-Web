@@ -339,6 +339,30 @@ Seus estilos legados podem ser removidos de
 A remocao deve ser validada visualmente antes
 de ser considerada concluida.
 
+**Composicao das paginas institucionais**
+
+- As paginas institucionais utilizam os tokens existentes
+  de espaco, cores, tipografia e bordas.
+- A pagina Sobre o Projeto apresenta um hero claro
+  e uma secao alternada para os integrantes.
+- As imagens dos heroes podem ter proporcoes
+  diferentes no desktop, conforme o wireframe.
+- Em telas menores, a composicao permanece
+  responsiva e empilhada.
+- A linha do tempo do Liceu e os dados reais
+  existentes devem ser preservados.
+- Ajustes especificos ficam nos CSS das paginas,
+  sem redefinir componentes compartilhados.
+
+**Perfil responsivo do artesao**
+
+- O modal utiliza o componente compartilhado `.modal`.
+- Em telas pequenas, foto e informacoes ficam empilhadas.
+- Em telas maiores, a foto respeita o espaco disponivel.
+- Textos e contatos nao devem produzir overflow.
+- Os ajustes especificos ficam em `css/paginas/artesaos.css`.
+- O JavaScript e os dados do perfil sao preservados.
+
 ### 5.5 Cards
 
 | Card | Classe | Conteúdo | Onde |
