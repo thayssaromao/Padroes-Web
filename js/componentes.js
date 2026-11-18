@@ -162,18 +162,18 @@ function prepararAcoes(raiz) {
 /** Campo reutilizável para senhas provisórias e suas confirmações. */
 function criarCampoSenha(id, nome, rotulo, obrigatorio = false) {
     return (
-        '<div class="campo"><label class="campo__rotulo" for=""
-        + escaparHtml(id) + "">' + escaparHtml(rotulo) + '</label>'
-        + '<div class="campo__grupo">' + icone("lucide:lock")
-        + '<input class="campo__entrada campo__entrada--senha" id=""
-        + escaparHtml(id) + "" name="" + escaparHtml(nome)
-        + "" type="password" autocomplete="new-password" minlength="6"'
-        + (obrigatorio ? ' required' : '') + '>'
-        + '<button type="button" class="btn btn--icone"'
-        + ' data-alternar-senha="" + escaparHtml(id)
-        + "" aria-label="Mostrar senha" title="Mostrar senha"'
-        + ' aria-pressed="false">' + icone("lucide:eye-off")
-        + '</button></div></div>'
+        "<div class=\"campo\"><label class=\"campo__rotulo\" for=\""
+        + escaparHtml(id) + "\">" + escaparHtml(rotulo) + "</label>"
+        + "<div class=\"campo__grupo\">" + icone("lucide:lock")
+        + "<input class=\"campo__entrada campo__entrada--senha\" id=\""
+        + escaparHtml(id) + "\" name=\"" + escaparHtml(nome)
+        + "\" type=\"password\" autocomplete=\"new-password\" minlength=\"6\""
+        + (obrigatorio ? " required" : "") + ">"
+        + "<button type=\"button\" class=\"btn btn--icone\""
+        + " data-alternar-senha=\"" + escaparHtml(id)
+        + "\" aria-label=\"Mostrar senha\" title=\"Mostrar senha\""
+        + " aria-pressed=\"false\">" + icone("lucide:eye-off")
+        + "</button></div></div>"
     );
 }
 
@@ -182,9 +182,9 @@ function criarDetalhesTrabalho(trabalho) {
     const imagens = trabalho.imagens && trabalho.imagens.length
         ? trabalho.imagens : ["assets/img/avatar-padrao.jpg"];
     const galeria = imagens.map(function (imagem, indice) {
-        return '<img src="" + escaparHtml(imagem) + "" alt=""
+        return "<img src=\"" + escaparHtml(imagem) + "\" alt=\""
             + escaparHtml(trabalho.titulo) + " — foto " + (indice + 1)
-            + "" width="640" height="480" loading="lazy">';
+            + "\" width=\"640\" height=\"480\" loading=\"lazy\">";
     }).join("");
     const preco = trabalho.preco === null || trabalho.preco === undefined
         ? "Sob consulta" : Number(trabalho.preco).toLocaleString(
@@ -196,21 +196,21 @@ function criarDetalhesTrabalho(trabalho) {
         ["banknote", "Preço", preco]
     ];
     return (
-        '<div class="detalhe-trabalho"><div class="detalhe-trabalho__galeria"'
-        + ' role="group" aria-label="Imagens do trabalho">' + galeria
-        + '</div><div class="pilha"><p class="linha">'
-        + icone("lucide:user") + '<strong>Artesão</strong> '
-        + escaparHtml(trabalho.artesaoNome || "Não informado") + '</p>'
-        + '<p>' + criarStatus(trabalho.status) + '</p>'
+        "<div class=\"detalhe-trabalho\"><div class=\"detalhe-trabalho__galeria\""
+        + " role=\"group\" aria-label=\"Imagens do trabalho\">" + galeria
+        + "</div><div class=\"pilha\"><p class=\"linha\">"
+        + icone("lucide:user") + "<strong>Artesão</strong> "
+        + escaparHtml(trabalho.artesaoNome || "Não informado") + "</p>"
+        + "<p>" + criarStatus(trabalho.status) + "</p>"
         + criarChips([trabalho.categoria, trabalho.tecnica].filter(Boolean))
-        + '<div class="pilha"><h3>Descrição</h3><p>'
-        + escaparHtml(trabalho.descricao || "Não informada") + '</p></div>'
-        + '<dl class="detalhe-trabalho__metadados">'
+        + "<div class=\"pilha\"><h3>Descrição</h3><p>"
+        + escaparHtml(trabalho.descricao || "Não informada") + "</p></div>"
+        + "<dl class=\"detalhe-trabalho__metadados\">"
         + dados.map(function (item) {
-            return '<div><dt>' + icone("lucide:" + item[0])
-                + escaparHtml(item[1]) + '</dt><dd>'
-                + escaparHtml(item[2]) + '</dd></div>';
-        }).join("") + '</dl></div></div>'
+            return "<div><dt>" + icone("lucide:" + item[0])
+                + escaparHtml(item[1]) + "</dt><dd>"
+                + escaparHtml(item[2]) + "</dd></div>";
+        }).join("") + "</dl></div></div>"
     );
 }
 
