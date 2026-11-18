@@ -5,24 +5,24 @@
 
 :root {
     /* ===== Cores (wireframe em cinza) ===== */
-    --cor-texto: #111111;
-    --cor-texto-suave: #555555;
-    --cor-texto-apagado: #8a8a8a;
+    --cor-texto: #183E45;
+    --cor-texto-suave: #48625E;
+    --cor-texto-apagado: #58736E;
     --cor-texto-invertido: #ffffff;
 
     --cor-fundo: #ffffff;
     --cor-fundo-alternado: #F8F7F3;
-    --cor-superficie: #f7f7f7;
+    --cor-superficie: #F8FBFA;
     --cor-superficie-forte: #EAF5F3;
 
-    --cor-barra: #a9a9a9;
-    --cor-link-barra-hover: #333333;
+    --cor-barra: #EAF5F3;
+    --cor-link-barra-hover: #0C7774;
     --cor-indicador-hover: #0C7774;
     --cor-lateral: #F1F7F5;
     --cor-lateral-ativo: #D2EAE6;
 
     --cor-borda: #C7DAD6;
-    --cor-borda-forte: #272727;
+    --cor-borda-forte: #377B76;
 
     /* Identidade visual do Liceu: paleta proposta */
     --marca-turquesa: #20A8A6;
@@ -34,12 +34,12 @@
 
     --cor-primaria: #0C7774;
     --cor-primaria-hover: #095E5C;
-    --cor-placeholder: #c8c8c8;
+    --cor-placeholder: #D9E7E3;
     --cor-sobreposicao: rgb(0 0 0 / 45%);
 
-    --cor-sucesso: #4a4a4a;
-    --cor-alerta: #4a4a4a;
-    --cor-erro: #4a4a4a;
+    --cor-sucesso: #18745E;
+    --cor-alerta: #8B5E00;
+    --cor-erro: #A82D47;
 
     /* ===== Tipografia ===== */
     --fonte-base: "Inter", Arial, Helvetica, sans-serif;
