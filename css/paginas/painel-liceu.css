@@ -152,6 +152,7 @@
 }
 
 .liceu-filtros .campo {
+    gap: var(--espaco-2);
     min-width: 0;
 }
 

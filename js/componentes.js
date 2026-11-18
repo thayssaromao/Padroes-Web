@@ -1,4 +1,5 @@
 /*jslint browser */
+import {prepararSeletores} from "./seletores.js";
 /**
  * componentes.js — componentes reutilizáveis (geram HTML ou ligam eventos).
  * Guia visual: docs/DESIGN.md §5 e §8.
@@ -127,6 +128,7 @@ function conteudoAcao(texto) {
 
 /** Migra ações existentes sem alterar handlers, texto ou semântica. */
 function prepararAcoes(raiz) {
+    prepararSeletores(raiz);
     padronizarIcones(raiz);
     raiz.querySelectorAll("iconify-icon").forEach(function (elemento) {
         if (!elemento.hasAttribute("noobserver")) {
