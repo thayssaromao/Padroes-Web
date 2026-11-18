@@ -411,3 +411,63 @@
         grid-column: auto;
     }
 }
+
+
+/* Ajuste final: filtros do artesao em largura total */
+.barra-filtros--trabalhos,
+.artesao-status-lista .barra-filtros--status {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--espaco-4);
+    align-items: end;
+}
+
+.barra-filtros--trabalhos > *,
+.artesao-status-lista .barra-filtros--status > * {
+    min-width: 0;
+}
+
+.barra-filtros--trabalhos .barra-filtros__item,
+.artesao-status-lista .barra-filtros--status .barra-filtros__item {
+    width: 100%;
+    min-width: 0;
+}
+
+.barra-filtros--trabalhos .campo__entrada,
+.barra-filtros--trabalhos .seletor,
+.barra-filtros--trabalhos .seletor__botao,
+.artesao-status-lista .barra-filtros--status .campo__entrada,
+.artesao-status-lista .barra-filtros--status .seletor,
+.artesao-status-lista .barra-filtros--status .seletor__botao {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+}
+
+@media (min-width: 600px) {
+    .barra-filtros--trabalhos,
+    .artesao-status-lista .barra-filtros--status {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .barra-filtros--trabalhos > .busca,
+    .artesao-status-lista .barra-filtros--status > .busca {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .barra-filtros--trabalhos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .artesao-status-lista .barra-filtros--status {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .barra-filtros--trabalhos > .busca,
+    .artesao-status-lista .barra-filtros--status > .busca {
+        grid-column: 1 / -1;
+    }
+}
