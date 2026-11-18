@@ -21,6 +21,7 @@ node tests/regressoes.cjs
 node tests/ui.cjs
 node tests/portal.cjs
 node tests/complemento.cjs
+node tests/rodada-atual.cjs
 ```
 
 Se o módulo não estiver na resolução padrão, defina `PLAYWRIGHT_MODULE` como o caminho absoluto da instalação existente. `PLAYWRIGHT_BROWSERS_PATH` e `LD_LIBRARY_PATH` podem ser necessários conforme a instalação dos navegadores. `PORTAL_URL` aceita outra origem/porta, com `/` final. `RELATORIO_DIR` escolhe onde salvar relatórios e screenshots; o padrão é `liceu-fluxos` na pasta temporária do sistema.
@@ -55,3 +56,11 @@ catálogo, distribuição do produto e relacionados, ações de Minha conta e Aj
 por perfil. Executa Chromium/Firefox em 1280/768/375px, com capturas e relatório
 em `RELATORIO_DIR/complemento/depois`. O caso de três relacionados utiliza
 o produto existente Escultura em Madeira, sem alterar dados persistidos.
+
+`rodada-atual.cjs` cobre Nome/E-mail obrigatórios, unicidade e troca válida de
+e-mail com novo login; menus de seleção por teclado, opções dinâmicas,
+desabilitados e validação dentro dos formulários; geometria de cards/filtros;
+modais públicos e administrativos; biografia extensa; favoritos combinados
+com busca/filtros/ordenação, paginação, persistência e atualização entre abas.
+Executa Chromium/Firefox em 1280/768/375px, sem modificar as bases JSON.
+Capturas e relatório ficam em `RELATORIO_DIR/rodada-atual/depois`.
