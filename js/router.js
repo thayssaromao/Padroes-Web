@@ -3,7 +3,7 @@
  * router.js — ponto de entrada da SPA (roteamento por hash).
  *
  * 1. Lê o caminho após o "#" e encontra a rota em js/rotas.js.
- * 2. Aplica a guarda das áreas restritas.
+ * 2. Aplica o controle de acesso por perfil às áreas restritas.
  * 3. Monta o layout (portal ou painel) se ele mudou.
  * 4. Carrega a parcial HTML em <main id="conteudo">.
  * 5. Chama a função iniciar da página, se houver.
@@ -20,16 +20,10 @@ import {
     iniciarMenuPortal,
     montarPainel
 } from "./layout.js";
-import {obterSessao, sessaoDemonstracao} from "./dados.js";
-import {padronizarIcones} from "./componentes.js";
+import {obterSessao} from "./dados.js";
+import {mostrarAviso, padronizarIcones} from "./componentes.js";
 import {abrirLogin} from "./paginas/login.js";
 
-/**
- * Guarda das áreas restritas. Fica desligada até a autenticação existir
- * (o modal de login ainda é só visual, issue #25); enquanto isso os
- * painéis usam uma sessão de demonstração.
- */
-const GUARDA_ATIVA = false;
 const CAMINHO_PADRAO = "/inicio";
 const CAMINHO_LOGIN = "/login";
 
@@ -38,6 +32,7 @@ let layoutAtual = "";
 let primeiraCarga = true;
 let navegacao = 0;
 let caminhoAnterior = CAMINHO_PADRAO;
+let destinoPosLogin = "";
 
 /** @returns {string} caminho atual, ex.: "/painel-liceu/artesaos" */
 function caminhoAtual() {
@@ -55,16 +50,50 @@ function encontrarRota(caminho) {
 }
 
 /**
- * Verifica se a sessão permite abrir a rota.
+ * Controle de acesso por perfil. O perfil da sessão ("painel-artesao" ou
+ * "painel-liceu") só abre as rotas do próprio layout; o portal é público.
  * @param {object} rota
- * @returns {boolean}
+ * @returns {string} "ok" | "login" (sem sessão) | "negado" (outro perfil)
  */
-function podeAcessar(rota) {
+function verificarAcesso(rota) {
     const sessao = obterSessao();
-    if (!GUARDA_ATIVA || rota.layout === "portal") {
-        return true;
+    if (rota.layout === "portal") {
+        return "ok";
     }
-    return Boolean(sessao) && sessao.perfil === rota.layout;
+    if (!sessao) {
+        return "login";
+    }
+    return (
+        sessao.perfil === rota.layout
+        ? "ok"
+        : "negado"
+    );
+}
+
+/** @returns {string} caminho do painel inicial do perfil logado */
+function painelDaSessao() {
+    const sessao = obterSessao();
+    return (
+        sessao
+        ? "/" + sessao.perfil
+        : CAMINHO_PADRAO
+    );
+}
+
+/** Troca o link "Entrar" do portal por "Meu painel" quando há sessão. */
+function atualizarLinkEntrar() {
+    const link = document.querySelector(".nav-portal__entrar");
+    const logado = Boolean(obterSessao());
+    link.href = "#" + (
+        logado
+        ? painelDaSessao()
+        : CAMINHO_LOGIN
+    );
+    link.lastChild.textContent = (
+        logado
+        ? " Meu painel "
+        : " Entrar "
+    );
 }
 
 /**
@@ -103,7 +132,7 @@ function prepararLayout(rota) {
         raiz,
         rota.layout,
         PAINEIS[rota.layout],
-        obterSessao() ?? sessaoDemonstracao(rota.layout)
+        obterSessao()
     );
 }
 
@@ -118,6 +147,11 @@ async function carregarPagina() {
     // Volta o endereço para a página anterior sem recarregá-la.
     if (caminho === CAMINHO_LOGIN) {
         window.history.replaceState(null, "", "#" + caminhoAnterior);
+        if (obterSessao()) {
+            // Quem já entrou não vê o login: vai para o próprio painel.
+            window.location.hash = "#" + painelDaSessao();
+            return;
+        }
         abrirLogin();
         if (!primeiraCarga) {
             return;
@@ -126,8 +160,15 @@ async function carregarPagina() {
     }
 
     rota = encontrarRota(caminho);
-    if (!podeAcessar(rota)) {
+    const acesso = verificarAcesso(rota);
+    if (acesso === "login") {
+        destinoPosLogin = caminho;
         window.location.hash = "#" + CAMINHO_LOGIN;
+        return;
+    }
+    if (acesso === "negado") {
+        mostrarAviso("Acesso não permitido para o seu perfil.");
+        window.location.hash = "#" + painelDaSessao();
         return;
     }
     caminhoAnterior = caminho;
@@ -155,6 +196,7 @@ async function carregarPagina() {
     conteudo.classList.add("entrando");
     document.title = rota.titulo;
 
+    atualizarLinkEntrar();
     atualizarNavPortal(caminho);
     atualizarMenuPainel(caminho);
     fecharGavetas();
@@ -194,7 +236,28 @@ function interceptarLinkLogin(evento) {
     abrirLogin();
 }
 
+/**
+ * Depois do login, segue para a página restrita que o usuário tentou
+ * abrir (se o perfil permitir) ou para o painel do perfil.
+ */
+function aoEntrar() {
+    const destino = destinoPosLogin;
+    destinoPosLogin = "";
+    const permitido = destino && verificarAcesso(encontrarRota(destino)) === "ok";
+    const alvo = "#" + (
+        permitido
+        ? destino
+        : painelDaSessao()
+    );
+    if (window.location.hash === alvo) {
+        carregarPagina();
+    } else {
+        window.location.hash = alvo;
+    }
+}
+
 iniciarMenuPortal();
+window.addEventListener("liceu:login", aoEntrar);
 document.addEventListener("click", interceptarLinkLogin);
 window.addEventListener("hashchange", carregarPagina);
 carregarPagina();
