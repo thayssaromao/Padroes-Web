@@ -163,6 +163,16 @@ async function snapshot(page, name) {
                         if (tops.length > 1) assert.ok(Math.max(...tops)-Math.min(...tops)<2, "Filtros em linha: " + hash);
                     }
                     views.push({hash,width,...result});
+                    const footer = await page.locator(".painel__rodape").evaluate(el => getComputedStyle(el).borderTopWidth);
+                    assert.equal(footer, "0px");
+                    await page.locator(".painel__principal").focus();
+                    assert.equal(await page.locator(".painel__principal").evaluate(el => getComputedStyle(el).outlineStyle), "none");
+                    if (hash.endsWith("status-publicacoes")) {
+                        const actions = page.locator(".artesao-status-tabela .tabela__acoes button, .artesao-status-tabela .tabela__acoes a");
+                        assert.ok(await actions.count());
+                        assert.ok((await actions.evaluateAll(xs => xs.map(x => x.getBoundingClientRect().width))).every(x => x === 44));
+                        await snapshot(page, `${name}-status-compacto-${width}`);
+                    }
                     if (hash.endsWith("meus-trabalhos")) {
                         const tops = await page.locator(".barra-filtros__item").evaluateAll(xs=>xs.map(x=>x.getBoundingClientRect().top));
                         if(width===1280) assert.ok(Math.max(...tops)-Math.min(...tops)<2, "Filtros de trabalhos em linha");
@@ -174,12 +184,23 @@ async function snapshot(page, name) {
                         assert.ok(await card.locator("[data-acao=enviar] iconify-icon").isVisible(), "Envio mantém ícone");
                         const menuWidth = await page.locator("[data-acao=menu]").evaluateAll(xs=>xs.map(x=>x.getBoundingClientRect().width));
                         assert.ok(menuWidth.every(x=>Math.abs(x-44)<0.1), "Todos os menus de trabalho são compactos");
+                        assert.ok(await page.locator(".artesao-botoes").evaluateAll(xs => xs.every(x => x.scrollWidth <= x.clientWidth + 1)), "Ações cabem dentro dos cards");
                         await snapshot(page,`${name}-trabalhos-${width}`);
                         await card.locator("[data-acao=menu]").click();
                         for(const [attribute,icon] of [["editar","pencil"],["duplicar","copy"],["enviar","send"],["excluir","trash-2"]]) {
                             assert.equal(await page.locator(`dialog[open] [data-${attribute}] iconify-icon`).getAttribute("icon"),"lucide:"+icon);
                         }
+                        const topsMenu = await page.locator("dialog[open] .modal__acoes > .btn").evaluateAll(xs => xs.map(x => x.getBoundingClientRect().top));
+                        if (width === 1280) assert.ok(Math.max(...topsMenu) - Math.min(...topsMenu) < 1, "Ações na mesma linha");
+                        assert.equal(await page.locator("dialog[open]").evaluate(el => el.scrollWidth <= el.clientWidth + 1), true);
                         await snapshot(page,`${name}-menu-${width}`);
+                        await page.keyboard.press("Escape");
+                        const published = page.locator(".card-produto").filter({has: page.locator(".status[data-status=publicado]")}).first();
+                        await published.locator("[data-acao=menu]").click();
+                        assert.equal(await page.locator("dialog[open] .modal__acoes > .btn").count(), 3);
+                        const publishedTops = await page.locator("dialog[open] .modal__acoes > .btn").evaluateAll(xs => xs.map(x => x.getBoundingClientRect().top));
+                        if (width === 1280) assert.ok(Math.max(...publishedTops) - Math.min(...publishedTops) < 1);
+                        await snapshot(page, `${name}-menu-publicado-${width}`);
                         await page.keyboard.press("Escape");
                         await card.locator("[data-acao=enviar]").click();
                         assert.equal(await page.locator("dialog[open] [data-confirmar] iconify-icon").getAttribute("icon"),"lucide:send");
@@ -219,7 +240,34 @@ async function snapshot(page, name) {
                             const heights = await page.locator(".liceu-bloco-config__cabecalho").evaluateAll(xs=>xs.map(x=>x.getBoundingClientRect().height));
                             assert.equal(heights[0],heights[1]);assert.equal(heights[2],heights[3]);
                         }
+                        const gap = await page.evaluate(() => document.querySelector(".liceu-config").getBoundingClientRect().top - document.querySelector("#config-mvp").getBoundingClientRect().bottom);
+                        assert.ok(gap >= 24, "Distância entre aviso MVP e cards");
                         await snapshot(page,`${name}-configuracoes-${width}`);
+                    }
+                    if(hash.endsWith("artesaos")) {
+                        const before = await page.evaluate(() => localStorage.getItem("liceu:base:v1"));
+                        await page.locator("[data-acao=editar]:visible").first().click();
+                        await page.locator("dialog[open] .multisselecao").first().waitFor();
+                        assert.equal(await page.locator("dialog[open] .multisselecao").count(), 2);
+                        const options = page.locator("dialog[open] .multisselecao").first().locator("input");
+                        const index = await options.evaluateAll(xs => xs.findIndex(x => !x.checked));
+                        const checkbox = options.nth(index);
+                        await checkbox.focus();
+                        await page.keyboard.press("Space");
+                        assert.equal(await checkbox.isChecked(), true);
+                        assert.equal(await page.locator("dialog[open]").evaluate(el => el.scrollWidth <= el.clientWidth + 1), true);
+                        await snapshot(page, `${name}-editar-artesao-${width}`);
+                        await page.getByRole("button", {name: "Cancelar", exact: true}).click();
+                        assert.equal(await page.evaluate(() => localStorage.getItem("liceu:base:v1")), before);
+                        await page.locator("[data-acao=editar]:visible").first().click();
+                        const choice = page.locator("dialog[open] .multisselecao").first().locator("input:not(:checked)").first();
+                        await choice.check();
+                        const expected = await page.locator("#liceu-categorias").evaluate(el => Array.from(el.selectedOptions, x => x.value));
+                        await page.getByRole("button", {name: "Salvar alterações", exact: true}).click();
+                        await page.locator("dialog[open]").waitFor({state: "hidden"});
+                        await page.locator("[data-acao=editar]:visible").first().click();
+                        assert.deepEqual(await page.locator("#liceu-categorias").evaluate(el => Array.from(el.selectedOptions, x => x.value)), expected);
+                        await page.keyboard.press("Escape");
                     }
                     if(hash.endsWith("cadastrar-artesao")) {
                         await assertPassword(page,"[data-alternar-senha=cad-senha]","#cad-senha");
@@ -237,10 +285,22 @@ async function snapshot(page, name) {
                         await page.locator("[data-acao=analisar]:visible").first().click();
                         assert.equal(await page.locator("[data-aprovar] iconify-icon").getAttribute("icon"),"lucide:circle-check");
                         assert.equal(await page.locator("[data-rejeitar] iconify-icon").getAttribute("icon"),"lucide:circle-x");
+                        await snapshot(page,`${name}-analise-${width}`);
+                        const before = await page.evaluate(() => localStorage.getItem("liceu:base:v1"));
+                        await page.locator("[data-aprovar]").click();
+                        await page.locator("[data-confirmacao-aprovacao]:not([hidden])").waitFor();
+                        await snapshot(page, `${name}-aprovar-confirmacao-${width}`);
+                        assert.equal(await page.evaluate(() => localStorage.getItem("liceu:base:v1")), before);
+                        await page.locator("[data-cancelar-decisao]").click();
                         await page.locator("[data-rejeitar]").click();
                         await page.locator("[data-motivo]:not([hidden])").waitFor();
+                        await page.fill("#liceu-motivo", "Motivo cancelável");
+                        assert.equal(await page.locator("[data-aprovar]").isVisible(), false);
                         assert.equal(await page.locator("[data-rejeitar] iconify-icon").getAttribute("icon"),"lucide:circle-x");
                         await snapshot(page,`${name}-analise-rejeicao-${width}`);
+                        await page.locator("[data-cancelar-decisao]").click();
+                        assert.equal(await page.evaluate(() => localStorage.getItem("liceu:base:v1")), before);
+                        assert.equal(await page.locator("[data-motivo]").isVisible(), false);
                         await page.keyboard.press("Escape");
                     }
                 }

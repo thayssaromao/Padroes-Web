@@ -39,3 +39,11 @@ erro de rede usam respostas simuladas, sem enviar mensagens reais. As capturas
 e `report.json` ficam na subpasta `portal` de `RELATORIO_DIR` (padrão:
 `/tmp/liceu-validacao-final`). Os dados longos também são respostas simuladas,
 sem alterar os JSON do projeto ou o armazenamento do usuário.
+
+A revisão final dos painéis também é coberta por `ui.cjs`: rodapé sem contorno
+do main, ações dentro dos cards, menus com três/quatro ações, configuração com
+espaçamento, seletores múltiplos por teclado com cancelamento e persistência,
+e cancelamentos de aprovação/rejeição sem alterações no armazenamento.
+`fluxos.cjs` exige a confirmação explícita antes de aprovar. `portal.cjs`
+verifica ícones dos atributos e seleção das miniaturas por setas e teclado em
+uma galeria com duas imagens de teste.

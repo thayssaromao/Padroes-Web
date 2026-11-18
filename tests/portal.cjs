@@ -105,6 +105,10 @@ async function contact(page) {
                 for (const [hash, selector] of views) {
                     await route(page, hash, selector);
                     await fits(page.locator("html"));
+                    if (hash.startsWith("produto?")) {
+                        assert.equal(await page.locator(".produto-atributos dt iconify-icon").count(), 3);
+                        assert.equal(await page.locator("[data-foto][aria-pressed=true]").count(), 1);
+                    }
                     if (hash === "produtos") {
                         const columns = await page.locator("#gradeProdutos").evaluate(el => getComputedStyle(el).gridTemplateColumns.split(" ").length);
                         assert.equal(columns, width === 1280 ? 4 : width === 768 ? 2 : 1);
@@ -164,6 +168,22 @@ async function contact(page) {
                 await page.keyboard.press("Escape");
             }
             await contact(page);
+            const gallery = await browser.newPage({reducedMotion: "reduce"});
+            await gallery.route("**/data/trabalhos.json", async request => {
+                const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../data/trabalhos.json"), "utf8"));
+                data.find(item => item.id === "vaso-ceramica-rustica").imagens = [
+                    "assets/img/trabalhos/vaso-ceramica-rustica.jpg",
+                    "assets/img/trabalhos/jogo-xicaras.jpg"
+                ];
+                await request.fulfill({json: data});
+            });
+            await route(gallery, "produto?id=vaso-ceramica-rustica", "#produto-detalhes:not([hidden])");
+            await gallery.locator(".carrossel__seta--proxima").click();
+            await gallery.locator("[data-foto='1'][aria-pressed=true]").waitFor();
+            await gallery.locator("[data-foto='0']").focus();
+            await gallery.keyboard.press("Enter");
+            await gallery.locator("[data-foto='0'][aria-pressed=true]").waitFor();
+            await gallery.close();
             assert.deepEqual(errors, []);
             reports.push({browser: name, screens: 30, longProfile: true, catalogColumns: [4, 2, 1], contactMocked: true, keyboard: true, errors});
             console.log(JSON.stringify(reports.at(-1)));
