@@ -193,22 +193,31 @@ async function analisarTrabalho(id) {
         + "Motivo da rejeição *</label><textarea id=\"liceu-motivo\""
         + " name=\"motivo\" class=\"campo__entrada\" rows=\"4\"></textarea>"
         + "</div><p role=\"alert\" data-erro></p>"
+        + "<p data-confirmacao-aprovacao role=\"status\" hidden>"
+        + "Tem certeza de que deseja aprovar este trabalho?</p>"
         + "<div class=\"modal__acoes\">"
+        + "<button type=\"button\" class=\"btn btn--secundario\""
+        + " data-cancelar-decisao hidden>Cancelar</button>"
         + "<button type=\"button\" class=\"btn btn--secundario\""
         + " data-rejeitar>Rejeitar</button>"
         + "<button type=\"submit\" class=\"btn btn--primario\""
         + " data-aprovar formnovalidate>Aprovar</button></div></form>", "grande");
+    modal.classList.add("liceu-analise");
     const formulario = modal.querySelector("form");
+    const cancelar = modal.querySelector("[data-cancelar-decisao]");
+    const confirmacao = modal.querySelector("[data-confirmacao-aprovacao]");
     const rejeitar = modal.querySelector("[data-rejeitar]");
     const aprovar = modal.querySelector("[data-aprovar]");
     const motivo = formulario.elements.motivo;
     let ocupado = false;
+    let etapa = "analisar";
 
     async function decidir(status) {
-        if (ocupado) {
+        if (ocupado || !modal.isConnected || !marco.isConnected) {
             return;
         }
         ocupado = true;
+        cancelar.disabled = true;
         aprovar.disabled = true;
         rejeitar.disabled = true;
         try {
@@ -225,21 +234,57 @@ async function analisarTrabalho(id) {
             modal.querySelector("[data-erro]").textContent = erro.message;
         } finally {
             ocupado = false;
+            cancelar.disabled = false;
             aprovar.disabled = false;
             rejeitar.disabled = false;
         }
     }
 
+    function mudarEtapa(destino) {
+        etapa = destino;
+        modal.querySelector("[data-motivo]").hidden = etapa !== "rejeitar";
+        confirmacao.hidden = etapa !== "aprovar";
+        cancelar.hidden = etapa === "analisar";
+        rejeitar.hidden = etapa === "aprovar";
+        aprovar.hidden = etapa === "rejeitar";
+        rejeitar.innerHTML = conteudoAcao(etapa === "rejeitar"
+            ? "Confirmar rejeição" : "Rejeitar");
+        aprovar.innerHTML = etapa === "aprovar"
+            ? icone("lucide:circle-check") + "Confirmar aprovação"
+            : conteudoAcao("Aprovar");
+        aprovar.toggleAttribute("data-confirmar-aprovacao", etapa === "aprovar");
+        motivo.setCustomValidity("");
+        modal.querySelector("[data-erro]").textContent = "";
+    }
+
     formulario.addEventListener("submit", function (evento) {
         evento.preventDefault();
+        if (ocupado || etapa === "rejeitar") {
+            return;
+        }
+        if (etapa === "analisar") {
+            mudarEtapa("aprovar");
+            cancelar.focus();
+            return;
+        }
         decidir("publicado");
     });
+    cancelar.addEventListener("click", function () {
+        if (ocupado) {
+            return;
+        }
+        const anterior = etapa;
+        mudarEtapa("analisar");
+        motivo.value = "";
+        (anterior === "rejeitar" ? rejeitar : aprovar).focus();
+    });
     rejeitar.addEventListener("click", function () {
-        const area = modal.querySelector("[data-motivo]");
-        if (area.hidden) {
-            area.hidden = false;
+        if (ocupado) {
+            return;
+        }
+        if (etapa !== "rejeitar") {
+            mudarEtapa("rejeitar");
             motivo.focus();
-            rejeitar.innerHTML = conteudoAcao("Confirmar rejeição");
             return;
         }
         motivo.setCustomValidity(motivo.value.trim()
@@ -1349,7 +1394,7 @@ async function montarConfiguracoes(raiz) {
     }
     const formulario = raiz.querySelector("[data-formulario]");
     formulario.insertAdjacentHTML("beforebegin",
-        "<aside class=\"aviso\" id=\"config-mvp\"><p>"
+        "<aside class=\"aviso liceu-config-aviso\" id=\"config-mvp\"><p>"
         + "As configurações institucionais, preferências, gestão de listas e "
         + "permissões são previstas para uma etapa futura. No MVP, os papéis "
         + "são fixos e categorias e técnicas usam as opções predefinidas.</p>"
