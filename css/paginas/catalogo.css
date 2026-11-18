@@ -57,11 +57,19 @@
 }
 
 .catalogo-favoritos {
+    color: var(--cor-favorito);
+    border-color: var(--cor-favorito);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--espaco-2);
     flex-shrink: 0;
+}
+
+.catalogo-favoritos[aria-pressed="true"] {
+    background-color: var(--cor-favorito);
+    color: var(--cor-texto-invertido);
+    border-color: var(--cor-favorito);
 }
 
 .catalogo-favoritos iconify-icon {
