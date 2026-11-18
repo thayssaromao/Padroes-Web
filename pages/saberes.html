@@ -1,9 +1,117 @@
-<section class="secao">
-    <div class="container pilha">
-        <header>
-            <span class="sobretitulo">Técnicas e ofícios</span>
-            <h1>Saberes</h1>
+<section class="secao saberes-hero" aria-labelledby="saberes-titulo">
+    <div class="container saberes-hero__grade">
+        <header class="saberes-hero__texto">
+            <span class="sobretitulo">Nossos saberes</span>
+            <h1 class="titulo-display" id="saberes-titulo">Saberes e Técnicas</h1>
+            <p class="saberes-hero__descricao">Conheça as histórias, os saberes e os empreendimentos que fazem parte do Liceu. São pessoas que mantêm viva a cultura local por meio do seu trabalho manual.</p>
         </header>
-        <p class="em-construcao">Em construção: técnicas tradicionais, oficinas e vídeos/áudios dos mestres artesãos.</p>
+        <section class="carrossel" aria-roledescription="carrossel" aria-label="Fotos de saberes e técnicas artesanais">
+            <div class="carrossel__janela">
+                <ul class="carrossel__trilho">
+                    <li class="carrossel__slide" aria-roledescription="slide" aria-label="1 de 4">
+                        <img src="assets/img/carrossel/inicio-1.jpg" alt="Artesã modelando uma peça de cerâmica" width="1200" height="525">
+                    </li>
+                    <li class="carrossel__slide" aria-roledescription="slide" aria-label="2 de 4">
+                        <img src="assets/img/carrossel/artesaos-2.jpg" alt="Mãos trançando uma cesta de fibras naturais" width="1200" height="525" loading="lazy">
+                    </li>
+                    <li class="carrossel__slide" aria-roledescription="slide" aria-label="3 de 4">
+                        <img src="assets/img/carrossel/artesaos-3.jpg" alt="Bordado artesanal em tecido" width="1200" height="525" loading="lazy">
+                    </li>
+                    <li class="carrossel__slide" aria-roledescription="slide" aria-label="4 de 4">
+                        <img src="assets/img/carrossel/inicio-3.jpg" alt="Detalhe de um trabalho em crochê" width="1200" height="525" loading="lazy">
+                    </li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn--icone carrossel__seta carrossel__seta--anterior" aria-label="Slide anterior"><iconify-icon icon="lucide:chevron-left" aria-hidden="true"></iconify-icon></button>
+            <button type="button" class="btn btn--icone carrossel__seta carrossel__seta--proxima" aria-label="Próximo slide"><iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon></button>
+            <div class="carrossel__indicadores">
+                <button type="button" class="carrossel__ponto" aria-label="Ir para slide 1" aria-current="true"></button>
+                <button type="button" class="carrossel__ponto" aria-label="Ir para slide 2" aria-current="false"></button>
+                <button type="button" class="carrossel__ponto" aria-label="Ir para slide 3" aria-current="false"></button>
+                <button type="button" class="carrossel__ponto" aria-label="Ir para slide 4" aria-current="false"></button>
+            </div>
+        </section>
     </div>
 </section>
+
+<section class="secao saberes-lista" aria-label="Lista de técnicas">
+    <div class="container">
+        <h2 class="visualmente-oculto">Lista de técnicas</h2>
+        <form class="saberes-busca" role="search" id="saberes-form">
+            <div class="busca">
+                <label for="saberes-busca" class="visualmente-oculto">Buscar técnicas, materiais ou palavras-chave</label>
+                <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
+                <input type="search" id="saberes-busca" class="busca__entrada" placeholder="Buscar técnicas, materiais ou palavras-chave..." autocomplete="off">
+            </div>
+            <button type="button" class="btn btn--suave" id="saberes-filtrar" aria-haspopup="dialog" aria-controls="modal-filtros-saberes"><iconify-icon icon="lucide:sliders-horizontal" aria-hidden="true"></iconify-icon><span id="saberes-filtrar-texto">Filtrar</span></button>
+        </form>
+
+        <div class="filtros-chips" role="group" aria-label="Filtrar por categoria">
+            <button type="button" class="filtro-chip" aria-pressed="true">Todos</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Cerâmica</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Tecelagem</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Madeira</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Costura e Bordado</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Cestaria</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Pintura</button>
+            <button type="button" class="filtro-chip" aria-pressed="false">Outros</button>
+        </div>
+
+        <div class="barra-ferramentas">
+            <p class="resultado-contagem" id="saberes-contagem" aria-live="polite"></p>
+            <div class="linha">
+                <label for="saberes-ordem">Ordenar por:</label>
+                <select id="saberes-ordem" class="campo__entrada saberes-ordem">
+                    <option value="recentes">Mais recentes</option>
+                    <option value="nome-az">Nome A–Z</option>
+                    <option value="nome-za">Nome Z–A</option>
+                </select>
+                <div class="alternar-visualizacao" role="group" aria-label="Modo de visualização">
+                    <button type="button" class="btn btn--icone" data-visualizacao="grade" aria-pressed="true" aria-label="Ver em grade"><iconify-icon icon="lucide:layout-grid" aria-hidden="true"></iconify-icon></button>
+                    <button type="button" class="btn btn--icone" data-visualizacao="lista" aria-pressed="false" aria-label="Ver em lista"><iconify-icon icon="lucide:list" aria-hidden="true"></iconify-icon></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preenchido via JS: cards de técnicas (renderizarGrade) -->
+        <ul class="grade-cards saberes-grade" id="saberes-grade" aria-busy="true"></ul>
+        <p class="saberes-vazio" id="saberes-vazio" role="status" hidden>Nenhuma técnica encontrada.</p>
+
+        <!-- Preenchido via JS: criarPaginacao -->
+        <nav class="paginacao paginacao--centro" id="saberes-paginacao" aria-label="Paginação"></nav>
+    </div>
+</section>
+
+<dialog class="modal" id="modal-filtros-saberes" aria-labelledby="saberes-filtros-titulo">
+    <button type="button" class="modal__fechar" aria-label="Fechar filtros"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
+    <h2 class="modal__titulo" id="saberes-filtros-titulo">Filtrar técnicas</h2>
+    <form class="saberes-filtros" id="saberes-filtros-form">
+        <div class="campo">
+            <label class="campo__rotulo" for="saberes-filtro-categoria">Categoria</label>
+            <select class="campo__entrada" id="saberes-filtro-categoria"><option value="">Todas as categorias</option></select>
+        </div>
+        <div class="campo">
+            <label class="campo__rotulo" for="saberes-filtro-material">Material</label>
+            <select class="campo__entrada" id="saberes-filtro-material"><option value="">Todos os materiais</option></select>
+        </div>
+        <div class="saberes-filtros__acoes">
+            <button type="button" class="btn btn--secundario" id="saberes-limpar-filtros">Limpar filtros</button>
+            <button type="submit" class="btn btn--primario">Aplicar filtros</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog class="modal modal--grande" id="modal-tecnica" aria-labelledby="modal-tecnica-titulo">
+    <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
+    <div class="saberes-detalhe">
+        <div class="saberes-detalhe__imagem" aria-hidden="true"></div>
+        <div class="saberes-detalhe__info">
+            <h2 class="modal__titulo" id="modal-tecnica-titulo"></h2>
+            <p class="saberes-detalhe__categoria" id="modal-tecnica-categoria"></p>
+            <p id="modal-tecnica-descricao"></p>
+            <h3 class="saberes-detalhe__subtitulo">Materiais</h3>
+            <!-- Preenchido via JS: chips de materiais -->
+            <div id="modal-tecnica-materiais"></div>
+        </div>
+    </div>
+</dialog>

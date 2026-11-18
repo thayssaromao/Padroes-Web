@@ -1,0 +1,215 @@
+/* =========================================================
+   paginas/saberes.css — estilos exclusivos da página
+   Mesmo modelo de paginas/artesaos.css.
+   Guia: docs/DESIGN.md (use só tokens e componentes do guia)
+   ========================================================= */
+
+.saberes-hero__grade {
+    display: grid;
+    gap: var(--espaco-5);
+    align-items: center;
+}
+
+.saberes-hero__texto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+}
+
+/* Proporções da listagem pública definidas pelo wireframe. */
+.saberes-hero .titulo-display {
+    font-size: var(--fonte-h1);
+    max-width: 28rem;
+}
+
+.saberes-hero__descricao {
+    max-width: 28rem;
+    font-size: var(--fonte-corpo);
+    line-height: 1.35;
+}
+
+.saberes-hero .carrossel__slide img {
+    aspect-ratio: 5 / 2;
+}
+
+.saberes-lista {
+    padding-top: var(--espaco-3);
+}
+
+.saberes-busca {
+    display: flex;
+    gap: var(--espaco-3);
+    margin-bottom: var(--espaco-4);
+}
+
+.saberes-busca .busca {
+    flex: 1;
+    min-width: 0;
+}
+
+.saberes-busca .btn {
+    flex-shrink: 0;
+}
+
+.saberes-lista .filtros-chips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espaco-3);
+    margin-bottom: var(--espaco-2);
+}
+
+.saberes-lista .filtro-chip {
+    width: 100%;
+    min-height: 40px;
+    padding-inline: var(--espaco-2);
+    text-align: center;
+}
+
+.saberes-ordem {
+    width: auto;
+    min-width: 150px;
+}
+
+.saberes-grade {
+    list-style: none;
+    padding: 0;
+    scroll-margin-top: calc(var(--altura-barra) + var(--espaco-4));
+}
+
+.saberes-grade--lista {
+    grid-template-columns: 1fr;
+}
+
+.saberes-grade > li {
+    display: flex;
+}
+
+.saberes-grade > li > .card {
+    width: 100%;
+    height: 100%;
+}
+
+.saberes-vazio {
+    padding: var(--espaco-7) var(--espaco-5);
+    border: 2px dashed var(--cor-borda);
+    border-radius: var(--raio-medio);
+    text-align: center;
+    color: var(--cor-texto-suave);
+}
+
+.saberes-lista .paginacao__botao:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.saberes-filtros {
+    display: grid;
+    gap: var(--espaco-5);
+}
+
+.saberes-filtros__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--espaco-3);
+}
+
+.saberes-detalhe {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+}
+
+.saberes-detalhe__imagem {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+    background-color: var(--cor-placeholder);
+}
+
+.saberes-detalhe__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    min-width: 0;
+}
+
+.saberes-detalhe__categoria {
+    color: var(--cor-texto-suave);
+}
+
+.saberes-detalhe__subtitulo {
+    font-size: var(--fonte-corpo);
+    font-weight: var(--peso-negrito);
+}
+
+@media (min-width: 600px) {
+    .saberes-lista .filtros-chips {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .saberes-detalhe {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: var(--espaco-6);
+    }
+
+    .saberes-detalhe__imagem {
+        flex: 0 0 280px;
+        width: 280px;
+    }
+
+    .saberes-grade--lista .card-tecnica {
+        flex-direction: row;
+    }
+
+    .saberes-grade--lista .card-tecnica__imagem {
+        flex: 0 0 200px;
+        width: 200px;
+        aspect-ratio: auto;
+        border-bottom: 0;
+        border-right: 1px solid var(--cor-borda);
+    }
+
+    .saberes-grade--lista .card-tecnica__corpo {
+        flex: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        column-gap: var(--espaco-5);
+    }
+
+    .saberes-grade--lista .card-tecnica__descricao {
+        grid-column: 1;
+    }
+
+    .saberes-grade--lista .btn--bloco {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        width: auto;
+        margin-top: 0;
+    }
+
+    .saberes-grade--lista .card-tecnica__favorito {
+        left: calc(200px - 36px - var(--espaco-3));
+        right: auto;
+    }
+}
+
+@media (min-width: 1024px) {
+    .saberes-hero__grade {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espaco-7);
+    }
+
+    .saberes-grade:not(.saberes-grade--lista) {
+        grid-auto-rows: 1fr;
+    }
+
+    .saberes-lista .filtros-chips {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: var(--espaco-4);
+    }
+}
