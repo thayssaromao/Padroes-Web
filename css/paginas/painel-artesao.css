@@ -327,3 +327,21 @@
         flex: 1 1 0;
     }
 }
+
+/* ----- modais do trabalho rejeitado ----- */
+.artesao-motivo {
+    margin-top: var(--espaco-5);
+}
+
+.artesao-reenvio__motivo {
+    margin-top: var(--espaco-4);
+    padding: var(--espaco-3) var(--espaco-4);
+    border-radius: var(--raio-pequeno);
+    background-color: var(--cor-superficie-forte);
+    font-size: var(--fonte-pequena);
+}
+
+.artesao-reenvio {
+    display: grid;
+    gap: var(--espaco-4);
+}

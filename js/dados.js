@@ -3,7 +3,7 @@
  * dados.js — acesso aos dados simulados (pasta data) e à sessão.
  *
  * Sem back-end: os JSON são a "base de dados" inicial e o localStorage
- * guarda a sessão e, no futuro, as alterações feitas nos painéis.
+ * guarda a sessão e as alterações feitas nos painéis.
  * Guia: docs/DESIGN.md §10 e docs/ESPECIFICACOES.md (Fonte de Dados).
  */
 
@@ -19,6 +19,15 @@ const SENHA_MINIMO = 8;
 const PADRAO_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PERFIL_ARTESAO = "painel-artesao";
 const PERFIL_LICEU = "painel-liceu";
+
+// pra qual status cada um pode ir (fluxo de publicacao)
+const FLUXO_STATUS = Object.freeze({
+    "em-analise": ["publicado", "rejeitado"],
+    "publicado": [],
+    "rascunho": ["em-analise"],
+    "reenviado": ["publicado", "rejeitado"],
+    "rejeitado": ["reenviado"]
+});
 
 /**
  * Lê um arquivo JSON uma única vez e guarda o resultado em memória.
@@ -313,12 +322,18 @@ function exigirPerfil(perfil) {
     return sessao;
 }
 
-// ===== Escrita (a implementar) =====
+// ===== Escrita =====
 
 /** @returns {Array<object>} trabalhos criados ou alterados neste navegador */
 function lerTrabalhosLocais() {
     try {
-        return JSON.parse(localStorage.getItem(CHAVE_TRABALHOS)) ?? [];
+        const salvos = JSON.parse(localStorage.getItem(CHAVE_TRABALHOS)) ?? [];
+        // Aceita também o formato antigo (objeto indexado pelo id).
+        return (
+            Array.isArray(salvos)
+            ? salvos
+            : Object.values(salvos)
+        );
     } catch (ignore) {
         return [];
     }
@@ -348,15 +363,23 @@ async function salvarTrabalho(trabalho) {
     if (atual && atual.artesaoId !== sessao.artesaoId) {
         throw new Error("Acesso não permitido.");
     }
+    // O artesão nunca publica nem rejeita: só guarda rascunho ou envia.
+    if (atual && atual.status !== "rascunho") {
+        throw new Error("Só rascunhos podem ser editados.");
+    }
     const agora = new Date().toISOString();
-    const status = trabalho.status ?? "rascunho";
+    const status = (
+        trabalho.status === "em-analise"
+        ? "em-analise"
+        : "rascunho"
+    );
     const salvo = Object.assign({}, atual, trabalho, {
         artesaoId: sessao.artesaoId,
         atualizadoEm: agora,
         id: (atual ? atual.id : "trabalho-" + Date.now()),
         status
     });
-    if (status === "em-analise" || status === "reenviado") {
+    if (status === "em-analise") {
         salvo.enviadoEm = agora;
         salvo.motivoRejeicao = null;
     }
@@ -365,47 +388,81 @@ async function salvarTrabalho(trabalho) {
 }
 
 /**
- * Aprova ou rejeita um trabalho (fluxo de moderação do Liceu).
- * Exige perfil de administrador e que o trabalho esteja aguardando análise.
+ * @param {string} atual status de agora
+ * @param {string} novo status que quer ir
+ * @returns {boolean} se o fluxo deixa mudar
+ */
+function podeMudarStatus(atual, novo) {
+    return (FLUXO_STATUS[atual] || []).includes(novo);
+}
+
+/**
+ * Muda o status de um trabalho seguindo o fluxo, com controle de acesso:
+ * - publicar ou rejeitar: só o administrador;
+ * - enviar para análise ou reenviar: só o artesão dono do trabalho.
  * @param {string} id
- * @param {string} status "publicado" | "rejeitado"
- * @param {string} [motivo] obrigatório na rejeição
+ * @param {string} status novo status (ver FLUXO_STATUS)
+ * @param {object} [extra] motivo (para rejeitar) e campos editados (reenvio)
  * @returns {Promise<object>} o trabalho atualizado
  */
-async function atualizarStatusTrabalho(id, status, motivo) {
-    exigirPerfil(PERFIL_LICEU);
-    const todos = await carregarTrabalhos();
-    const atual = todos.find(function (item) {
+async function atualizarStatusTrabalho(id, status, extra = {}) {
+    const analise = status === "publicado" || status === "rejeitado";
+    const sessao = exigirPerfil(
+        analise
+        ? PERFIL_LICEU
+        : PERFIL_ARTESAO
+    );
+    const trabalhos = await carregarTrabalhos();
+    const atual = trabalhos.find(function (item) {
         return item.id === id;
     });
-    const analisavel = (
-        atual
-        && (atual.status === "em-analise" || atual.status === "reenviado")
-    );
-    if (!analisavel || !["publicado", "rejeitado"].includes(status)) {
-        throw new Error("Trabalho não pode ser analisado.");
+    const agora = new Date().toISOString();
+    const motivo = String(extra.motivo || "").trim();
+    if (!atual) {
+        throw new Error("Trabalho não encontrado: " + id);
     }
-    if (status === "rejeitado" && !String(motivo ?? "").trim()) {
+    if (!analise && atual.artesaoId !== sessao.artesaoId) {
+        throw new Error("Acesso não permitido.");
+    }
+    if (!podeMudarStatus(atual.status, status)) {
+        throw new Error(
+            "Não pode mudar de " + atual.status + " para " + status
+        );
+    }
+    if (status === "rejeitado" && !motivo) {
         throw new Error("Informe o motivo da rejeição.");
     }
-    const agora = new Date().toISOString();
-    const analisado = Object.assign({}, atual, {
-        analisadoEm: agora,
-        atualizadoEm: agora,
-        motivoRejeicao: (
-            status === "rejeitado"
-            ? String(motivo).trim()
-            : null
+    const novo = Object.assign(
+        {},
+        atual,
+        (
+            analise
+            ? {}
+            : extra.campos
         ),
-        publicadoEm: (
-            status === "publicado"
-            ? agora
-            : atual.publicadoEm
-        ),
-        status
-    });
-    gravarTrabalhoLocal(analisado);
-    return analisado;
+        {
+            artesaoId: atual.artesaoId,
+            atualizadoEm: agora,
+            id: atual.id,
+            status
+        }
+    );
+    if (analise) {
+        novo.analisadoEm = agora;
+    }
+    if (status === "publicado") {
+        novo.publicadoEm = agora;
+        novo.motivoRejeicao = null;
+    }
+    if (status === "rejeitado") {
+        novo.motivoRejeicao = motivo;
+    }
+    // enviar ou reenviar conta como envio novo pra fila do Liceu
+    if (status === "em-analise" || status === "reenviado") {
+        novo.enviadoEm = agora;
+    }
+    gravarTrabalhoLocal(novo);
+    return novo;
 }
 
 /**
@@ -434,6 +491,7 @@ export {
     exigirPerfil,
     formatarData,
     obterSessao,
+    podeMudarStatus,
     registrarArtesao,
     salvarArtesao,
     salvarSessao,

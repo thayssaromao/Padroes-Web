@@ -5,9 +5,9 @@
  */
 
 import {
+    abrirModal,
     criarCardEstatistica,
     criarChips,
-    abrirModal,
     criarPaginacao,
     criarStatus,
     escaparHtml,
@@ -19,6 +19,7 @@ import {
 } from "../componentes.js";
 import {
     atualizarStatusTrabalho,
+    buscarArtesao,
     carregarArtesaos,
     carregarCategorias,
     carregarTrabalhos,
@@ -28,105 +29,157 @@ import {
     salvarArtesao
 } from "../dados.js";
 
+const IMAGEM_PADRAO = "assets/img/avatar-padrao.jpg";
 const MAXIMO_CARDS_INICIO = 4;
 const POR_PAGINA = 5;
 
 // ===== Ações ainda sem tela (stubs) =====
 
-const ID_MODAL_ANALISE = "modal-analise";
+// ===== Modal de analisar trabalho (aprovar / rejeitar) =====
+
+const ARQUIVO_ANALISE = "pages/painel-liceu/analisar-trabalho.html";
+const ID_ANALISE = "modal-analisar";
+
+let carregamentoAnalise;
+let idEmAnalise = "";
+
+/** recarrega a aba atual pra lista mostrar o status novo */
+function recarregarAba() {
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+}
 
 /**
- * Cria (uma vez) o popup de análise dentro do conteúdo atual.
- * @param {HTMLElement} raiz o <main id="conteudo">
- * @returns {HTMLDialogElement}
+ * Aprova ou rejeita o trabalho que esta aberto no modal.
+ * @param {HTMLDialogElement} modal
+ * @param {string} decisao "publicado" | "rejeitado"
+ * @returns {Promise<void>}
  */
-function garantirModalAnalise(raiz) {
-    let modal = document.getElementById(ID_MODAL_ANALISE);
-    if (!modal) {
-        raiz.insertAdjacentHTML("beforeend",
-            `<dialog class="modal modal--medio" id="${ID_MODAL_ANALISE}"`
-            + " aria-labelledby=\"analise-titulo\">"
-            + "<button type=\"button\" class=\"modal__fechar\""
-            + " aria-label=\"Fechar\">" + icone("lucide:circle-x")
-            + "</button><h2 class=\"modal__titulo\" id=\"analise-titulo\">"
-            + "</h2><div data-analise-detalhes></div>"
-            + "<div class=\"campo\"><label class=\"campo__rotulo\""
-            + " for=\"analise-motivo\">Motivo da rejeição"
-            + " (obrigatório para rejeitar)</label>"
-            + "<textarea id=\"analise-motivo\" class=\"campo__entrada\""
-            + " rows=\"3\"></textarea></div>"
-            + "<p role=\"alert\" data-analise-erro hidden></p>"
-            + "<div class=\"modal__acoes\">"
-            + "<button type=\"button\" class=\"btn btn--secundario\""
-            + " data-decisao=\"rejeitado\">" + icone("lucide:circle-x")
-            + "Rejeitar</button>"
-            + "<button type=\"button\" class=\"btn btn--primario\""
-            + " data-decisao=\"publicado\">" + icone("lucide:circle-check")
-            + "Aprovar</button></div></dialog>"
+async function decidirTrabalho(modal, decisao) {
+    const campoMotivo = modal.querySelector("#analisar-motivo");
+    const motivo = campoMotivo.value.trim();
+    campoMotivo.setCustomValidity("");
+    if (decisao === "rejeitado" && !motivo) {
+        campoMotivo.setCustomValidity(
+            "Escreva o motivo pra o artesão saber o que corrigir."
         );
-        prepararModais(raiz);
-        modal = document.getElementById(ID_MODAL_ANALISE);
+        campoMotivo.reportValidity();
+        return;
     }
+    try {
+        const trabalho = await atualizarStatusTrabalho(idEmAnalise, decisao, {
+            motivo
+        });
+        fecharModal(ID_ANALISE);
+        mostrarAviso(
+            decisao === "publicado"
+            ? "\"" + trabalho.titulo + "\" foi aprovado e publicado."
+            : "\"" + trabalho.titulo + "\" foi rejeitado."
+        );
+        recarregarAba();
+    } catch (erro) {
+        console.error(erro);
+        mostrarAviso("Não foi possível salvar a análise. Tente novamente.");
+    }
+}
+
+/**
+ * Busca o html do modal uma vez so e coloca no fim do body.
+ * @returns {Promise<HTMLDialogElement>}
+ */
+async function carregarModalAnalise() {
+    const resposta = await fetch(ARQUIVO_ANALISE);
+    const recipiente = document.createElement("div");
+    if (!resposta.ok) {
+        throw new Error(String(resposta.status));
+    }
+    recipiente.innerHTML = await resposta.text();
+    document.body.append(recipiente);
+    prepararModais(recipiente);
+    const modal = recipiente.querySelector("dialog");
+    modal.querySelector("#analisar-motivo").addEventListener(
+        "input",
+        function (evento) {
+            evento.target.setCustomValidity("");
+        }
+    );
+    modal.querySelectorAll("[data-decisao]").forEach(function (botao) {
+        botao.addEventListener("click", function () {
+            decidirTrabalho(modal, botao.dataset.decisao);
+        });
+    });
     return modal;
+}
+
+/**
+ * Coloca os dados do trabalho e do artesão no modal.
+ * @param {HTMLDialogElement} modal
+ * @param {object} trabalho
+ * @param {object} [artesao]
+ */
+function preencherAnalise(modal, trabalho, artesao = {}) {
+    const textos = {
+        "artesao-cidade": artesao.cidade,
+        "artesao-email": artesao.email,
+        "artesao-empreendimento": artesao.empreendimento,
+        "artesao-nome": artesao.nome,
+        "categoria": trabalho.categoria,
+        "descricao": trabalho.descricao,
+        "dimensoes": trabalho.dimensoes,
+        "enviado": formatarData(trabalho.enviadoEm),
+        "materiais": trabalho.materiais,
+        "motivo-anterior": trabalho.motivoRejeicao,
+        "tecnica": trabalho.tecnica,
+        "titulo": trabalho.titulo
+    };
+    const imagem = modal.querySelector("[data-analise=\"imagem\"]");
+    const foto = modal.querySelector("[data-analise=\"artesao-foto\"]");
+    Object.keys(textos).forEach(function (chave) {
+        modal.querySelector(`[data-analise="${chave}"]`).textContent = (
+            textos[chave] || "—"
+        );
+    });
+    imagem.src = (trabalho.imagens && trabalho.imagens[0]) || IMAGEM_PADRAO;
+    imagem.alt = "Foto do trabalho " + trabalho.titulo;
+    foto.src = artesao.foto || IMAGEM_PADRAO;
+    foto.alt = "Foto de " + (artesao.nome || "artesão");
+    modal.querySelector("[data-analise=\"status\"]").innerHTML = criarStatus(
+        trabalho.status
+    );
+    // mostra o motivo antigo so se o trabalho voltou depois de rejeitado
+    modal.querySelector("[data-analise-anterior]").hidden = !(
+        trabalho.status === "reenviado" && trabalho.motivoRejeicao
+    );
+    modal.querySelector("#analisar-motivo").value = "";
 }
 
 /**
  * Abre a análise de um trabalho pendente: detalhes, aprovar e rejeitar.
  * Só o administrador chega aqui; atualizarStatusTrabalho valida de novo.
  * @param {string} id id do trabalho
+ * @returns {Promise<void>}
  */
 async function analisarTrabalho(id) {
-    const raiz = document.getElementById("conteudo");
-    const trabalhos = await comNomeDoArtesao(await carregarTrabalhos());
-    const trabalho = trabalhos.find(function (item) {
-        return item.id === id;
-    });
-    if (!trabalho) {
-        mostrarAviso("Trabalho não encontrado.");
-        return;
+    try {
+        carregamentoAnalise = carregamentoAnalise ?? carregarModalAnalise();
+        const modal = await carregamentoAnalise;
+        const trabalhos = await carregarTrabalhos();
+        const trabalho = trabalhos.find(function (item) {
+            return item.id === id;
+        });
+        if (!trabalho) {
+            mostrarAviso("Trabalho não encontrado.");
+            return;
+        }
+        preencherAnalise(modal, trabalho, await buscarArtesao(
+            trabalho.artesaoId
+        ));
+        idEmAnalise = id;
+        abrirModal(ID_ANALISE);
+    } catch (erro) {
+        carregamentoAnalise = undefined;
+        console.error(erro);
+        mostrarAviso("Não foi possível abrir a análise. Tente novamente.");
     }
-    const modal = garantirModalAnalise(raiz);
-    const erro = modal.querySelector("[data-analise-erro]");
-    const motivo = modal.querySelector("#analise-motivo");
-    erro.hidden = true;
-    motivo.value = "";
-    modal.querySelector("#analise-titulo").textContent = trabalho.titulo;
-    modal.querySelector("[data-analise-detalhes]").innerHTML = (
-        "<p>" + icone("lucide:user") + escaparHtml(trabalho.artesaoNome)
-        + "</p><p>" + criarChips([trabalho.tecnica, trabalho.categoria])
-        + "</p><p>" + criarStatus(trabalho.status) + " · enviado em "
-        + formatarData(trabalho.enviadoEm) + "</p>"
-        + "<p>" + escaparHtml(trabalho.descricao ?? "") + "</p>"
-        + "<p><strong>Materiais:</strong> "
-        + escaparHtml(trabalho.materiais ?? "—") + "</p>"
-        + "<p><strong>Dimensões:</strong> "
-        + escaparHtml(trabalho.dimensoes ?? "—") + "</p>"
-    );
-    modal.onclick = async function (evento) {
-        const botao = evento.target.closest("[data-decisao]");
-        if (!botao) {
-            return;
-        }
-        try {
-            await atualizarStatusTrabalho(
-                trabalho.id,
-                botao.dataset.decisao,
-                motivo.value
-            );
-        } catch (falha) {
-            erro.textContent = falha.message;
-            erro.hidden = false;
-            return;
-        }
-        fecharModal(ID_MODAL_ANALISE);
-        mostrarAviso(
-            botao.dataset.decisao === "publicado"
-            ? "Trabalho aprovado e publicado."
-            : "Trabalho rejeitado."
-        );
-        window.dispatchEvent(new HashChangeEvent("hashchange"));
-    };
-    abrirModal(ID_MODAL_ANALISE);
 }
 
 /**
@@ -895,6 +948,14 @@ async function montarPendentes(raiz) {
         return;
     }
     const contagem = contarPorStatus(pendentes);
+    const hoje = new Date().toDateString();
+    // conta os que foram aprovados ou rejeitados hoje
+    const analisadosHoje = dados[0].filter(function (trabalho) {
+        return (
+            Boolean(trabalho.analisadoEm)
+            && new Date(trabalho.analisadoEm).toDateString() === hoje
+        );
+    }).length;
     const resumo = [
         {
             icone: "lucide:hourglass",
@@ -908,8 +969,7 @@ async function montarPendentes(raiz) {
         },
         {
             icone: "lucide:circle-check",
-            // A IMPLEMENTAR: contar os trabalhos analisados no dia.
-            numero: 2,
+            numero: analisadosHoje,
             rotulo: "Analisados hoje"
         }
     ];

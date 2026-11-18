@@ -5,15 +5,19 @@
  */
 
 import {
+    abrirModal,
     criarCardEstatistica,
     criarCardProduto,
     criarPaginacao,
     criarStatus,
     escaparHtml,
+    fecharModal,
     icone,
-    mostrarAviso
+    mostrarAviso,
+    prepararModais
 } from "../componentes.js";
 import {
+    atualizarStatusTrabalho,
     buscarArtesao,
     carregarCategorias,
     contarPorStatus,
@@ -381,17 +385,165 @@ async function montarPerfil(raiz) {
 
 const POR_PAGINA = 8;
 
+// ===== Trabalho rejeitado: ver motivo e reenviar =====
+
+const ARQUIVO_CORRIGIR = "pages/painel-artesao/corrigir-trabalho.html";
+// campos que o artesao pode corrigir antes de reenviar
+const CAMPOS_REENVIO = Object.freeze([
+    "titulo",
+    "categoria",
+    "tecnica",
+    "descricao",
+    "materiais",
+    "dimensoes"
+]);
+
+let carregamentoCorrigir;
+let trabalhoRejeitado;
+
+/** recarrega a aba atual pra lista mostrar o status novo */
+function recarregarAba() {
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+}
+
+/**
+ * Abre o formulario de reenvio ja preenchido com o trabalho.
+ * @param {object} trabalho
+ */
+function abrirReenvio(trabalho) {
+    const form = document.querySelector("[data-form-reenviar]");
+    trabalhoRejeitado = trabalho;
+    document.querySelector("[data-reenviar=\"motivo\"]").textContent = (
+        trabalho.motivoRejeicao || "—"
+    );
+    CAMPOS_REENVIO.forEach(function (campo) {
+        form.elements[campo].value = trabalho[campo] || "";
+    });
+    fecharModal("modal-motivo");
+    abrirModal("modal-reenviar");
+}
+
+/**
+ * Manda o trabalho corrigido de volta pra analise (rejeitado -> reenviado).
+ * @param {HTMLFormElement} form
+ * @returns {Promise<void>}
+ */
+async function reenviarTrabalho(form) {
+    const campos = Object.fromEntries(new FormData(form));
+    Object.keys(campos).forEach(function (chave) {
+        campos[chave] = campos[chave].trim();
+    });
+    try {
+        await atualizarStatusTrabalho(trabalhoRejeitado.id, "reenviado", {
+            campos
+        });
+        fecharModal("modal-reenviar");
+        mostrarAviso("Trabalho reenviado. Agora é só aguardar a análise.");
+        recarregarAba();
+    } catch (erro) {
+        console.error(erro);
+        mostrarAviso("Não foi possível reenviar. Tente novamente.");
+    }
+}
+
+/**
+ * Busca o html dos modais uma vez so e coloca no fim do body.
+ * @returns {Promise<void>}
+ */
+async function carregarModaisCorrigir() {
+    const dados = await Promise.all([
+        fetch(ARQUIVO_CORRIGIR),
+        carregarCategorias()
+    ]);
+    const recipiente = document.createElement("div");
+    if (!dados[0].ok) {
+        throw new Error(String(dados[0].status));
+    }
+    recipiente.innerHTML = await dados[0].text();
+    document.body.append(recipiente);
+    prepararModais(recipiente);
+    preencherOpcoes(
+        recipiente.querySelector("#reenviar-categoria"),
+        dados[1].categorias
+    );
+    preencherOpcoes(
+        recipiente.querySelector("#reenviar-tecnica"),
+        dados[1].tecnicas
+    );
+    recipiente.querySelector("[data-ir-reenviar]").addEventListener(
+        "click",
+        function () {
+            abrirReenvio(trabalhoRejeitado);
+        }
+    );
+    recipiente.querySelector("[data-form-reenviar]").addEventListener(
+        "submit",
+        function (evento) {
+            evento.preventDefault();
+            if (evento.target.reportValidity()) {
+                reenviarTrabalho(evento.target);
+            }
+        }
+    );
+}
+
+/**
+ * Carrega os modais (se precisar) e chama abrir.
+ * @param {object} trabalho
+ * @param {function(object)} abrir
+ * @returns {Promise<void>}
+ */
+async function comModaisCorrigir(trabalho, abrir) {
+    try {
+        carregamentoCorrigir = carregamentoCorrigir ?? carregarModaisCorrigir();
+        await carregamentoCorrigir;
+        abrir(trabalho);
+    } catch (erro) {
+        carregamentoCorrigir = undefined;
+        console.error(erro);
+        mostrarAviso("Não foi possível abrir. Tente novamente.");
+    }
+}
+
+/**
+ * Mostra o motivo da rejeição de um trabalho.
+ * @param {object} trabalho
+ */
+function abrirMotivo(trabalho) {
+    trabalhoRejeitado = trabalho;
+    document.querySelector("[data-motivo=\"titulo\"]").textContent = (
+        trabalho.titulo
+    );
+    document.querySelector("[data-motivo=\"data\"]").textContent = (
+        formatarData(trabalho.analisadoEm || trabalho.atualizadoEm)
+    );
+    document.querySelector("[data-motivo=\"texto\"]").textContent = (
+        trabalho.motivoRejeicao || "O Liceu não informou o motivo."
+    );
+    abrirModal("modal-motivo");
+}
+
 /**
  * Abre a edição de um trabalho.
  * @param {object} trabalho
  */
 function editarTrabalho(trabalho) {
-    emEdicao = trabalho;
-    if (window.location.hash === ROTA_NOVO_TRABALHO) {
-        window.dispatchEvent(new HashChangeEvent("hashchange"));
-    } else {
-        window.location.hash = ROTA_NOVO_TRABALHO;
+    // rejeitado: corrigir e reenviar para análise
+    if (trabalho.status === "rejeitado") {
+        comModaisCorrigir(trabalho, abrirReenvio);
+        return;
     }
+    // rascunho: reabre o formulário de trabalho
+    if (trabalho.status === "rascunho") {
+        emEdicao = trabalho;
+        if (window.location.hash === ROTA_NOVO_TRABALHO) {
+            window.dispatchEvent(new HashChangeEvent("hashchange"));
+        } else {
+            window.location.hash = ROTA_NOVO_TRABALHO;
+        }
+        return;
+    }
+    mostrarAviso("Só rascunhos e trabalhos rejeitados podem ser editados.");
 }
 
 /**
@@ -409,21 +561,7 @@ function abrirMenuTrabalho(trabalho) {
  * @param {object} trabalho
  */
 function verMotivo(trabalho) {
-    // A IMPLEMENTAR: popup com o motivo da rejeição e "Editar e reenviar".
-    mostrarAviso("Em breve: motivo da rejeição de " + trabalho.titulo + ".");
-}
-
-/**
- * Status ao enviar para análise: rejeitado volta como "reenviado".
- * @param {object} [trabalho]
- * @returns {string}
- */
-function statusDeEnvio(trabalho) {
-    return (
-        trabalho && trabalho.status === "rejeitado"
-        ? "reenviado"
-        : "em-analise"
-    );
+    comModaisCorrigir(trabalho, abrirMotivo);
 }
 
 /**
@@ -433,7 +571,7 @@ function statusDeEnvio(trabalho) {
 async function enviarParaAnalise(trabalho) {
     try {
         await salvarTrabalho(Object.assign({}, trabalho, {
-            status: statusDeEnvio(trabalho)
+            status: "em-analise"
         }));
     } catch (erro) {
         mostrarAviso("Não foi possível enviar o trabalho.");
@@ -726,11 +864,7 @@ function paraTrabalho(dados) {
 async function enviarTrabalho(dados, status, anterior) {
     try {
         await salvarTrabalho(Object.assign({}, anterior, paraTrabalho(dados), {
-            status: (
-                status === "em-analise"
-                ? statusDeEnvio(anterior)
-                : status
-            )
+            status
         }));
     } catch (erro) {
         mostrarAviso("Não foi possível salvar o trabalho.");
