@@ -962,3 +962,64 @@ para os tokens globais após validação visual.
 Utilizar fotografias e logotipos institucionais autorizados.
 Manter os placeholders existentes enquanto não houver
 arquivos definitivos.
+
+## Migração integral da identidade visual
+
+### Status da migração
+
+A paleta cinza anterior era provisória, utilizada apenas
+durante a construção e validação da interface.
+
+A identidade visual definitiva proposta para o portal é
+fundamentada na paleta criativa documentada anteriormente.
+
+### Regra obrigatória
+
+Todos os componentes devem utilizar os tokens semânticos
+do design system, incluindo:
+
+- Cabeçalho público e cabeçalhos dos painéis.
+- Barra lateral, menus e estados ativos.
+- Rodapé e navegação institucional.
+- Botões primários, secundários e de ação.
+- Campos, buscas, seletores e filtros.
+- Cards, tabelas, divisórias e contêineres.
+- Chips, badges, indicadores e estatísticas.
+- Modais, confirmações, alertas e feedbacks.
+- Links, ícones, estados hover e foco.
+- Paginação, favoritos e controles de visualização.
+
+### Hierarquia cromática
+
+- Turquesa profundo: ações principais e interações.
+- Turquesa suave: superfícies e seleção.
+- Petróleo: texto e contraste editorial.
+- Off-white: fundos alternados.
+- Amarelo e rosa: detalhes editoriais e acentos.
+- Cores semânticas: sucesso, alerta e erro.
+
+### Diretrizes
+
+- Branco pode permanecer como superfície neutra.
+- Cinzas não são proibidos por natureza, mas nenhum
+  cinza provisório deve permanecer por falta de migração.
+- Não aplicar cores saturadas indiscriminadamente.
+- Não usar exclusivamente a cor para comunicar estados.
+- Manter contraste e foco acessíveis.
+- Preservar dimensões, layouts e fluxos aprovados.
+- Não substituir imagens ou logotipos sem autorização.
+- Evitar novos valores hexadecimais nos CSS de páginas.
+- Priorizar variáveis existentes ou criar novos tokens
+  semânticos quando necessário.
+
+### Estratégia de implementação
+
+1. Migrar tokens globais.
+2. Auditar componentes e CSS específicos.
+3. Migrar cores fixas conforme a função de cada elemento.
+4. Validar visualmente portal público e os dois painéis.
+5. Verificar responsividade, acessibilidade e regressões.
+
+A auditoria deve distinguir cores estruturais, estados
+semânticos e recursos decorativos. Não substituir cores
+automaticamente apenas por semelhança hexadecimal.
