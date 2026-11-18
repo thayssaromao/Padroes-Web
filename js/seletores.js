@@ -30,7 +30,12 @@ function ligarEventos() {
     });
     document.addEventListener("scroll", function (evento) {
         if (aberto && !aberto.lista.contains(evento.target)) {
-            fecharSeletor();
+            const posicao = aberto.botao.getBoundingClientRect();
+            if (!aberto.select.isConnected
+                    || Math.abs(posicao.top - aberto.topo) > 1
+                    || Math.abs(posicao.left - aberto.esquerda) > 1) {
+                fecharSeletor();
+            }
         }
     }, true);
     window.addEventListener("resize", fecharSeletor);
@@ -171,6 +176,8 @@ function montarSeletor(select) {
         lista.showPopover();
         botao.setAttribute("aria-expanded", "true");
         const campo = botao.getBoundingClientRect();
+        estado.topo = campo.top;
+        estado.esquerda = campo.left;
         const tokens = getComputedStyle(document.documentElement);
         const margem = parseFloat(tokens.getPropertyValue("--espaco-2"));
         const gap = parseFloat(tokens.getPropertyValue("--espaco-1"));
