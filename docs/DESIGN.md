@@ -762,3 +762,36 @@ existentes, mesmo quando ampliam a altura em relação ao wireframe.
   tamanhos 1280px, 768px e 375px.
 - Fotos institucionais e dos cinco integrantes seguem pendentes;
   os recursos disponíveis são placeholders, conforme o inventário.
+
+
+## Correções de UI dos painéis e produto (18/11/2026)
+
+- O foco programático no `main.painel__principal` não desenha contorno ao
+  redor de toda a página; controles internos continuam com foco visível.
+  O footer dos painéis não tem borda superior; o footer público é preservado.
+- Cards de trabalhos organizam título/metadados, divisória, estado e ações
+  em faixas comuns. Rascunhos mantêm Enviar e Editar; trabalhos em análise
+  informam que a edição está indisponível. Ações só com ícone têm alvo de
+  44px, nome acessível e title. Não esconder permissões ou status.
+- Menus de ações usam uma coluna no smartphone, duas no tablet e botões
+  proporcionais na mesma linha no desktop (1024px), sem reduzir fontes.
+- Cabeçalho de Meus trabalhos: título e cadastro no cabeçalho; busca em
+  linha própria; status/categoria/ordenação em grupos; contador e modo na
+  linha anterior aos cards. Espaçamentos seguem tokens.
+- Status das publicações usa ações de ícone com nome/title; espera segue
+  desabilitada. Editar, ver motivo e abrir no portal preservam funções.
+- Detalhes de trabalho têm galeria limitada e metadados em grade em telas
+  amplas; a análise usa largura grande e espaços de 16/24px, evitando
+  uma coluna excessivamente vertical. Motivo de rejeição tem Cancelar;
+  aprovação exige confirmação explícita antes de persistir.
+- Seleção múltipla usa fieldset/legend e checkboxes nativos com alvos de
+  44px, borda/raio/tokens e resumo vivo da seleção. O select de origem
+  continua sincronizado para preservar contrato, validação e persistência.
+  Aplicar `prepararMultisselecao` a todos os selects múltiplos dos diálogos.
+  Os formulários que já usam select e chips mantêm esse padrão aprovado.
+- Produto: galeria e resumo alinhados ao topo; miniaturas proporcionais
+  com seleção anunciada; materiais (`layers`), técnica (`hammer`) e
+  dimensões (`ruler`) em lista de descrição com ícones Lucide; descrição
+  separada por borda, produtor com foto e texto, técnica e relacionados
+  preservados. Preço usa a escala de título de seção existente.
+- Aviso do MVP tem `--espaco-5` de distância do formulário de configurações.
