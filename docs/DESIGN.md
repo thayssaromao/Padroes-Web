@@ -229,6 +229,7 @@ Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 | Produto | `.card-produto` | `figure` com imagem 4:3 + botão favorito (círculo, canto sup. dir.) · nome · categoria · (opcional) status + ações | Home, Área do Artesão |
 | Artesão (mini) | `.card-artesao-mini` | avatar redondo 96px · nome · técnica principal | Home "Conheça quem produz" |
 | Artesão | `.card-artesao` | Na listagem pública: foto quadrada 64px · nome · empreendimento ou @ · local (`map-pin`) · chips abaixo da identificação, usando toda a largura · botão bloco "Ver perfil →" na base, com intervalo mínimo de 12px após os chips. Na grade desktop, fileiras de mesma altura, determinada pelo conteúdo, sem reserva de linhas vazias para chips; celular e lista têm altura adaptável. | Página Artesãos |
+| Técnica | `.card-tecnica` | imagem 8:3 (placeholder quando não há foto) + botão favorito (igual ao do Produto) · nome (`h3`) · descrição curta · botão bloco "Saiba mais →" na base. Gerado por `criarCardTecnica(tecnica, {favoritado})`; o favorito usa `data-favorito` e o botão usa `data-tecnica` (id). | Página Saberes |
 | Estatística | `.card-estatistica` | ícone · espaçamento · número grande (800) · rótulo, sem divisória vertical | Resumos dos painéis |
 | Trabalho (painel) | `.card-trabalho` | imagem · título · artesão (`user`) · categorias (`tag`) · status · botão | Painel Liceu "aguardando análise" |
 
