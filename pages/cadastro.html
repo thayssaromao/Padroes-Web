@@ -10,13 +10,13 @@
         <form class="pilha cadastro__form" id="cadastro-form" novalidate>
             <div class="campo">
                 <label for="cadastro-nome" class="campo__rotulo">Nome *</label>
-                <input id="cadastro-nome" class="campo__entrada" type="text" name="nome" autocomplete="name" placeholder="Digite seu nome" required aria-required="true" aria-describedby="cadastro-nome-erro">
+                <input id="cadastro-nome" class="campo__entrada" type="text" name="nome" autocomplete="name" placeholder="Digite seu nome" required aria-describedby="cadastro-nome-erro">
                 <p class="cadastro__erro" id="cadastro-nome-erro" role="alert" hidden></p>
             </div>
 
             <div class="campo">
                 <label for="cadastro-email" class="campo__rotulo">E-mail *</label>
-                <input id="cadastro-email" class="campo__entrada" type="email" name="email" autocomplete="email" placeholder="Digite seu e-mail" required aria-required="true" aria-describedby="cadastro-email-erro">
+                <input id="cadastro-email" class="campo__entrada" type="email" name="email" autocomplete="email" placeholder="Digite seu e-mail" required aria-describedby="cadastro-email-erro">
                 <p class="cadastro__erro" id="cadastro-email-erro" role="alert" hidden></p>
             </div>
 
@@ -24,7 +24,7 @@
                 <label for="cadastro-senha" class="campo__rotulo">Senha *</label>
                 <div class="campo__grupo">
                     <iconify-icon icon="lucide:lock" aria-hidden="true"></iconify-icon>
-                    <input id="cadastro-senha" class="campo__entrada cadastro__senha" type="password" name="senha" autocomplete="new-password" placeholder="Crie uma senha" required aria-required="true" aria-describedby="cadastro-senha-ajuda cadastro-senha-erro">
+                    <input id="cadastro-senha" class="campo__entrada cadastro__senha" type="password" name="senha" autocomplete="new-password" placeholder="Crie uma senha" required aria-describedby="cadastro-senha-ajuda cadastro-senha-erro">
                     <button type="button" class="btn btn--icone" data-alternar-senha="cadastro-senha" aria-pressed="false" aria-label="Mostrar senha">
                         <iconify-icon icon="lucide:eye" aria-hidden="true"></iconify-icon>
                     </button>
@@ -37,7 +37,7 @@
                 <label for="cadastro-confirmar" class="campo__rotulo">Confirmar senha *</label>
                 <div class="campo__grupo">
                     <iconify-icon icon="lucide:lock" aria-hidden="true"></iconify-icon>
-                    <input id="cadastro-confirmar" class="campo__entrada cadastro__senha" type="password" name="confirmar" autocomplete="new-password" placeholder="Repita a senha" required aria-required="true" aria-describedby="cadastro-confirmar-erro">
+                    <input id="cadastro-confirmar" class="campo__entrada cadastro__senha" type="password" name="confirmar" autocomplete="new-password" placeholder="Repita a senha" required aria-describedby="cadastro-confirmar-erro">
                     <button type="button" class="btn btn--icone" data-alternar-senha="cadastro-confirmar" aria-pressed="false" aria-label="Mostrar senha">
                         <iconify-icon icon="lucide:eye" aria-hidden="true"></iconify-icon>
                     </button>
