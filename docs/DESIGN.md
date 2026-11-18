@@ -416,6 +416,20 @@ a largura horizontal disponivel, sem quebra prematura.
 - Em mobile, permitir reorganizacao sem overflow.
 - Preservar as funcionalidades e a responsividade.
 
+**Paginacao compartilhada no catalogo de Produtos**
+
+- O catalogo utiliza `criarPaginacao()` de `js/componentes.js`.
+- Os botoes gerados utilizam `.paginacao__botao` e
+  `.paginacao__botao--seta`.
+- As classes legadas `.btn-pagina` e suas variantes
+  nao integram a renderizacao atual.
+- O catalogo utiliza `.paginacao--centro` para centralizar
+  a lista, preservando os controles compartilhados.
+- Dimensoes, cores, raios e espacamentos dos botoes
+  pertencem ao design system.
+- A remocao nao altera o calculo de paginas,
+  a navegacao ou os estados de desabilitado.
+
 ### 5.9 Paginação — `.paginacao`
 
 `<nav aria-label="Paginação">` > lista de botões 40×40: setas (`chevron-left/right`) com fundo `--cor-superficie-forte`, números sem borda (painéis: com borda), atual = fundo `--cor-primaria` + texto branco + `aria-current="page"`. Reticências `…` como `<span>`. Gerada por `criarPaginacao(atual, total)`.
