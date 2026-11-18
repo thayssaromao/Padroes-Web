@@ -1104,3 +1104,12 @@ conteúdo/placeholder não é inferido a partir dos tokens.
   A faixa tricolor institucional da casca não indica rota e permanece.
 - Os links ativos preservam contraste também no hover e no foco; Escape,
   navegação, rotas e marcação dinâmica continuam inalterados.
+
+
+### Cabeçalho de Produtos em faixa inteira
+
+O fundo editorial de `.catalogo-produto-cabecalho` ocupa a largura inteira
+por uma camada decorativa com expansão lateral e recorte vertical. A faixa
+começa logo abaixo do header público; o texto e os controles continuam
+alinhados à grade limitada do catálogo. A camada não recebe cliques, não
+altera a largura do documento e não interfere em filtros ou favoritos.
