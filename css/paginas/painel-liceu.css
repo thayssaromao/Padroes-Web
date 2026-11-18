@@ -112,14 +112,6 @@
         padding-inline: var(--espaco-2);
     }
 
-    .liceu-barra {
-        flex-wrap: wrap;
-    }
-
-    .liceu-barra .busca {
-        flex: 1 1 100%;
-    }
-
 }
 
 /* ----- Cadastrar artesão ----- */
@@ -167,41 +159,26 @@
     }
 }
 
-/* ----- Publicações: cabeçalho com ação ao lado e caixa de filtros ----- */
+/* ----- Cabeçalho de filtros das três listagens administrativas ----- */
 .liceu-filtros {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: var(--espaco-4);
     margin-bottom: var(--espaco-5);
-    padding: var(--espaco-4);
-    border-radius: var(--raio-medio);
-    background-color: var(--cor-superficie-forte);
 }
 
 .liceu-filtros__busca {
-    flex: 1;
     min-width: 0;
 }
 
-.liceu-filtros .busca__entrada {
-    background-color: var(--cor-fundo);
+.liceu-filtros__controles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: var(--espaco-4);
+    align-items: start;
 }
 
-@media (min-width: 600px) {
-    .liceu-filtros {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: flex-end;
-    }
-
-    .liceu-filtros__busca {
-        flex-basis: 100%;
-    }
-
-    .liceu-filtros .campo {
-        flex: 1;
-        min-width: 140px;
-    }
+.liceu-filtros .campo {
+    min-width: 0;
 }
 
 @media (min-width: 1024px) {
@@ -212,10 +189,6 @@
 
     .liceu-cabecalho--lado .painel-cabecalho__acoes {
         margin-top: 0;
-    }
-
-    .liceu-filtros .campo {
-        min-width: 195px;
     }
 }
 

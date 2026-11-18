@@ -796,3 +796,39 @@ existentes, mesmo quando ampliam a altura em relação ao wireframe.
   preservados. Preço numérico usa a escala de título de seção existente;
   a mensagem de preço sob consulta usa texto de apoio e cor suave.
 - Aviso do MVP tem `--espaco-5` de distância do formulário de configurações.
+
+
+## Revisão complementar: filtros, produto e conta
+
+Referências: `../liceu_capturas_correcoes_ui_ux.pdf` (capturas atuais e
+Figma) e página Produto Individual de `../wireframes.pdf`.
+
+- Publicações, Pendentes e Artesãos usam `.liceu-filtros`: busca com
+  largura integral na primeira linha, controles na segunda, sem caixa
+  cinza ou padding externo exclusivos. `.liceu-filtros__controles` usa
+  grade proporcional com os tokens de espaço. Labels, selects e busca
+  reutilizam `.campo` e `.busca`. Filtragem é automática em input/change;
+  submit por Enter permanece suportado no formulário de Publicações.
+- Limpar filtros combina ícone e texto com inline-flex, centralização
+  nos dois eixos, gap de `--espaco-2` e ícone de `--tamanho-icone-acao`.
+  Não aplicar offsets ou translação para alinhar o conteúdo.
+- Produto: título usa `--fonte-h2`, atributos são três blocos com ícone,
+  rótulo e valor e divisórias verticais discretas a partir de 600px;
+  no celular, as divisórias são horizontais. A descrição mantém sua borda.
+  Galeria 16:9 e miniaturas preservam os estados acessíveis existentes.
+- A faixa de contexto reúne produtor e técnica em colunas iguais no
+  desktop, separadas por borda vertical. Abaixo de 1024px, ficam empilhados
+  com divisão horizontal. A foto do produtor e seu texto ficam lado a
+  lado a partir de 600px; botões têm largura natural e podem quebrar texto.
+  A imagem da técnica usa cerca de um terço da coluna e não comprime o
+  texto; seu nome aparece em título próprio.
+- Relacionados mantêm as colunas 1/2/4 e o gap compartilhado. Com três
+  produtos no desktop, a grade é centralizada com a largura equivalente
+  a três cards da grade de quatro. Não fabricar registros para completar.
+- Minha conta reutiliza `.modal__acoes--grade` e modal médio: uma coluna
+  no smartphone, duas no tablet e três ações proporcionais no desktop.
+  Links e confirmação de logout mantêm seus comportamentos.
+- Footer compartilhado: o item Ajuda (`#/contato`) é renderizado apenas
+  na Área do Artesão. Na Área do Liceu, o item é removido antes da inserção
+  da casca; Sobre e copyright permanecem. Não duplicar o footer, esconder
+  apenas por CSS nem alterar o footer público.
