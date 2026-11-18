@@ -3,6 +3,7 @@ import {
     abrirModal,
     fecharModal,
     mostrarAviso,
+    prepararAcoes,
     prepararCamposSenha,
     prepararModais
 } from "../componentes.js";
@@ -25,9 +26,14 @@ async function carregarLogin() {
     document.body.append(recipiente);
     prepararModais(recipiente);
     prepararCamposSenha(recipiente);
+    prepararAcoes(recipiente);
     const formulario = recipiente.querySelector("form");
     const erro = recipiente.querySelector("[data-login-erro]");
     const botao = formulario.querySelector("[type=submit]");
+    recipiente.querySelector("dialog").addEventListener("close", function () {
+        formulario.elements.senha.type = "password";
+        prepararCamposSenha(recipiente);
+    });
     formulario.addEventListener("submit", async function (evento) {
         evento.preventDefault();
         if (botao.disabled || !formulario.reportValidity()) {

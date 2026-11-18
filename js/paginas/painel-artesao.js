@@ -285,6 +285,7 @@ function ligarSeletorTecnicas(seletor, lista, aoMudar) {
                 + icone("lucide:x") + "</button></li>"
             );
         }).join("");
+        prepararAcoes(lista);
         aoMudar(tecnicas);
     }
 

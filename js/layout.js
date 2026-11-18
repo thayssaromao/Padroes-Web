@@ -26,7 +26,14 @@ function alternarGaveta(botao, gaveta, classeAberta, abrir) {
     botao.setAttribute("aria-expanded", String(aberta));
     gaveta.classList.toggle(classeAberta, aberta);
     if (botao.getAttribute("aria-controls") === "nav") {
-        botao.setAttribute("aria-label", aberta ? "Fechar menu" : "Abrir menu");
+        const rotulo = aberta ? "Fechar menu" : "Abrir menu";
+        botao.setAttribute("aria-label", rotulo);
+        botao.setAttribute("title", rotulo);
+    }
+    if (botao.getAttribute("aria-controls") === "painel-lateral") {
+        const rotulo = aberta ? "Fechar menu do painel" : "Abrir menu do painel";
+        botao.setAttribute("aria-label", rotulo);
+        botao.setAttribute("title", rotulo);
     }
 }
 

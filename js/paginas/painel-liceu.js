@@ -977,6 +977,7 @@ function ligarTecnicas(raiz) {
                 + icone("lucide:x") + "</button></li>"
             );
         }).join("");
+        prepararAcoes(lista);
     }
 
     seletor.addEventListener("change", function () {
@@ -1360,12 +1361,12 @@ async function montarConfiguracoes(raiz) {
     const listas = raiz.querySelector("#config-categorias")
         .closest("section").querySelector(".liceu-bloco-config__corpo");
     listas.insertAdjacentHTML("beforeend",
-        '<section class="lista-taxonomias" aria-labelledby="categorias-lista">'
-        + '<h3 id="categorias-lista">Categorias cadastradas</h3>'
-        + criarChips(categorias.categorias) + '</section>'
-        + '<section class="lista-taxonomias" aria-labelledby="tecnicas-lista">'
-        + '<h3 id="tecnicas-lista">Técnicas cadastradas</h3>'
-        + criarChips(categorias.tecnicas) + '</section>');
+        "<section class=\"lista-taxonomias\" aria-labelledby=\"categorias-lista\">"
+        + "<h3 id=\"categorias-lista\">Categorias cadastradas</h3>"
+        + criarChips(categorias.categorias) + "</section>"
+        + "<section class=\"lista-taxonomias\" aria-labelledby=\"tecnicas-lista\">"
+        + "<h3 id=\"tecnicas-lista\">Técnicas cadastradas</h3>"
+        + criarChips(categorias.tecnicas) + "</section>");
     formulario.addEventListener("submit", function (evento) {
         evento.preventDefault();
     });
