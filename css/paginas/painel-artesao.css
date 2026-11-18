@@ -2,3 +2,324 @@
    paginas/painel-artesao.css — estilos exclusivos da página
    Guia: docs/DESIGN.md (use só tokens e componentes do guia)
    ========================================================= */
+
+/* ===== Início ===== */
+
+.artesao-resumo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-5);
+    margin-bottom: var(--espaco-6);
+    padding: var(--espaco-5);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-fundo-alternado);
+}
+
+.artesao-ultimos {
+    margin-bottom: var(--espaco-6);
+}
+
+@media (min-width: 1024px) {
+    .artesao-resumo {
+        padding: var(--espaco-6);
+    }
+}
+
+/* ===== Meu perfil ===== */
+
+.artesao-perfil {
+    display: grid;
+    gap: var(--espaco-5);
+}
+
+.artesao-perfil__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-5);
+    min-width: 0;
+}
+
+.artesao-perfil .bloco-form {
+    min-width: 0;
+}
+
+.artesao-legenda {
+    float: left;
+    width: 100%;
+    padding: 0;
+}
+
+.artesao-pessoais {
+    display: grid;
+}
+
+.artesao-pessoais__foto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-3);
+}
+
+.artesao-avatar {
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--cor-borda);
+    background-color: var(--cor-placeholder);
+}
+
+.artesao-pessoais__campos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+}
+
+.artesao-tecnicas {
+    display: grid;
+    gap: var(--espaco-4);
+    align-items: center;
+}
+
+@media (min-width: 600px) {
+    .artesao-pessoais {
+        grid-template-columns: auto 1fr;
+        gap: var(--espaco-5);
+    }
+
+    .artesao-pessoais .artesao-legenda {
+        grid-column: 1 / -1;
+    }
+
+    .artesao-pessoais__campos {
+        padding-left: var(--espaco-5);
+        border-left: 1px solid var(--cor-borda-forte);
+    }
+
+    .artesao-tecnicas {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 1024px) {
+    .artesao-perfil {
+        grid-template-columns: 2fr 1fr;
+        align-items: start;
+    }
+
+    .previa-perfil {
+        position: sticky;
+        top: calc(var(--altura-barra) + var(--espaco-5));
+    }
+}
+
+/* ===== Meus trabalhos ===== */
+
+.artesao-topo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    margin-bottom: var(--espaco-4);
+}
+
+.artesao-topo .btn {
+    align-self: flex-start;
+}
+
+.artesao-trabalhos .barra-filtros__item select,
+.artesao-status-lista .barra-filtros__item select {
+    flex: 1;
+}
+
+.artesao-vazio {
+    grid-column: 1 / -1;
+    padding: var(--espaco-6);
+    border: 2px dashed var(--cor-borda);
+    border-radius: var(--raio-medio);
+    text-align: center;
+    color: var(--cor-texto-suave);
+}
+
+.artesao-estado {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espaco-1);
+    width: 100%;
+    margin-bottom: var(--espaco-1);
+}
+
+.artesao-estado .btn {
+    flex: 0 1 auto;
+    gap: var(--espaco-1);
+    min-height: var(--alvo-acao);
+    padding-inline: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+    white-space: nowrap;
+}
+
+.artesao-estado .btn--link {
+    padding-inline: 0;
+}
+
+.artesao-botoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--espaco-3);
+    width: 100%;
+}
+
+.artesao-botoes .btn:first-child:not(.btn--icone) {
+    flex: 1;
+}
+
+.artesao-grade .card-produto__acoes {
+    flex-direction: column;
+    gap: var(--espaco-2);
+}
+
+.grade-cards.artesao-lista {
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 600px) {
+    .artesao-topo {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .artesao-lista .card-produto {
+        flex-direction: row;
+    }
+
+    .artesao-lista .card-produto__imagem {
+        width: 220px;
+        height: auto;
+        flex-shrink: 0;
+        aspect-ratio: auto;
+        border-right: 1px solid var(--cor-borda);
+        border-bottom: none;
+    }
+
+    .artesao-lista .card-produto__corpo {
+        flex: 1;
+        min-width: 0;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 1024px) {
+    .artesao-topo .busca {
+        max-width: 560px;
+    }
+}
+
+/* ===== Novo trabalho ===== */
+
+.artesao-novo {
+    display: grid;
+    gap: var(--espaco-5);
+}
+
+.artesao-novo__dados,
+.artesao-novo__imagens {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-5);
+    min-width: 0;
+}
+
+.artesao-novo .bloco-form {
+    min-width: 0;
+}
+
+.artesao-novo .upload:focus-within {
+    outline: 3px solid var(--cor-borda-forte);
+    outline-offset: 2px;
+}
+
+.artesao-preco {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    min-width: 0;
+    padding: 0;
+    border: 0;
+}
+
+.artesao-preco__opcao {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    font-size: var(--fonte-pequena);
+}
+
+.artesao-preco__opcao label {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.artesao-preco__opcao .campo__entrada {
+    flex: 1;
+    min-width: 0;
+}
+
+.artesao-novo .upload .chip {
+    max-width: 100%;
+    white-space: normal;
+}
+
+@media (min-width: 600px) {
+    .artesao-cabecalho-acao {
+        grid-template-columns: 1fr auto;
+        align-items: start;
+    }
+
+    .artesao-cabecalho-acao .painel-cabecalho__acoes {
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .artesao-novo {
+        grid-template-columns: 3fr 2fr;
+        align-items: start;
+    }
+
+    .artesao-novo__acoes {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ===== Status das publicações ===== */
+
+.artesao-status-resumo {
+    margin-bottom: var(--espaco-5);
+}
+
+.artesao-status-aviso {
+    margin-top: var(--espaco-5);
+}
+
+.artesao-status-tabela .texto-suave {
+    font-weight: var(--peso-regular);
+}
+
+.artesao-status-tabela .tabela__principal > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.artesao-status-tabela .tabela__acoes .btn--link {
+    min-height: 32px;
+}
+
+.artesao-status-busca {
+    flex: 1 0 100%;
+}
+
+@media (min-width: 1024px) {
+    .artesao-status-busca {
+        flex: 1 1 0;
+    }
+}
