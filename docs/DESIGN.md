@@ -1046,7 +1046,8 @@ automaticamente apenas por semelhança hexadecimal.
 
 - Header turquesa profundo e footer petróleo com faixa tricolor desenhada
   em background (sem acrescentar altura). Links brancos, hover amarelo e
-  indicador amarelo. A navegação mobile mantém as mesmas combinações.
+  página ativa preenchida em amarelo com texto petróleo e peso forte, sem
+  linha de indicação. A navegação mobile mantém as mesmas combinações.
 - Sidebar petróleo: texto claro, hover tonal e item selecionado amarelo com
   texto petróleo. Foco amarelo nas superfícies escuras; não herdar texto
   branco para itens ativos claros.
@@ -1080,3 +1081,26 @@ menus, estados e favoritos. Bordas de controles e indicadores de foco
 precisam de 3:1 contra a superfície adjacente. Cores saturadas sem contraste
 para texto pequeno ficam restritas a grafismos. Contraste de imagens de
 conteúdo/placeholder não é inferido a partir dos tokens.
+
+
+## Refinamento das superfícies e navegação pública
+
+- O plano principal público usa `--cor-fundo-publico` (amarelo claro,
+  `#FFF8E1`) por meio do escopo `.conteudo`. Painéis preservam seu fundo.
+  As faixas alternadas usam turquesa suave (`--cor-superficie-forte`),
+  substituindo a base bege acinzentada. Faixas editoriais rosa/amarelo
+  existentes continuam com seus papéis.
+- Atalhos compartilhados `.card-atalho` têm apresentação de entradas de
+  navegação: fundo transparente, sem sombra, sem moldura arredondada ou
+  faixa superior. Uma divisória inferior organiza as entradas; título,
+  descrição, ícone e seta mantêm a hierarquia e toda a área permanece link.
+  Hover/foco reforçam a leitura sem fazer a entrada flutuar. O contorno de
+  foco continua visível. Preservar grade, padding e dimensões externas.
+- Header e footer usam `aria-current="page"` como fonte do estado ativo:
+  preenchimento amarelo, texto petróleo e peso forte. Nenhum pseudo-elemento
+  desenha linha de ativo ou hover. No desktop, o destaque do header tem
+  44px dentro da barra existente de 64px; no menu móvel ocupa a entrada.
+  O footer usa preenchimento e halo de fundo, sem deslocar links vizinhos.
+  A faixa tricolor institucional da casca não indica rota e permanece.
+- Os links ativos preservam contraste também no hover e no foco; Escape,
+  navegação, rotas e marcação dinâmica continuam inalterados.

@@ -20,7 +20,8 @@
     --cor-texto-apagado: #52665F;
     --cor-texto-invertido: #FFFFFF;
     --cor-fundo: var(--marca-offwhite);
-    --cor-fundo-alternado: #F0EDE5;
+    --cor-fundo-publico: #FFF8E1;
+    --cor-fundo-alternado: var(--cor-superficie-forte);
     --cor-superficie: #F2F6F2;
     --cor-superficie-forte: #E0F1ED;
     --cor-superficie-card: var(--cor-texto-invertido);
