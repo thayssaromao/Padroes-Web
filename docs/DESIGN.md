@@ -1066,7 +1066,8 @@ automaticamente apenas por semelhança hexadecimal.
   rosa escuro e rascunho verde acinzentado. Todos mantêm ícone e texto.
 - Desabilitados preservam `disabled`/`aria-disabled` e recebem superfície e
   texto próprios. Foco tem contorno visível; erros não dependem só da borda.
-- O catálogo funcional (`css/produtos.css`, ausente no worktree de design)
+- O cabeçalho do catálogo recebe plano amarelo suave, e o alternador de
+  grade/lista usa seleção turquesa. O catálogo funcional (`css/produtos.css`, ausente no worktree de design)
   deve consumir estes mesmos tokens, incluindo busca, filtros e limpeza.
 - Preservar HTML, tipografia, medidas, espaçamentos, dados, fotografias e
   placeholders. Grafismos e acentos não recebem eventos de ponteiro.

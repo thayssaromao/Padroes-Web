@@ -44,3 +44,15 @@
     color: var(--cor-texto-invertido);
     border-color: var(--cor-favorito);
 }
+
+/* Plano editorial do catálogo, sem alterar o espaço dos controles. */
+.catalogo-produto-cabecalho {
+    background-color: var(--cor-editorial);
+    box-shadow: 0 0 0 var(--espaco-4) var(--cor-editorial);
+}
+
+.btn-view[aria-pressed="true"] {
+    background-color: var(--cor-primaria);
+    border-color: var(--cor-primaria);
+    color: var(--cor-texto-invertido);
+}
