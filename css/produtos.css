@@ -244,12 +244,6 @@
 .grade-produtos.modo-lista .card-produto { flex-direction: row; height: 140px; }
 
 /* Paginação */
-.paginacao { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 2.5rem; }
-.btn-pagina { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; border: none; border-radius: 6px; background: transparent; color: var(--cor-texto, #333); font-size: var(--fonte-tamanho-pequeno, 0.875rem); cursor: pointer; line-height: 1; }
-.btn-pagina:hover:not(.desativado):not(.ativa) { background-color: #f0f0f0; }
-.btn-pagina.seta { background: #e0e0e0; font-size: 1.2rem;}
-.btn-pagina.ativa { background: #4a4a4a; color: #fff; font-weight: var(--fonte-peso-negrito, 700); }
-.btn-pagina.desativado { opacity: 0.4; cursor: not-allowed; }
 
 @media (max-width: 768px) {
     .catalogo-corpo { flex-direction: column; }
