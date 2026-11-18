@@ -1,5 +1,6 @@
 /* Composição do detalhe definido no wireframe; componentes são compartilhados. */
 .produto-contexto {
+    background-color: var(--cor-editorial-alternada);
     align-items: start;
 }
 

@@ -4,42 +4,73 @@
    ========================================================= */
 
 :root {
-    /* ===== Cores (wireframe em cinza) ===== */
-    --cor-texto: #183E45;
-    --cor-texto-suave: #48625E;
-    --cor-texto-apagado: #58736E;
-    --cor-texto-invertido: #ffffff;
-
-    --cor-fundo: #ffffff;
-    --cor-fundo-alternado: #F8F7F3;
-    --cor-superficie: #F8FBFA;
-    --cor-superficie-forte: #EAF5F3;
-
-    --cor-barra: #EAF5F3;
-    --cor-link-barra-hover: #0C7774;
-    --cor-indicador-hover: #0C7774;
-    --cor-lateral: #F1F7F5;
-    --cor-lateral-ativo: #D2EAE6;
-
-    --cor-borda: #C7DAD6;
-    --cor-borda-forte: #377B76;
-
-    /* Identidade visual do Liceu: paleta proposta */
+    /* ===== Identidade: interpretação digital, não manual oficial ===== */
     --marca-turquesa: #20A8A6;
+    --marca-turquesa-profundo: #0C7774;
+    --marca-turquesa-escuro: #095E5C;
     --marca-amarelo: #FFC928;
     --marca-rosa: #E73571;
+    --marca-rosa-escuro: #AD1B50;
     --marca-petroleo: #183E45;
     --marca-offwhite: #F8F7F3;
-    --marca-turquesa-profundo: #0C7774;
 
-    --cor-primaria: #0C7774;
-    --cor-primaria-hover: #095E5C;
-    --cor-placeholder: #D9E7E3;
-    --cor-sobreposicao: rgb(0 0 0 / 45%);
+    /* Texto e superfícies */
+    --cor-texto: var(--marca-petroleo);
+    --cor-texto-suave: #48625E;
+    --cor-texto-apagado: #52665F;
+    --cor-texto-invertido: #FFFFFF;
+    --cor-fundo: var(--marca-offwhite);
+    --cor-fundo-alternado: #F0EDE5;
+    --cor-superficie: #F2F6F2;
+    --cor-superficie-forte: #E0F1ED;
+    --cor-superficie-card: var(--cor-texto-invertido);
+    --cor-superficie-menu: var(--cor-superficie-card);
+    --cor-superficie-modal: var(--cor-superficie-card);
+    --cor-campo: var(--cor-superficie-card);
+    --cor-editorial: #FFF0BD;
+    --cor-editorial-alternada: #FCE7EF;
+    --cor-destaque: var(--marca-amarelo);
+    --cor-acento: var(--marca-rosa);
+    --cor-placeholder: #C8C8C8;
+    --cor-sobreposicao: rgb(24 62 69 / 65%);
 
-    --cor-sucesso: #18745E;
-    --cor-alerta: #8B5E00;
-    --cor-erro: #A82D47;
+    /* Navegação */
+    --cor-barra: var(--marca-turquesa-escuro);
+    --cor-rodape: var(--marca-petroleo);
+    --cor-nav-texto: var(--cor-texto-invertido);
+    --cor-nav-hover: #24545B;
+    --cor-link-barra-hover: var(--marca-amarelo);
+    --cor-indicador-hover: var(--marca-amarelo);
+    --cor-lateral: var(--marca-petroleo);
+    --cor-lateral-ativo: var(--marca-amarelo);
+    --cor-divisor-nav: #729A98;
+    --grafismo-marca: linear-gradient(to right, var(--marca-turquesa) 0 50%, var(--marca-amarelo) 50% 75%, var(--marca-rosa) 75%);
+
+    /* Interação e bordas */
+    --cor-borda: #C6D3CE;
+    --cor-borda-controle: #6C837D;
+    --cor-borda-forte: var(--marca-turquesa-profundo);
+    --cor-primaria: var(--marca-turquesa-profundo);
+    --cor-primaria-hover: var(--marca-turquesa-escuro);
+    --cor-secundaria: var(--cor-superficie-card);
+    --cor-secundaria-hover: var(--cor-superficie-forte);
+    --cor-link: var(--marca-turquesa-escuro);
+    --cor-foco: var(--marca-rosa-escuro);
+    --cor-favorito: var(--marca-rosa-escuro);
+    --cor-desabilitado: #E4E8E2;
+    --cor-desabilitado-texto: #52665F;
+
+    /* Estados: texto e fundo (ícones/rótulos permanecem obrigatórios) */
+    --cor-sucesso: #146347;
+    --cor-sucesso-fundo: #E4F3E8;
+    --cor-alerta: #765000;
+    --cor-alerta-fundo: var(--cor-editorial);
+    --cor-erro: #A02548;
+    --cor-erro-fundo: var(--cor-editorial-alternada);
+    --cor-informacao: #15546C;
+    --cor-informacao-fundo: #E5F0F7;
+    --cor-rascunho: #485E59;
+    --cor-rascunho-fundo: #EAEFE9;
 
     /* ===== Tipografia ===== */
     --fonte-base: "Inter", Arial, Helvetica, sans-serif;
@@ -79,8 +110,8 @@
     --raio-grande: 24px;
     --raio-pilula: 999px;
 
-    --sombra-card: 0 1px 2px rgb(0 0 0 / 6%);
-    --sombra-elevada: 0 12px 32px rgb(0 0 0 / 18%);
+    --sombra-card: 0 1px 2px rgb(24 62 69 / 8%);
+    --sombra-elevada: 0 12px 32px rgb(24 62 69 / 18%);
 
     --transicao: 200ms ease;
 
@@ -144,7 +175,7 @@ ol {
 }
 
 a {
-    color: inherit;
+    color: var(--cor-link);
 }
 
 button,
@@ -173,7 +204,7 @@ iconify-icon {
 }
 
 :focus-visible {
-    outline: 3px solid var(--cor-borda-forte);
+    outline: 3px solid var(--cor-foco);
     outline-offset: 2px;
 }
 
