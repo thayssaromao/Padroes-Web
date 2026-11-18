@@ -1056,7 +1056,8 @@ automaticamente apenas por semelhança hexadecimal.
   turquesa, destrutivas usam erro e favoritos usam rosa escuro.
 - Cards brancos sobre fundo quente, bordas suaves e acentos sem alterar
   suas dimensões. Estatísticas usam cores conforme papel de total, publicado,
-  análise e pendência; ícones e rótulos continuam explícitos.
+  análise e pendência, identificados pelos ícones semânticos existentes e não
+  pela posição do card. Rascunho usa seu par neutro; ícones e rótulos continuam explícitos.
 - Tabelas com cabeçalho petróleo e texto branco, corpo branco e hover suave.
   Formulários usam campos brancos e bordas de controle com contraste; menus
   abertos usam hover amarelo suave e seleção turquesa com texto branco.

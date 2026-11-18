@@ -697,19 +697,24 @@ input[type="checkbox"] {
     box-shadow: inset 0 4px var(--marca-turquesa), var(--sombra-card);
 }
 
-.card-estatistica:nth-child(2) {
+.card-estatistica:has(> iconify-icon[icon="lucide:circle-check"]) {
     background-color: var(--cor-sucesso-fundo);
     box-shadow: inset 0 4px var(--cor-sucesso), var(--sombra-card);
 }
 
-.card-estatistica:nth-child(3) {
+.card-estatistica:has(> iconify-icon[icon="lucide:clock"]) {
     background-color: var(--cor-alerta-fundo);
     box-shadow: inset 0 4px var(--cor-destaque), var(--sombra-card);
 }
 
-.card-estatistica:nth-child(4) {
+.card-estatistica:has(> iconify-icon[icon="lucide:circle-x"]) {
     background-color: var(--cor-erro-fundo);
     box-shadow: inset 0 4px var(--cor-acento), var(--sombra-card);
+}
+
+.card-estatistica:has(> iconify-icon[icon="lucide:file-text"]) {
+    background-color: var(--cor-rascunho-fundo);
+    box-shadow: inset 0 4px var(--cor-rascunho), var(--sombra-card);
 }
 
 .card-estatistica > iconify-icon {
