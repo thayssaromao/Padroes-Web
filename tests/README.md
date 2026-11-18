@@ -22,6 +22,7 @@ node tests/ui.cjs
 node tests/portal.cjs
 node tests/complemento.cjs
 node tests/rodada-atual.cjs
+node tests/identidade.cjs
 ```
 
 Se o módulo não estiver na resolução padrão, defina `PLAYWRIGHT_MODULE` como o caminho absoluto da instalação existente. `PLAYWRIGHT_BROWSERS_PATH` e `LD_LIBRARY_PATH` podem ser necessários conforme a instalação dos navegadores. `PORTAL_URL` aceita outra origem/porta, com `/` final. `RELATORIO_DIR` escolhe onde salvar relatórios e screenshots; o padrão é `liceu-fluxos` na pasta temporária do sistema.
@@ -64,3 +65,11 @@ modais públicos e administrativos; biografia extensa; favoritos combinados
 com busca/filtros/ordenação, paginação, persistência e atualização entre abas.
 Executa Chromium/Firefox em 1280/768/375px, sem modificar as bases JSON.
 Capturas e relatório ficam em `RELATORIO_DIR/rodada-atual/depois`.
+
+`identidade.cjs` mede 24 pares de tokens (texto, estados, bordas e foco) e
+o contraste do texto renderizado, incluindo placeholders, menus abertos,
+favoritos ativos, login e navegação dos dois painéis. Verifica overflow em
+Chromium/Firefox em 1280/768/375px e aguarda o fim das transições antes de
+medir. O relatório fica em `RELATORIO_DIR/identidade/contraste.json`.
+A medição considera superfícies CSS e não certifica imagens, conteúdo de
+iframes externos ou a experiência com leitores de tela.
