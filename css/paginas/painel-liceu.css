@@ -305,3 +305,16 @@
     background-color: var(--cor-superficie-forte);
     font-weight: var(--peso-semi);
 }
+
+/* Cabeçalhos dos cards de configurações preservam a linha de base do grid. */
+@media (min-width: 1024px) {
+    .liceu-bloco-config__cabecalho {
+        min-height: calc(var(--espaco-8) + var(--espaco-7));
+    }
+}
+
+@media (min-width: 1280px) {
+    .liceu-bloco-config__cabecalho {
+        min-height: calc(var(--espaco-8) + var(--espaco-6));
+    }
+}

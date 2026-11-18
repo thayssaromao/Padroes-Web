@@ -174,7 +174,7 @@ Classes ficam em [`css/componentes.css`](../css/componentes.css). Nomenclatura: 
 |---|---|---|---|
 | Primário | `.btn.btn--primario` | fundo `--cor-primaria`, texto branco | Ação principal da tela (1 por área): "Cadastrar novo artesão", "Enviar para análise" |
 | Secundário | `.btn.btn--secundario` | fundo branco, borda `--cor-borda-forte` | "Ver trabalhos pendentes", "Analisar", "Ver perfil" |
-| Suave | `.btn.btn--suave` | fundo `--cor-superficie-forte`, borda `--cor-borda` | Botões do hero do portal, "Rascunho", "Editar" |
+| Suave | `.btn.btn--suave` | fundo `--cor-superficie-forte`, borda `--cor-borda` | Botões do hero do portal e "Editar" |
 | Link | `.btn.btn--link` | sem fundo, sublinhado | "Cancelar", "Ver motivo" |
 | Ícone | `.btn.btn--icone` | quadrado 44×44, só ícone + `aria-label` e `title` | "⋯", olho, lápis, lixeira, setas do carrossel |
 | Bloco | `+ .btn--bloco` | `width: 100%` | "Ver perfil →" nos cards |
@@ -218,6 +218,7 @@ Pílula com ícone + texto. **Nunca só cor** — o texto sempre aparece.
 | `reenviado` | Reenviado | `lucide:refresh-cw` |
 | `ativo` | Ativo | `lucide:circle-check` |
 | `inativo` | Inativo | `lucide:circle-x` |
+| `oculto` | Oculto pelo Liceu | `lucide:eye-off` |
 
 Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 
@@ -247,7 +248,7 @@ Proporção 16:7 no desktop, 4:3 no smartphone; raio `--raio-medio`.
 ### 5.8 Busca e barra de filtros
 
 - `.busca`: input largo com ícone `lucide:search`, fundo `--cor-superficie`, dentro de `<search>`/`<form role="search">`.
-- `.barra-filtros`: linha com busca + rótulos/selects ("Filtrar por categoria/técnica", "Ordenar por") separados por divisórias verticais; quebra em coluna no smartphone.
+- `.barra-filtros`: linha com busca + rótulos/selects ("Filtrar por categoria/técnica", "Ordenar por") agrupados com gap, sem divisórias verticais; quebra em coluna no smartphone.
 - `.alternar-visualizacao`: dois `.btn--icone` (`lucide:layout-grid` / `lucide:list`) com `aria-pressed`; ativo = fundo `--cor-primaria` e ícone branco.
 - `.resultado-contagem`: "Exibindo 1 - 12 de 64 artesãos" (`--fonte-pequena`), com `aria-live="polite"`.
 
@@ -522,3 +523,5 @@ Filtros compactos usam rótulos curtos (“Status”, “Categoria/Técnica”, 
 Listas de taxonomias usam seções `.lista-taxonomias` dentro do padding do card: “Categorias cadastradas” e “Técnicas cadastradas”, cada uma com `criarChips`. Os chips são informação estática, não controles de edição. Configurações futuras continuam desabilitadas.
 
 A preparação de ações é idempotente: não reaplica atributos de ícones já corretos. Os ícones da parcial são preparados imediatamente (`noobserver`), inclusive antes de mudar a página de uma listagem, para evitar controles temporariamente vazios. Remoção de chip/miniatura mantém o × convencional. Ações em cards preservam a área mínima de toque, mesmo em blocos de estado compactos.
+
+Os cabeçalhos de configurações reutilizam `.bloco-form__cabecalho--secao`, com wrapper de ícone e texto. No grid desktop, a altura mínima comum acomoda as descrições sem deslocar o início do conteúdo entre cards vizinhos; em telas menores, a altura volta a ser natural.
