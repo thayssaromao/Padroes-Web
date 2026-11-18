@@ -21,3 +21,7 @@
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
 }
+
+.produto-atributos iconify-icon {
+    color: var(--cor-primaria);
+}

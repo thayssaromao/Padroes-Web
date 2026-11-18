@@ -2,3 +2,14 @@
    paginas/inicio.css — estilos exclusivos da página
    Guia: docs/DESIGN.md (use só tokens e componentes do guia)
    ========================================================= */
+
+/* Grafismos em background preservam a geometria e as imagens. */
+.inicio-hero {
+    background-color: var(--cor-editorial);
+    background-image: radial-gradient(circle at 100% 0, var(--cor-acento) 0 2.5rem, transparent 2.6rem),
+        radial-gradient(circle at 0 100%, var(--marca-turquesa) 0 1.5rem, transparent 1.6rem);
+}
+
+.secao[aria-labelledby="inicio-artesaos"] {
+    background-color: var(--cor-editorial-alternada);
+}
