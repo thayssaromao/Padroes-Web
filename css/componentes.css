@@ -508,12 +508,11 @@ input[type="checkbox"] {
     gap: var(--espaco-4);
     padding: var(--espaco-4) var(--espaco-5);
     text-decoration: none;
-    background-color: transparent;
+    background-color: var(--cor-superficie-card);
     color: var(--cor-texto);
-    border-color: transparent;
-    border-bottom-color: var(--cor-primaria);
-    border-radius: 0;
-    box-shadow: none;
+    border-color: var(--cor-borda);
+    border-radius: var(--raio-medio);
+    box-shadow: var(--sombra-card);
 }
 
 .card-atalho > iconify-icon {
@@ -524,9 +523,8 @@ input[type="checkbox"] {
 .card-atalho.card--clicavel:hover,
 .card-atalho.card--clicavel:focus-within {
     transform: none;
-    border-color: transparent;
-    border-bottom-color: var(--cor-primaria);
-    box-shadow: none;
+    border-color: var(--cor-primaria);
+    box-shadow: var(--sombra-card);
 }
 
 .card-atalho:hover .card-atalho__titulo,
