@@ -17,6 +17,7 @@ import {
     icone,
     iniciarCarrossel,
     mostrarAviso,
+    prepararAcoes,
     prepararModais
 } from "../componentes.js";
 
@@ -299,6 +300,7 @@ async function iniciarArtesaos(raiz) {
             + `${lista.length} artesãos`
         );
         renderizarPaginacao(lista.length);
+        prepararAcoes(raiz);
         const filtros = Number(Boolean(estado.categoria)) + Number(Boolean(estado.tecnica));
         raiz.querySelector("#artesaos-filtrar-texto").textContent = (
             filtros > 0 ? `Filtrar (${filtros})` : "Filtrar"

@@ -12,7 +12,8 @@ import {
     criarStatus,
     escaparHtml,
     icone,
-    mostrarAviso
+    mostrarAviso,
+    prepararAcoes
 } from "../componentes.js";
 import {
     buscarArtesao,
@@ -44,6 +45,12 @@ function confirmar(titulo, mensagem, texto = "Confirmar") {
             + "<button type=\"button\" class=\"btn btn--primario\""
             + " data-confirmar>" + escaparHtml(texto) + "</button>"
         );
+        modal.classList.add("modal--pequeno");
+        modal.classList.remove("modal--medio");
+        if (texto === "Excluir" || texto === "Descartar") {
+            const botao = modal.querySelector("[data-confirmar]");
+            botao.classList.replace("btn--primario", "btn--perigo");
+        }
         modal.addEventListener("close", function () {
             resolver(modal.returnValue === "confirmado");
         });
@@ -560,6 +567,7 @@ function abrirMenuTrabalho(trabalho, aoMudar) {
                 + " data-excluir>Excluir</button>"
             : "")
     );
+    modal.querySelector(".modal__acoes").classList.add("modal__acoes--grade");
     modal.addEventListener("click", async function (evento) {
         const botao = evento.target.closest("button");
         if (!botao || botao.disabled) {
@@ -607,9 +615,10 @@ function abrirMenuTrabalho(trabalho, aoMudar) {
 function verMotivo(trabalho) {
     const modal = dialogo(
         "Motivo da rejeição",
-        "<h3>" + escaparHtml(trabalho.titulo) + "</h3><p>"
+        "<div class=\"pilha\"><h3>" + escaparHtml(trabalho.titulo)
+        + "</h3><p>"
         + escaparHtml(trabalho.motivoRejeicao || "Nenhum motivo informado.")
-        + "</p>",
+        + "</p></div>",
         "<button type=\"button\" class=\"btn btn--secundario\""
         + " data-fechar-modal>Voltar</button>"
         + "<button type=\"button\" class=\"btn btn--primario\""
@@ -657,11 +666,7 @@ function criarBotaoAcao(acao, id, nomeIcone, texto, classes) {
     return (
         `<button type="button" class="btn ${classes}"`
         + ` data-acao="${acao}" data-id="${escaparHtml(id)}">`
-        + (
-            classes.includes("btn--link")
-            ? texto + icone(nomeIcone)
-            : icone(nomeIcone) + texto
-        )
+        + icone(nomeIcone) + texto
         + "</button>"
     );
 }
@@ -689,13 +694,7 @@ function criarEstadoTrabalho(trabalho) {
     if (trabalho.status === "rascunho") {
         return (
             "<div class=\"artesao-estado artesao-estado--compacto\">"
-            + criarBotaoAcao(
-                "editar",
-                trabalho.id,
-                "lucide:file",
-                "Rascunho",
-                "btn--suave btn--pequeno"
-            )
+            + criarStatus("rascunho")
             + criarBotaoAcao(
                 "enviar",
                 trabalho.id,
@@ -813,6 +812,8 @@ async function montarTrabalhos(raiz) {
             ? criarPaginacao(estado.pagina, totalPaginas)
             : ""
         );
+        prepararAcoes(grade);
+        prepararAcoes(raiz.querySelector("[data-paginacao]"));
     }
 
     function voltarEDesenhar() {
@@ -916,6 +917,7 @@ function ligarUpload(raiz, iniciais = []) {
                     : "") + "</li>"
             );
         }).join("");
+        prepararAcoes(lista);
     }
 
     function adicionar(arquivos) {
@@ -1300,6 +1302,7 @@ async function montarStatus(raiz) {
             status: raiz.querySelector("[data-filtro-status]").value
         }).sort(COMPARADORES[estado.ordem]);
         corpo.innerHTML = lista.map(criarLinhaStatus).join("");
+        prepararAcoes(corpo);
         raiz.querySelector("[data-vazio]").hidden = lista.length > 0;
     }
 

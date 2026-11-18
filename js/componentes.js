@@ -478,6 +478,8 @@ function criarDialogo(titulo, corpo, acoes = "", opcoes = {}) {
     );
     raiz.append(modal);
     prepararModais(raiz);
+    prepararCamposSenha(modal);
+    prepararAcoes(modal);
     modal.addEventListener("close", function () {
         modal.remove();
     });

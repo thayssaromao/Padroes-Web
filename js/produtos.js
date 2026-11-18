@@ -1,6 +1,6 @@
 /*jslint browser */
 import {carregarCategorias} from "./dados.js";
-import {criarPaginacao, escaparHtml} from "./componentes.js";
+import {criarPaginacao, escaparHtml, prepararAcoes} from "./componentes.js";
 import {
     carregarVitrine,
     criarCardPublico,
@@ -121,6 +121,8 @@ async function inicializarProdutos(raiz) {
             const destino = Number(botao.dataset.pagina);
             botao.disabled = destino < 1 || destino > paginas;
         });
+        prepararAcoes(grade);
+        prepararAcoes(paginacao);
         sincronizarPilulas();
     }
 

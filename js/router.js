@@ -22,7 +22,7 @@ import {
     montarPainel
 } from "./layout.js";
 import {obterSessao, sessaoDemonstracao} from "./dados.js";
-import {mostrarAviso, padronizarIcones} from "./componentes.js";
+import {mostrarAviso, padronizarIcones, prepararAcoes} from "./componentes.js";
 import {abrirLogin} from "./paginas/login.js";
 
 /**
@@ -169,7 +169,7 @@ async function carregarPagina() {
     }
 
     conteudo.innerHTML = html;
-    padronizarIcones(conteudo);
+    prepararAcoes(conteudo);
     conteudo.classList.remove("entrando");
     conteudo.getBoundingClientRect();
     conteudo.classList.add("entrando");
@@ -188,6 +188,9 @@ async function carregarPagina() {
     if (rota.iniciar) {
         try {
             await rota.iniciar(conteudo);
+            if (minha === navegacao) {
+                prepararAcoes(raiz);
+            }
         } catch (falha) {
             if (minha === navegacao) {
                 mostrarAviso("Não foi possível concluir o carregamento. "
@@ -221,6 +224,8 @@ function interceptarLinkLogin(evento) {
     abrirLogin();
 }
 
+padronizarIcones(document);
+prepararAcoes(document);
 iniciarMenuPortal();
 document.addEventListener("click", interceptarLinkLogin);
 window.addEventListener("hashchange", carregarPagina);

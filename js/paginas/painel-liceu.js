@@ -5,14 +5,18 @@
  */
 
 import {
+    conteudoAcao,
+    criarCampoSenha,
     criarCardEstatistica,
     criarChips,
+    criarDetalhesTrabalho,
     criarDialogo,
     criarPaginacao,
     criarStatus,
     escaparHtml,
     icone,
     mostrarAviso,
+    prepararAcoes,
     prepararCamposSenha
 } from "../componentes.js";
 import {
@@ -68,9 +72,13 @@ async function atualizarAba() {
     }
     raiz.innerHTML = html;
     await inicios[aba](raiz);
+    prepararAcoes(raiz);
 }
 
 function campo(nome, rotulo, valor = "", tipo = "text", obrigatorio = false) {
+    if (tipo === "password") {
+        return criarCampoSenha("liceu-" + nome, nome, rotulo, obrigatorio);
+    }
     return (
         "<div class=\"campo\"><label class=\"campo__rotulo\""
         + ` for="liceu-${nome}">${escaparHtml(rotulo)}</label>`
@@ -163,31 +171,7 @@ async function obterTrabalho(id) {
 }
 
 function detalhesTrabalho(trabalho) {
-    return (
-        "<div class=\"grade-cards\">"
-        + (trabalho.imagens || []).map(function (imagem) {
-            return (
-                `<img class="card-produto__imagem" src="${escaparHtml(imagem)}"`
-                + ` alt="${escaparHtml(trabalho.titulo)}" width="240"`
-                + " height=\"180\" loading=\"lazy\">"
-            );
-        }).join("") + "</div><p><strong>Artesão:</strong> "
-        + escaparHtml(trabalho.artesaoNome || "") + "</p><p>"
-        + criarStatus(trabalho.status) + "</p>"
-        + criarChips([trabalho.categoria, trabalho.tecnica])
-        + "<p>" + escaparHtml(trabalho.descricao || "") + "</p>"
-        + "<p><strong>Materiais:</strong> "
-        + escaparHtml(trabalho.materiais || "Não informado") + "</p>"
-        + "<p><strong>Dimensões:</strong> "
-        + escaparHtml(trabalho.dimensoes || "Não informado") + "</p>"
-        + "<p><strong>Preço:</strong> "
-        + (trabalho.preco === null || trabalho.preco === undefined
-            ? "Sob consulta"
-            : Number(trabalho.preco).toLocaleString("pt-BR", {
-                currency: "BRL",
-                style: "currency"
-            })) + "</p>"
-    );
+    return criarDetalhesTrabalho(trabalho);
 }
 
 async function analisarTrabalho(id) {
@@ -204,7 +188,7 @@ async function analisarTrabalho(id) {
     }
     const modal = dialogo("Analisar: " + trabalho.titulo,
         detalhesTrabalho(trabalho)
-        + "<form><div class=\"campo\" data-motivo hidden>"
+        + "<form aria-label=\"Decisão da análise\"><div class=\"campo\" data-motivo hidden>"
         + "<label for=\"liceu-motivo\" class=\"campo__rotulo\">"
         + "Motivo da rejeição *</label><textarea id=\"liceu-motivo\""
         + " name=\"motivo\" class=\"campo__entrada\" rows=\"4\"></textarea>"
@@ -255,7 +239,7 @@ async function analisarTrabalho(id) {
         if (area.hidden) {
             area.hidden = false;
             motivo.focus();
-            rejeitar.textContent = "Confirmar rejeição";
+            rejeitar.innerHTML = conteudoAcao("Confirmar rejeição");
             return;
         }
         motivo.setCustomValidity(motivo.value.trim()
@@ -656,6 +640,7 @@ function ligarListagem(raiz, config) {
         fragmento.append(linha);
     });
     corpo.replaceChildren(fragmento);
+    prepararAcoes(corpo);
 
     function atualizarPaginacao(total) {
         if (total !== totalPaginas) {
@@ -739,6 +724,7 @@ function ligarListagem(raiz, config) {
         );
         paginacao.hidden = lista.length === 0;
         atualizarPaginacao(total);
+        prepararAcoes(paginacao);
         if (focar) {
             paginacao.querySelector("[aria-current]").focus({
                 preventScroll: true
@@ -1052,6 +1038,7 @@ async function montarCadastro(raiz) {
         "beforeend",
         criarOpcoes(categorias.tecnicas)
     );
+    prepararAcoes,
     prepararCamposSenha(formulario);
     senha.addEventListener("input", conferirSenhas);
     confirmar.addEventListener("input", conferirSenhas);
@@ -1370,11 +1357,15 @@ async function montarConfiguracoes(raiz) {
         controle.disabled = true;
         controle.setAttribute("aria-describedby", "config-mvp");
     });
-    const listas = raiz.querySelector("#config-categorias").closest("section");
-    listas.insertAdjacentHTML("beforeend", "<p><strong>Categorias:</strong> "
-        + escaparHtml(categorias.categorias.join(", "))
-        + "</p><p><strong>Técnicas:</strong> "
-        + escaparHtml(categorias.tecnicas.join(", ")) + "</p>");
+    const listas = raiz.querySelector("#config-categorias")
+        .closest("section").querySelector(".liceu-bloco-config__corpo");
+    listas.insertAdjacentHTML("beforeend",
+        '<section class="lista-taxonomias" aria-labelledby="categorias-lista">'
+        + '<h3 id="categorias-lista">Categorias cadastradas</h3>'
+        + criarChips(categorias.categorias) + '</section>'
+        + '<section class="lista-taxonomias" aria-labelledby="tecnicas-lista">'
+        + '<h3 id="tecnicas-lista">Técnicas cadastradas</h3>'
+        + criarChips(categorias.tecnicas) + '</section>');
     formulario.addEventListener("submit", function (evento) {
         evento.preventDefault();
     });

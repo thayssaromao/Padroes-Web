@@ -7,6 +7,7 @@ import {
     fecharModal,
     icone,
     iniciarCarrossel,
+    prepararAcoes,
     prepararModais
 } from "../componentes.js";
 import {
@@ -120,6 +121,8 @@ async function iniciarSaberes(raiz) {
             const destino = Number(botao.dataset.pagina);
             botao.disabled = destino < 1 || destino > paginas;
         });
+        prepararAcoes(grade);
+        prepararAcoes(paginacao);
         chips.querySelectorAll("[data-filtro]").forEach(function (botao) {
             botao.setAttribute("aria-pressed", String(
                 botao.dataset.filtro === tecnica
