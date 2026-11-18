@@ -176,6 +176,9 @@ function sair() {
 async function montarPainel(raiz, layout, painel, sessao) {
     const resposta = await fetch(ARQUIVO_PAINEL);
     raiz.innerHTML = await resposta.text();
+    if (layout === "painel-liceu") {
+        raiz.querySelector("[data-ajuda-artesao]").remove();
+    }
 
     const lateral = raiz.querySelector("#painel-lateral");
     const botaoMenu = raiz.querySelector(".painel__menu");
