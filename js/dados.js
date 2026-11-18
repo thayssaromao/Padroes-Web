@@ -10,19 +10,9 @@
 const CHAVE_SESSAO = "liceu:sessao";
 const cache = new Map();
 
-const SESSOES_DEMONSTRACAO = Object.freeze({
-    "painel-artesao": {
-        artesaoId: "ana-martins",
-        foto: "assets/img/artesaos/ana-martins.jpg",
-        nome: "Ana Martins Mock",
-        perfil: "painel-artesao"
-    },
-    "painel-liceu": {
-        foto: "assets/img/avatar-padrao.jpg",
-        nome: "Administração",
-        perfil: "painel-liceu"
-    }
-});
+const CHAVE_TRABALHOS = "liceu:trabalhos";
+const PERFIL_ARTESAO = "painel-artesao";
+const PERFIL_LICEU = "painel-liceu";
 
 /**
  * Lê um arquivo JSON uma única vez e guarda o resultado em memória.
@@ -47,9 +37,16 @@ function carregarArtesaos() {
     return lerJson("data/artesaos.json");
 }
 
-/** @returns {Promise<Array<object>>} lista de trabalhos (produtos) */
-function carregarTrabalhos() {
-    return lerJson("data/trabalhos.json");
+/** @returns {Promise<Array<object>>} trabalhos do JSON com as alterações salvas no navegador */
+async function carregarTrabalhos() {
+    const base = await lerJson("data/trabalhos.json");
+    const locais = lerTrabalhosLocais();
+    const ids = new Set(locais.map(function (trabalho) {
+        return trabalho.id;
+    }));
+    return base.filter(function (trabalho) {
+        return !ids.has(trabalho.id);
+    }).concat(locais);
 }
 
 /** @returns {Promise<{categorias: string[], tecnicas: string[]}>} */
@@ -60,6 +57,11 @@ function carregarCategorias() {
 /** @returns {Promise<Array<object>>} catálogo de técnicas artesanais */
 function carregarTecnicas() {
     return lerJson("data/tecnicas.json");
+}
+
+/** @returns {Promise<Array<object>>} contas de teste (sem back-end) */
+function carregarUsuarios() {
+    return lerJson("data/usuarios.json");
 }
 
 /**
@@ -78,6 +80,13 @@ async function buscarArtesao(id) {
  * @returns {Promise<Array<object>>}
  */
 async function trabalhosDoArtesao(artesaoId) {
+    const sessao = obterSessao();
+    if (
+        !sessao
+        || (sessao.perfil === PERFIL_ARTESAO && sessao.artesaoId !== artesaoId)
+    ) {
+        throw new Error("Acesso não permitido.");
+    }
     const trabalhos = await carregarTrabalhos();
     return trabalhos.filter(function (trabalho) {
         return trabalho.artesaoId === artesaoId;
@@ -157,36 +166,136 @@ function encerrarSessao() {
 }
 
 /**
- * Sessão fictícia usada enquanto a tela de login não existe.
- * @param {string} layout "painel-liceu" | "painel-artesao"
- * @returns {object}
+ * Valida e-mail e senha contra data/usuarios.json e abre a sessão.
+ * A senha nunca é guardada na sessão. Sem back-end, isto é só controle
+ * de interface para demonstração: não é segurança real.
+ * @param {string} email
+ * @param {string} senha
+ * @returns {Promise<object|null>} sessão aberta ou null se inválido
  */
-function sessaoDemonstracao(layout) {
-    return SESSOES_DEMONSTRACAO[layout];
+async function autenticar(email, senha) {
+    const usuarios = await carregarUsuarios();
+    const usuario = usuarios.find(function (item) {
+        return (
+            item.email === String(email).trim().toLowerCase()
+            && item.senha === senha
+        );
+    });
+    if (!usuario) {
+        return null;
+    }
+    const {senha: ignore, ...sessao} = usuario;
+    salvarSessao(sessao);
+    return sessao;
+}
+
+/**
+ * Garante que há sessão do perfil exigido; senão lança erro.
+ * Protege as operações de escrita mesmo se a interface for burlada.
+ * @param {string} perfil "painel-artesao" | "painel-liceu"
+ * @returns {object} a sessão
+ */
+function exigirPerfil(perfil) {
+    const sessao = obterSessao();
+    if (!sessao || sessao.perfil !== perfil) {
+        throw new Error("Acesso não permitido.");
+    }
+    return sessao;
 }
 
 // ===== Escrita (a implementar) =====
 
+/** @returns {Array<object>} trabalhos criados ou alterados neste navegador */
+function lerTrabalhosLocais() {
+    try {
+        return JSON.parse(localStorage.getItem(CHAVE_TRABALHOS)) ?? [];
+    } catch (ignore) {
+        return [];
+    }
+}
+
+/** @param {object} trabalho grava (ou substitui, pelo id) no localStorage */
+function gravarTrabalhoLocal(trabalho) {
+    const locais = lerTrabalhosLocais().filter(function (item) {
+        return item.id !== trabalho.id;
+    });
+    locais.push(trabalho);
+    localStorage.setItem(CHAVE_TRABALHOS, JSON.stringify(locais));
+}
+
 /**
- * Cria ou atualiza um trabalho no localStorage.
+ * Cria ou atualiza um trabalho do artesão logado. O dono é sempre o
+ * artesão da sessão, e só ele pode alterar um trabalho existente.
  * @param {object} trabalho
- * @returns {Promise<object>}
+ * @returns {Promise<object>} o trabalho salvo
  */
-function salvarTrabalho(trabalho) {
-    // A IMPLEMENTAR: salvar no localStorage + data/trabalhos.json.
-    return Promise.resolve(trabalho);
+async function salvarTrabalho(trabalho) {
+    const sessao = exigirPerfil(PERFIL_ARTESAO);
+    const todos = await carregarTrabalhos();
+    const atual = todos.find(function (item) {
+        return item.id === trabalho.id;
+    });
+    if (atual && atual.artesaoId !== sessao.artesaoId) {
+        throw new Error("Acesso não permitido.");
+    }
+    const agora = new Date().toISOString();
+    const status = trabalho.status ?? "rascunho";
+    const salvo = Object.assign({}, atual, trabalho, {
+        artesaoId: sessao.artesaoId,
+        atualizadoEm: agora,
+        id: (atual ? atual.id : "trabalho-" + Date.now()),
+        status
+    });
+    if (status === "em-analise" || status === "reenviado") {
+        salvo.enviadoEm = agora;
+        salvo.motivoRejeicao = null;
+    }
+    gravarTrabalhoLocal(salvo);
+    return salvo;
 }
 
 /**
  * Aprova ou rejeita um trabalho (fluxo de moderação do Liceu).
+ * Exige perfil de administrador e que o trabalho esteja aguardando análise.
  * @param {string} id
  * @param {string} status "publicado" | "rejeitado"
- * @param {string} [motivo]
- * @returns {Promise<void>}
+ * @param {string} [motivo] obrigatório na rejeição
+ * @returns {Promise<object>} o trabalho atualizado
  */
-function atualizarStatusTrabalho(id, status, motivo) {
-    // A IMPLEMENTAR: alterar status, registrar motivo e data de análise.
-    return Promise.resolve({id, motivo, status});
+async function atualizarStatusTrabalho(id, status, motivo) {
+    exigirPerfil(PERFIL_LICEU);
+    const todos = await carregarTrabalhos();
+    const atual = todos.find(function (item) {
+        return item.id === id;
+    });
+    const analisavel = (
+        atual
+        && (atual.status === "em-analise" || atual.status === "reenviado")
+    );
+    if (!analisavel || !["publicado", "rejeitado"].includes(status)) {
+        throw new Error("Trabalho não pode ser analisado.");
+    }
+    if (status === "rejeitado" && !String(motivo ?? "").trim()) {
+        throw new Error("Informe o motivo da rejeição.");
+    }
+    const agora = new Date().toISOString();
+    const analisado = Object.assign({}, atual, {
+        analisadoEm: agora,
+        atualizadoEm: agora,
+        motivoRejeicao: (
+            status === "rejeitado"
+            ? String(motivo).trim()
+            : null
+        ),
+        publicadoEm: (
+            status === "publicado"
+            ? agora
+            : atual.publicadoEm
+        ),
+        status
+    });
+    gravarTrabalhoLocal(analisado);
+    return analisado;
 }
 
 /**
@@ -201,19 +310,21 @@ function salvarArtesao(artesao) {
 
 export {
     atualizarStatusTrabalho,
+    autenticar,
     buscarArtesao,
     carregarArtesaos,
     carregarCategorias,
     carregarTecnicas,
     carregarTrabalhos,
+    carregarUsuarios,
     comNomeDoArtesao,
     contarPorStatus,
     encerrarSessao,
+    exigirPerfil,
     formatarData,
     obterSessao,
     salvarArtesao,
     salvarSessao,
     salvarTrabalho,
-    sessaoDemonstracao,
     trabalhosDoArtesao
 };

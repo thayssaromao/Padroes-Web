@@ -1,5 +1,5 @@
 <!-- Janela de login: <dialog> aberto por js/paginas/login.js quando o caminho é "#/login".
-     Por enquanto é só o visual; a lógica de autenticação vai ser feita depois (issue #25). -->
+     Contas de teste em data/usuarios.json (admin@liceu.mock e artesao@liceu.mock). -->
 <dialog class="modal modal--pequeno modal-login" id="modal-login" aria-labelledby="login-titulo">
     <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
 
@@ -7,7 +7,7 @@
     <h2 class="modal__titulo" id="login-titulo">Acesse sua conta</h2>
     <p class="modal__descricao">Entre para acessar os recursos do portal do artesão</p>
 
-    <form class="modal__corpo modal-login__form">
+    <form class="modal__corpo modal-login__form" id="login-form">
         <div class="campo">
             <label for="login-email" class="visualmente-oculto">E-mail</label>
             <div class="campo__grupo">
@@ -36,7 +36,7 @@
             <a href="#/login" class="modal-login__esqueci">Esqueci minha senha</a>
         </div>
 
-        <!-- type="button" pra nao recarregar a pagina, quando tiver a logica muda pra submit -->
-        <button type="button" class="btn btn--primario btn--bloco modal-login__entrar">Entrar</button>
+        <p class="modal-login__erro" id="login-erro" role="alert" hidden></p>
+        <button type="submit" class="btn btn--primario btn--bloco modal-login__entrar">Entrar</button>
     </form>
 </dialog>

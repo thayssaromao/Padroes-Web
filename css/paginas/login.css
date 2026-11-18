@@ -52,3 +52,9 @@
 .modal-login__entrar {
     margin-top: var(--espaco-4);
 }
+
+.modal-login__erro {
+    color: var(--cor-erro);
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-semi);
+}

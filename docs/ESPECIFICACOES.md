@@ -56,10 +56,19 @@ Rotas inexistentes recaem na parcial de fallback `pages/nao-encontrado.html`.
 - Links para `#/login` (como o "Entrar" do cabeçalho) são interceptados no `router.js` e abrem o modal direto, sem alterar o hash nem criar entrada no histórico.
 - Se o endereço `#/login` for acessado diretamente (ou pela guarda de rota), o `router.js` troca o hash de volta para a página anterior com `history.replaceState` e abre o modal; num primeiro acesso, a página por baixo é `#/inicio`.
 
-**Proteção de rotas restritas:**
-Como ainda não há back-end, as áreas restritas (`#/painel-artesao` e `#/painel-liceu`) são protegidas no cliente por uma guarda de rota no `router.js`: antes de carregar a parcial, verifica-se a sessão persistida no `localStorage` e, na ausência de sessão válida (ou de permissão compatível com o painel), o usuário é redirecionado para `#/login`, que abre o modal de login sobre a última página permitida.
+**Controle de acesso por perfil.** Como ainda não há back-end, o controle é feito no cliente e serve só para o fluxo e a demonstração (não é segurança real). A sessão fica no `localStorage` (`liceu:sessao`) e o campo `perfil` tem o mesmo valor do `layout` das rotas:
+- `painel-artesao`: acessa só `#/painel-artesao/*` (próprio perfil, seus trabalhos, cadastro e edição).
+- `painel-liceu` (administrador): acessa só `#/painel-liceu/*` (trabalhos pendentes, análise, aprovação e rejeição).
+- O `router.js` verifica o acesso antes de carregar a parcial: sem sessão, redireciona para `#/login` e, após entrar, volta à página pedida; com outro perfil, bloqueia, avisa e leva ao painel do próprio perfil. Quem já entrou e abre `#/login` vai ao seu painel.
+- `js/dados.js` repete a verificação nas operações de escrita (`salvarTrabalho`, `atualizarStatusTrabalho`) e na leitura dos trabalhos de um artesão (`exigirPerfil`). O artesão só altera trabalhos próprios; só o administrador aprova ou rejeita, e a rejeição exige motivo.
+- Trabalhos criados ou analisados ficam em `localStorage` (`liceu:trabalhos`) e se sobrepõem a `data/trabalhos.json`.
 
-> Enquanto a autenticação não existe (o modal de login ainda é só visual — issue #25), a guarda fica desligada pela constante `GUARDA_ATIVA = false` em `js/router.js`, e os painéis usam uma sessão de demonstração (`sessaoDemonstracao` em `js/dados.js`).
+Contas de teste (`data/usuarios.json`, senhas em texto puro só para demonstração):
+
+| Perfil | E-mail | Senha |
+|---|---|---|
+| Administrador | `admin@liceu.mock` | `admin123` |
+| Artesão (Ana Martins) | `artesao@liceu.mock` | `artesao123` |
 
 # Convenções
 - Pull Requests (PRs): Todo merge para a main deve passar por revisão cruzada de pelo menos um colega da equipe

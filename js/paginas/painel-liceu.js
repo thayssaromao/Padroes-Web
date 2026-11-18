@@ -7,14 +7,18 @@
 import {
     criarCardEstatistica,
     criarChips,
+    abrirModal,
     criarPaginacao,
     criarStatus,
     escaparHtml,
+    fecharModal,
     icone,
     mostrarAviso,
-    prepararCamposSenha
+    prepararCamposSenha,
+    prepararModais
 } from "../componentes.js";
 import {
+    atualizarStatusTrabalho,
     carregarArtesaos,
     carregarCategorias,
     carregarTrabalhos,
@@ -29,13 +33,100 @@ const POR_PAGINA = 5;
 
 // ===== Ações ainda sem tela (stubs) =====
 
+const ID_MODAL_ANALISE = "modal-analise";
+
 /**
- * Abre a análise de um trabalho pendente.
+ * Cria (uma vez) o popup de análise dentro do conteúdo atual.
+ * @param {HTMLElement} raiz o <main id="conteudo">
+ * @returns {HTMLDialogElement}
+ */
+function garantirModalAnalise(raiz) {
+    let modal = document.getElementById(ID_MODAL_ANALISE);
+    if (!modal) {
+        raiz.insertAdjacentHTML("beforeend",
+            `<dialog class="modal modal--medio" id="${ID_MODAL_ANALISE}"`
+            + " aria-labelledby=\"analise-titulo\">"
+            + "<button type=\"button\" class=\"modal__fechar\""
+            + " aria-label=\"Fechar\">" + icone("lucide:circle-x")
+            + "</button><h2 class=\"modal__titulo\" id=\"analise-titulo\">"
+            + "</h2><div data-analise-detalhes></div>"
+            + "<div class=\"campo\"><label class=\"campo__rotulo\""
+            + " for=\"analise-motivo\">Motivo da rejeição"
+            + " (obrigatório para rejeitar)</label>"
+            + "<textarea id=\"analise-motivo\" class=\"campo__entrada\""
+            + " rows=\"3\"></textarea></div>"
+            + "<p role=\"alert\" data-analise-erro hidden></p>"
+            + "<div class=\"modal__acoes\">"
+            + "<button type=\"button\" class=\"btn btn--secundario\""
+            + " data-decisao=\"rejeitado\">" + icone("lucide:circle-x")
+            + "Rejeitar</button>"
+            + "<button type=\"button\" class=\"btn btn--primario\""
+            + " data-decisao=\"publicado\">" + icone("lucide:circle-check")
+            + "Aprovar</button></div></dialog>"
+        );
+        prepararModais(raiz);
+        modal = document.getElementById(ID_MODAL_ANALISE);
+    }
+    return modal;
+}
+
+/**
+ * Abre a análise de um trabalho pendente: detalhes, aprovar e rejeitar.
+ * Só o administrador chega aqui; atualizarStatusTrabalho valida de novo.
  * @param {string} id id do trabalho
  */
-function analisarTrabalho(id) {
-    // A IMPLEMENTAR: abrir o popup de análise (aprovar ou rejeitar).
-    mostrarAviso("Em breve: analisar o trabalho " + id + ".");
+async function analisarTrabalho(id) {
+    const raiz = document.getElementById("conteudo");
+    const trabalhos = await comNomeDoArtesao(await carregarTrabalhos());
+    const trabalho = trabalhos.find(function (item) {
+        return item.id === id;
+    });
+    if (!trabalho) {
+        mostrarAviso("Trabalho não encontrado.");
+        return;
+    }
+    const modal = garantirModalAnalise(raiz);
+    const erro = modal.querySelector("[data-analise-erro]");
+    const motivo = modal.querySelector("#analise-motivo");
+    erro.hidden = true;
+    motivo.value = "";
+    modal.querySelector("#analise-titulo").textContent = trabalho.titulo;
+    modal.querySelector("[data-analise-detalhes]").innerHTML = (
+        "<p>" + icone("lucide:user") + escaparHtml(trabalho.artesaoNome)
+        + "</p><p>" + criarChips([trabalho.tecnica, trabalho.categoria])
+        + "</p><p>" + criarStatus(trabalho.status) + " · enviado em "
+        + formatarData(trabalho.enviadoEm) + "</p>"
+        + "<p>" + escaparHtml(trabalho.descricao ?? "") + "</p>"
+        + "<p><strong>Materiais:</strong> "
+        + escaparHtml(trabalho.materiais ?? "—") + "</p>"
+        + "<p><strong>Dimensões:</strong> "
+        + escaparHtml(trabalho.dimensoes ?? "—") + "</p>"
+    );
+    modal.onclick = async function (evento) {
+        const botao = evento.target.closest("[data-decisao]");
+        if (!botao) {
+            return;
+        }
+        try {
+            await atualizarStatusTrabalho(
+                trabalho.id,
+                botao.dataset.decisao,
+                motivo.value
+            );
+        } catch (falha) {
+            erro.textContent = falha.message;
+            erro.hidden = false;
+            return;
+        }
+        fecharModal(ID_MODAL_ANALISE);
+        mostrarAviso(
+            botao.dataset.decisao === "publicado"
+            ? "Trabalho aprovado e publicado."
+            : "Trabalho rejeitado."
+        );
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
+    };
+    abrirModal(ID_MODAL_ANALISE);
 }
 
 /**
