@@ -218,8 +218,8 @@
 
 .catalogo-conteudo { flex-grow: 1; width: 100%; }
 .opcao-categoria { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem; align-items: center; }
-.opcao { padding: 0 1.2rem; border: 1px solid #ddd; background-color: #fff; border-radius: 4px; cursor: pointer; font-size: 0.85rem; color: #333; transition: background-color 0.2s ease, border-color 0.2s ease; white-space: nowrap; display: inline-flex; align-items: center; height: 38px; }
-.opcao:hover { background-color: #f0f0f0; border-color: #ccc; }
+.opcao { padding: 0 1.2rem; border: 1px solid var(--cor-borda); background-color: var(--cor-fundo); border-radius: var(--raio-pequeno); cursor: pointer; font-size: 0.85rem; color: var(--cor-texto); transition: background-color 0.2s ease, border-color 0.2s ease; white-space: nowrap; display: inline-flex; align-items: center; height: 38px; }
+.opcao:hover { background-color: var(--cor-superficie-forte); border-color: var(--cor-borda); }
 /* Selecionada: mesmo estado do .filtro-chip[aria-pressed="true"] (componentes.css) */
 .opcao.ativa,
 .opcao.ativa:hover {
@@ -233,10 +233,10 @@
 
 .catalogo-controles { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; font-size: var(--fonte-tamanho-pequeno, 0.875rem); }
 .controles-direita { display: flex; align-items: center; gap: 10px; }
-.controles-direita select { padding: 0.35rem 0.6rem; border: 1px solid #ccc; border-radius: 6px; background: var(--cor-fundo, #fff); font-size: var(--fonte-tamanho-pequeno, 0.875rem); }
+.controles-direita select { padding: 0.35rem 0.6rem; border: 1px solid var(--cor-borda); border-radius: var(--raio-pequeno); background: var(--cor-fundo, #fff); font-size: var(--fonte-tamanho-pequeno, 0.875rem); }
 .botoes-visualizacao { display: flex; gap: 4px; }
-.btn-view { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; color: #333; padding: 0; line-height: 1; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;}
-.btn-view:hover { background-color: #f0f0f0; border-color: #ccc; }
+.btn-view { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 1px solid var(--cor-borda); background: var(--cor-fundo); border-radius: var(--raio-pequeno); cursor: pointer; color: var(--cor-texto); padding: 0; line-height: 1; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;}
+.btn-view:hover { background-color: var(--cor-superficie-forte); border-color: var(--cor-borda); }
 
 /* Grade de Produtos */
 .grade-produtos { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 18px; }
