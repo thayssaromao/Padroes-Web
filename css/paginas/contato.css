@@ -46,6 +46,10 @@
         gap: var(--espaco-8);
     }
 
+    .contato-imagem {
+        aspect-ratio: 3 / 1;
+    }
+
     .contato-principal {
         grid-template-columns: 1fr 1fr;
         gap: var(--espaco-8);
