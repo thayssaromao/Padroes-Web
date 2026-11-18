@@ -44,8 +44,8 @@
     --fonte-grande: 1.125rem;
     --fonte-pequena: 0.8125rem;
     --fonte-mini: 0.75rem;
-    --fonte-header: 0.8125rem;
-    --fonte-footer: 0.75rem;
+    --fonte-header: 0.9375rem;
+    --fonte-footer: 0.8125rem;
 
     --peso-regular: 400;
     --peso-medio: 500;
@@ -79,7 +79,7 @@
     /* ===== Medidas de layout ===== */
     --largura-conteudo: 1180px;
     --largura-lateral: 280px;
-    --altura-barra: 72px;
+    --altura-barra: 64px;
     --tamanho-caixa-icone-secao: 2.5rem;
     --tamanho-icone-secao: 1.75rem;
     --tamanho-icone-acao: 18px;

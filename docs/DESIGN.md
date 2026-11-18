@@ -73,8 +73,8 @@ titulos das paginas e dos textos de conteudo.
 
 | Elemento | Tamanho | Regra |
 |---|---|---|
-| Links do header publico | `13px` | Navegacao principal |
-| Links do footer publico | `12px` | Menor que o header |
+| Links do header publico | `15px` | Navegacao principal |
+| Links do footer publico | `13px` | Menor que o header |
 | Copyright e textos auxiliares do footer | `12px` | Escala discreta |
 | Botoes e campos | `13px` a `14px` | Preservar legibilidade |
 | Areas clicaveis | minimo `44px` | Nao reduzir com a fonte |
@@ -83,6 +83,8 @@ A reducao tipografica nao altera automaticamente a altura
 do header, footer, logotipos ou icones.
 
 Os layouts autenticados preservam suas variantes existentes.
+
+No portal publico, o cabecalho utiliza `64px` de altura, links de `15px` e marca de `16px`. O rodape utiliza links de `13px`, marca de `14px` e espacamento vertical de `16px`. Os paineis mantem sua altura independente.
 
 ### 2.3 Espaçamento, raio, sombra, movimento
 
@@ -98,7 +100,7 @@ Os layouts autenticados preservam suas variantes existentes.
 | `--transicao` | `200ms ease` |
 | `--largura-conteudo` | `1180px` (container do portal) |
 | `--largura-lateral` | `280px` (menu lateral do painel) |
-| `--altura-barra` | `72px` (cabeçalho) |
+| `--altura-barra` | `64px` (cabeçalho) |
 
 ---
 
