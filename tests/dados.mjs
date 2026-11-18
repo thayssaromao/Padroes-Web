@@ -145,3 +145,38 @@ test("e-mail único e taxonomias predefinidas são validados", async () => {
     await assert.rejects(dados.salvarArtesao({email: "inválido", nome: "Inválido"}));
     await assert.rejects(dados.autenticar("ana@exemplo.com", "errada"));
 });
+
+test("credenciais novas usam hash com salt e sessões nunca guardam senha", async () => {
+    limpar();
+    await entrarLiceu();
+    const a = await dados.salvarArtesao({
+        email: "hash-a@exemplo.com", nome: "Hash A", senha: "segredo123"
+    });
+    const b = await dados.salvarArtesao({
+        email: "hash-b@exemplo.com", nome: "Hash B", senha: "segredo123"
+    });
+    const texto = localStorage.getItem("liceu:base:v1");
+    const base = JSON.parse(texto);
+    assert.equal(texto.includes("segredo123"), false);
+    assert.equal(base.credenciais[a.id].algoritmo, "PBKDF2-SHA-256");
+    assert.notEqual(base.credenciais[a.id].salt, base.credenciais[b.id].salt);
+    assert.notEqual(base.credenciais[a.id].hash, base.credenciais[b.id].hash);
+    await dados.autenticar(a.email, "segredo123", true);
+    assert.equal(dados.obterSessao().artesaoId, a.id);
+    dados.salvarSessao({...dados.obterSessao(), senha: "nunca-persistir"});
+    assert.equal(localStorage.getItem("liceu:sessao").includes("senha"), false);
+});
+
+test("migração remove senha legada sem perder os dados nem o acesso", async () => {
+    limpar();
+    localStorage.setItem("liceu:base:v1", JSON.stringify({
+        artesaos: [], credenciais: {"ana-martins": "provisoria123"},
+        trabalhos: [{...novo("Preservado"), id: "preservado"}]
+    }));
+    await dados.carregarArtesaos();
+    assert.equal(localStorage.getItem("liceu:base:v1").includes("provisoria123"), false);
+    await dados.autenticar("ana@exemplo.com", "provisoria123", false);
+    assert.equal(dados.obterSessao().artesaoId, "ana-martins");
+    assert.ok((await dados.carregarTrabalhos()).some(x => x.id === "preservado"));
+    await assert.rejects(dados.autenticar("ana@exemplo.com", "artesao123"));
+});

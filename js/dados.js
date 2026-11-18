@@ -10,6 +10,89 @@
 const CHAVE_SESSAO = "liceu:sessao";
 const CHAVE_BASE = "liceu:base:v1";
 
+const ITERACOES_SENHA = 120000;
+let migracaoCredenciais;
+
+function codificarBytes(bytes) {
+    return btoa(String.fromCharCode(...new Uint8Array(bytes)));
+}
+
+function decodificarBytes(texto) {
+    return Uint8Array.from(atob(texto), function (letra) {
+        return letra.charCodeAt(0);
+    });
+}
+
+async function derivarSenha(senha, salt, iteracoes) {
+    const chave = await crypto.subtle.importKey(
+        "raw", new TextEncoder().encode(senha), "PBKDF2", false,
+        ["deriveBits"]
+    );
+    const bits = await crypto.subtle.deriveBits({
+        hash: "SHA-256",
+        iterations: iteracoes,
+        name: "PBKDF2",
+        salt
+    }, chave, 256);
+    return codificarBytes(bits);
+}
+
+async function criarCredencial(senha) {
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    return {
+        algoritmo: "PBKDF2-SHA-256",
+        hash: await derivarSenha(senha, salt, ITERACOES_SENHA),
+        iteracoes: ITERACOES_SENHA,
+        salt: codificarBytes(salt)
+    };
+}
+
+async function conferirCredencial(senha, credencial) {
+    if (!credencial) {
+        return senha === "artesao123";
+    }
+    if (credencial.algoritmo !== "PBKDF2-SHA-256"
+            || !Number.isInteger(credencial.iteracoes)
+            || credencial.iteracoes < 1 || credencial.iteracoes > 1000000) {
+        return false;
+    }
+    return await derivarSenha(senha, decodificarBytes(credencial.salt),
+        credencial.iteracoes) === credencial.hash;
+}
+
+/** Converte a base antiga sem excluir contas, trabalhos ou sessões. */
+async function executarMigracaoCredenciais() {
+    const antigas = Object.entries(lerBase().credenciais).filter(
+        function (item) {
+            return typeof item[1] === "string";
+        }
+    );
+    if (!antigas.length) {
+        return;
+    }
+    const novas = await Promise.all(antigas.map(async function (item) {
+        return [item[0], item[1], await criarCredencial(item[1])];
+    }));
+    const base = lerBase();
+    novas.forEach(function (item) {
+        if (base.credenciais[item[0]] === item[1]) {
+            base.credenciais[item[0]] = item[2];
+        }
+    });
+    gravarBase(base);
+}
+
+function migrarCredenciais() {
+    if (!migracaoCredenciais) {
+        migracaoCredenciais = executarMigracaoCredenciais().finally(
+            function () {
+                migracaoCredenciais = undefined;
+            }
+        );
+    }
+    return migracaoCredenciais;
+}
+
 function lerBase() {
     const texto = localStorage.getItem(CHAVE_BASE);
     if (!texto) {
@@ -34,6 +117,7 @@ function gravarBase(base) {
 
 async function carregarColecao(nome, arquivo) {
     const iniciais = await lerJson(arquivo);
+    await migrarCredenciais();
     const alterados = lerBase()[nome];
     const mapa = new Map(iniciais.map(function (item) {
         return [item.id, item];
@@ -220,7 +304,13 @@ function obterSessao() {
 function salvarSessao(sessao, lembrar = true) {
     const armazenamento = lembrar ? localStorage : sessionStorage;
     encerrarSessao();
-    armazenamento.setItem(CHAVE_SESSAO, JSON.stringify(sessao));
+    const identidade = {
+        artesaoId: sessao.artesaoId,
+        foto: sessao.foto,
+        nome: sessao.nome,
+        perfil: sessao.perfil
+    };
+    armazenamento.setItem(CHAVE_SESSAO, JSON.stringify(identidade));
 }
 
 function encerrarSessao() {
@@ -240,8 +330,10 @@ async function autenticar(email, senha, lembrar = true) {
             return item.email.toLowerCase() === endereco;
         });
         const credenciais = lerBase().credenciais;
-        const esperada = artesao && (credenciais[artesao.id] || "artesao123");
-        if (!artesao || artesao.status !== "ativo" || senha !== esperada) {
+        const valida = artesao && await conferirCredencial(
+            senha, credenciais[artesao.id]
+        );
+        if (!artesao || artesao.status !== "ativo" || !valida) {
             throw new Error("E-mail ou senha inválidos, ou conta inativa.");
         }
         sessao = {
@@ -375,12 +467,16 @@ async function salvarArtesao(artesao) {
     }) || registro.email === "liceu@exemplo.com") {
         throw new Error("Informe nome e um e-mail válido ainda não cadastrado.");
     }
-    const base = lerBase();
+    let credencial;
     if (registro.senha) {
         if (sessao.perfil !== "painel-liceu" || registro.senha.length < 6) {
             throw new Error("A senha provisória deve ter ao menos 6 caracteres.");
         }
-        base.credenciais[registro.id] = registro.senha;
+        credencial = await criarCredencial(registro.senha);
+    }
+    const base = lerBase();
+    if (credencial) {
+        base.credenciais[registro.id] = credencial;
     }
     delete registro.senha;
     base.artesaos = substituir(base.artesaos, registro);
