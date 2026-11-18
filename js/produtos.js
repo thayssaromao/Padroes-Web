@@ -4,6 +4,7 @@ import {criarPaginacao, escaparHtml, prepararAcoes} from "./componentes.js";
 import {
     carregarVitrine,
     criarCardPublico,
+    lerFavoritos,
     ligarFavoritos,
     normalizar,
     parametrosPublicos
@@ -20,6 +21,8 @@ async function inicializarProdutos(raiz) {
     const ordem = raiz.querySelector("#selectOrdenacao");
     const paginacao = raiz.querySelector("#paginacaoCatalogo");
     const pilulas = raiz.querySelector("#pilulasCategoria");
+    const botaoFavoritos = raiz.querySelector("#btnSomenteFavoritos");
+    let somenteFavoritos = false;
     let pagina = 1;
     let trabalhos = [];
     let artesaos = [];
@@ -53,6 +56,8 @@ async function inicializarProdutos(raiz) {
         const preco = painel.querySelector(
             "input[name=\"faixaPreco\"]:checked"
         ).value;
+        const favoritos = lerFavoritos();
+        botaoFavoritos.setAttribute("aria-pressed", String(somenteFavoritos));
         const lista = trabalhos.filter(function (trabalho) {
             const artesao = artesaos.find(function (item) {
                 return item.id === trabalho.artesaoId;
@@ -69,7 +74,8 @@ async function inicializarProdutos(raiz) {
                     || (preco === "acima100" && valor > 100)
                 )
             );
-            return texto.includes(normalizar(busca.value.trim()))
+            return (!somenteFavoritos || favoritos.includes(trabalho.id))
+                && texto.includes(normalizar(busca.value.trim()))
                 && (!categorias.length || categorias.includes(trabalho.categoria))
                 && (!tecnicas.length || tecnicas.includes(trabalho.tecnica))
                 && (!materiais.length || materiais.some(function (material) {
@@ -109,7 +115,10 @@ async function inicializarProdutos(raiz) {
                     + escaparHtml(precoTexto) + "</p>"
             });
         }).join("") || "<p class=\"texto-suave\" role=\"status\">"
-            + "Nenhum produto encontrado. Ajuste a busca ou os filtros.</p>";
+            + (somenteFavoritos
+                ? "Nenhum favorito encontrado para estes filtros. Favorite um produto ou desative Somente favoritos."
+                : "Nenhum produto encontrado. Ajuste a busca ou os filtros.")
+            + "</p>";
         contador.textContent = lista.length
             ? `Exibindo ${inicio + 1} - ${inicio + visiveis.length}`
                 + ` de ${lista.length} produtos`
@@ -130,6 +139,16 @@ async function inicializarProdutos(raiz) {
         pagina = 1;
         renderizar();
     }
+
+    botaoFavoritos.addEventListener("click", function () {
+        somenteFavoritos = !somenteFavoritos;
+        recomecar();
+    });
+    grade.addEventListener("favoritos-alterados", function () {
+        if (somenteFavoritos && marco.isConnected) {
+            renderizar();
+        }
+    });
 
     painel.querySelectorAll(".acordeao-toggle").forEach(function (titulo) {
         titulo.setAttribute("role", "button");
@@ -166,6 +185,7 @@ async function inicializarProdutos(raiz) {
     });
     raiz.querySelector("#btnLimparFiltros").addEventListener("click", function () {
         busca.value = "";
+        somenteFavoritos = false;
         painel.querySelectorAll("input[type=\"checkbox\"]").forEach(
             function (campo) {
                 campo.checked = false;

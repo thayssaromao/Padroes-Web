@@ -9,11 +9,14 @@ import {
 } from "../componentes.js";
 
 const CHAVE_FAVORITOS = "liceu:favoritos";
+const favoritosPreparados = new WeakSet();
 
 function lerFavoritos() {
     try {
         const lista = JSON.parse(localStorage.getItem(CHAVE_FAVORITOS));
-        return Array.isArray(lista) ? lista : [];
+        return Array.isArray(lista) ? Array.from(new Set(lista.filter(
+            function (id) { return typeof id === "string" && id.length > 0; }
+        ))) : [];
     } catch (ignore) {
         return [];
     }
@@ -24,11 +27,33 @@ function atualizarFavorito(botao, ativo) {
     botao.innerHTML = icone("lucide:heart");
 }
 
+/** Atualiza controles existentes e avisa listagens sem manter referências antigas. */
+function avisarFavoritos() {
+    const favoritos = lerFavoritos();
+    document.querySelectorAll("[data-favorito]").forEach(function (botao) {
+        atualizarFavorito(botao, favoritos.includes(botao.dataset.favorito));
+    });
+    document.querySelectorAll("[data-favoritos-lista]").forEach(function (lista) {
+        lista.dispatchEvent(new CustomEvent("favoritos-alterados"));
+    });
+}
+
+window.addEventListener("storage", function (evento) {
+    if (evento.key === CHAVE_FAVORITOS || evento.key === null) {
+        avisarFavoritos();
+    }
+});
+
 /** Liga os favoritos também em cards inseridos depois da inicialização. */
 function ligarFavoritos(conteiner) {
     conteiner.querySelectorAll("[data-favorito]").forEach(function (botao) {
         atualizarFavorito(botao, lerFavoritos().includes(botao.dataset.favorito));
     });
+    conteiner.dataset.favoritosLista = "";
+    if (favoritosPreparados.has(conteiner)) {
+        return;
+    }
+    favoritosPreparados.add(conteiner);
     conteiner.addEventListener("click", function (evento) {
         const botao = evento.target.closest("[data-favorito]");
         if (!botao) {
@@ -42,7 +67,7 @@ function ligarFavoritos(conteiner) {
         });
         try {
             localStorage.setItem(CHAVE_FAVORITOS, JSON.stringify(nova));
-            atualizarFavorito(botao, ativo);
+            avisarFavoritos();
         } catch (ignore) {
             mostrarAviso("Não foi possível salvar o favorito neste navegador.");
         }
@@ -95,6 +120,7 @@ function normalizar(texto) {
 export {
     carregarVitrine,
     criarCardPublico,
+    lerFavoritos,
     ligarFavoritos,
     normalizar,
     parametrosPublicos

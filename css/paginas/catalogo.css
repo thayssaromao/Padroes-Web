@@ -50,3 +50,20 @@
     padding-right: var(--espaco-7);
     overflow-wrap: anywhere;
 }
+
+/* Preferência pública, combinada com os demais filtros do catálogo. */
+.busca-container {
+    flex-wrap: wrap;
+}
+
+.catalogo-favoritos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-2);
+    flex-shrink: 0;
+}
+
+.catalogo-favoritos iconify-icon {
+    font-size: var(--tamanho-icone-acao);
+}
