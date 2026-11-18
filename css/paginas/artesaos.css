@@ -193,11 +193,7 @@
 }
 
 @media (min-width: 1024px) {
-    .artesaos-hero {
-    background-color: var(--cor-editorial-alternada);
-}
-
-.artesaos-hero__grade {
+    .artesaos-hero__grade {
         grid-template-columns: 1fr 1fr;
         gap: var(--espaco-7);
     }
