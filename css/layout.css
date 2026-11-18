@@ -189,8 +189,10 @@
 }
 
 .rodape__links a[aria-current="page"] {
+    align-self: center;
+    padding-block: var(--espaco-2);
     border-radius: var(--raio-pequeno);
-    box-shadow: 0 0 0 var(--espaco-2) var(--cor-destaque);
+    box-shadow: 0 0 0 var(--espaco-1) var(--cor-destaque);
 }
 
 .rodape__social {
