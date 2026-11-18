@@ -27,7 +27,7 @@ fs.mkdirSync(artifacts,{recursive:true});
    const a=await create('Fluxo aprovado '+name);
    assert.equal(a.status,'em-analise');
    await logout();await login('liceu@exemplo.com','liceu123');await analyze(a.id);assert.equal((await stored(a.titulo)).status,'publicado');
-   await logout();await route('/produto?id='+a.id);assert.equal(await page.locator('h1').textContent(),a.titulo);
+   await logout();await route('/produto?id='+a.id,'#produto-detalhes:not([hidden]) h1');assert.equal(await page.locator('h1').textContent(),a.titulo);
    await login('ana@exemplo.com','artesao123');const b=await create('Fluxo rejeitado '+name);await logout();await login('liceu@exemplo.com','liceu123');await analyze(b.id,true);assert.equal((await stored(b.titulo)).status,'rejeitado');
    await logout();await login('ana@exemplo.com','artesao123');await route('/painel-artesao/status-publicacoes','[data-linhas] tr');
    const row=page.locator('[data-linhas] tr').filter({hasText:b.titulo});await row.locator('[data-acao="motivo"]').click();assert.match(await page.locator('dialog[open]').innerText(),/Melhorar a descrição/);await page.locator('dialog[open]').getByRole('button',{name:'Editar e reenviar',exact:true}).click();await page.locator('#trabalho-nome').waitFor();assert.equal(await page.inputValue('#trabalho-nome'),b.titulo);await page.fill('#trabalho-descricao','Descrição corrigida com mais detalhes.');await page.locator('[data-form-trabalho] [type=submit]').click();await page.locator('[data-confirmar]').click();await page.waitForFunction(()=>location.hash.includes('status-publicacoes'));assert.equal((await stored(b.titulo)).status,'reenviado');

@@ -61,7 +61,7 @@ Como ainda não há back-end, as áreas restritas (`#/painel-artesao` e `#/paine
 
 A guarda está ativa (`GUARDA_ATIVA = true`). O modal autentica as contas mock e as senhas provisórias criadas pelo Liceu. Sem sessão válida, o painel não é montado e o login abre sobre o portal; uma tentativa de acessar outro papel abre o login sobre a página anteriormente permitida. Sair exige confirmação e remove a sessão.
 
-A opção “Lembrar de mim” utiliza `localStorage`; desmarcada, utiliza `sessionStorage` (mantém reload, encerra ao fechar a aba). A desativação de um artesão impede login e invalida sua sessão local. Trata-se de autenticação simulada no navegador, sem proteção de servidor; use somente credenciais fictícias. Contas de demonstração e detalhes dos fluxos em [FLUXOS.md](FLUXOS.md).
+A opção “Lembrar de mim” utiliza `localStorage` e mantém a sessão em novas abas e após reabrir o navegador quando esse armazenamento for preservado; desmarcada, utiliza `sessionStorage` (mantém reload, encerra ao fechar a aba). A desativação de um artesão impede login e invalida sua sessão local. Trata-se de autenticação simulada no navegador, sem proteção de servidor; use somente credenciais fictícias. Contas de demonstração e detalhes dos fluxos em [FLUXOS.md](FLUXOS.md).
 
 Parâmetros após `?` no hash não alteram o reconhecimento da rota. O detalhe recebe `id`; a edição do artesão reutiliza `#/painel-artesao/novo-trabalho?id=<id>`. `#/artesaos?id=<id>` abre o perfil público correspondente, `#/produtos?categoria=<valor>&tecnica=<valor>` filtra o catálogo e `#/saberes?tecnica=<valor>` seleciona a técnica.
 
@@ -72,7 +72,7 @@ Parâmetros após `?` no hash não alteram o reconhecimento da rota. O detalhe r
 
 # Fonte de Dados
 
-Os arquivos `data/*.json` são a base inicial, somente para leitura. A camada `js/dados.js` combina esses registros com alterações persistidas em `localStorage` (`liceu:base:v1`), compartilhadas entre os painéis e o portal na mesma origem/navegador. Os arquivos JSON não são reescritos pelo navegador. O registro local guarda artesãos, trabalhos, exclusões lógicas e credenciais mock; uma única escrita confirma perfil e senha provisória juntos.
+Os arquivos `data/*.json` são a base inicial, somente para leitura. A camada `js/dados.js` combina esses registros com alterações persistidas em `localStorage` (`liceu:base:v1`), compartilhadas entre os painéis e o portal na mesma origem/navegador. Os arquivos JSON não são reescritos pelo navegador. O registro local guarda artesãos, trabalhos, exclusões lógicas e credenciais mock; uma única escrita confirma perfil e credencial provisória juntos. Senhas provisórias são derivadas por PBKDF2-SHA-256 com salt aleatório individual; não são persistidas em texto puro nem incluídas na sessão. Registros legados em texto puro são migrados automaticamente na leitura, preservando contas e trabalhos. A derivação utiliza Web Crypto nativa, disponível em HTTPS ou localhost.
 
 Categorias/nichos e técnicas são opções predefinidas de `data/categorias.json`, carregadas por todas as telas equivalentes. Não há gestão dinâmica dessas listas no MVP.
 

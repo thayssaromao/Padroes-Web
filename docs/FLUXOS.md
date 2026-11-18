@@ -36,6 +36,14 @@ O roteador resolve o caminho antes do `?` no hash. O layout, a navegação e as 
 - O salvamento local conserva imagens, dados e estados no reload. Cotas são limitadas pelo navegador; erro de escrita mantém os dados do formulário para correção.
 - Notificações apresentam o estado atual dos trabalhos, sem envio em tempo real ou histórico de notificações de servidor. Os diálogos reutilizam a anatomia compartilhada do design system, inclusive para as ações da topbar.
 
+## Acesso e apresentação compartilhada
+
+“Lembrar de mim” mantém apenas a identidade mock em `localStorage`; sem marcar, a identidade fica em `sessionStorage`. Logout limpa ambos. Senhas não fazem parte da sessão; credenciais provisórias usam PBKDF2-SHA-256 com salt aleatório, e registros antigos são migrados sem excluir os dados locais. Essa derivação não transforma o mock em autenticação de servidor.
+
+Campos de senha (login, provisória, confirmação e redefinição) usam o mesmo controle: `eye-off`/“Mostrar senha” quando ocultos e `eye`/“Ocultar senha” quando visíveis, com `title`, `aria-label`, `aria-pressed` e `aria-controls` atualizados. O reset do formulário restaura o estado oculto.
+
+Status são badges estáticos com ícone; ações permanecem em botões distintos. Modais de visualização e análise compartilham a apresentação de imagens, artesão, status, chips, descrição e metadados. Os detalhes dos padrões reutilizáveis estão em [DESIGN.md](DESIGN.md).
+
 ## Fora do MVP e dependências
 
 Não existem venda/checkout, autocadastro, permissões administrativas configuráveis, edição dinâmica de taxonomias ou recuperação automática por e-mail. Dados entre dispositivos, autenticação segura, envio de credenciais e armazenamento de mídia em servidor exigem backend. Conteúdo institucional definitivo, fotos reais, identidade visual e vídeo dependem da equipe/Liceu.
