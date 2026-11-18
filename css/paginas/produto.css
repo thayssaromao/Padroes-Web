@@ -211,3 +211,7 @@
         margin-inline: auto;
     }
 }
+
+.produto-atributos iconify-icon {
+    color: var(--cor-primaria);
+}
