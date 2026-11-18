@@ -139,13 +139,17 @@
     font-size: var(--fonte-footer);
 }
 
+.rodape .marca {
+    font-size: 0.875rem;
+}
+
 .rodape__interno {
     display: flex;
     flex-direction: column;
     gap: var(--espaco-4);
     width: min(100% - 2 * var(--espaco-4), 1320px);
     margin-inline: auto;
-    padding-block: var(--espaco-5);
+    padding-block: var(--espaco-4);
 }
 
 .rodape__links {
@@ -531,7 +535,7 @@
     }
 
     .cabecalho .marca {
-        font-size: 1.0625rem;
+        font-size: 1rem;
     }
 
     .nav-portal {
@@ -618,7 +622,7 @@
     }
 
     .rodape .marca {
-        padding-block: var(--espaco-5);
+        padding-block: var(--espaco-4);
         white-space: nowrap;
     }
 
@@ -636,13 +640,13 @@
     }
 
     .rodape__links a {
-        padding-block: var(--espaco-5);
+        padding-block: var(--espaco-4);
         white-space: nowrap;
     }
 
     .rodape__social {
         align-items: center;
-        padding-block: var(--espaco-5);
+        padding-block: var(--espaco-4);
     }
 }
 
