@@ -57,7 +57,7 @@ function escaparHtml(texto) {
  */
 function icone(nome) {
     const padrao = ICONES_PADRAO[nome] || nome;
-    return `<iconify-icon icon="${escaparHtml(padrao)}" aria-hidden="true"></iconify-icon>`;
+    return `<iconify-icon icon="${escaparHtml(padrao)}" aria-hidden="true" noobserver></iconify-icon>`;
 }
 
 /**
