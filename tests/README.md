@@ -19,6 +19,7 @@ Em outro terminal, com a instalação existente de Playwright acessível:
 node tests/fluxos.cjs
 node tests/regressoes.cjs
 node tests/ui.cjs
+node tests/portal.cjs
 ```
 
 Se o módulo não estiver na resolução padrão, defina `PLAYWRIGHT_MODULE` como o caminho absoluto da instalação existente. `PLAYWRIGHT_BROWSERS_PATH` e `LD_LIBRARY_PATH` podem ser necessários conforme a instalação dos navegadores. `PORTAL_URL` aceita outra origem/porta, com `/` final. `RELATORIO_DIR` escolhe onde salvar relatórios e screenshots; o padrão é `liceu-fluxos` na pasta temporária do sistema.
@@ -28,3 +29,13 @@ Cada suíte abre contextos isolados, usa apenas dados fictícios e não limpa o 
 Os testes locais de contratos HTML não substituem os validadores W3C. JSLint e validadores W3C não estão instalados neste repositório; a revisão registra separadamente os checks efetivamente executados.
 
 A suíte `ui.cjs` audita ações, status, tooltips, controles de senha, filtros, tamanhos de ações de tabela, taxonomias, modais e overflow em 1280/768/375px. Capturas ficam por padrão em `/tmp/liceu-ui` (ou `RELATORIO_DIR`). A renderização dos SVGs exige conectividade com o CDN/API do Iconify já adotado. Ela também abre perfis temporários próprios para verificar fechamento/reabertura real dos navegadores com sessão lembrada; nenhum perfil pessoal é utilizado.
+
+A suíte `portal.cjs` complementa a auditoria das dez telas públicas nos dois
+navegadores e nos três tamanhos. Verifica a grade de 1/2/4 colunas, perfil com
+textos longos (incluindo largura interna, proporção da foto e retorno do foco),
+carrosséis por teclado, detalhes/estado vazio de Saberes e formulário de contato.
+Todas as chamadas ao Web3Forms são interceptadas: sucesso, falha do servidor e
+erro de rede usam respostas simuladas, sem enviar mensagens reais. As capturas
+e `report.json` ficam na subpasta `portal` de `RELATORIO_DIR` (padrão:
+`/tmp/liceu-validacao-final`). Os dados longos também são respostas simuladas,
+sem alterar os JSON do projeto ou o armazenamento do usuário.
