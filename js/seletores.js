@@ -45,7 +45,8 @@ function montarSeletor(select) {
     const botao = document.createElement("button");
     botao.type = "button";
     botao.id = id + "-controle";
-    botao.className = select.className + " seletor__botao";
+    botao.className = select.className;
+    botao.classList.add("campo__entrada", "seletor__botao");
     botao.setAttribute("role", "combobox");
     botao.setAttribute("aria-haspopup", "listbox");
     botao.setAttribute("aria-expanded", "false");
