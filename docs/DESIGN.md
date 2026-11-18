@@ -203,6 +203,66 @@ Altura 44px (mínimo de toque), raio `--raio-medio`, padding `0 var(--espaco-5)`
 Estados: `:hover` escurece (primário → `--cor-primaria-hover`; outros → fundo `--cor-superficie-forte`) com `transform: translateY(-1px)`; `:focus-visible` → `outline: 3px solid var(--cor-borda-forte); outline-offset: 2px`; `:disabled`/`[aria-disabled="true"]` → opacidade .5, sem hover ("Aguardando análise").
 Link que parece botão: usar `<a class="btn …">`. Ação na mesma tela: `<button type="button">`.
 
+### 5.1.1 Consistencia dimensional dos controles
+
+A escala tipografica global aprovada deve ser preservada.
+A revisao de componentes nao implica reduzir novamente
+a fonte principal ou a navegacao publica.
+
+**Botoes e interatividade**
+
+- Botoes principais seguem a altura minima de 44px.
+- Botoes somente com icone possuem descricao acessivel.
+- Controles compactos podem ter superficie visual menor,
+  desde que a area interativa efetiva seja adequada.
+- Acoes de senha, favoritos, visualizacao e paginacao
+  precisam ser verificadas individualmente.
+- Nao aumentar dimensoes indiscriminadamente quando
+  isso comprometer o alinhamento aprovado.
+
+**Campos e filtros**
+
+- Campos principais preservam altura minima de 44px.
+- Labels e valores seguem os tokens tipograficos.
+- Filtros de Produtos, Artesaos e Saberes preservam os
+  alinhamentos horizontais e espacamentos aprovados.
+- Variantes compactas devem ser documentadas e manter
+  navegacao por teclado e foco visivel.
+
+**Cards e estilos especificos**
+
+- Componentes equivalentes devem compartilhar tokens
+  de borda, raio, cor, tipografia e estados interativos.
+- Evitar redefinicoes conflitantes da mesma classe em
+  arquivos diferentes.
+- Preservar as variacoes intencionais de imagem, grade
+  e conteudo entre paginas.
+- Antes de migrar estilos legados de Produtos, verificar
+  o HTML gerado, a ordem de carregamento dos CSS e as
+  dependencias JavaScript.
+
+**Controles especificos do catalogo de Produtos**
+
+- `.opcao` e `.btn-view` preservam suas dimensoes
+  compactas e o alinhamento ja aprovado.
+- Cores, bordas e raios devem reutilizar os tokens
+  globais do design system.
+- Estados de hover e selecao permanecem perceptiveis.
+- A padronizacao nao deve alterar a distribuicao dos
+  chips nem a posicao dos controles de ordenacao.
+- `.card-produto` deve reutilizar a implementacao
+  compartilhada; regras legadas conflitantes serao
+  revisadas separadamente apos verificar seu uso.
+- Acessibilidade dos controles compactos sera
+  validada antes de alterar suas dimensoes.
+
+**Ordem de implementacao**
+
+1. Documentar o comportamento e suas excecoes.
+2. Ajustar componentes compartilhados no design system.
+3. Adaptar estilos especificos na branch funcional.
+4. Validar responsividade, acessibilidade e aparencia.
+
 ### 5.2 Campos de formulário
 
 - Estrutura: `<div class="campo"><label for="x" class="campo__rotulo">Nome *</label><input id="x" class="campo__entrada" …></div>`.
