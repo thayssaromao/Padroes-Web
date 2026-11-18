@@ -17,7 +17,9 @@
 import {iniciarInicio} from "./paginas/inicio.js";
 import {iniciarArtesaos} from "./paginas/artesaos.js";
 import {inicializarProdutos} from "./produtos.js";
+import {iniciarCadastro} from "./paginas/cadastro.js";
 import {iniciarContato} from "./paginas/contato.js";
+import {iniciarSaberes} from "./paginas/saberes.js";
 import {
     iniciarLiceuArtesaos,
     iniciarLiceuCadastro,
@@ -67,6 +69,7 @@ const ROTAS = Object.freeze([
     {
         arquivo: "pages/saberes.html",
         caminho: "/saberes",
+        iniciar: iniciarSaberes,
         layout: "portal",
         titulo: "Saberes | Liceu"
     },
@@ -82,6 +85,13 @@ const ROTAS = Object.freeze([
         iniciar: iniciarContato,
         layout: "portal",
         titulo: "Contato | Liceu"
+    },
+    {
+        arquivo: "pages/cadastro.html",
+        caminho: "/cadastro",
+        iniciar: iniciarCadastro,
+        layout: "portal",
+        titulo: "Criar conta | Liceu"
     },
     {
         arquivo: "pages/sobre.html",

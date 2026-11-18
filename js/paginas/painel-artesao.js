@@ -21,14 +21,17 @@ import {
     buscarArtesao,
     carregarCategorias,
     contarPorStatus,
+    exigirPerfil,
     formatarData,
-    obterSessao,
     salvarTrabalho,
-    sessaoDemonstracao,
     trabalhosDoArtesao
 } from "../dados.js";
 
 const ROTA_TRABALHOS = "#/painel-artesao/meus-trabalhos";
+const ROTA_NOVO_TRABALHO = "#/painel-artesao/novo-trabalho";
+
+// Trabalho aberto para edição no formulário (vazio = novo trabalho).
+let emEdicao = null;
 
 const COMPARADORES = Object.freeze({
     antigos: function (a, b) {
@@ -87,21 +90,15 @@ function filtrarTrabalhos(trabalhos, filtros) {
 }
 
 /**
- * Artesão logado (sessão salva ou sessão de demonstração).
+ * Artesão logado. Só existe com sessão do perfil artesão; senão lança erro
+ * (a guarda do router já impede chegar aqui sem sessão).
  * @returns {Promise<{artesao: object, sessao: object}>}
  */
 async function artesaoLogado() {
-    const salva = obterSessao();
-    const demonstracao = sessaoDemonstracao("painel-artesao");
-    let sessao = (
-        (salva && salva.artesaoId)
-        ? salva
-        : demonstracao
-    );
-    let artesao = await buscarArtesao(sessao.artesaoId);
+    const sessao = exigirPerfil("painel-artesao");
+    const artesao = await buscarArtesao(sessao.artesaoId);
     if (!artesao) {
-        sessao = demonstracao;
-        artesao = await buscarArtesao(sessao.artesaoId);
+        throw new Error("Artesão da sessão não encontrado.");
     }
     return {artesao, sessao};
 }
@@ -531,13 +528,22 @@ function abrirMotivo(trabalho) {
  * @param {object} trabalho
  */
 function editarTrabalho(trabalho) {
-    // rejeitado ja da pra corrigir e reenviar
+    // rejeitado: corrigir e reenviar para análise
     if (trabalho.status === "rejeitado") {
         comModaisCorrigir(trabalho, abrirReenvio);
         return;
     }
-    // A IMPLEMENTAR: edição dos outros status (issue #30).
-    mostrarAviso("Em breve: editar \"" + trabalho.titulo + "\".");
+    // rascunho: reabre o formulário de trabalho
+    if (trabalho.status === "rascunho") {
+        emEdicao = trabalho;
+        if (window.location.hash === ROTA_NOVO_TRABALHO) {
+            window.dispatchEvent(new HashChangeEvent("hashchange"));
+        } else {
+            window.location.hash = ROTA_NOVO_TRABALHO;
+        }
+        return;
+    }
+    mostrarAviso("Só rascunhos e trabalhos rejeitados podem ser editados.");
 }
 
 /**
@@ -562,9 +568,17 @@ function verMotivo(trabalho) {
  * Envia um rascunho para a análise do Liceu.
  * @param {object} trabalho
  */
-function enviarParaAnalise(trabalho) {
-    // A IMPLEMENTAR: confirmar e mudar o status para "em-analise".
-    mostrarAviso("Em breve: enviar \"" + trabalho.titulo + "\" para análise.");
+async function enviarParaAnalise(trabalho) {
+    try {
+        await salvarTrabalho(Object.assign({}, trabalho, {
+            status: "em-analise"
+        }));
+    } catch (erro) {
+        mostrarAviso("Não foi possível enviar o trabalho.");
+        return;
+    }
+    mostrarAviso("Trabalho enviado para análise.");
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
 }
 
 /**
@@ -812,19 +826,56 @@ function abrirRascunhos() {
 }
 
 /**
- * Salva ou envia o trabalho para análise.
+ * Converte os campos do formulário para o formato de data/trabalhos.json.
+ * @param {object} dados campos do formulário
+ * @returns {object}
+ */
+function paraTrabalho(dados) {
+    const preco = (
+        dados["preco-tipo"] === "definir"
+        ? Number(String(dados.preco).replace(/[^\d,.]/g, "").replace(",", "."))
+        : null
+    );
+    return {
+        categoria: dados.categoria,
+        descricao: dados.descricao,
+        dimensoes: dados.dimensoes,
+        materiais: dados.materiais || "A definir",
+        observacoes: dados.observacoes,
+        preco: (
+            Number.isFinite(preco)
+            ? preco
+            : null
+        ),
+        tecnica: dados.tecnica,
+        titulo: dados.titulo
+    };
+}
+
+/**
+ * Salva o rascunho ou envia o trabalho para análise. Cria um trabalho novo
+ * ou, quando há um em edição, atualiza o existente (só o dono pode).
+ * As imagens enviadas ainda não são gravadas (sem back-end).
  * @param {object} dados campos do formulário e nomes das imagens
  * @param {string} status "rascunho" | "em-analise"
+ * @param {object} [anterior] trabalho em edição, se houver
  * @returns {Promise<void>}
  */
-async function enviarTrabalho(dados, status) {
-    // A IMPLEMENTAR: persistência real (salvarTrabalho ainda é um stub).
-    await salvarTrabalho(Object.assign({}, dados, {status}));
+async function enviarTrabalho(dados, status, anterior) {
+    try {
+        await salvarTrabalho(Object.assign({}, anterior, paraTrabalho(dados), {
+            status
+        }));
+    } catch (erro) {
+        mostrarAviso("Não foi possível salvar o trabalho.");
+        return;
+    }
     mostrarAviso(
         status === "rascunho"
-        ? "Rascunho salvo (simulação)."
-        : "Trabalho enviado para análise (simulação)."
+        ? "Rascunho salvo."
+        : "Trabalho enviado para análise."
     );
+    window.location.hash = ROTA_TRABALHOS;
 }
 
 /**
@@ -956,6 +1007,29 @@ async function montarNovoTrabalho(raiz) {
         });
     });
 
+    const edicao = emEdicao;
+    emEdicao = null;
+    if (edicao) {
+        raiz.querySelector("h1").textContent = "Editar Trabalho";
+        raiz.querySelector(".sobretitulo").textContent = "Editar trabalho";
+        raiz.querySelector(".texto-apoio").textContent = (
+            "Altere os dados do trabalho e salve ou envie para análise."
+        );
+        ["titulo", "categoria", "tecnica", "descricao", "dimensoes",
+            "observacoes"].forEach(function (nome) {
+            formulario.elements[nome].value = edicao[nome] ?? "";
+        });
+        formulario.elements.materiais.value = (
+            edicao.materiais === "A definir"
+            ? ""
+            : edicao.materiais ?? ""
+        );
+        if (edicao.preco !== null && edicao.preco !== undefined) {
+            raiz.querySelector("[data-preco-tipo][value=\"definir\"]").click();
+            campoPreco.value = String(edicao.preco).replace(".", ",");
+        }
+    }
+
     function coletar() {
         const dados = Object.fromEntries(new FormData(formulario));
         return Object.assign(dados, {imagens: upload.nomes()});
@@ -964,13 +1038,13 @@ async function montarNovoTrabalho(raiz) {
     formulario.addEventListener("submit", function (evento) {
         evento.preventDefault();
         if (formulario.reportValidity()) {
-            enviarTrabalho(coletar(), "em-analise");
+            enviarTrabalho(coletar(), "em-analise", edicao);
         }
     });
     raiz.querySelector("[data-salvar-rascunho]").addEventListener(
         "click",
         function () {
-            enviarTrabalho(coletar(), "rascunho");
+            enviarTrabalho(coletar(), "rascunho", edicao);
         }
     );
     raiz.querySelector("[data-rascunhos]").addEventListener(

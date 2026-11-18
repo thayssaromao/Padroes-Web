@@ -153,7 +153,8 @@ function preencherAnalise(modal, trabalho, artesao = {}) {
 }
 
 /**
- * Abre a análise de um trabalho pendente.
+ * Abre a análise de um trabalho pendente: detalhes, aprovar e rejeitar.
+ * Só o administrador chega aqui; atualizarStatusTrabalho valida de novo.
  * @param {string} id id do trabalho
  * @returns {Promise<void>}
  */
