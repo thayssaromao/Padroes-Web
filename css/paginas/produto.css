@@ -97,6 +97,7 @@
 }
 
 .produto-contexto {
+    background-color: var(--cor-editorial-alternada);
     display: grid;
     gap: var(--espaco-5);
     align-items: start;

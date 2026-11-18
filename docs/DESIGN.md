@@ -2,7 +2,7 @@
 
 Guia visual e técnico do projeto. Vale para **quem escreve código** e para **quem desenha as telas que ainda faltam** (popups de ação, páginas novas). Derivado dos wireframes do Figma (`Tela Principal`, `Tela Perfil do Artesão`, `Tela Adm *`, `Tela do Artesão *`).
 
-> O visual atual é **wireframe em tons de cinza**. Quando a identidade visual oficial do Liceu chegar, trocar apenas os valores dos tokens em [`css/global.css`](../css/global.css). Nenhum outro arquivo deve conter cor, fonte ou raio "chumbados".
+> A identidade cromática é uma **interpretação digital proposta**, inspirada no símbolo do Liceu. A paleta cinza era provisória. Tokens semânticos ficam em `css/global.css`; a aplicação nos componentes e nas páginas segue os papéis descritos em § Identidade cromática aplicada, ao final deste guia. Os hexadecimais não constituem um manual oficial da instituição.
 
 ---
 
@@ -28,26 +28,18 @@ Definidos em `:root` no [`css/global.css`](../css/global.css). **Use sempre `var
 
 ### 2.1 Cores
 
-| Token | Valor | Uso |
+| Grupo | Tokens principais | Aplicação |
 |---|---|---|
-| `--cor-texto` | `#111111` | Texto principal, títulos |
-| `--cor-texto-suave` | `#555555` | Subtítulos, metadados ("Curitiba - PR", "Categoria") |
-| `--cor-texto-apagado` | `#8a8a8a` | Sobretítulos ("NOSSAS PESSOAS"), placeholders |
-| `--cor-texto-invertido` | `#ffffff` | Texto sobre fundos escuros (botão primário, paginação ativa) |
-| `--cor-fundo` | `#ffffff` | Fundo da página |
-| `--cor-fundo-alternado` | `#d9d9d9` | Faixas de seção alternadas ("Como você quer explorar?") |
-| `--cor-superficie` | `#f7f7f7` | Cards, campos de busca |
-| `--cor-superficie-forte` | `#ececec` | Cabeçalho de tabela, caixas de aviso, chips |
-| `--cor-barra` | `#a9a9a9` | Cabeçalho e rodapé do portal/painéis |
-| `--cor-lateral` | `#d9d9d9` | Menu lateral dos painéis |
-| `--cor-lateral-ativo` | `#b3b3b3` | Item ativo do menu lateral |
-| `--cor-borda` | `#bdbdbd` | Bordas de cards, inputs, tabelas |
-| `--cor-borda-forte` | `#272727` | Divisórias fortes, underline do menu ativo, foco |
-| `--cor-primaria` | `#5f5f5f` | Botão primário, paginação ativa, toggle "grade" ativo |
-| `--cor-primaria-hover` | `#3f3f3f` | Hover do primário |
-| `--cor-placeholder` | `#c8c8c8` | Fundo de imagens ainda não carregadas |
-| `--cor-sobreposicao` | `rgb(0 0 0 / 45%)` | Fundo do modal (`::backdrop`) |
-| `--cor-sucesso` / `--cor-alerta` / `--cor-erro` | `#4a4a4a` / `#4a4a4a` / `#4a4a4a` | Reservado: status. Hoje em cinza; ganham cor com a identidade visual |
+| Marca | `--marca-turquesa`, `--marca-amarelo`, `--marca-rosa`, `--marca-petroleo` | Símbolo e grafismos, sem presumir códigos oficiais |
+| Texto | `--cor-texto`, `--cor-texto-suave`, `--cor-texto-apagado`, `--cor-texto-invertido` | Petróleo/verde legível sobre superfícies claras; branco sobre fundos escuros |
+| Superfície | `--cor-fundo`, `--cor-superficie-card`, `--cor-superficie-menu`, `--cor-superficie-modal`, `--cor-campo` | Off-white no plano principal, branco nas áreas elevadas e campos |
+| Editorial | `--cor-editorial`, `--cor-editorial-alternada`, `--cor-destaque`, `--cor-acento` | Amarelo suave, rosa suave, amarelo e rosa saturados em acentos |
+| Navegação | `--cor-barra`, `--cor-rodape`, `--cor-lateral`, `--cor-lateral-ativo`, `--cor-nav-texto`, `--cor-nav-hover` | Header turquesa profundo, footer/sidebar petróleo, item ativo amarelo |
+| Interação | `--cor-primaria`, `--cor-primaria-hover`, `--cor-secundaria`, `--cor-link`, `--cor-foco`, `--cor-favorito` | Ação turquesa, secundário branco, links turquesa, foco e favoritos rosa escuro |
+| Estados | `--cor-sucesso`, `--cor-alerta`, `--cor-erro`, `--cor-informacao`, `--cor-rascunho` e respectivos `-fundo` | Pares AA; rótulos e ícones mantêm significado sem depender da cor |
+| Bordas | `--cor-borda`, `--cor-borda-controle`, `--cor-borda-forte` | Bordas decorativas suaves; controles/foco com contraste próprio |
+
+Os valores e aliases completos estão em `css/global.css`.
 
 ### 2.2 Tipografia
 
@@ -1023,3 +1015,70 @@ do design system, incluindo:
 A auditoria deve distinguir cores estruturais, estados
 semânticos e recursos decorativos. Não substituir cores
 automaticamente apenas por semelhança hexadecimal.
+
+
+## Identidade cromática aplicada — novembro de 2026
+
+### Referências e limites
+
+- Símbolo existente: `assets/logo.png`, com três áreas curvas de turquesa,
+  amarelo e rosa. Preservar integralmente a imagem e suas proporções.
+- Material oficial examinado: [Prefeitura de Curitiba, aniversário do Liceu,
+  07/11/2024](https://www.curitiba.pr.gov.br/noticias/liceu-de-oficios-criativos-comemora-5-anos-de-apoio-aos-artesaos-de-curitiba/74867),
+  incluindo a fotografia da fachada com o mesmo símbolo tricolor.
+- O Instagram institucional foi consultado, mas não pôde ser carregado no
+  ambiente de execução. Não foi encontrado/validado manual de cores oficial.
+- Os códigos abaixo são uma interpretação digital da paleta proposta pelo
+  projeto; não são apresentados como hexadecimais oficiais.
+
+### Paleta final e combinações
+
+| Cor | Valor | Uso real |
+|---|---|---|
+| Turquesa | `#20A8A6` | Grafismo tricolor e acentos de cards; sem texto branco pequeno |
+| Turquesa profundo | `#0C7774` | Botão primário e seleção; texto branco |
+| Turquesa escuro | `#095E5C` | Header, hover primário e links; branco no header |
+| Amarelo | `#FFC928` | Sidebar ativa, ação editorial, indicadores e estatísticas; texto petróleo |
+| Rosa | `#E73571` | Grafismo, detalhes editoriais e acentos decorativos |
+| Rosa escuro | `#AD1B50` | Favoritos ativos, foco e links de acento; branco quando preenchido |
+| Petróleo | `#183E45` | Texto, sidebar e footer; branco sobre fundos escuros |
+| Off-white | `#F8F7F3` | Fundo de páginas; branco reservado a cards, campos, menus e modais |
+| Amarelo suave | `#FFF0BD` | Hero, avisos e conteúdo editorial |
+| Rosa suave | `#FCE7EF` | Faixas de pessoas, favoritos e contexto do produto |
+
+### Aplicação por componente
+
+- Header turquesa profundo e footer petróleo com faixa tricolor desenhada
+  em background (sem acrescentar altura). Links brancos, hover amarelo e
+  indicador amarelo. A navegação mobile mantém as mesmas combinações.
+- Sidebar petróleo: texto claro, hover tonal e item selecionado amarelo com
+  texto petróleo. Foco amarelo nas superfícies escuras; não herdar texto
+  branco para itens ativos claros.
+- Hero público em amarelo suave com grafismos em rosa/turquesa, sem imagens
+  novas. Faixas de pessoas/contexto em rosa suave. Botão editorial amarelo;
+  botão secundário branco com borda turquesa. Ações principais permanecem
+  turquesa, destrutivas usam erro e favoritos usam rosa escuro.
+- Cards brancos sobre fundo quente, bordas suaves e acentos sem alterar
+  suas dimensões. Estatísticas usam cores conforme papel de total, publicado,
+  análise e pendência; ícones e rótulos continuam explícitos.
+- Tabelas com cabeçalho petróleo e texto branco, corpo branco e hover suave.
+  Formulários usam campos brancos e bordas de controle com contraste; menus
+  abertos usam hover amarelo suave e seleção turquesa com texto branco.
+- Modais brancos recebem faixa tricolor superior sem alteração de padding,
+  tamanho ou fluxo. Botão fechar e títulos seguem as cores interativas.
+- Estados: publicado/ativo verde, análise/reenviado âmbar, rejeitado/inativo
+  rosa escuro e rascunho verde acinzentado. Todos mantêm ícone e texto.
+- Desabilitados preservam `disabled`/`aria-disabled` e recebem superfície e
+  texto próprios. Foco tem contorno visível; erros não dependem só da borda.
+- O catálogo funcional (`css/produtos.css`, ausente no worktree de design)
+  deve consumir estes mesmos tokens, incluindo busca, filtros e limpeza.
+- Preservar HTML, tipografia, medidas, espaçamentos, dados, fotografias e
+  placeholders. Grafismos e acentos não recebem eventos de ponteiro.
+
+### Validação cromática
+
+Verificar os pares de texto a 4,5:1, inclusive labels de botões, tabelas,
+menus, estados e favoritos. Bordas de controles e indicadores de foco
+precisam de 3:1 contra a superfície adjacente. Cores saturadas sem contraste
+para texto pequeno ficam restritas a grafismos. Contraste de imagens de
+conteúdo/placeholder não é inferido a partir dos tokens.

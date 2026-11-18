@@ -3,6 +3,10 @@
    Guia: docs/DESIGN.md (use só tokens e componentes do guia)
    ========================================================= */
 
+.artesaos-hero {
+    background-color: var(--cor-editorial-alternada);
+}
+
 .artesaos-hero__grade {
     display: grid;
     gap: var(--espaco-5);
@@ -189,7 +193,11 @@
 }
 
 @media (min-width: 1024px) {
-    .artesaos-hero__grade {
+    .artesaos-hero {
+    background-color: var(--cor-editorial-alternada);
+}
+
+.artesaos-hero__grade {
         grid-template-columns: 1fr 1fr;
         gap: var(--espaco-7);
     }
@@ -287,8 +295,13 @@
 }
 
 .artesaos-grade .btn--bloco {
-    background-color: var(--cor-superficie);
-    border-color: var(--cor-borda);
+    background-color: var(--cor-secundaria);
+    color: var(--cor-link);
+    border-color: var(--cor-primaria);
+}
+
+.artesaos-grade .btn--bloco:hover {
+    background-color: var(--cor-secundaria-hover);
 }
 
 .artesaos-perfil__empreendimento {

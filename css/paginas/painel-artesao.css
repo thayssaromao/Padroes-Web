@@ -12,7 +12,7 @@
     margin-bottom: var(--espaco-6);
     padding: var(--espaco-5);
     border-radius: var(--raio-medio);
-    background-color: var(--cor-fundo-alternado);
+    background-color: var(--cor-editorial);
 }
 
 .artesao-ultimos {
