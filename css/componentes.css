@@ -202,7 +202,7 @@
 select.campo__entrada {
     appearance: none;
     padding-right: var(--espaco-7);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23111' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-image: var(--imagem-seta-select);
     background-position: right var(--espaco-3) center;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -1766,6 +1766,10 @@ input[type="checkbox"] {
     background: var(--cor-primaria);
     color: var(--cor-texto-invertido);
     font-weight: var(--peso-semi);
+}
+
+.seletor__opcao[aria-selected="true"][data-ativo] {
+    box-shadow: inset 3px 0 var(--cor-destaque);
 }
 
 .seletor__opcao[aria-disabled="true"] {

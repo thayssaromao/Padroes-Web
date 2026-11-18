@@ -647,7 +647,7 @@
     }
 
     .nav-portal__link[aria-current="page"]::before {
-        background-color: var(--cor-borda-forte);
+        background-color: var(--cor-indicador-hover);
     }
 
     .nav-portal__entrar {
