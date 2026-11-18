@@ -58,3 +58,43 @@
     font-size: var(--fonte-pequena);
     font-weight: var(--peso-semi);
 }
+
+.modal-login__cadastro {
+    margin-top: var(--espaco-4);
+    font-size: var(--fonte-pequena);
+}
+
+/* Página de cadastro (#/cadastro) */
+.cadastro {
+    max-width: 520px;
+}
+
+.cadastro__form {
+    margin-top: var(--espaco-5);
+}
+
+.cadastro__senha {
+    padding-right: 44px;
+}
+
+.cadastro__erro {
+    margin-top: var(--espaco-1);
+    color: var(--cor-erro);
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-semi);
+}
+
+.cadastro [aria-invalid="true"] {
+    border-color: var(--cor-erro);
+    border-width: 2px;
+}
+
+.cadastro__login {
+    text-align: center;
+}
+
+.cadastro__ajuda {
+    margin-top: var(--espaco-1);
+    color: var(--cor-texto-suave);
+    font-size: var(--fonte-pequena);
+}
