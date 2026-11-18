@@ -1736,6 +1736,7 @@ input[type="checkbox"] {
 }
 
 .modal--editorial .modal__acoes {
+    margin-top: 0;
     justify-content: flex-start;
 }
 
