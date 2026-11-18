@@ -199,7 +199,8 @@ function abrirMenuUsuario() {
         + '</a><a class="btn btn--secundario" href="#/inicio">'
         + 'Voltar ao Portal</a><button class="btn btn--primario"'
         + ' type="button" data-sair>Sair</button>',
-        {raiz: document.querySelector(".painel"), tamanho: "pequeno"});
+        {raiz: document.querySelector(".painel"), tamanho: "medio"});
+    modal.querySelector(".modal__acoes").classList.add("modal__acoes--grade");
     modal.addEventListener("close", function () {
         botao.setAttribute("aria-expanded", "false");
     });

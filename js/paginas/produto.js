@@ -123,8 +123,9 @@ async function iniciarProduto(raiz) {
             + " href=\"#/artesaos?id=" + encodeURIComponent(artesao.id)
             + "\">Conheça este artesão</a></div>"
         );
-        raiz.querySelector("#produto-saber").textContent = produto.tecnica
-            + ": conheça outros trabalhos e as pessoas que praticam este ofício.";
+        raiz.querySelector("#produto-saber-nome").textContent = produto.tecnica;
+        raiz.querySelector("#produto-saber").textContent =
+            "Conheça outros trabalhos e as pessoas que praticam este ofício.";
         raiz.querySelector("#produto-saber-link").href = "#/saberes?tecnica="
             + encodeURIComponent(produto.tecnica);
         const relacionados = vitrine.trabalhos.filter(function (trabalho) {
@@ -133,6 +134,9 @@ async function iniciarProduto(raiz) {
                 || trabalho.tecnica === produto.tecnica
             );
         }).slice(0, 4);
+        raiz.querySelector("#produto-relacionados").classList.toggle(
+            "produto-relacionados--tres", relacionados.length === 3
+        );
         raiz.querySelector("#produto-relacionados").innerHTML = relacionados.map(
             function (trabalho) {
                 return criarCardPublico(trabalho);

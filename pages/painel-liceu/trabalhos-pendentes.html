@@ -11,24 +11,26 @@
     <div class="grade-estatisticas grade-estatisticas--3" data-resumo></div>
 </section>
 
-<search class="barra-filtros barra-filtros--grupos liceu-barra">
+<search class="liceu-filtros">
     <div class="busca">
         <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
         <input type="search" class="busca__entrada" data-busca aria-label="Buscar trabalhos pendentes" placeholder="Buscar por trabalho ou artesão...">
     </div>
-    <div class="barra-filtros__item">
-        <label for="liceu-pendentes-filtro">Categoria/Técnica:</label>
-        <!-- Opções de categorias e técnicas preenchidas via JS -->
-        <select id="liceu-pendentes-filtro" class="campo__entrada" data-filtro="categoria">
-            <option value="">Todas</option>
-        </select>
-    </div>
-    <div class="barra-filtros__item">
-        <label for="liceu-pendentes-ordem">Ordenar:</label>
-        <select id="liceu-pendentes-ordem" class="campo__entrada" data-ordem>
-            <option value="antigos">Mais antigos primeiro</option>
-            <option value="recentes">Mais recentes</option>
-        </select>
+    <div class="liceu-filtros__controles">
+        <div class="campo">
+            <label class="campo__rotulo" for="liceu-pendentes-filtro">Categoria/Técnica:</label>
+            <!-- Opções de categorias e técnicas preenchidas via JS -->
+            <select id="liceu-pendentes-filtro" class="campo__entrada" data-filtro="categoria">
+                <option value="">Todas</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label class="campo__rotulo" for="liceu-pendentes-ordem">Ordenar:</label>
+            <select id="liceu-pendentes-ordem" class="campo__entrada" data-ordem>
+                <option value="antigos">Mais antigos primeiro</option>
+                <option value="recentes">Mais recentes</option>
+            </select>
+        </div>
     </div>
 </search>
 

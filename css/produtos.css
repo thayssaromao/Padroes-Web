@@ -204,6 +204,11 @@
 }
 
 #btnLimparFiltros {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-2);
+    min-height: var(--alvo-acao);
     width: 100%;
     padding: 0.8rem;
     background: #ececec;
@@ -214,6 +219,11 @@
     font-size: var(--fonte-tamanho-pequeno, 0.875rem);
     transition: background 0.2s;
 }
+#btnLimparFiltros iconify-icon {
+    flex-shrink: 0;
+    font-size: var(--tamanho-icone-acao);
+}
+
 #btnLimparFiltros:hover { background: #dcdcdc; }
 
 .catalogo-conteudo { flex-grow: 1; width: 100%; }
