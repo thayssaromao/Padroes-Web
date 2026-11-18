@@ -103,7 +103,16 @@
 }
 
 .produto-contexto > section {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--espaco-4);
     min-width: 0;
+}
+
+.produto-bio {
+    max-height: 9em;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .produto-contexto > section + section {
@@ -118,6 +127,7 @@
 
 .produto-produtor > .pilha,
 .produto-tecnica > .pilha {
+    height: 100%;
     min-width: 0;
     gap: var(--espaco-2);
     overflow-wrap: anywhere;
@@ -125,6 +135,7 @@
 
 .produto-contexto .btn {
     align-self: flex-start;
+    margin-top: auto;
     max-width: 100%;
     white-space: normal;
 }
@@ -162,7 +173,7 @@
     }
 
     .produto-tecnica {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+        grid-template-columns: calc(2 * var(--espaco-8)) minmax(0, 1fr);
     }
 }
 
@@ -178,12 +189,17 @@
 
     .produto-contexto {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: var(--espaco-7);
+        align-items: stretch;
+        column-gap: 0;
+    }
+
+    .produto-contexto > section:first-child {
+        padding-right: var(--espaco-6);
     }
 
     .produto-contexto > section + section {
         padding-top: 0;
-        padding-left: var(--espaco-7);
+        padding-left: var(--espaco-6);
         border-top: none;
         border-left: 1px solid var(--cor-borda);
     }

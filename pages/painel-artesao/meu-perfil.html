@@ -20,14 +20,14 @@
             </div>
             <div class="artesao-pessoais__campos">
                 <div class="campo">
-                    <label for="perfil-nome" class="campo__rotulo">Nome completo</label>
-                    <input type="text" id="perfil-nome" class="campo__entrada" name="nome" placeholder="Digite seu nome completo" autocomplete="name" required>
+                    <label for="perfil-nome" class="campo__rotulo">Nome completo *</label>
+                    <input type="text" id="perfil-nome" aria-describedby="perfil-feedback" class="campo__entrada" name="nome" placeholder="Digite seu nome completo" autocomplete="name" required>
                 </div>
                 <div class="campo">
-                    <label for="perfil-email" class="campo__rotulo">E-mail</label>
+                    <label for="perfil-email" class="campo__rotulo">E-mail *</label>
                     <div class="campo__grupo">
                         <iconify-icon icon="lucide:mail" aria-hidden="true"></iconify-icon>
-                        <input type="email" id="perfil-email" class="campo__entrada" name="email" placeholder="Digite seu e-mail" autocomplete="email" required>
+                        <input type="email" id="perfil-email" aria-describedby="perfil-feedback" class="campo__entrada" name="email" placeholder="Digite seu e-mail" autocomplete="email" required>
                     </div>
                 </div>
             </div>
@@ -98,6 +98,7 @@
             </div>
         </fieldset>
 
+        <p id="perfil-feedback" role="alert" data-perfil-feedback></p>
         <div class="form-acoes">
             <button type="button" class="btn btn--secundario" data-cancelar>Cancelar</button>
             <button type="submit" class="btn btn--primario">Salvar alterações</button>

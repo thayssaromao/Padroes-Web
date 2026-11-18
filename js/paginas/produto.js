@@ -1,5 +1,5 @@
 /*jslint browser */
-import {escaparHtml, iniciarCarrossel} from "../componentes.js";
+import {escaparHtml, icone, iniciarCarrossel} from "../componentes.js";
 import {
     carregarVitrine,
     criarCardPublico,
@@ -118,10 +118,11 @@ async function iniciarProduto(raiz) {
             + "\" alt=\"Foto de " + escaparHtml(artesao.nome)
             + "\" width=\"96\" height=\"96\"><div class=\"pilha\"><p><strong>"
             + escaparHtml(artesao.nome) + "</strong><br>"
-            + escaparHtml(artesao.empreendimento) + "</p><p>"
+            + escaparHtml(artesao.empreendimento) + "</p><p class=\"produto-bio\" tabindex=\"0\">"
             + escaparHtml(artesao.bio) + "</p><a class=\"btn btn--secundario\""
             + " href=\"#/artesaos?id=" + encodeURIComponent(artesao.id)
-            + "\">Conheça este artesão</a></div>"
+            + "\">Conheça este artesão" + icone("lucide:arrow-right")
+            + "</a></div>"
         );
         raiz.querySelector("#produto-saber-nome").textContent = produto.tecnica;
         raiz.querySelector("#produto-saber").textContent =

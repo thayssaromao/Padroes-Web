@@ -454,12 +454,36 @@ async function montarPerfil(raiz) {
             tecnicas: seletorTecnicas.obter()
         });
     }
+    const feedback = formulario.querySelector("[data-perfil-feedback]");
     const campoNome = formulario.elements.nome;
-    const campoWhatsapp = formulario.elements.whatsapp;
-    campoNome.addEventListener("input", function () {
+    const campoEmail = formulario.elements.email;
+    function validarPessoais() {
         campoNome.setCustomValidity(campoNome.value.trim()
             ? "" : "Informe o nome completo.");
+        const email = campoEmail.value.trim();
+        campoEmail.setCustomValidity(!email ? "Informe o e-mail."
+            : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+                ? "" : "Informe um e-mail válido.");
+        [campoNome, campoEmail].forEach(function (campo) {
+            if (campo.validity.valid) {
+                campo.removeAttribute("aria-invalid");
+            }
+        });
+    }
+    [campoNome, campoEmail].forEach(function (campo) {
+        campo.addEventListener("input", function () {
+            validarPessoais();
+            feedback.textContent = "";
+        });
     });
+    formulario.addEventListener("invalid", function (evento) {
+        if ([campoNome, campoEmail].includes(evento.target)) {
+            validarPessoais();
+            evento.target.setAttribute("aria-invalid", "true");
+            feedback.textContent = evento.target.validationMessage;
+        }
+    }, true);
+    const campoWhatsapp = formulario.elements.whatsapp;
     campoWhatsapp.addEventListener("input", function () {
         const numero = campoWhatsapp.value.replace(/\D/g, "");
         campoWhatsapp.setCustomValidity(!campoWhatsapp.value
@@ -484,6 +508,10 @@ async function montarPerfil(raiz) {
                 return;
             }
             preencher();
+            feedback.textContent = "";
+            [campoNome, campoEmail].forEach(function (campo) {
+                campo.removeAttribute("aria-invalid");
+            });
             salvo = estadoPerfil();
             mostrarAviso("Alterações descartadas.");
         }
@@ -491,9 +519,11 @@ async function montarPerfil(raiz) {
     formulario.addEventListener("submit", async function (evento) {
         evento.preventDefault();
         const botao = formulario.querySelector("[type=\"submit\"]");
+        validarPessoais();
         if (!formulario.reportValidity() || botao.disabled) {
             return;
         }
+        feedback.textContent = "";
         botao.disabled = true;
         try {
             const dados = Object.fromEntries(new FormData(formulario));
@@ -517,7 +547,7 @@ async function montarPerfil(raiz) {
             salvo = estadoPerfil();
             mostrarAviso("Alterações do perfil salvas.");
         } catch (erro) {
-            mostrarAviso(erro.message || "Não foi possível salvar o perfil.");
+            feedback.textContent = erro.message || "Não foi possível salvar o perfil.";
         } finally {
             botao.disabled = false;
         }

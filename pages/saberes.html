@@ -73,12 +73,12 @@
         <div class="modal__acoes"><button type="button" class="btn btn--secundario" id="saberes-limpar">Limpar filtros</button><button type="submit" class="btn btn--primario">Aplicar filtros</button></div>
     </form>
 </dialog>
-<dialog class="modal modal--medio" id="saber-detalhe" aria-labelledby="saber-detalhe-titulo">
+<dialog class="modal modal--medio modal--editorial" id="saber-detalhe" aria-labelledby="saber-detalhe-titulo">
     <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
-    <div class="pilha">
-        <h2 class="modal__titulo" id="saber-detalhe-titulo"></h2>
+    <h2 class="modal__titulo" id="saber-detalhe-titulo"></h2>
+    <div class="modal__corpo">
         <p id="saber-detalhe-texto"></p>
         <p id="saber-detalhe-contagem"></p>
-        <a class="btn btn--primario" id="saber-detalhe-produtos" href="#/produtos">Explorar produtos desta técnica</a>
+        <div class="modal__acoes"><a class="btn btn--primario" id="saber-detalhe-produtos" href="#/produtos">Explorar produtos desta técnica</a></div>
     </div>
 </dialog>

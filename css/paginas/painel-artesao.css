@@ -134,8 +134,8 @@
     gap: var(--espaco-4);
 }
 
-.artesao-trabalhos .barra-filtros__item select,
-.artesao-status-lista .barra-filtros__item select {
+.artesao-trabalhos .barra-filtros__item > .seletor,
+.artesao-status-lista .barra-filtros__item > .seletor {
     flex: 1;
 }
 
@@ -152,10 +152,9 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--espaco-1);
+    gap: var(--espaco-2);
     width: 100%;
     min-height: var(--alvo-acao);
-    margin-bottom: var(--espaco-1);
 }
 
 .artesao-estado .btn {
@@ -185,12 +184,12 @@
 }
 
 .artesao-grade .card-produto__corpo {
+    gap: var(--espaco-2);
     flex: 1;
     min-width: 0;
 }
 
 .artesao-grade .card-produto__titulo {
-    min-height: 3em;
     overflow-wrap: anywhere;
 }
 
@@ -211,6 +210,24 @@
     flex-direction: column;
     gap: var(--espaco-2);
     margin-top: auto;
+    padding-top: var(--espaco-2);
+    border-top: none;
+}
+
+.artesao-estado .status {
+    min-height: var(--espaco-6);
+}
+
+.artesao-estado .status iconify-icon,
+.artesao-estado .btn--icone iconify-icon {
+    font-size: var(--tamanho-icone-status);
+}
+
+.artesao-estado .btn--icone {
+    flex: 0 0 var(--alvo-acao);
+    padding: 0;
+    border-color: transparent;
+    background-color: transparent;
 }
 
 .grade-cards.artesao-lista {
@@ -254,7 +271,7 @@
         flex-direction: column;
     }
 
-    .artesao-trabalhos .barra-filtros__item select {
+    .artesao-trabalhos .barra-filtros__item > .seletor {
         width: 100%;
         max-width: none;
     }
@@ -361,12 +378,36 @@
     min-height: 32px;
 }
 
-.artesao-status-busca {
-    flex: 1 0 100%;
+/* Busca e filtros de status reservam espaço próprio para os valores. */
+.artesao-status-lista .barra-filtros {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: end;
+    gap: var(--espaco-4);
+}
+
+.artesao-status-lista .barra-filtros__item {
+    display: grid;
+    gap: var(--espaco-2);
+    white-space: normal;
+}
+
+@media (min-width: 600px) {
+    .artesao-status-lista .barra-filtros {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .artesao-status-busca {
+        grid-column: 1 / -1;
+    }
 }
 
 @media (min-width: 1024px) {
+    .artesao-status-lista .barra-filtros {
+        grid-template-columns: minmax(14rem, 1.4fr) minmax(12rem, 1fr) minmax(12rem, 1fr);
+    }
+
     .artesao-status-busca {
-        flex: 1 1 0;
+        grid-column: auto;
     }
 }
