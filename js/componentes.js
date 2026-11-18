@@ -517,6 +517,59 @@ function mostrarAviso(mensagem) {
     }, 4000);
 }
 
+/** Substitui a apresentação do select múltiplo sem alterar seus valores. */
+function prepararMultisselecao(raiz) {
+    raiz.querySelectorAll("select[multiple]").forEach(function (select) {
+        if (select.dataset.multisselecao) {
+            return;
+        }
+        select.dataset.multisselecao = "true";
+        const rotulo = raiz.querySelector("label[for=\""
+            + CSS.escape(select.id) + "\"]");
+        const grupo = document.createElement("fieldset");
+        grupo.className = "multisselecao";
+        const legenda = document.createElement("legend");
+        legenda.textContent = rotulo ? rotulo.textContent : select.name;
+        grupo.append(legenda);
+        const opcoes = document.createElement("div");
+        opcoes.className = "multisselecao__opcoes";
+        const resumo = document.createElement("p");
+        resumo.className = "multisselecao__resumo";
+        resumo.setAttribute("aria-live", "polite");
+        const controles = Array.from(select.options).map(function (opcao) {
+            const label = document.createElement("label");
+            label.className = "multisselecao__opcao";
+            const controle = document.createElement("input");
+            controle.type = "checkbox";
+            controle.checked = opcao.selected;
+            controle.disabled = select.disabled || opcao.disabled;
+            controle.addEventListener("change", function () {
+                opcao.selected = controle.checked;
+                select.dispatchEvent(new Event("change", {bubbles: true}));
+            });
+            label.append(controle, document.createTextNode(opcao.text));
+            opcoes.append(label);
+            return controle;
+        });
+        function atualizar() {
+            controles.forEach(function (controle, indice) {
+                controle.checked = select.options[indice].selected;
+            });
+            resumo.textContent = Array.from(select.selectedOptions).map(
+                function (opcao) { return opcao.text; }
+            ).join(", ") || "Nenhuma opção selecionada";
+        }
+        select.addEventListener("change", atualizar);
+        grupo.append(opcoes, resumo);
+        select.after(grupo);
+        select.hidden = true;
+        if (rotulo) {
+            rotulo.hidden = true;
+        }
+        atualizar();
+    });
+}
+
 export {
     STATUS,
     abrirModal,
@@ -536,5 +589,6 @@ export {
     padronizarIcones,
     prepararAcoes,
     prepararCamposSenha,
-    prepararModais
+    prepararModais,
+    prepararMultisselecao
 };
