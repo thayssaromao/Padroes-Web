@@ -1094,12 +1094,12 @@ conteúdo/placeholder não é inferido a partir dos tokens.
   As faixas alternadas usam turquesa suave (`--cor-superficie-forte`),
   substituindo a base bege acinzentada. Faixas editoriais rosa/amarelo
   existentes continuam com seus papéis.
-- Atalhos compartilhados `.card-atalho` têm apresentação de entradas de
-  navegação: fundo transparente, sem sombra, sem moldura arredondada ou
-  faixa superior. Uma divisória inferior organiza as entradas; título,
-  descrição, ícone e seta mantêm a hierarquia e toda a área permanece link.
-  Hover/foco reforçam a leitura sem fazer a entrada flutuar. O contorno de
-  foco continua visível. Preservar grade, padding e dimensões externas.
+- Atalhos compartilhados `.card-atalho` preservam a anatomia de card:
+  superfície branca, borda completa suave, cantos arredondados e sombra
+  discreta. Sem faixa superior decorativa. Ícone turquesa, título, descrição
+  e seta menor organizam o conteúdo; toda a área permanece clicável.
+  Hover/foco reforçam a borda sem deslocar o card. Preservar grade, padding,
+  dimensões externas e contorno de foco visível.
 - Header e footer usam `aria-current="page"` como fonte do estado ativo:
   preenchimento amarelo, texto petróleo e peso forte. Nenhum pseudo-elemento
   desenha linha de ativo ou hover. No desktop, o destaque do header tem
