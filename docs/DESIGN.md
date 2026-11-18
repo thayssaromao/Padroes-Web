@@ -317,6 +317,28 @@ Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 - A remocao de CSS legado nao modifica HTML, JavaScript,
   favoritos, filtros, paginacao ou ordenacao.
 
+**Limpeza de estilos legados dos cards**
+
+A renderizacao atual utiliza as classes compartilhadas
+`.card-produto__imagem`, `.card-produto__corpo` e
+`.card-produto__favorito`.
+
+As classes antigas `.card-imagem`, `.card-info` e
+`.btn-favorito` nao possuem referencias identificadas
+na implementacao atual.
+
+Seus estilos legados podem ser removidos de
+`css/produtos.css`, preservando:
+
+- O componente compartilhado `.card-produto`.
+- Os estilos de grade e modo lista.
+- O favorito `.card-produto__favorito`.
+- Os dados de titulo, tecnica, categoria e preco.
+- A estrutura responsiva e os alinhamentos aprovados.
+
+A remocao deve ser validada visualmente antes
+de ser considerada concluida.
+
 ### 5.5 Cards
 
 | Card | Classe | Conteúdo | Onde |
