@@ -465,7 +465,7 @@ Caixa `--cor-superficie-forte`, raio `--raio-medio`, ícone `lucide:info` grande
 
 ### 5.13 Pré-visualização do perfil — `.previa-perfil`
 
-Card cinza lateral com cabeçalho (olho + "Pré-visualização do perfil público"), contendo uma miniatura do card público (avatar, nome, chip, técnicas, bio, botão "Saber mais"). Atualiza em tempo real enquanto o artesão digita (função `atualizarPrevia`). Some abaixo de 1024px (vai para o fim do formulário).
+Card de superfície turquesa suave com cabeçalho (olho + "Pré-visualização do perfil público"), contendo uma miniatura do card público (avatar, nome, chip, técnicas, bio, botão "Saber mais"). Atualiza em tempo real enquanto o artesão digita (função `atualizarPrevia`). Some abaixo de 1024px (vai para o fim do formulário).
 
 ---
 
@@ -910,7 +910,7 @@ os artesãos e suas produções.
 
 | Papel | Hex |
 |---|---|
-| Turquesa institucional | #20A8A6 |
+| Turquesa de marca (proposta) | #20A8A6 |
 | Ação primária | #0C7774 |
 | Hover primário | #095E5C |
 | Amarelo criativo | #FFC928 |
@@ -958,7 +958,7 @@ arquivos definitivos.
 A paleta cinza anterior era provisória, utilizada apenas
 durante a construção e validação da interface.
 
-A identidade visual definitiva proposta para o portal é
+A interpretação digital proposta para o portal é
 fundamentada na paleta criativa documentada anteriormente.
 
 ### Regra obrigatória
