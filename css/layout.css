@@ -93,7 +93,7 @@
     gap: var(--espaco-2);
     min-height: 44px;
     padding-inline: var(--espaco-2);
-    font-size: var(--fonte-grande);
+    font-size: var(--fonte-header);
     text-decoration: none;
     border-radius: var(--raio-pequeno);
     transition: background-color var(--transicao), color var(--transicao);
@@ -136,6 +136,7 @@
 
 .rodape {
     background-color: var(--cor-barra);
+    font-size: var(--fonte-footer);
 }
 
 .rodape__interno {
@@ -401,7 +402,7 @@
     gap: var(--espaco-3);
     padding: var(--espaco-4);
     background-color: var(--cor-barra);
-    font-size: var(--fonte-pequena);
+    font-size: var(--fonte-footer);
 }
 
 .painel__rodape-links {
@@ -563,7 +564,7 @@
 
     .nav-portal__link,
     .nav-portal__entrar {
-        font-size: 1.0625rem;
+        font-size: var(--fonte-header);
     }
 
     .nav-portal__link:hover,

@@ -58,13 +58,31 @@ Fonte: **Inter** (Google Fonts, pesos 400/500/600/700/800), fallback `Arial, Hel
 | `--fonte-display` | `clamp(2rem, 5vw, 3.25rem)` / peso 800 | Título do hero ("Portal do Artesão") |
 | `--fonte-h1` | `clamp(1.75rem, 3.5vw, 2.5rem)` / 800 | Título de página do painel ("Painel Administrativo") |
 | `--fonte-h2` | `clamp(1.375rem, 2.5vw, 1.875rem)` / 700 | Título de seção ("Produtos em destaque") |
-| `--fonte-h3` | `1.125rem` / 700 | Título de card / bloco de formulário |
-| `--fonte-corpo` | `1rem` / 400 | Texto padrão |
-| `--fonte-grande` | `1.25rem` / 400 | Texto de apoio do hero |
-| `--fonte-pequena` | `0.875rem` | Metadados, labels |
+| `--fonte-h3` | `1rem` / 700 | Título de card / bloco de formulário |
+| `--fonte-corpo` | `0.875rem` / 400 | Texto padrão |
+| `--fonte-grande` | `1.125rem` / 400 | Texto de apoio do hero |
+| `--fonte-pequena` | `0.8125rem` | Metadados, labels |
 | `--fonte-mini` | `0.75rem` | Chips, sobretítulos, legenda |
 
 Sobretítulo (`.sobretitulo`): `--fonte-pequena`, maiúsculas, `letter-spacing: .04em`, cor `--cor-texto-apagado`.
+
+### 2.2.1 Hierarquia tipografica de navegacao
+
+A navegacao utiliza tamanhos proprios, independentes dos
+titulos das paginas e dos textos de conteudo.
+
+| Elemento | Tamanho | Regra |
+|---|---|---|
+| Links do header publico | `13px` | Navegacao principal |
+| Links do footer publico | `12px` | Menor que o header |
+| Copyright e textos auxiliares do footer | `12px` | Escala discreta |
+| Botoes e campos | `13px` a `14px` | Preservar legibilidade |
+| Areas clicaveis | minimo `44px` | Nao reduzir com a fonte |
+
+A reducao tipografica nao altera automaticamente a altura
+do header, footer, logotipos ou icones.
+
+Os layouts autenticados preservam suas variantes existentes.
 
 ### 2.3 Espaçamento, raio, sombra, movimento
 
@@ -235,6 +253,33 @@ Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 
 Todos: fundo branco (ou `--cor-superficie`), borda 1px `--cor-borda`, raio `--raio-medio`. **Hover** em cards clicáveis: `translateY(-3px)` + `--sombra-elevada` + borda forte (`transition: var(--transicao)`). Cards de lista são `<article>` com título `h3`.
 
+### Padrao estrutural dos cards de trabalho do Artesao
+
+Os cards equivalentes do painel do Artesao devem seguir:
+
+1. Imagem do trabalho.
+2. Titulo.
+3. Metadados de categoria e tecnica.
+4. Divisoria horizontal.
+5. Status e acoes contextuais.
+6. Acoes principais.
+
+A divisoria aparece sempre antes dos chips de status.
+
+Estados padronizados:
+
+- Rascunho: status Rascunho e acao Enviar para analise,
+  ambos visiveis diretamente no card.
+- Em analise: status correspondente.
+- Publicado: status correspondente.
+- Rejeitado: status Rejeitado e acao Ver motivo.
+
+As acoes devem respeitar as permissoes e regras de negocio
+de cada estado.
+
+Os cards reutilizam a mesma estrutura visual e preservam
+os icones Lucide e os alvos de interacao.
+
 ### 5.6 Cabeçalho de seção — `.secao-cabecalho`
 
 Título `h2` à esquerda + link "Ver catálogo completo →" à direita (`.link-seta`, `--fonte-pequena`, peso 700). Empilha no smartphone.
@@ -251,6 +296,26 @@ Proporção 16:7 no desktop, 4:3 no smartphone; raio `--raio-medio`.
 - `.barra-filtros`: linha com busca + rótulos/selects ("Filtrar por categoria/técnica", "Ordenar por") agrupados com gap, sem divisórias verticais; quebra em coluna no smartphone.
 - `.alternar-visualizacao`: dois `.btn--icone` (`lucide:layout-grid` / `lucide:list`) com `aria-pressed`; ativo = fundo `--cor-primaria` e ícone branco.
 - `.resultado-contagem`: "Exibindo 1 - 12 de 64 artesãos" (`--fonte-pequena`), com `aria-live="polite"`.
+
+### Regras consolidadas de alinhamento dos filtros
+
+Em desktop, os chips de um mesmo grupo devem utilizar toda
+a largura horizontal disponivel, sem quebra prematura.
+
+- Artesaos e Saberes: alinhar os chips as bordas do grupo
+  de busca e filtro.
+- Produtos: alinhar os chips as bordas da grade de produtos,
+  respeitando a sidebar.
+- Os chips devem distribuir a largura proporcionalmente,
+  preservando os nomes completos.
+- A linha seguinte apresenta o contador a esquerda e
+  o conjunto completo de ordenacao a direita.
+- O conjunto de ordenacao inclui label, select e botoes
+  de visualizacao em grade e lista.
+- Manter espacamento vertical compacto entre chips,
+  controles e cards.
+- Em mobile, permitir reorganizacao sem overflow.
+- Preservar as funcionalidades e a responsividade.
 
 ### 5.9 Paginação — `.paginacao`
 

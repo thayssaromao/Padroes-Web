@@ -39,11 +39,13 @@
     --fonte-display: clamp(2rem, 5vw, 3.25rem);
     --fonte-h1: clamp(1.75rem, 3.5vw, 2.5rem);
     --fonte-h2: clamp(1.375rem, 2.5vw, 1.875rem);
-    --fonte-h3: 1.125rem;
-    --fonte-corpo: 1rem;
-    --fonte-grande: 1.25rem;
-    --fonte-pequena: 0.875rem;
+    --fonte-h3: 1rem;
+    --fonte-corpo: 0.875rem;
+    --fonte-grande: 1.125rem;
+    --fonte-pequena: 0.8125rem;
     --fonte-mini: 0.75rem;
+    --fonte-header: 0.8125rem;
+    --fonte-footer: 0.75rem;
 
     --peso-regular: 400;
     --peso-medio: 500;
