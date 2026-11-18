@@ -735,3 +735,30 @@ Os cabeçalhos de configurações reutilizam `.bloco-form__cabecalho--secao`, co
 Não reposicione um `iconify-icon` conectado apenas para remover espaços em branco. O preparador mantém nós já corretos; quando realmente precisa trocar um ícone de posição, cria uma instância nova. Isso evita estado interno de SVG inválido ao reconectar o custom element.
 
 Ícones de status e envio não são ocultados em cards compactos no desktop. O ajuste de densidade acontece por quebra de linha e altura natural, não por remoção de informação. Em uma fileira com apenas “Mais ações”, o botão permanece quadrado; somente ações com texto podem crescer para preencher a largura.
+
+
+## Validação final do portal público (18/11/2026)
+
+Referência visual: `../wireframes.pdf`, dez páginas (Login, Início,
+Catálogo, Produto, Artesãos, Perfil, Saberes, Liceu, Contato e Sobre).
+A referência orienta a composição; dados e textos existentes prevalecem
+sobre conteúdo ilustrativo. Header, footer, tokens e cards aprovados
+são preservados. A seção de vídeo e a linha do tempo são requisitos
+existentes, mesmo quando ampliam a altura em relação ao wireframe.
+
+- Catálogo: grade de uma coluna no smartphone, duas no tablet e quatro
+  no desktop, conforme §3 e o wireframe. Usar `minmax(0, 1fr)` e o
+  espaçamento existente `--espaco-4`, sem mudar o card compartilhado.
+  O modo lista continua com uma coluna e sua imagem limitada.
+- Perfil do artesão: nomes, empreendimento, cidade e biografia aceitam
+  palavras longas com `overflow-wrap: anywhere`. A informação ocupa
+  o espaço restante sem reduzir a foto; em tablet/desktop, reservar
+  a coluna da foto com base no limite já aprovado de 280px/38%.
+  Links de contato e seus itens podem encolher e quebrar texto;
+  o ícone mantém seu tamanho. Chips podem quebrar dentro do perfil.
+  Essas regras ficam em `css/paginas/artesaos.css`.
+- Não ocultar overflow para mascarar conteúdo cortado. Validar largura
+  interna do diálogo, foto, contatos e fechamento por teclado nos
+  tamanhos 1280px, 768px e 375px.
+- Fotos institucionais e dos cinco integrantes seguem pendentes;
+  os recursos disponíveis são placeholders, conforme o inventário.
