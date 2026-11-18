@@ -3,6 +3,10 @@
    Guia: docs/DESIGN.md (use só tokens e componentes do guia)
    ========================================================= */
 
+.artesaos-hero {
+    background-color: var(--cor-editorial-alternada);
+}
+
 .artesaos-hero__grade {
     display: grid;
     gap: var(--espaco-5);
@@ -93,6 +97,12 @@
     flex-direction: column;
     gap: var(--espaco-3);
     min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.artesaos-perfil__info .chip {
+    max-width: 100%;
+    white-space: normal;
 }
 
 .artesaos-contato__titulo {
@@ -112,14 +122,17 @@
     align-items: center;
     gap: var(--espaco-2);
     min-height: 44px;
+    max-width: 100%;
     overflow-wrap: anywhere;
 }
 
 .artesaos-contato__link iconify-icon {
     font-size: 28px;
+    flex-shrink: 0;
 }
 
 .artesaos-contato__link span {
+    min-width: 0;
     text-decoration: underline;
     text-underline-offset: 3px;
 }
@@ -141,8 +154,13 @@
     }
 
     .artesaos-perfil__foto {
-        flex: 0 0 280px;
-        width: 280px;
+        flex: 0 0 auto;
+        width: min(280px, 38%);
+        min-width: 0;
+    }
+
+    .artesaos-perfil__info {
+        flex: 1;
     }
 
     .artesaos-contato {
@@ -150,6 +168,11 @@
         flex-wrap: wrap;
         justify-content: space-between;
         gap: var(--espaco-3) var(--espaco-5);
+    }
+
+    .artesaos-contato > li {
+        min-width: 0;
+        max-width: 100%;
     }
 
     .artesaos-grade--lista .card-artesao {
@@ -268,8 +291,13 @@
 }
 
 .artesaos-grade .btn--bloco {
-    background-color: var(--cor-superficie);
-    border-color: var(--cor-borda);
+    background-color: var(--cor-secundaria);
+    color: var(--cor-link);
+    border-color: var(--cor-primaria);
+}
+
+.artesaos-grade .btn--bloco:hover {
+    background-color: var(--cor-secundaria-hover);
 }
 
 .artesaos-perfil__empreendimento {
@@ -317,5 +345,55 @@
     .artesaos-lista .filtros-chips {
         grid-template-columns: repeat(8, minmax(0, 1fr));
         gap: var(--espaco-4);
+    }
+}
+
+/* AJUSTE-LICEU: distribuicao horizontal dos filtros publicos */
+@media (min-width: 1024px) {
+    .artesaos-lista .filtros-chips {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: space-between;
+        width: 100%;
+        gap: var(--espaco-2);
+        overflow-x: visible;
+        padding-bottom: 0;
+        box-sizing: border-box;
+    }
+
+    .artesaos-lista .filtro-chip {
+        flex: 1 1 auto;
+        width: auto;
+        min-width: max-content;
+        min-height: 40px;
+        padding-inline: var(--espaco-2);
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    .artesaos-lista .barra-ferramentas {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: var(--espaco-3);
+    }
+
+    .artesaos-lista .barra-ferramentas > .linha {
+        margin-left: auto;
+        flex-wrap: nowrap;
+    }
+}
+
+/* AJUSTE-LICEU: ritmo vertical da listagem publica */
+@media (min-width: 1024px) {
+    .artesaos-lista .filtros-chips {
+        margin-bottom: var(--espaco-3);
+    }
+
+    .artesaos-lista .barra-ferramentas {
+        margin-top: 0;
+        margin-bottom: var(--espaco-4);
     }
 }

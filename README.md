@@ -56,3 +56,25 @@ Caso você tenha o Python instalado no seu computador:
 2. Execute o comando abaixo:
    ```bash
    python3 -m http.server 8000
+   ```
+
+3. Acesse `http://localhost:8000`.
+
+## Contas e fluxos de demonstração
+
+Este MVP usa dados e autenticação locais. Use apenas dados fictícios.
+
+| Papel | E-mail | Senha |
+|---|---|---|
+| Liceu | `liceu@exemplo.com` | `liceu123` |
+| Artesã (Ana) | `ana@exemplo.com` | `artesao123` |
+
+Os demais artesãos ativos da base inicial usam seus e-mails de `data/artesaos.json` e a senha `artesao123`, até uma redefinição pelo Liceu. O cadastro administrativo define uma senha provisória. O cadastro público em `#/cadastro` permite criar uma conta e completar o perfil; o artesão só aparece no portal após informar categoria e técnica.
+
+O ciclo de envio, moderação e reenvio funciona compartilhando o `localStorage` na mesma origem. “Lembrar de mim” controla a persistência da sessão; os cadastros/trabalhos permanecem locais independentemente dessa opção. A autenticação continua sendo uma simulação local, sem backend. As contas de demonstração `admin@liceu.mock` / `admin123` e `artesao@liceu.mock` / `artesao123`, já existentes na main, também são aceitas.
+
+Veja [rotas e comportamentos](docs/FLUXOS.md) e [como executar os testes de regressão](tests/README.md). Para verificar a camada de dados sem instalar dependências:
+
+```bash
+node tests/dados.mjs
+```

@@ -1,0 +1,217 @@
+/* Composição do detalhe definido no wireframe; componentes são compartilhados. */
+.produto-detalhes {
+    display: grid;
+    gap: var(--espaco-6);
+    align-items: start;
+}
+
+.produto-galeria,
+.produto-resumo {
+    min-width: 0;
+}
+
+.produto-resumo {
+    overflow-wrap: anywhere;
+}
+
+.produto-resumo h1 {
+    font-size: var(--fonte-h2);
+}
+
+.produto-galeria .carrossel__slide img {
+    aspect-ratio: 16 / 9;
+}
+
+.produto-miniaturas .miniatura {
+    aspect-ratio: 16 / 9;
+    border: 2px solid transparent;
+}
+
+.produto-miniaturas .miniatura[aria-pressed="true"] {
+    border-color: var(--cor-borda-forte);
+}
+
+.produto-miniaturas .miniatura img {
+    aspect-ratio: 16 / 9;
+}
+
+.produto-preco {
+    font-size: var(--fonte-h2);
+    font-weight: var(--peso-negrito);
+}
+
+.produto-preco--consulta {
+    font-size: var(--fonte-corpo);
+    font-weight: var(--peso-regular);
+    color: var(--cor-texto-suave);
+}
+
+.produto-atributos {
+    display: grid;
+    gap: var(--espaco-4);
+}
+
+.produto-atributos dt {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    font-weight: var(--peso-negrito);
+}
+
+.produto-atributos > div + div {
+    padding-top: var(--espaco-4);
+    border-top: 1px solid var(--cor-borda);
+}
+
+.produto-atributos iconify-icon {
+    flex-shrink: 0;
+    font-size: var(--tamanho-icone-acao);
+}
+
+.produto-atributos dd {
+    margin-top: var(--espaco-1);
+    margin-left: calc(var(--tamanho-icone-acao) + var(--espaco-2));
+    font-size: var(--fonte-pequena);
+    color: var(--cor-texto-suave);
+}
+
+.produto-descricao {
+    padding-top: var(--espaco-5);
+    border-top: 1px solid var(--cor-borda);
+}
+
+.produto-descricao h2 {
+    font-size: var(--fonte-h3);
+}
+
+.produto-produtor {
+    display: grid;
+    gap: var(--espaco-4);
+    align-items: start;
+}
+
+.produto-produtor > img {
+    width: 96px;
+    aspect-ratio: 1;
+    border-radius: var(--raio-pilula);
+}
+
+.produto-contexto {
+    background-color: var(--cor-editorial-alternada);
+    display: grid;
+    gap: var(--espaco-5);
+    align-items: start;
+}
+
+.produto-contexto > section {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--espaco-4);
+    min-width: 0;
+}
+
+.produto-bio {
+    max-height: 9em;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.produto-contexto > section + section {
+    padding-top: var(--espaco-5);
+    border-top: 1px solid var(--cor-borda);
+}
+
+.produto-contexto h2,
+.produto-relacionados-cabecalho h2 {
+    font-size: var(--fonte-h3);
+}
+
+.produto-produtor > .pilha,
+.produto-tecnica > .pilha {
+    height: 100%;
+    min-width: 0;
+    gap: var(--espaco-2);
+    overflow-wrap: anywhere;
+}
+
+.produto-contexto .btn {
+    align-self: flex-start;
+    margin-top: auto;
+    max-width: 100%;
+    white-space: normal;
+}
+
+.produto-tecnica {
+    display: grid;
+    gap: var(--espaco-4);
+    align-items: start;
+}
+
+.produto-tecnica > img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--raio-medio);
+}
+
+@media (min-width: 600px) {
+    .produto-atributos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .produto-atributos > div + div {
+        padding-top: 0;
+        padding-left: var(--espaco-4);
+        border-top: none;
+        border-left: 1px solid var(--cor-borda);
+    }
+
+    .produto-produtor {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .produto-produtor > img {
+        width: calc(2 * var(--espaco-8));
+    }
+
+    .produto-tecnica {
+        grid-template-columns: calc(2 * var(--espaco-8)) minmax(0, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .produto-resumo {
+        padding-top: var(--espaco-5);
+    }
+
+    .produto-detalhes {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+        gap: var(--espaco-7);
+    }
+
+    .produto-contexto {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+        column-gap: 0;
+    }
+
+    .produto-contexto > section:first-child {
+        padding-right: var(--espaco-6);
+    }
+
+    .produto-contexto > section + section {
+        padding-top: 0;
+        padding-left: var(--espaco-6);
+        border-top: none;
+        border-left: 1px solid var(--cor-borda);
+    }
+
+    .produto-relacionados--tres {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        width: calc(75% - var(--espaco-5) / 4);
+        margin-inline: auto;
+    }
+}
+
+.produto-atributos iconify-icon {
+    color: var(--cor-primaria);
+}

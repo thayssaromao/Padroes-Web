@@ -1,45 +1,48 @@
-<header class="painel-cabecalho">
+<header class="painel-cabecalho artesao-cabecalho-acao">
     <div class="painel-cabecalho__texto">
         <span class="sobretitulo">Meus trabalhos</span>
         <h1>Meus trabalhos</h1>
         <p class="texto-apoio">Gerencie os trabalhos cadastrados e acompanhe o status de cada publicação</p>
+    </div>
+    <div class="painel-cabecalho__acoes">
+        <a class="btn btn--suave" href="#/painel-artesao/novo-trabalho">
+            <iconify-icon icon="lucide:plus" aria-hidden="true"></iconify-icon>
+            Cadastrar novo trabalho
+        </a>
     </div>
 </header>
 
 <section class="artesao-trabalhos" aria-labelledby="trabalhos-titulo">
     <h2 class="visualmente-oculto" id="trabalhos-titulo">Lista de trabalhos</h2>
     <div class="artesao-topo">
-        <a class="btn btn--suave" href="#/painel-artesao/novo-trabalho">
-            <iconify-icon icon="lucide:square-plus" aria-hidden="true"></iconify-icon>
-            Cadastrar novo trabalho
-        </a>
         <search class="busca">
             <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
-            <label for="trabalhos-busca" class="visualmente-oculto">Buscar produtos</label>
-            <input type="search" id="trabalhos-busca" class="busca__entrada" placeholder="Buscar produtos..." data-busca>
+            <label for="trabalhos-busca" class="visualmente-oculto">Buscar trabalhos</label>
+            <input type="search" id="trabalhos-busca" class="busca__entrada" placeholder="Buscar por nome do trabalho..." data-busca>
         </search>
     </div>
 
-    <div class="barra-filtros">
+    <div class="barra-filtros barra-filtros--trabalhos">
         <div class="barra-filtros__item">
-            <label for="trabalhos-status">Filtrar por status:</label>
+            <label for="trabalhos-status">Status:</label>
             <select id="trabalhos-status" class="campo__entrada" data-filtro-status>
                 <option value="">Todos os status</option>
                 <option value="publicado">Publicado</option>
                 <option value="em-analise">Em análise</option>
                 <option value="rascunho">Rascunho</option>
                 <option value="rejeitado">Rejeitado</option>
+                <option value="oculto">Oculto pelo Liceu</option>
             </select>
         </div>
         <div class="barra-filtros__item">
-            <label for="trabalhos-categoria">Categoria / Técnica:</label>
+            <label for="trabalhos-categoria">Categoria/Técnica:</label>
             <select id="trabalhos-categoria" class="campo__entrada" data-filtro-categoria>
                 <option value="">Todas</option>
                 <!-- Categorias e técnicas preenchidas via JS (data/categorias.json) -->
             </select>
         </div>
         <div class="barra-filtros__item">
-            <label for="trabalhos-ordem">Ordenar por:</label>
+            <label for="trabalhos-ordem">Ordenar:</label>
             <select id="trabalhos-ordem" class="campo__entrada" data-ordem>
                 <option value="recentes">Mais recentes</option>
                 <option value="antigos">Mais antigos</option>

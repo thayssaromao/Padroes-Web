@@ -1,359 +1,228 @@
 /*jslint browser */
-/**
- * paginas/saberes.js — Catálogo de técnicas (#/saberes).
- * Segue o mesmo modelo de paginas/artesaos.js.
- * Guia: docs/DESIGN.md §5.5, §5.8, §5.9 e §8.
- */
-
-import {carregarTecnicas} from "../dados.js";
+import {carregarCategorias} from "../dados.js";
 import {
     abrirModal,
-    criarCardTecnica,
-    criarChips,
     criarPaginacao,
     escaparHtml,
     fecharModal,
+    icone,
     iniciarCarrossel,
+    prepararAcoes,
     prepararModais
 } from "../componentes.js";
+import {
+    carregarVitrine,
+    normalizar,
+    parametrosPublicos
+} from "./publico.js";
 
+const DESCRICOES = Object.freeze({
+    "Bordado": "Desenhos e texturas criados com pontos e linhas sobre tecido.",
+    "Cerâmica": "Peças modeladas em argila que passam por secagem e queima.",
+    "Cestaria": "Trançados manuais que dão forma a cestos e outros objetos.",
+    "Crochê": "Laçadas de fios entrelaçadas com agulha, formando tecidos e peças.",
+    "Fibras naturais": "Trabalho manual com fibras de origem vegetal.",
+    "Macramê": "Nós feitos à mão com fios e cordões para criar tramas.",
+    "Madeira": "Objetos e esculturas feitos pelo trabalho manual da madeira.",
+    "Patchwork": "Composição de peças por meio da união de retalhos de tecido."
+});
 const POR_PAGINA = 8;
-const CATEGORIAS = [
-    "Cerâmica",
-    "Tecelagem",
-    "Madeira",
-    "Costura e Bordado",
-    "Cestaria",
-    "Pintura"
-];
 
-const REDUZIR = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-const estado = {
-    busca: "",
-    categoria: "",
-    favoritos: new Set(),
-    filtro: "Todos",
-    material: "",
-    ordem: "recentes",
-    pagina: 1,
-    visualizacao: "grade"
-};
-
-/**
- * Minúsculas e sem acentos, para comparar textos.
- * @param {string} texto
- * @returns {string}
- */
-function normalizar(texto) {
-    return String(texto ?? "").normalize("NFD").replace(
-        /[̀-ͯ]/g,
-        ""
-    ).toLowerCase();
-}
-
-/**
- * Aplica busca, chip de categoria e filtros do diálogo.
- * @param {Array<object>} tecnicas
- * @returns {Array<object>}
- */
-function filtrarTecnicas(tecnicas) {
-    const termo = normalizar(estado.busca).trim();
-    return tecnicas.filter(function (tecnica) {
-        const texto = normalizar([
-            tecnica.nome,
-            tecnica.descricao,
-            tecnica.categoria
-        ].concat(tecnica.materiais).join(" "));
-        const passaBusca = texto.includes(termo);
-        const passaFiltro = (
-            estado.filtro === "Todos"
-            || (
-                estado.filtro === "Outros"
-                ? !CATEGORIAS.includes(tecnica.categoria)
-                : tecnica.categoria === estado.filtro
-            )
-        );
-        const passaCategoria = (
-            !estado.categoria || tecnica.categoria === estado.categoria
-        );
-        const passaMaterial = (
-            !estado.material || tecnica.materiais.includes(estado.material)
-        );
-        return passaBusca && passaFiltro && passaCategoria && passaMaterial;
-    });
-}
-
-/**
- * Ordena sem alterar a lista original.
- * @param {Array<object>} tecnicas
- * @returns {Array<object>}
- */
-function ordenarTecnicas(tecnicas) {
-    const copia = tecnicas.slice();
-    const porNome = function (a, b) {
-        return a.nome.localeCompare(b.nome, "pt-BR");
-    };
-    if (estado.ordem === "nome-az") {
-        return copia.sort(porNome);
-    }
-    if (estado.ordem === "nome-za") {
-        return copia.sort(function (a, b) {
-            return porNome(b, a);
-        });
-    }
-    return copia.sort(function (a, b) {
-        return Date.parse(b.cadastradoEm) - Date.parse(a.cadastradoEm);
-    });
-}
-
-/**
- * Preenche e abre o popup de detalhes da técnica.
- * @param {HTMLElement} raiz
- * @param {object} tecnica
- */
-function abrirTecnica(raiz, tecnica) {
-    raiz.querySelector("#modal-tecnica-titulo").textContent = tecnica.nome;
-    raiz.querySelector("#modal-tecnica-categoria").textContent = (
-        tecnica.categoria
-    );
-    raiz.querySelector("#modal-tecnica-descricao").textContent = (
-        tecnica.descricao
-    );
-    raiz.querySelector("#modal-tecnica-materiais").innerHTML = criarChips(
-        tecnica.materiais
-    );
-    abrirModal("modal-tecnica");
-}
-
-/**
- * Liga a listagem: busca, filtros, ordenação, paginação e modais.
- * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
- * @returns {Promise<void>}
- */
 async function iniciarSaberes(raiz) {
     const marco = raiz.firstElementChild;
-    let tecnicas = [];
     const grade = raiz.querySelector("#saberes-grade");
     const vazio = raiz.querySelector("#saberes-vazio");
-    const contagem = raiz.querySelector("#saberes-contagem");
+    const chips = raiz.querySelector("#saberes-chips");
+    const busca = raiz.querySelector("#saberes-busca");
+    const ordem = raiz.querySelector("#saberes-ordem");
     const paginacao = raiz.querySelector("#saberes-paginacao");
-    const chips = raiz.querySelectorAll(".filtro-chip");
-    const modos = raiz.querySelectorAll("[data-visualizacao]");
-    const filtroCategoria = raiz.querySelector("#saberes-filtro-categoria");
-    const filtroMaterial = raiz.querySelector("#saberes-filtro-material");
+    const categoria = raiz.querySelector("#saberes-categoria");
+    let tecnica = parametrosPublicos().get("tecnica") || "";
+    let filtroCategoria = "";
+    let pagina = 1;
+    let tecnicas = [];
+    let trabalhos = [];
 
-    function preencherFiltros() {
-        [
-            {campo: filtroCategoria, valores: tecnicas.map(function (tecnica) {
-                return tecnica.categoria;
-            })},
-            {campo: filtroMaterial, valores: tecnicas.flatMap(function (tecnica) {
-                return tecnica.materiais;
-            })}
-        ].forEach(function (filtro) {
-            const opcoes = Array.from(new Set(filtro.valores)).sort(function (a, b) {
+    function descricao(nome) {
+        return DESCRICOES[nome] || "Conheça os trabalhos deste ofício artesanal.";
+    }
+
+    function trabalhosTecnica(nome) {
+        return trabalhos.filter(function (trabalho) {
+            return trabalho.tecnica === nome;
+        });
+    }
+
+    function detalhe(nome) {
+        const lista = trabalhosTecnica(nome);
+        raiz.querySelector("#saber-detalhe-titulo").textContent = nome;
+        raiz.querySelector("#saber-detalhe-texto").textContent = descricao(nome);
+        raiz.querySelector("#saber-detalhe-contagem").textContent = lista.length
+            ? `${lista.length} trabalho(s) publicado(s) nesta técnica.`
+            : "Ainda não há trabalhos publicados nesta técnica.";
+        raiz.querySelector("#saber-detalhe-produtos").href = "#/produtos?tecnica="
+            + encodeURIComponent(nome);
+        abrirModal("saber-detalhe");
+    }
+
+    function renderizar() {
+        const lista = tecnicas.filter(function (nome) {
+            const obras = trabalhosTecnica(nome);
+            const texto = nome + " " + descricao(nome) + " " + obras.map(
+                function (trabalho) {
+                    return trabalho.materiais;
+                }
+            ).join(" ");
+            return (!tecnica || tecnica === nome)
+                && normalizar(texto).includes(normalizar(busca.value.trim()))
+                && (!filtroCategoria || obras.some(function (trabalho) {
+                    return trabalho.categoria === filtroCategoria;
+                }));
+        }).sort(function (a, b) {
+            if (ordem.value === "nome") {
                 return a.localeCompare(b, "pt-BR");
-            });
-            filtro.campo.insertAdjacentHTML("beforeend", opcoes.map(function (opcao) {
-                return `<option value="${escaparHtml(opcao)}">`
-                    + escaparHtml(opcao) + "</option>";
-            }).join(""));
+            }
+            function recente(nome) {
+                return trabalhosTecnica(nome).reduce(function (maximo, trabalho) {
+                    return Math.max(maximo, Date.parse(trabalho.publicadoEm) || 0);
+                }, 0);
+            }
+            return recente(b) - recente(a);
         });
-    }
-
-    function marcarChip(nome) {
-        chips.forEach(function (chip) {
-            chip.setAttribute("aria-pressed", String(chip.textContent.trim() === nome));
-        });
-    }
-
-    function renderizarPaginacao(total) {
-        const paginas = Math.ceil(total / POR_PAGINA);
-        paginacao.hidden = paginas <= 1;
-        paginacao.innerHTML = (
-            paginas > 1
-            ? criarPaginacao(estado.pagina, paginas)
-            : ""
-        );
-        paginacao.querySelectorAll(".paginacao__botao--seta").forEach(function (botao, indice) {
-            botao.disabled = (
-                indice === 0 ? estado.pagina === 1 : estado.pagina === paginas
-            );
-        });
-    }
-
-    function renderizarGrade() {
-        const lista = ordenarTecnicas(filtrarTecnicas(tecnicas));
-        const ultimaPagina = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
-        estado.pagina = Math.min(estado.pagina, ultimaPagina);
-        const inicio = (estado.pagina - 1) * POR_PAGINA;
-        const pagina = lista.slice(inicio, inicio + POR_PAGINA);
-        grade.innerHTML = pagina.map(function (tecnica) {
-            return "<li>" + criarCardTecnica(tecnica, {
-                favoritado: estado.favoritos.has(tecnica.id)
-            }) + "</li>";
-        }).join("");
-        grade.classList.toggle(
-            "saberes-grade--lista",
-            estado.visualizacao === "lista"
-        );
+        const paginas = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
+        pagina = Math.min(pagina, paginas);
+        const inicio = (pagina - 1) * POR_PAGINA;
+        grade.innerHTML = lista.slice(inicio, inicio + POR_PAGINA).map(
+            function (nome) {
+                const obras = trabalhosTecnica(nome);
+                const imagem = obras[0]?.imagens[0]
+                    || "assets/img/carrossel/artesaos-1.jpg";
+                return "<li><article class=\"card card-produto\">"
+                    + `<img class="card-produto__imagem" src="${escaparHtml(imagem)}"`
+                    + ` alt="Trabalho na técnica ${escaparHtml(nome)}"`
+                    + " width=\"400\" height=\"150\" loading=\"lazy\">"
+                    + "<div class=\"card-produto__corpo\"><h3>"
+                    + escaparHtml(nome) + "</h3><p class=\"texto-pequeno\">"
+                    + escaparHtml(descricao(nome)) + "</p>"
+                    + "<button type=\"button\" class=\"btn btn--secundario btn--pequeno\""
+                    + ` data-tecnica="${escaparHtml(nome)}">Saber mais `
+                    + icone("lucide:arrow-right") + "</button></div></article></li>";
+            }
+        ).join("");
         vazio.hidden = lista.length > 0;
-        vazio.textContent = "Nenhuma técnica encontrada. Ajuste a busca ou os filtros.";
-        contagem.textContent = (
-            lista.length === 0
-            ? "Exibindo 0 de 0 técnicas"
-            : `Exibindo ${inicio + 1} - ${inicio + pagina.length} de `
-            + `${lista.length} técnicas`
-        );
-        renderizarPaginacao(lista.length);
-        const filtros = Number(Boolean(estado.categoria)) + Number(Boolean(estado.material));
-        raiz.querySelector("#saberes-filtrar-texto").textContent = (
-            filtros > 0 ? `Filtrar (${filtros})` : "Filtrar"
-        );
+        raiz.querySelector("#saberes-contagem").textContent = lista.length
+            ? `Exibindo ${inicio + 1} - ${Math.min(inicio + POR_PAGINA, lista.length)}`
+                + ` de ${lista.length} técnicas`
+            : "Exibindo 0 de 0 técnicas";
+        paginacao.innerHTML = paginas > 1
+            ? criarPaginacao(pagina, paginas) : "";
+        paginacao.hidden = paginas <= 1;
+        paginacao.querySelectorAll("[data-pagina]").forEach(function (botao) {
+            const destino = Number(botao.dataset.pagina);
+            botao.disabled = destino < 1 || destino > paginas;
+        });
+        prepararAcoes(grade);
+        prepararAcoes(paginacao);
+        chips.querySelectorAll("[data-filtro]").forEach(function (botao) {
+            botao.setAttribute("aria-pressed", String(
+                botao.dataset.filtro === tecnica
+            ));
+        });
     }
 
     function recomecar() {
-        estado.pagina = 1;
-        renderizarGrade();
+        pagina = 1;
+        renderizar();
     }
 
-    raiz.querySelector("#saberes-form").addEventListener(
-        "submit",
-        function (evento) {
-            evento.preventDefault();
-        }
-    );
-    raiz.querySelector("#saberes-busca").addEventListener(
-        "input",
-        function (evento) {
-            estado.busca = evento.target.value;
-            recomecar();
-        }
-    );
-    raiz.querySelector("#saberes-filtrar").addEventListener(
-        "click",
-        function () {
-            filtroCategoria.value = estado.categoria;
-            filtroMaterial.value = estado.material;
-            abrirModal("modal-filtros-saberes");
-        }
-    );
-    raiz.querySelector("#saberes-filtros-form").addEventListener("submit", function (evento) {
+    prepararModais(raiz);
+    iniciarCarrossel(raiz.querySelector(".carrossel"));
+    raiz.querySelector("#saberes-form").addEventListener("submit", function (evento) {
         evento.preventDefault();
-        estado.categoria = filtroCategoria.value;
-        estado.material = filtroMaterial.value;
-        // A categoria do diálogo substitui o chip para evitar filtros conflitantes.
-        estado.filtro = "Todos";
-        marcarChip("Todos");
         recomecar();
-        fecharModal("modal-filtros-saberes");
     });
-    raiz.querySelector("#saberes-limpar-filtros").addEventListener("click", function () {
-        estado.categoria = "";
-        estado.material = "";
-        estado.filtro = "Todos";
-        filtroCategoria.value = "";
-        filtroMaterial.value = "";
-        marcarChip("Todos");
-        recomecar();
-        fecharModal("modal-filtros-saberes");
+    busca.addEventListener("input", recomecar);
+    ordem.addEventListener("change", recomecar);
+    raiz.querySelector("#saberes-filtrar").addEventListener("click", function () {
+        categoria.value = filtroCategoria;
+        abrirModal("saberes-filtros");
     });
-    chips.forEach(function (chip) {
-        chip.addEventListener("click", function () {
-            estado.filtro = chip.textContent.trim();
-            estado.categoria = "";
-            marcarChip(estado.filtro);
+    raiz.querySelector("#saberes-filtros-form").addEventListener(
+        "submit", function (evento) {
+            evento.preventDefault();
+            filtroCategoria = categoria.value;
             recomecar();
-        });
-    });
-    raiz.querySelector("#saberes-ordem").addEventListener(
-        "change",
-        function (evento) {
-            estado.ordem = evento.target.value;
-            recomecar();
+            fecharModal("saberes-filtros");
         }
     );
-    modos.forEach(function (modo) {
-        modo.addEventListener("click", function () {
-            estado.visualizacao = modo.dataset.visualizacao;
-            modos.forEach(function (outro) {
-                outro.setAttribute("aria-pressed", String(outro === modo));
+    raiz.querySelector("#saberes-limpar").addEventListener("click", function () {
+        filtroCategoria = "";
+        tecnica = "";
+        busca.value = "";
+        categoria.value = "";
+        recomecar();
+        fecharModal("saberes-filtros");
+    });
+    chips.addEventListener("click", function (evento) {
+        const botao = evento.target.closest("[data-filtro]");
+        if (botao) {
+            tecnica = botao.dataset.filtro;
+            recomecar();
+        }
+    });
+    grade.addEventListener("click", function (evento) {
+        const botao = evento.target.closest("[data-tecnica]");
+        if (botao) {
+            detalhe(botao.dataset.tecnica);
+        }
+    });
+    raiz.querySelectorAll("[data-modo]").forEach(function (botao) {
+        botao.addEventListener("click", function () {
+            grade.classList.toggle(
+                "artesaos-grade--lista", botao.dataset.modo === "lista"
+            );
+            raiz.querySelectorAll("[data-modo]").forEach(function (outro) {
+                outro.setAttribute("aria-pressed", String(outro === botao));
             });
-            renderizarGrade();
         });
     });
     paginacao.addEventListener("click", function (evento) {
         const botao = evento.target.closest("[data-pagina]");
         if (botao && !botao.disabled) {
-            estado.pagina = Number(botao.dataset.pagina);
-            renderizarGrade();
-            grade.scrollIntoView({
-                behavior: (
-                    REDUZIR.matches
-                    ? "auto"
-                    : "smooth"
-                ),
-                block: "start"
-            });
-            paginacao.querySelector("[aria-current]").focus({
-                preventScroll: true
-            });
+            pagina = Number(botao.dataset.pagina);
+            renderizar();
         }
     });
-    grade.addEventListener("click", function (evento) {
-        const favorito = evento.target.closest("[data-favorito]");
-        const saibaMais = evento.target.closest("[data-tecnica]");
-        if (favorito) {
-            const id = favorito.dataset.favorito;
-            if (estado.favoritos.has(id)) {
-                estado.favoritos.delete(id);
-            } else {
-                estado.favoritos.add(id);
-            }
-            favorito.setAttribute("aria-pressed", String(estado.favoritos.has(id)));
-            return;
-        }
-        if (saibaMais) {
-            const tecnica = tecnicas.find(function (item) {
-                return item.id === saibaMais.dataset.tecnica;
-            });
-            if (tecnica) {
-                abrirTecnica(raiz, tecnica);
-            }
-        }
-    });
-
-    iniciarCarrossel(raiz.querySelector(".carrossel"));
-    prepararModais(raiz);
-    estado.busca = "";
-    estado.categoria = "";
-    estado.filtro = "Todos";
-    estado.material = "";
-    estado.ordem = "recentes";
-    estado.visualizacao = "grade";
-
     try {
-        const todas = await carregarTecnicas();
+        const resultado = await Promise.all([
+            carregarCategorias(), carregarVitrine()
+        ]);
         if (!marco.isConnected) {
             return;
         }
-        tecnicas = todas;
-        preencherFiltros();
-        recomecar();
-    } catch (erro) {
-        if (!marco.isConnected) {
-            return;
+        tecnicas = resultado[0].tecnicas;
+        trabalhos = resultado[1].trabalhos;
+        if (!tecnicas.includes(tecnica)) {
+            tecnica = "";
         }
-        console.error(erro);
-        vazio.textContent = "Não foi possível carregar as técnicas.";
-        vazio.hidden = false;
-        contagem.textContent = "Lista de técnicas indisponível.";
-    } finally {
-        grade.setAttribute("aria-busy", "false");
+        chips.innerHTML = [""].concat(tecnicas).map(function (nome) {
+            return "<button type=\"button\" class=\"filtro-chip\""
+                + ` data-filtro="${escaparHtml(nome)}" aria-pressed="false">`
+                + escaparHtml(nome || "Todos") + "</button>";
+        }).join("");
+        categoria.insertAdjacentHTML("beforeend", resultado[0].categorias.map(
+            function (nome) {
+                return `<option value="${escaparHtml(nome)}">`
+                    + escaparHtml(nome) + "</option>";
+            }
+        ).join(""));
+        renderizar();
+    } catch (ignore) {
+        if (marco.isConnected) {
+            vazio.hidden = false;
+            vazio.textContent = "Não foi possível carregar os saberes.";
+        }
     }
 }
 
-export {
-    iniciarSaberes
-};
+export {iniciarSaberes};

@@ -10,6 +10,8 @@
 }
 
 .conteudo {
+    --cor-fundo: var(--cor-fundo-publico);
+    background-color: var(--cor-fundo);
     flex: 1;
 }
 
@@ -21,6 +23,7 @@
     gap: var(--espaco-3);
     text-decoration: none;
     font-weight: var(--peso-medio);
+    color: inherit;
 }
 
 .marca__logo {
@@ -37,6 +40,12 @@
     top: 0;
     z-index: 20;
     background-color: var(--cor-barra);
+    color: var(--cor-nav-texto);
+    --cor-foco: var(--marca-amarelo);
+    background-image: var(--grafismo-marca);
+    background-size: 100% 4px;
+    background-repeat: no-repeat;
+    background-position: bottom;
 }
 
 .cabecalho__interno {
@@ -93,34 +102,38 @@
     gap: var(--espaco-2);
     min-height: 44px;
     padding-inline: var(--espaco-2);
-    font-size: var(--fonte-grande);
+    font-size: var(--fonte-header);
     text-decoration: none;
     border-radius: var(--raio-pequeno);
     transition: background-color var(--transicao), color var(--transicao);
+    color: inherit;
 }
 
-.nav-portal__link:hover,
-.nav-portal__link:focus-visible {
-    background-color: rgb(255 255 255 / 25%);
+.nav-portal__link:not([aria-current="page"]):hover,
+.nav-portal__link:not([aria-current="page"]):focus-visible {
+    background-color: var(--cor-nav-hover);
 }
 
-.nav-portal__link[aria-current="page"] {
+.nav-portal__link[aria-current="page"],
+.rodape__links a[aria-current="page"] {
+    background-color: var(--cor-destaque);
+    color: var(--cor-texto);
     font-weight: var(--peso-negrito);
 }
 
 .nav-portal__entrar {
     font-weight: var(--peso-medio);
-    border-top: 1px solid var(--cor-borda-forte);
+    border-top: 1px solid var(--cor-divisor-nav);
     padding-top: var(--espaco-2);
     transition: color var(--transicao);
 }
 
-.nav-portal__link:hover,
-.nav-portal__link:focus-visible,
+.nav-portal__link:not([aria-current="page"]):hover,
+.nav-portal__link:not([aria-current="page"]):focus-visible,
 .nav-portal__entrar:hover,
 .nav-portal__entrar:focus-visible,
-.rodape__links a:hover,
-.rodape__links a:focus-visible,
+.rodape__links a:not([aria-current="page"]):hover,
+.rodape__links a:not([aria-current="page"]):focus-visible,
 .rodape__social a:hover,
 .rodape__social a:focus-visible {
     color: var(--cor-link-barra-hover);
@@ -135,7 +148,18 @@
 /* ===== Rodapé do portal ===== */
 
 .rodape {
-    background-color: var(--cor-barra);
+    background-color: var(--cor-rodape);
+    font-size: var(--fonte-footer);
+    color: var(--cor-nav-texto);
+    --cor-foco: var(--marca-amarelo);
+    background-image: var(--grafismo-marca);
+    background-size: 100% 4px;
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+.rodape .marca {
+    font-size: 0.875rem;
 }
 
 .rodape__interno {
@@ -144,7 +168,7 @@
     gap: var(--espaco-4);
     width: min(100% - 2 * var(--espaco-4), 1320px);
     margin-inline: auto;
-    padding-block: var(--espaco-5);
+    padding-block: var(--espaco-4);
 }
 
 .rodape__links {
@@ -161,28 +185,14 @@
     padding-block: var(--espaco-2);
     text-decoration: none;
     transition: color var(--transicao);
+    color: inherit;
 }
 
-.rodape__links a::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: var(--cor-indicador-hover);
-    transform: scaleX(0);
-    transition: transform var(--transicao);
-}
-
-.rodape__links a:hover::before,
-.rodape__links a:focus-visible::before,
-.rodape__links a[aria-current="page"]::before {
-    transform: scaleX(1);
-}
-
-.rodape__links a[aria-current="page"]::before {
-    background-color: var(--cor-borda-forte);
+.rodape__links a[aria-current="page"] {
+    align-self: center;
+    padding-block: var(--espaco-2);
+    border-radius: var(--raio-pequeno);
+    box-shadow: 0 0 0 var(--espaco-1) var(--cor-destaque);
 }
 
 .rodape__social {
@@ -198,6 +208,7 @@
     height: 44px;
     font-size: 1.5rem;
     transition: transform var(--transicao), color var(--transicao);
+    color: inherit;
 }
 
 .rodape__social iconify-icon {
@@ -252,6 +263,18 @@
     height: var(--altura-barra);
     padding-inline: var(--espaco-4);
     background-color: var(--cor-barra);
+    color: var(--cor-nav-texto);
+    --cor-foco: var(--marca-amarelo);
+    background-image: var(--grafismo-marca);
+    background-size: 100% 4px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+.painel__menu {
+    color: var(--cor-nav-texto);
+    border-color: var(--cor-divisor-nav);
+    background-color: transparent;
 }
 
 .painel__topo .marca {
@@ -281,16 +304,17 @@
 .painel__usuario .btn--icone {
     border-color: transparent;
     background: none;
+    color: inherit;
 }
 
 .painel__usuario .btn--icone:hover {
-    background-color: rgb(255 255 255 / 25%);
+    background-color: var(--cor-nav-hover);
 }
 
 .painel__divisor {
     width: 1px;
     height: 36px;
-    background-color: var(--cor-borda-forte);
+    background-color: var(--cor-divisor-nav);
 }
 
 .painel__perfil {
@@ -304,7 +328,7 @@
 }
 
 .painel__perfil:hover {
-    background-color: rgb(255 255 255 / 25%);
+    background-color: var(--cor-nav-hover);
 }
 
 .painel__perfil-nome {
@@ -328,6 +352,8 @@
     visibility: hidden;
     transform: translateX(-100%);
     transition: transform 250ms ease, visibility 250ms ease;
+    color: var(--cor-nav-texto);
+    --cor-foco: var(--marca-amarelo);
 }
 
 .painel__lateral--aberto {
@@ -341,6 +367,7 @@
     font-size: 1.125rem;
     font-weight: var(--peso-extra);
     line-height: 1.15;
+    color: var(--marca-amarelo);
 }
 
 .painel__menu-lista {
@@ -361,6 +388,7 @@
     text-align: left;
     text-decoration: none;
     transition: background-color var(--transicao);
+    color: inherit;
 }
 
 .painel__link iconify-icon {
@@ -370,18 +398,19 @@
 }
 
 .painel__link:hover {
-    background-color: rgb(255 255 255 / 35%);
+    background-color: var(--cor-nav-hover);
 }
 
 .painel__link[aria-current="page"] {
     background-color: var(--cor-lateral-ativo);
     font-weight: var(--peso-negrito);
+    color: var(--cor-texto);
 }
 
 .painel__separador {
     margin: var(--espaco-4) var(--espaco-3);
     border: none;
-    border-top: 1px solid var(--cor-borda-forte);
+    border-top: 1px solid var(--cor-divisor-nav);
 }
 
 .painel__sair {
@@ -394,14 +423,24 @@
     padding: var(--espaco-5) var(--espaco-4) var(--espaco-7);
 }
 
+.painel__principal:focus-visible {
+    outline: none;
+}
+
 .painel__rodape {
     grid-area: rodape;
     display: flex;
     flex-direction: column;
     gap: var(--espaco-3);
     padding: var(--espaco-4);
-    background-color: var(--cor-barra);
-    font-size: var(--fonte-pequena);
+    background-color: var(--cor-rodape);
+    font-size: var(--fonte-footer);
+    color: var(--cor-nav-texto);
+    --cor-foco: var(--marca-amarelo);
+    background-image: var(--grafismo-marca);
+    background-size: 100% 4px;
+    background-position: top;
+    background-repeat: no-repeat;
 }
 
 .painel__rodape-links {
@@ -412,9 +451,12 @@
 
 .painel__rodape-links a {
     text-decoration: none;
+    color: inherit;
 }
 
-.painel__rodape-links a:hover {
+.painel__rodape-links a:hover,
+.painel__rodape-links a:focus-visible {
+    color: var(--cor-link-barra-hover);
     text-decoration: underline;
 }
 
@@ -530,7 +572,7 @@
     }
 
     .cabecalho .marca {
-        font-size: 1.0625rem;
+        font-size: 1rem;
     }
 
     .nav-portal {
@@ -548,6 +590,7 @@
     }
 
     .nav-portal__lista {
+        align-items: center;
         position: relative;
         flex-direction: row;
         gap: var(--espaco-2);
@@ -556,53 +599,21 @@
 
     .nav-portal__link {
         position: relative;
-        height: 100%;
+        height: var(--alvo-acao);
         padding-inline: var(--espaco-4);
-        border-radius: 0;
+        border-radius: var(--raio-pequeno);
     }
 
     .nav-portal__link,
     .nav-portal__entrar {
-        font-size: 1.0625rem;
-    }
-
-    .nav-portal__link:hover,
-    .nav-portal__link:focus-visible {
-        background-color: transparent;
-    }
-
-    .nav-portal__link[aria-current="page"] {
-        font-weight: var(--peso-medio);
-    }
-
-    .nav-portal__link::before {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background-color: var(--cor-indicador-hover);
-        transform: scaleX(0);
-        transition: transform var(--transicao);
-        pointer-events: none;
-    }
-
-    .nav-portal__link:hover::before,
-    .nav-portal__link:focus-visible::before,
-    .nav-portal__link[aria-current="page"]::before {
-        transform: scaleX(1);
-    }
-
-    .nav-portal__link[aria-current="page"]::before {
-        background-color: var(--cor-borda-forte);
+        font-size: var(--fonte-header);
     }
 
     .nav-portal__entrar {
         gap: var(--espaco-2);
         padding-left: var(--espaco-5);
         border-top: none;
-        border-left: 1px solid var(--cor-borda-forte);
+        border-left: 1px solid var(--cor-divisor-nav);
         border-radius: 0;
     }
 
@@ -617,7 +628,7 @@
     }
 
     .rodape .marca {
-        padding-block: var(--espaco-5);
+        padding-block: var(--espaco-4);
         white-space: nowrap;
     }
 
@@ -635,13 +646,13 @@
     }
 
     .rodape__links a {
-        padding-block: var(--espaco-5);
+        padding-block: var(--espaco-4);
         white-space: nowrap;
     }
 
     .rodape__social {
         align-items: center;
-        padding-block: var(--espaco-5);
+        padding-block: var(--espaco-4);
     }
 }
 

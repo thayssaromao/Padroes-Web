@@ -17,9 +17,10 @@
 import {iniciarInicio} from "./paginas/inicio.js";
 import {iniciarArtesaos} from "./paginas/artesaos.js";
 import {inicializarProdutos} from "./produtos.js";
+import {iniciarProduto} from "./paginas/produto.js";
+import {iniciarSaberes} from "./paginas/saberes.js";
 import {iniciarCadastro} from "./paginas/cadastro.js";
 import {iniciarContato} from "./paginas/contato.js";
-import {iniciarSaberes} from "./paginas/saberes.js";
 import {
     iniciarLiceuArtesaos,
     iniciarLiceuCadastro,
@@ -42,6 +43,13 @@ const PAINEIS = Object.freeze({
 });
 
 const ROTAS = Object.freeze([
+    {
+        arquivo: "pages/cadastro.html",
+        caminho: "/cadastro",
+        iniciar: iniciarCadastro,
+        layout: "portal",
+        titulo: "Criar conta | Liceu"
+    },
 
 // ===== Portal (público) =====
 
@@ -58,6 +66,13 @@ const ROTAS = Object.freeze([
         iniciar: inicializarProdutos,
         layout: "portal",
         titulo: "Produtos | Liceu"
+    },
+    {
+        arquivo: "pages/produto.html",
+        caminho: "/produto",
+        iniciar: iniciarProduto,
+        layout: "portal",
+        titulo: "Produto | Liceu"
     },
     {
         arquivo: "pages/artesaos.html",
@@ -85,13 +100,6 @@ const ROTAS = Object.freeze([
         iniciar: iniciarContato,
         layout: "portal",
         titulo: "Contato | Liceu"
-    },
-    {
-        arquivo: "pages/cadastro.html",
-        caminho: "/cadastro",
-        iniciar: iniciarCadastro,
-        layout: "portal",
-        titulo: "Criar conta | Liceu"
     },
     {
         arquivo: "pages/sobre.html",

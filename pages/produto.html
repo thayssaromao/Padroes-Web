@@ -1,0 +1,61 @@
+<section class="secao">
+    <div class="container pilha" id="produto-conteudo">
+        <nav class="linha texto-pequeno" aria-label="Caminho de navegação">
+            <a href="#/inicio">Início</a><span aria-hidden="true">/</span>
+            <a href="#/produtos">Produtos</a><span aria-hidden="true">/</span>
+            <span id="produto-breadcrumb" aria-current="page">Produto</span>
+        </nav>
+        <p id="produto-feedback" role="status">Carregando produto...</p>
+        <div class="produto-detalhes" id="produto-detalhes" hidden>
+            <div class="pilha produto-galeria">
+                <section class="carrossel" id="produto-galeria" aria-roledescription="carrossel" aria-label="Fotos do produto">
+                    <div class="carrossel__janela"><ul class="carrossel__trilho"></ul></div>
+                    <button type="button" class="btn btn--icone carrossel__seta carrossel__seta--anterior" aria-label="Foto anterior"><iconify-icon icon="lucide:chevron-left" aria-hidden="true"></iconify-icon></button>
+                    <button type="button" class="btn btn--icone carrossel__seta carrossel__seta--proxima" aria-label="Próxima foto"><iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon></button>
+                    <div class="carrossel__indicadores"></div>
+                    <button type="button" class="card-produto__favorito" id="produto-favorito" aria-pressed="false" aria-label="Favoritar produto"><iconify-icon icon="lucide:heart" aria-hidden="true"></iconify-icon></button>
+                </section>
+                <div class="miniaturas produto-miniaturas" id="produto-miniaturas" role="group" aria-label="Selecionar foto"></div>
+            </div>
+            <div class="pilha produto-resumo">
+                <p><span class="chip" id="produto-categoria"></span></p>
+                <h1 id="produto-titulo">Produto</h1>
+                <p id="produto-preco" class="produto-preco"></p>
+                <dl class="produto-atributos">
+                    <div><dt><iconify-icon icon="lucide:layers" aria-hidden="true"></iconify-icon>Materiais</dt><dd id="produto-materiais"></dd></div>
+                    <div><dt><iconify-icon icon="lucide:hammer" aria-hidden="true"></iconify-icon>Técnica</dt><dd id="produto-tecnica"></dd></div>
+                    <div><dt><iconify-icon icon="lucide:ruler" aria-hidden="true"></iconify-icon>Dimensões</dt><dd id="produto-dimensoes"></dd></div>
+                </dl>
+                <section class="produto-descricao pilha" aria-labelledby="produto-descricao-titulo">
+                    <h2 id="produto-descricao-titulo">Sobre o produto</h2>
+                    <p id="produto-descricao"></p>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="secao secao--alternada" id="produto-contexto" hidden>
+    <div class="container produto-contexto">
+        <section class="pilha" aria-labelledby="produto-quem-titulo">
+            <h2 id="produto-quem-titulo">Quem produz</h2>
+            <div id="produto-artesao" class="produto-produtor"></div>
+        </section>
+        <section class="pilha" aria-labelledby="produto-saber-titulo">
+            <h2 id="produto-saber-titulo">Sobre a técnica</h2>
+            <div class="produto-tecnica">
+                <img id="produto-tecnica-imagem" src="assets/img/avatar-padrao.jpg" alt="" width="240" height="150" loading="lazy">
+                <div class="pilha">
+                    <h3 id="produto-saber-nome"></h3>
+                    <p id="produto-saber"></p>
+                    <a class="btn btn--secundario" id="produto-saber-link" href="#/saberes">Conheça mais sobre a técnica <iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon></a>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+<section class="secao" id="produto-relacionados-secao" hidden>
+    <div class="container pilha">
+        <header class="secao-cabecalho produto-relacionados-cabecalho"><h2>Produtos relacionados</h2><a class="link-seta" href="#/produtos">Ver todos <iconify-icon icon="lucide:chevron-right" aria-hidden="true"></iconify-icon></a></header>
+        <div class="grade-cards produto-relacionados" id="produto-relacionados"></div>
+    </div>
+</section>

@@ -3,30 +3,193 @@
  * dados.js — acesso aos dados simulados (pasta data) e à sessão.
  *
  * Sem back-end: os JSON são a "base de dados" inicial e o localStorage
- * guarda a sessão e as alterações feitas nos painéis.
+ * guarda a sessão e as alterações compartilhadas pelos painéis.
  * Guia: docs/DESIGN.md §10 e docs/ESPECIFICACOES.md (Fonte de Dados).
  */
 
 const CHAVE_SESSAO = "liceu:sessao";
+const CHAVE_BASE = "liceu:base:v1";
+
+const ITERACOES_SENHA = 120000;
+let migracaoCredenciais;
+
+function codificarBytes(bytes) {
+    return btoa(String.fromCharCode(...new Uint8Array(bytes)));
+}
+
+function decodificarBytes(texto) {
+    return Uint8Array.from(atob(texto), function (letra) {
+        return letra.charCodeAt(0);
+    });
+}
+
+async function derivarSenha(senha, salt, iteracoes) {
+    const chave = await crypto.subtle.importKey(
+        "raw", new TextEncoder().encode(senha), "PBKDF2", false,
+        ["deriveBits"]
+    );
+    const bits = await crypto.subtle.deriveBits({
+        hash: "SHA-256",
+        iterations: iteracoes,
+        name: "PBKDF2",
+        salt
+    }, chave, 256);
+    return codificarBytes(bits);
+}
+
+async function criarCredencial(senha) {
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    return {
+        algoritmo: "PBKDF2-SHA-256",
+        hash: await derivarSenha(senha, salt, ITERACOES_SENHA),
+        iteracoes: ITERACOES_SENHA,
+        salt: codificarBytes(salt)
+    };
+}
+
+async function conferirCredencial(senha, credencial) {
+    if (!credencial) {
+        return senha === "artesao123";
+    }
+    if (credencial.algoritmo !== "PBKDF2-SHA-256"
+            || !Number.isInteger(credencial.iteracoes)
+            || credencial.iteracoes < 1 || credencial.iteracoes > 1000000) {
+        return false;
+    }
+    return await derivarSenha(senha, decodificarBytes(credencial.salt),
+        credencial.iteracoes) === credencial.hash;
+}
+
+/** Converte a base antiga sem excluir contas, trabalhos ou sessões. */
+async function executarMigracaoCredenciais() {
+    const antigas = Object.entries(lerBase().credenciais).filter(
+        function (item) {
+            return typeof item[1] === "string";
+        }
+    );
+    if (!antigas.length) {
+        return;
+    }
+    const novas = await Promise.all(antigas.map(async function (item) {
+        return [item[0], item[1], await criarCredencial(item[1])];
+    }));
+    const base = lerBase();
+    novas.forEach(function (item) {
+        if (base.credenciais[item[0]] === item[1]) {
+            base.credenciais[item[0]] = item[2];
+        }
+    });
+    gravarBase(base);
+}
+
+function migrarCredenciais() {
+    if (!migracaoCredenciais) {
+        migracaoCredenciais = executarMigracaoCredenciais().finally(
+            function () {
+                migracaoCredenciais = undefined;
+            }
+        );
+    }
+    return migracaoCredenciais;
+}
+
+/** Lê registros do formato anterior sem apagar as chaves originais. */
+function lerLegado(chave) {
+    try {
+        const dados = JSON.parse(localStorage.getItem(chave));
+        return Array.isArray(dados) ? dados
+            : dados && typeof dados === "object" ? Object.values(dados) : [];
+    } catch (ignore) {
+        return [];
+    }
+}
+
+function lerBase() {
+    const texto = localStorage.getItem(CHAVE_BASE);
+    const base = texto ? JSON.parse(texto)
+        : {artesaos: [], credenciais: {}, trabalhos: []};
+    if (!Array.isArray(base.artesaos) || !Array.isArray(base.trabalhos)
+            || !base.credenciais) {
+        throw new Error("Dados locais inválidos. Não foi possível ler a base.");
+    }
+    const usuarios = lerLegado("liceu:usuarios");
+    const antigos = lerLegado("liceu:artesaos").map(function (artesao) {
+        const usuario = usuarios.find(function (item) {
+            return item.artesaoId === artesao.id;
+        });
+        return Object.assign({}, artesao, {
+            cadastroPendente: Boolean(usuario && artesao.status === "inativo"
+                && !artesao.categorias?.length && !artesao.tecnicas?.length)
+        });
+    });
+    ["artesaos", "trabalhos"].forEach(function (nome) {
+        const lista = nome === "artesaos" ? antigos : lerLegado("liceu:trabalhos");
+        const mapa = new Map(lista.filter(function (item) {
+            return item && item.id;
+        }).map(function (item) { return [item.id, item]; }));
+        base[nome].forEach(function (item) { mapa.set(item.id, item); });
+        base[nome] = Array.from(mapa.values());
+    });
+    usuarios.forEach(function (usuario) {
+        if (usuario.artesaoId && typeof usuario.senha === "string"
+                && !Object.hasOwn(base.credenciais, usuario.artesaoId)) {
+            base.credenciais[usuario.artesaoId] = usuario.senha;
+        }
+    });
+    return base;
+}
+
+function gravarBase(base) {
+    try {
+        localStorage.setItem(CHAVE_BASE, JSON.stringify(base));
+    } catch (ignore) {
+        throw new Error("Não foi possível salvar. Verifique o espaço do "
+            + "navegador ou reduza as imagens e tente novamente.");
+    }
+}
+
+async function carregarColecao(nome, arquivo) {
+    const iniciais = await lerJson(arquivo);
+    await migrarCredenciais();
+    const alterados = lerBase()[nome];
+    const mapa = new Map(iniciais.map(function (item) {
+        return [item.id, item];
+    }));
+    alterados.forEach(function (item) {
+        mapa.set(item.id, item);
+    });
+    return structuredClone(Array.from(mapa.values()).filter(function (item) {
+        return !item.excluido;
+    }));
+}
+
+function exigirSessao(perfil) {
+    const sessao = obterSessao();
+    if (!sessao || (perfil && sessao.perfil !== perfil)) {
+        throw new Error("Entre com uma conta autorizada para esta ação.");
+    }
+    return sessao;
+}
+
+function substituir(lista, registro) {
+    return lista.filter(function (item) {
+        return item.id !== registro.id;
+    }).concat([registro]);
+}
 const cache = new Map();
 
-const CHAVE_ARTESAOS = "liceu:artesaos";
-const CHAVE_TRABALHOS = "liceu:trabalhos";
-const CHAVE_USUARIOS = "liceu:usuarios";
-const FOTO_PADRAO = "assets/img/avatar-padrao.jpg";
-const SENHA_MAXIMO = 12;
-const SENHA_MINIMO = 8;
-const PADRAO_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const PERFIL_ARTESAO = "painel-artesao";
-const PERFIL_LICEU = "painel-liceu";
-
-// pra qual status cada um pode ir (fluxo de publicacao)
-const FLUXO_STATUS = Object.freeze({
-    "em-analise": ["publicado", "rejeitado"],
-    "publicado": [],
-    "rascunho": ["em-analise"],
-    "reenviado": ["publicado", "rejeitado"],
-    "rejeitado": ["reenviado"]
+const SESSOES_DEMONSTRACAO = Object.freeze({
+    "painel-artesao": {
+        artesaoId: "ana-martins",
+        foto: "assets/img/artesaos/ana-martins.jpg",
+        nome: "Ana Martins Mock",
+        perfil: "painel-artesao"
+    },
+    "painel-liceu": {
+        foto: "assets/img/avatar-padrao.jpg",
+        nome: "Administração",
+        perfil: "painel-liceu"
+    }
 });
 
 /**
@@ -47,42 +210,14 @@ async function lerJson(caminho) {
     return dados;
 }
 
-/**
- * @param {string} chave
- * @returns {Array<object>} lista guardada no navegador (vazia se não houver)
- */
-function lerLista(chave) {
-    try {
-        return JSON.parse(localStorage.getItem(chave)) ?? [];
-    } catch (ignore) {
-        return [];
-    }
+/** @returns {Promise<Array<object>>} lista de artesãos */
+function carregarArtesaos() {
+    return carregarColecao("artesaos", "data/artesaos.json");
 }
 
-/**
- * @param {string} chave
- * @param {object} item acrescentado ao fim da lista guardada
- */
-function acrescentarNaLista(chave, item) {
-    localStorage.setItem(chave, JSON.stringify(lerLista(chave).concat(item)));
-}
-
-/** @returns {Promise<Array<object>>} artesãos do JSON mais os cadastrados */
-async function carregarArtesaos() {
-    const base = await lerJson("data/artesaos.json");
-    return base.concat(lerLista(CHAVE_ARTESAOS));
-}
-
-/** @returns {Promise<Array<object>>} trabalhos do JSON com as alterações salvas no navegador */
-async function carregarTrabalhos() {
-    const base = await lerJson("data/trabalhos.json");
-    const locais = lerTrabalhosLocais();
-    const ids = new Set(locais.map(function (trabalho) {
-        return trabalho.id;
-    }));
-    return base.filter(function (trabalho) {
-        return !ids.has(trabalho.id);
-    }).concat(locais);
+/** @returns {Promise<Array<object>>} lista de trabalhos (produtos) */
+function carregarTrabalhos() {
+    return carregarColecao("trabalhos", "data/trabalhos.json");
 }
 
 /** @returns {Promise<{categorias: string[], tecnicas: string[]}>} */
@@ -90,97 +225,57 @@ function carregarCategorias() {
     return lerJson("data/categorias.json");
 }
 
-/** @returns {Promise<Array<object>>} catálogo de técnicas artesanais */
+/** Catálogo institucional de técnicas já publicado na main. */
 function carregarTecnicas() {
     return lerJson("data/tecnicas.json");
 }
 
-/** @returns {Promise<Array<object>>} contas de teste mais as cadastradas */
-async function carregarUsuarios() {
-    const base = await lerJson("data/usuarios.json");
-    return base.concat(lerLista(CHAVE_USUARIOS));
-}
-
-/**
- * @param {string} email
- * @returns {boolean} true se tem o formato nome@dominio.ext
- */
 function emailValido(email) {
-    return PADRAO_EMAIL.test(String(email).trim());
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(email).trim());
 }
 
-/**
- * Regra da senha: de 8 a 12 caracteres, com pelo menos um número e um
- * caractere especial (qualquer símbolo que não seja letra, número ou espaço).
- * @param {string} senha
- * @returns {boolean}
- */
 function senhaValida(senha) {
-    const tamanho = Array.from(String(senha)).length;
-    return (
-        tamanho >= SENHA_MINIMO
-        && tamanho <= SENHA_MAXIMO
-        && /\d/.test(senha)
-        && /[^\p{L}\p{N}\s]/u.test(senha)
-    );
+    const texto = String(senha);
+    const tamanho = Array.from(texto).length;
+    return tamanho >= 8 && tamanho <= 12 && /\d/.test(texto)
+        && /[^\p{L}\p{N}\s]/u.test(texto);
 }
 
-/**
- * Cadastra um artesão: cria o usuário (perfil artesão) e o registro do
- * artesão (inativo até o perfil ser completado) e já abre a sessão.
- * @param {{nome: string, email: string, senha: string, confirmar: string}} dados
- * @returns {Promise<object>} a sessão aberta
- */
+/** Integra o autocadastro existente à base compartilhada e às credenciais. */
 async function registrarArtesao(dados) {
-    const nome = String(dados.nome ?? "").trim();
-    const email = String(dados.email ?? "").trim().toLowerCase();
-    if (!nome || !email || !dados.senha) {
-        throw new Error("Preencha todos os campos.");
-    }
-    if (!emailValido(email)) {
-        throw new Error("Digite um e-mail válido, como nome@exemplo.com.");
+    const nome = String(dados.nome || "").trim();
+    const email = String(dados.email || "").trim().toLowerCase();
+    if (!nome || !emailValido(email)) {
+        throw new Error("Informe nome e um e-mail válido.");
     }
     if (!senhaValida(dados.senha)) {
-        throw new Error(
-            "A senha deve ter de 8 a 12 caracteres, com pelo menos um número"
-            + " e um caractere especial."
-        );
+        throw new Error("A senha deve ter de 8 a 12 caracteres, com número e símbolo.");
     }
     if (dados.senha !== dados.confirmar) {
         throw new Error("As senhas não são iguais.");
     }
-    const usuarios = await carregarUsuarios();
-    if (usuarios.some(function (usuario) {
-        return usuario.email === email;
-    })) {
+    const artesaos = await carregarArtesaos();
+    const usuarios = await lerJson("data/usuarios.json");
+    if (artesaos.some(function (item) { return item.email === email; })
+            || usuarios.some(function (item) { return item.email === email; })
+            || email === "liceu@exemplo.com") {
         throw new Error("Este e-mail já está cadastrado.");
     }
-    const id = "artesao-" + Date.now();
-    acrescentarNaLista(CHAVE_ARTESAOS, {
-        bio: "",
-        cadastradoEm: new Date().toISOString(),
-        categorias: [],
-        cidade: "",
-        email,
-        empreendimento: "",
-        foto: FOTO_PADRAO,
-        id,
-        instagram: "",
-        nome,
-        status: "inativo",
-        tecnicas: [],
-        whatsapp: ""
-    });
-    acrescentarNaLista(CHAVE_USUARIOS, {
-        artesaoId: id,
-        email,
-        foto: FOTO_PADRAO,
-        id: "usuario-" + id,
-        nome,
-        perfil: PERFIL_ARTESAO,
-        senha: dados.senha
-    });
-    return autenticar(email, dados.senha);
+    const artesao = {
+        bio: "", cadastroPendente: true, cadastradoEm: new Date().toISOString(),
+        categorias: [], cidade: "", email, empreendimento: "",
+        foto: "assets/img/avatar-padrao.jpg", id: crypto.randomUUID(),
+        instagram: "", nome, status: "inativo", tecnicas: [], whatsapp: ""
+    };
+    const credencial = await criarCredencial(dados.senha);
+    const base = lerBase();
+    base.artesaos.push(artesao);
+    base.credenciais[artesao.id] = credencial;
+    gravarBase(base);
+    const sessao = {artesaoId: artesao.id, foto: artesao.foto,
+        nome, perfil: "painel-artesao"};
+    salvarSessao(sessao);
+    return sessao;
 }
 
 /**
@@ -199,13 +294,6 @@ async function buscarArtesao(id) {
  * @returns {Promise<Array<object>>}
  */
 async function trabalhosDoArtesao(artesaoId) {
-    const sessao = obterSessao();
-    if (
-        !sessao
-        || (sessao.perfil === PERFIL_ARTESAO && sessao.artesaoId !== artesaoId)
-    ) {
-        throw new Error("Acesso não permitido.");
-    }
     const trabalhos = await carregarTrabalhos();
     return trabalhos.filter(function (trabalho) {
         return trabalho.artesaoId === artesaoId;
@@ -269,210 +357,264 @@ function formatarData(iso, comHora = true) {
 /** @returns {object|null} sessão salva no navegador */
 function obterSessao() {
     try {
-        return JSON.parse(localStorage.getItem(CHAVE_SESSAO));
+        const sessao = JSON.parse(
+            sessionStorage.getItem(CHAVE_SESSAO)
+            || localStorage.getItem(CHAVE_SESSAO)
+        );
+        if (!sessao || !["painel-artesao", "painel-liceu"].includes(
+            sessao.perfil
+        )) {
+            return null;
+        }
+        if (sessao.perfil === "painel-artesao") {
+            const artesao = lerBase().artesaos.find(function (item) {
+                return item.id === sessao.artesaoId;
+            });
+            if (!sessao.artesaoId || (artesao && artesao.status !== "ativo"
+                    && !artesao.cadastroPendente)) {
+                return null;
+            }
+            if (artesao) {
+                return Object.assign({}, sessao, {
+                    foto: artesao.foto,
+                    nome: artesao.nome
+                });
+            }
+        }
+        return sessao;
     } catch (ignore) {
         return null;
     }
 }
 
-/** @param {object} sessao */
-function salvarSessao(sessao) {
-    localStorage.setItem(CHAVE_SESSAO, JSON.stringify(sessao));
+/** Persiste a sessão localmente ou somente nesta aba. */
+function salvarSessao(sessao, lembrar = true) {
+    const armazenamento = lembrar ? localStorage : sessionStorage;
+    encerrarSessao();
+    const identidade = {
+        artesaoId: sessao.artesaoId,
+        foto: sessao.foto,
+        nome: sessao.nome,
+        perfil: sessao.perfil
+    };
+    armazenamento.setItem(CHAVE_SESSAO, JSON.stringify(identidade));
 }
 
 function encerrarSessao() {
     localStorage.removeItem(CHAVE_SESSAO);
+    sessionStorage.removeItem(CHAVE_SESSAO);
 }
 
-/**
- * Valida e-mail e senha contra data/usuarios.json e abre a sessão.
- * A senha nunca é guardada na sessão. Sem back-end, isto é só controle
- * de interface para demonstração: não é segurança real.
- * @param {string} email
- * @param {string} senha
- * @returns {Promise<object|null>} sessão aberta ou null se inválido
- */
-async function autenticar(email, senha) {
-    const usuarios = await carregarUsuarios();
-    const usuario = usuarios.find(function (item) {
-        return (
-            item.email === String(email).trim().toLowerCase()
-            && item.senha === senha
-        );
+/** Autenticação acadêmica local: nunca usar senhas reais. */
+async function autenticar(email, senha, lembrar = true) {
+    let endereco = email.trim().toLowerCase();
+    const usuarios = await lerJson("data/usuarios.json");
+    const contaPadrao = usuarios.find(function (item) {
+        return item.email === endereco && item.senha === senha;
     });
-    if (!usuario) {
-        return null;
+    if (contaPadrao?.perfil === "painel-artesao"
+            && !lerBase().credenciais[contaPadrao.artesaoId]) {
+        const artesao = await buscarArtesao(contaPadrao.artesaoId);
+        endereco = artesao?.email || endereco;
     }
-    const {senha: ignore, ...sessao} = usuario;
-    salvarSessao(sessao);
+    let sessao;
+    if ((endereco === "liceu@exemplo.com" && senha === "liceu123")
+            || contaPadrao?.perfil === "painel-liceu") {
+        sessao = Object.assign({}, SESSOES_DEMONSTRACAO["painel-liceu"]);
+    } else {
+        const artesaos = await carregarArtesaos();
+        const artesao = artesaos.find(function (item) {
+            return item.email.toLowerCase() === endereco;
+        });
+        const credenciais = lerBase().credenciais;
+        const valida = artesao && await conferirCredencial(
+            senha, credenciais[artesao.id]
+        );
+        if (!artesao || (artesao.status !== "ativo"
+                && !artesao.cadastroPendente) || !valida) {
+            throw new Error("E-mail ou senha inválidos, ou conta inativa.");
+        }
+        sessao = {
+            artesaoId: artesao.id,
+            foto: artesao.foto,
+            nome: artesao.nome,
+            perfil: "painel-artesao"
+        };
+    }
+    salvarSessao(sessao, lembrar);
     return sessao;
 }
 
 /**
- * Garante que há sessão do perfil exigido; senão lança erro.
- * Protege as operações de escrita mesmo se a interface for burlada.
- * @param {string} perfil "painel-artesao" | "painel-liceu"
- * @returns {object} a sessão
+ * Sessão fictícia usada enquanto a tela de login não existe.
+ * @param {string} layout "painel-liceu" | "painel-artesao"
+ * @returns {object}
  */
-function exigirPerfil(perfil) {
-    const sessao = obterSessao();
-    if (!sessao || sessao.perfil !== perfil) {
-        throw new Error("Acesso não permitido.");
-    }
-    return sessao;
+function sessaoDemonstracao(layout) {
+    return SESSOES_DEMONSTRACAO[layout];
 }
 
-// ===== Escrita =====
+// ===== Escrita local compartilhada entre os papéis =====
 
-/** @returns {Array<object>} trabalhos criados ou alterados neste navegador */
-function lerTrabalhosLocais() {
-    try {
-        const salvos = JSON.parse(localStorage.getItem(CHAVE_TRABALHOS)) ?? [];
-        // Aceita também o formato antigo (objeto indexado pelo id).
-        return (
-            Array.isArray(salvos)
-            ? salvos
-            : Object.values(salvos)
-        );
-    } catch (ignore) {
-        return [];
-    }
-}
-
-/** @param {object} trabalho grava (ou substitui, pelo id) no localStorage */
-function gravarTrabalhoLocal(trabalho) {
-    const locais = lerTrabalhosLocais().filter(function (item) {
-        return item.id !== trabalho.id;
-    });
-    locais.push(trabalho);
-    localStorage.setItem(CHAVE_TRABALHOS, JSON.stringify(locais));
-}
-
-/**
- * Cria ou atualiza um trabalho do artesão logado. O dono é sempre o
- * artesão da sessão, e só ele pode alterar um trabalho existente.
- * @param {object} trabalho
- * @returns {Promise<object>} o trabalho salvo
- */
+/** Cria ou atualiza um trabalho; alterações publicadas voltam à análise. */
 async function salvarTrabalho(trabalho) {
-    const sessao = exigirPerfil(PERFIL_ARTESAO);
-    const todos = await carregarTrabalhos();
-    const atual = todos.find(function (item) {
+    const sessao = exigirSessao();
+    const trabalhos = await carregarTrabalhos();
+    const anterior = trabalhos.find(function (item) {
         return item.id === trabalho.id;
     });
-    if (atual && atual.artesaoId !== sessao.artesaoId) {
-        throw new Error("Acesso não permitido.");
-    }
-    // O artesão nunca publica nem rejeita: só guarda rascunho ou envia.
-    if (atual && atual.status !== "rascunho") {
-        throw new Error("Só rascunhos podem ser editados.");
-    }
     const agora = new Date().toISOString();
-    const status = (
-        trabalho.status === "em-analise"
-        ? "em-analise"
-        : "rascunho"
-    );
-    const salvo = Object.assign({}, atual, trabalho, {
-        artesaoId: sessao.artesaoId,
+    const registro = Object.assign({}, anterior, trabalho, {
         atualizadoEm: agora,
-        id: (atual ? atual.id : "trabalho-" + Date.now()),
-        status
+        id: trabalho.id || crypto.randomUUID()
     });
-    if (status === "em-analise") {
-        salvo.enviadoEm = agora;
-        salvo.motivoRejeicao = null;
+    if (sessao.perfil === "painel-artesao") {
+        if (registro.artesaoId !== sessao.artesaoId
+                || (anterior && anterior.artesaoId !== sessao.artesaoId)) {
+            throw new Error("Você só pode alterar seus próprios trabalhos.");
+        }
+        if (anterior && ["em-analise", "reenviado"].includes(anterior.status)) {
+            throw new Error("Aguarde a análise antes de editar este trabalho.");
+        }
+        if (anterior && ["publicado", "oculto"].includes(anterior.status)) {
+            registro.status = "em-analise";
+        }
+        if (!["rascunho", "em-analise", "reenviado"].includes(registro.status)) {
+            throw new Error("Status inválido para envio do artesão.");
+        }
+        if (registro.status !== "rascunho") {
+            registro.enviadoEm = agora;
+            registro.motivoRejeicao = null;
+            registro.publicadoEm = null;
+            registro.analisadoEm = null;
+        }
     }
-    gravarTrabalhoLocal(salvo);
-    return salvo;
+    if (!registro.titulo || !registro.titulo.trim() || !registro.artesaoId) {
+        throw new Error("Informe título e artesão do trabalho.");
+    }
+    const opcoes = await carregarCategorias();
+    if (registro.status !== "rascunho" && (
+        !opcoes.categorias.includes(registro.categoria)
+        || !opcoes.tecnicas.includes(registro.tecnica)
+    )) {
+        throw new Error("Selecione categoria e técnica predefinidas.");
+    }
+    registro.titulo = registro.titulo.trim();
+    const base = lerBase();
+    base.trabalhos = substituir(base.trabalhos, registro);
+    gravarBase(base);
+    return structuredClone(registro);
 }
 
-/**
- * @param {string} atual status de agora
- * @param {string} novo status que quer ir
- * @returns {boolean} se o fluxo deixa mudar
- */
-function podeMudarStatus(atual, novo) {
-    return (FLUXO_STATUS[atual] || []).includes(novo);
-}
-
-/**
- * Muda o status de um trabalho seguindo o fluxo, com controle de acesso:
- * - publicar ou rejeitar: só o administrador;
- * - enviar para análise ou reenviar: só o artesão dono do trabalho.
- * @param {string} id
- * @param {string} status novo status (ver FLUXO_STATUS)
- * @param {object} [extra] motivo (para rejeitar) e campos editados (reenvio)
- * @returns {Promise<object>} o trabalho atualizado
- */
-async function atualizarStatusTrabalho(id, status, extra = {}) {
-    const analise = status === "publicado" || status === "rejeitado";
-    const sessao = exigirPerfil(
-        analise
-        ? PERFIL_LICEU
-        : PERFIL_ARTESAO
-    );
+/** Modera somente trabalhos que aguardam análise. */
+async function atualizarStatusTrabalho(id, status, motivo = "") {
+    exigirSessao("painel-liceu");
     const trabalhos = await carregarTrabalhos();
-    const atual = trabalhos.find(function (item) {
+    const trabalho = trabalhos.find(function (item) {
         return item.id === id;
     });
-    const agora = new Date().toISOString();
-    const motivo = String(extra.motivo || "").trim();
-    if (!atual) {
-        throw new Error("Trabalho não encontrado: " + id);
+    if (!trabalho || !["em-analise", "reenviado"].includes(trabalho.status)) {
+        throw new Error("Este trabalho não está aguardando análise.");
     }
-    if (!analise && atual.artesaoId !== sessao.artesaoId) {
-        throw new Error("Acesso não permitido.");
+    if (!["publicado", "rejeitado"].includes(status)) {
+        throw new Error("Decisão de análise inválida.");
     }
-    if (!podeMudarStatus(atual.status, status)) {
-        throw new Error(
-            "Não pode mudar de " + atual.status + " para " + status
-        );
-    }
-    if (status === "rejeitado" && !motivo) {
+    if (status === "rejeitado" && !motivo.trim()) {
         throw new Error("Informe o motivo da rejeição.");
     }
-    const novo = Object.assign(
-        {},
-        atual,
-        (
-            analise
-            ? {}
-            : extra.campos
-        ),
-        {
-            artesaoId: atual.artesaoId,
-            atualizadoEm: agora,
-            id: atual.id,
-            status
-        }
-    );
-    if (analise) {
-        novo.analisadoEm = agora;
-    }
-    if (status === "publicado") {
-        novo.publicadoEm = agora;
-        novo.motivoRejeicao = null;
-    }
-    if (status === "rejeitado") {
-        novo.motivoRejeicao = motivo;
-    }
-    // enviar ou reenviar conta como envio novo pra fila do Liceu
-    if (status === "em-analise" || status === "reenviado") {
-        novo.enviadoEm = agora;
-    }
-    gravarTrabalhoLocal(novo);
-    return novo;
+    return salvarTrabalho(Object.assign({}, trabalho, {
+        analisadoEm: new Date().toISOString(),
+        motivoRejeicao: status === "rejeitado" ? motivo.trim() : null,
+        publicadoEm: status === "publicado" ? new Date().toISOString() : null,
+        status
+    }));
 }
 
-/**
- * Cria ou atualiza um artesão no localStorage.
- * @param {object} artesao
- * @returns {Promise<object>}
- */
-function salvarArtesao(artesao) {
-    // A IMPLEMENTAR: salvar no localStorage + data/artesaos.json.
-    return Promise.resolve(artesao);
+/** Salva perfil e credenciais locais em uma única escrita. */
+async function salvarArtesao(artesao) {
+    const sessao = exigirSessao();
+    const artesaos = await carregarArtesaos();
+    const anterior = artesaos.find(function (item) {
+        return item.id === artesao.id;
+    });
+    const registro = Object.assign({
+        bio: "",
+        cadastradoEm: new Date().toISOString(),
+        categorias: [],
+        cidade: "Curitiba - PR",
+        empreendimento: "",
+        foto: "assets/img/avatar-padrao.jpg",
+        instagram: "",
+        status: "ativo",
+        tecnicas: [],
+        whatsapp: ""
+    }, anterior, artesao, {
+        id: artesao.id || crypto.randomUUID()
+    });
+    if (sessao.perfil === "painel-artesao") {
+        if (!anterior || anterior.id !== sessao.artesaoId) {
+            throw new Error("Você só pode alterar seu próprio perfil.");
+        }
+        registro.status = anterior.status;
+        if (anterior.cadastroPendente && registro.categorias?.length
+                && registro.tecnicas?.length) {
+            registro.cadastroPendente = false;
+            registro.status = "ativo";
+        }
+    } else if (artesao.status === "inativo") {
+        registro.cadastroPendente = false;
+    }
+    registro.email = (registro.email || "").trim().toLowerCase();
+    registro.nome = (registro.nome || "").trim();
+    if (!registro.nome || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(registro.email)
+            || artesaos.some(function (item) {
+        return item.id !== registro.id && item.email === registro.email;
+    }) || registro.email === "liceu@exemplo.com") {
+        throw new Error("Informe nome e um e-mail válido ainda não cadastrado.");
+    }
+    const usuariosPadrao = await lerJson("data/usuarios.json");
+    if (usuariosPadrao.some(function (usuario) {
+        return usuario.email === registro.email && usuario.artesaoId !== registro.id;
+    })) {
+        throw new Error("Este e-mail já está cadastrado.");
+    }
+    let credencial;
+    if (registro.senha) {
+        if (sessao.perfil !== "painel-liceu" || registro.senha.length < 6) {
+            throw new Error("A senha provisória deve ter ao menos 6 caracteres.");
+        }
+        credencial = await criarCredencial(registro.senha);
+    }
+    const base = lerBase();
+    if (credencial) {
+        base.credenciais[registro.id] = credencial;
+    }
+    delete registro.senha;
+    base.artesaos = substituir(base.artesaos, registro);
+    gravarBase(base);
+    return structuredClone(registro);
+}
+
+/** Remove da base visível sem modificar os JSON iniciais. */
+async function excluirTrabalho(id) {
+    const sessao = exigirSessao();
+    const trabalhos = await carregarTrabalhos();
+    const trabalho = trabalhos.find(function (item) {
+        return item.id === id;
+    });
+    if (!trabalho) {
+        throw new Error("Trabalho não encontrado.");
+    }
+    if (sessao.perfil === "painel-artesao" && (
+        trabalho.artesaoId !== sessao.artesaoId
+        || !["rascunho", "rejeitado"].includes(trabalho.status)
+    )) {
+        throw new Error("Só é possível excluir seus rascunhos ou rejeitados.");
+    }
+    const base = lerBase();
+    base.trabalhos = substituir(base.trabalhos,
+        Object.assign({}, trabalho, {excluido: true}));
+    gravarBase(base);
 }
 
 export {
@@ -481,21 +623,20 @@ export {
     buscarArtesao,
     carregarArtesaos,
     carregarCategorias,
-    carregarTecnicas,
     carregarTrabalhos,
-    carregarUsuarios,
+    carregarTecnicas,
+    emailValido,
+    registrarArtesao,
+    senhaValida,
     comNomeDoArtesao,
     contarPorStatus,
-    emailValido,
     encerrarSessao,
-    exigirPerfil,
+    excluirTrabalho,
     formatarData,
     obterSessao,
-    podeMudarStatus,
-    registrarArtesao,
     salvarArtesao,
     salvarSessao,
     salvarTrabalho,
-    senhaValida,
+    sessaoDemonstracao,
     trabalhosDoArtesao
 };

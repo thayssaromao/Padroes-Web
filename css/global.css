@@ -4,34 +4,76 @@
    ========================================================= */
 
 :root {
-    /* ===== Cores (wireframe em cinza) ===== */
-    --cor-texto: #111111;
-    --cor-texto-suave: #555555;
-    --cor-texto-apagado: #8a8a8a;
-    --cor-texto-invertido: #ffffff;
+    /* ===== Identidade: interpretação digital, não manual oficial ===== */
+    --marca-turquesa: #20A8A6;
+    --marca-turquesa-profundo: #0C7774;
+    --marca-turquesa-escuro: #095E5C;
+    --marca-amarelo: #FFC928;
+    --marca-rosa: #E73571;
+    --marca-rosa-escuro: #AD1B50;
+    --marca-petroleo: #183E45;
+    --marca-offwhite: #F8F7F3;
 
-    --cor-fundo: #ffffff;
-    --cor-fundo-alternado: #d9d9d9;
-    --cor-superficie: #f7f7f7;
-    --cor-superficie-forte: #ececec;
+    /* Texto e superfícies */
+    --cor-texto: var(--marca-petroleo);
+    --cor-texto-suave: #48625E;
+    --cor-texto-apagado: #52665F;
+    --cor-texto-invertido: #FFFFFF;
+    --cor-fundo: var(--marca-offwhite);
+    --cor-fundo-publico: #FFF8E1;
+    --cor-fundo-alternado: var(--cor-superficie-forte);
+    --cor-superficie: #F2F6F2;
+    --cor-superficie-forte: #E0F1ED;
+    --cor-superficie-card: var(--cor-texto-invertido);
+    --cor-superficie-menu: var(--cor-superficie-card);
+    --cor-superficie-modal: var(--cor-superficie-card);
+    --cor-campo: var(--cor-superficie-card);
+    --cor-editorial: #FFF0BD;
+    --cor-editorial-alternada: #FCE7EF;
+    --cor-destaque: var(--marca-amarelo);
+    --cor-acento: var(--marca-rosa);
+    --cor-placeholder: #C8C8C8;
+    --cor-sobreposicao: rgb(24 62 69 / 65%);
 
-    --cor-barra: #a9a9a9;
-    --cor-link-barra-hover: #333333;
-    --cor-indicador-hover: #666666;
-    --cor-lateral: #d9d9d9;
-    --cor-lateral-ativo: #b3b3b3;
+    /* Navegação */
+    --cor-barra: var(--marca-turquesa-escuro);
+    --cor-rodape: var(--marca-petroleo);
+    --cor-nav-texto: var(--cor-texto-invertido);
+    --cor-nav-hover: #24545B;
+    --cor-link-barra-hover: var(--marca-amarelo);
+    --cor-indicador-hover: var(--marca-amarelo);
+    --cor-lateral: var(--marca-petroleo);
+    --cor-lateral-ativo: var(--marca-amarelo);
+    --cor-divisor-nav: #729A98;
+    --grafismo-marca: linear-gradient(to right, var(--marca-turquesa) 0 50%, var(--marca-amarelo) 50% 75%, var(--marca-rosa) 75%);
 
-    --cor-borda: #bdbdbd;
-    --cor-borda-forte: #272727;
+    --imagem-seta-select: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23183E45' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 
-    --cor-primaria: #5f5f5f;
-    --cor-primaria-hover: #3f3f3f;
-    --cor-placeholder: #c8c8c8;
-    --cor-sobreposicao: rgb(0 0 0 / 45%);
+    /* Interação e bordas */
+    --cor-borda: #C6D3CE;
+    --cor-borda-controle: #6C837D;
+    --cor-borda-forte: var(--marca-turquesa-profundo);
+    --cor-primaria: var(--marca-turquesa-profundo);
+    --cor-primaria-hover: var(--marca-turquesa-escuro);
+    --cor-secundaria: var(--cor-superficie-card);
+    --cor-secundaria-hover: var(--cor-superficie-forte);
+    --cor-link: var(--marca-turquesa-escuro);
+    --cor-foco: var(--marca-rosa-escuro);
+    --cor-favorito: var(--marca-rosa-escuro);
+    --cor-desabilitado: #E4E8E2;
+    --cor-desabilitado-texto: #52665F;
 
-    --cor-sucesso: #4a4a4a;
-    --cor-alerta: #4a4a4a;
-    --cor-erro: #4a4a4a;
+    /* Estados: texto e fundo (ícones/rótulos permanecem obrigatórios) */
+    --cor-sucesso: #146347;
+    --cor-sucesso-fundo: #E4F3E8;
+    --cor-alerta: #765000;
+    --cor-alerta-fundo: var(--cor-editorial);
+    --cor-erro: #A02548;
+    --cor-erro-fundo: var(--cor-editorial-alternada);
+    --cor-informacao: #15546C;
+    --cor-informacao-fundo: #E5F0F7;
+    --cor-rascunho: #485E59;
+    --cor-rascunho-fundo: #EAEFE9;
 
     /* ===== Tipografia ===== */
     --fonte-base: "Inter", Arial, Helvetica, sans-serif;
@@ -39,11 +81,13 @@
     --fonte-display: clamp(2rem, 5vw, 3.25rem);
     --fonte-h1: clamp(1.75rem, 3.5vw, 2.5rem);
     --fonte-h2: clamp(1.375rem, 2.5vw, 1.875rem);
-    --fonte-h3: 1.125rem;
-    --fonte-corpo: 1rem;
-    --fonte-grande: 1.25rem;
-    --fonte-pequena: 0.875rem;
+    --fonte-h3: 1rem;
+    --fonte-corpo: 0.875rem;
+    --fonte-grande: 1.125rem;
+    --fonte-pequena: 0.8125rem;
     --fonte-mini: 0.75rem;
+    --fonte-header: 0.9375rem;
+    --fonte-footer: 0.8125rem;
 
     --peso-regular: 400;
     --peso-medio: 500;
@@ -69,17 +113,20 @@
     --raio-grande: 24px;
     --raio-pilula: 999px;
 
-    --sombra-card: 0 1px 2px rgb(0 0 0 / 6%);
-    --sombra-elevada: 0 12px 32px rgb(0 0 0 / 18%);
+    --sombra-card: 0 1px 2px rgb(24 62 69 / 8%);
+    --sombra-elevada: 0 12px 32px rgb(24 62 69 / 18%);
 
     --transicao: 200ms ease;
 
     /* ===== Medidas de layout ===== */
     --largura-conteudo: 1180px;
     --largura-lateral: 280px;
-    --altura-barra: 72px;
+    --altura-barra: 64px;
     --tamanho-caixa-icone-secao: 2.5rem;
     --tamanho-icone-secao: 1.75rem;
+    --tamanho-icone-acao: 18px;
+    --tamanho-icone-status: 16px;
+    --alvo-acao: 44px;
 }
 
 /* ===== Reset ===== */
@@ -90,6 +137,11 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+/* O estado HTML hidden prevalece sobre flex/grid de componentes. */
+[hidden] {
+    display: none !important;
 }
 
 html {
@@ -126,7 +178,7 @@ ol {
 }
 
 a {
-    color: inherit;
+    color: var(--cor-link);
 }
 
 button,
@@ -155,7 +207,7 @@ iconify-icon {
 }
 
 :focus-visible {
-    outline: 3px solid var(--cor-borda-forte);
+    outline: 3px solid var(--cor-foco);
     outline-offset: 2px;
 }
 

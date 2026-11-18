@@ -11,13 +11,18 @@
     <div class="input-com-icone">
         <span class="icone-busca">
             <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
         </span>
-        <input type="text" id="inputBusca" placeholder="Buscar produtos...">
+        <label class="visualmente-oculto" for="inputBusca">Buscar produtos</label>
+        <input type="search" id="inputBusca" placeholder="Buscar produtos...">
     </div>
     
 
+    <button type="button" class="filtro-chip catalogo-favoritos" id="btnSomenteFavoritos" aria-pressed="false">
+        <iconify-icon icon="lucide:heart" aria-hidden="true"></iconify-icon>
+        Somente favoritos
+    </button>
 </div>
     </section>
 
@@ -29,13 +34,13 @@
             <div class="filtros-cabecalho">
                 <span class="icone-filtro">
                     <svg width="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="4" y1="5" x2="16" y2="5" stroke="#000" stroke-width="1.5" stroke-linecap="round"></line>
-                        <line x1="4" y1="12" x2="10" y2="12" stroke="#000" stroke-width="1.5" stroke-linecap="round"></line>
-                        <line x1="14" y1="12" x2="20" y2="12" stroke="#000" stroke-width="1.5" stroke-linecap="round"></line>
-                        <line x1="8" y1="19" x2="20" y2="19" stroke="#000" stroke-width="1.5" stroke-linecap="round"></line>
-                        <circle cx="18" cy="5" r="2" stroke="#000" stroke-width="1.5"></circle>
-                        <circle cx="12" cy="12" r="2" stroke="#000" stroke-width="1.5"></circle>
-                        <circle cx="6" cy="19" r="2" stroke="#000" stroke-width="1.5"></circle>
+                        <line x1="4" y1="5" x2="16" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></line>
+                        <line x1="4" y1="12" x2="10" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></line>
+                        <line x1="14" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></line>
+                        <line x1="8" y1="19" x2="20" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></line>
+                        <circle cx="18" cy="5" r="2" stroke="currentColor" stroke-width="1.5"></circle>
+                        <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.5"></circle>
+                        <circle cx="6" cy="19" r="2" stroke="currentColor" stroke-width="1.5"></circle>
                     </svg> 
                 </span>
                 <h2>Filtrar resultados</h2>
@@ -45,7 +50,7 @@
                 <h3 class="acordeao-toggle">Categoria 
                     <span class="seta">
                         <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
-                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
+                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
                         </svg>
                     </span>
                 </h3>
@@ -64,7 +69,7 @@
                 <h3 class="acordeao-toggle">Técnica                     
                     <span class="seta">
                         <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
-                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
+                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
                         </svg>
                     </span>
                 </h3>
@@ -84,7 +89,7 @@
                 <h3 class="acordeao-toggle">Material                     
                     <span class="seta">
                         <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
-                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
+                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
                         </svg>
                     </span>
                 </h3>
@@ -103,7 +108,7 @@
                 <h3 class="acordeao-toggle">Faixa de preço                     
                     <span class="seta">
                         <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
-                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
+                            <polyline points="5 8.5 12 15.5 19 8.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
                         </svg>
                     </span>
                 </h3>
@@ -132,9 +137,9 @@
             </div>
 
             <div class="catalogo-controles">
-                <span id="contadorResultados">Exibindo 0 de 0 produtos</span>
+                <span id="contadorResultados" aria-live="polite">Exibindo 0 de 0 produtos</span>
                 <div class="controles-direita">
-                    <label for="selectOrdenacao">Ordenar por:</label>
+                    <label for="selectOrdenacao">Ordenar:</label>
                     <select id="selectOrdenacao">
                         <option value="recentes">Mais recentes</option>
                         <option value="menor_preco">Menor preço</option>
@@ -159,7 +164,7 @@
             </div>
 
             <div class="grade-produtos" id="gradeProdutos"></div>
-            <div class="paginacao" id="paginacaoCatalogo"></div>
+            <nav class="paginacao paginacao--centro" id="paginacaoCatalogo" aria-label="Paginação de produtos"></nav>
         </div>
     </div>
 </div>

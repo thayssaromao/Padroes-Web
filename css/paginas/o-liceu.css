@@ -29,6 +29,7 @@
 }
 
 .o-liceu-ano {
+    color: var(--cor-favorito);
     display: block;
     font-size: var(--fonte-grande);
     font-weight: var(--peso-extra);
@@ -53,6 +54,7 @@
 }
 
 .o-liceu-objetivo {
+    box-shadow: inset 0 4px var(--cor-destaque), var(--sombra-card);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,6 +65,7 @@
 }
 
 .o-liceu-objetivo iconify-icon {
+    color: var(--cor-primaria);
     font-size: 40px;
 }
 
@@ -76,6 +79,10 @@
     .o-liceu-hero__grade {
         grid-template-columns: 1fr 1fr;
         gap: var(--espaco-8);
+    }
+
+    .o-liceu-imagem {
+        aspect-ratio: 5 / 2;
     }
 
     .o-liceu-linha-tempo {

@@ -1,4 +1,5 @@
 /*jslint browser */
+import {prepararSeletores} from "./seletores.js";
 /**
  * componentes.js — componentes reutilizáveis (geram HTML ou ligam eventos).
  * Guia visual: docs/DESIGN.md §5 e §8.
@@ -8,6 +9,7 @@ const STATUS = Object.freeze({
     "ativo": {icone: "lucide:circle-check", texto: "Ativo"},
     "em-analise": {icone: "lucide:clock", texto: "Em análise"},
     "inativo": {icone: "lucide:circle-x", texto: "Inativo"},
+    "oculto": {icone: "lucide:eye-off", texto: "Oculto pelo Liceu"},
     "publicado": {icone: "lucide:circle-check", texto: "Publicado"},
     "rascunho": {icone: "lucide:file-text", texto: "Rascunho"},
     "reenviado": {icone: "lucide:refresh-cw", texto: "Reenviado"},
@@ -15,18 +17,19 @@ const STATUS = Object.freeze({
 });
 
 const INTERVALO_CARROSSEL = 6000;
+const senhasPreparadas = new WeakSet();
+const modaisPreparados = new WeakSet();
+let numeroDialogo = 0;
 
 // Compatibilidade das páginas antigas com os ícones aprovados no design system.
 const ICONES_PADRAO = Object.freeze({
-    "lucide:landmark": "uix-sharp:greek-temple",
-    "lucide:lightbulb": "akar-icons:light-bulb",
-    "lucide:shopping-bag": "bx:shopping-bag",
-    "lucide:user": "boxicons:user",
-    "lucide:user-plus": "boxicons:user",
-    "lucide:users": "boxicons:user",
-    "solar:bag-4-bold": "bx:shopping-bag",
-    "solar:buildings-2-bold": "uix-sharp:greek-temple",
-    "solar:user-bold": "boxicons:user"
+    "akar-icons:light-bulb": "lucide:lightbulb",
+    "boxicons:user": "lucide:user",
+    "bx:shopping-bag": "lucide:shopping-bag",
+    "solar:bag-4-bold": "lucide:shopping-bag",
+    "solar:buildings-2-bold": "lucide:landmark",
+    "solar:user-bold": "lucide:user",
+    "uix-sharp:greek-temple": "lucide:landmark"
 });
 
 const ENTIDADES = Object.freeze({
@@ -55,7 +58,7 @@ function escaparHtml(texto) {
  */
 function icone(nome) {
     const padrao = ICONES_PADRAO[nome] || nome;
-    return `<iconify-icon icon="${escaparHtml(padrao)}" aria-hidden="true"></iconify-icon>`;
+    return `<iconify-icon icon="${escaparHtml(padrao)}" aria-hidden="true" noobserver></iconify-icon>`;
 }
 
 /**
@@ -84,6 +87,159 @@ function criarStatus(status) {
     );
 }
 
+/** Registro semântico: a mesma ação mantém o mesmo ícone em toda a UI. */
+const ACOES = Object.freeze([
+    [/^(editar|corrigir)/i, "pencil"],
+    [/^(confirmar rejei|rejeitar)/i, "circle-x"],
+    [/^(aprovar|publicar|republicar)/i, "circle-check"],
+    [/^(enviar|reenviar)/i, "send"],
+    [/^(excluir|remover)/i, "trash-2"],
+    [/^duplicar/i, "copy"],
+    [/^ocultar/i, "eye-off"],
+    [/^(salvar|cadastrar$)/i, "check"],
+    [/^(cancelar|descartar|limpar)/i, "x"],
+    [/^voltar ao portal/i, "external-link"],
+    [/^(voltar|retornar)/i, "arrow-left"],
+    [/^(adicionar|cadastrar novo|nova publica|novo trabalho)/i, "plus"],
+    [/^(analisar|ver trabalhos pendentes)/i, "file-search"],
+    [/^(ver no portal)/i, "external-link"],
+    [/^(ver em grade|visualiza.*grade)/i, "layout-grid"],
+    [/^(ver em lista|visualiza.*lista)/i, "list"],
+    [/^(ver perfil|visualizar|ver publica)/i, "eye"],
+    [/^(ver motivo|saber mais)/i, "info"],
+    [/^(filtrar|aplicar filtros)/i, "sliders-horizontal"],
+    [/^(redefinir senha|alterar senha)/i, "key-round"],
+    [/^(gerenciar permiss)/i, "lock"],
+    [/^(gerenciar categor|gerenciar t)/i, "list"],
+    [/^(meu perfil|minha conta)/i, "user"],
+    [/^sair/i, "log-out"],
+    [/^entrar/i, "log-in"]
+]);
+
+function iconeAcao(texto) {
+    const regra = ACOES.find(function (item) {
+        return item[0].test(texto.trim());
+    });
+    return regra ? "lucide:" + regra[1] : "";
+}
+
+/** Texto deve ser explícito: o helper nunca troca o nome de uma ação. */
+function conteudoAcao(texto) {
+    const nome = iconeAcao(texto);
+    return (nome ? icone(nome) : "") + escaparHtml(texto);
+}
+
+/** Migra ações existentes sem alterar handlers, texto ou semântica. */
+function prepararAcoes(raiz) {
+    prepararSeletores(raiz);
+    padronizarIcones(raiz);
+    raiz.querySelectorAll("iconify-icon").forEach(function (elemento) {
+        if (!elemento.hasAttribute("noobserver")) {
+            elemento.setAttribute("noobserver", "");
+        }
+    });
+    raiz.querySelectorAll("button, a.btn, a.link-seta").forEach(
+        function (botao) {
+            if (botao.hasAttribute("data-alternar-senha")) {
+                return;
+            }
+            const texto = botao.textContent.trim();
+            const rotulo = botao.getAttribute("aria-label")
+                || botao.getAttribute("title") || texto;
+            if (!texto && rotulo) {
+                botao.setAttribute("aria-label", rotulo);
+                botao.setAttribute("title", rotulo);
+            }
+            if (botao.classList.contains("modal__fechar")) {
+                botao.setAttribute("title", rotulo || "Fechar");
+            }
+            if (botao.matches(".chip__remover, .miniatura__remover")) {
+                return;
+            }
+            const nome = iconeAcao(texto || rotulo);
+            if (!nome || botao.classList.contains("paginacao__botao")) {
+                return;
+            }
+            const desenho = botao.querySelector("iconify-icon, svg");
+            if (desenho && desenho.localName === "iconify-icon") {
+                const primeiro = Array.from(botao.childNodes).find(
+                    function (node) {
+                        return node.nodeType === Node.ELEMENT_NODE
+                            || node.textContent.trim();
+                    }
+                );
+                if (primeiro !== desenho) {
+                    // Reconectar um custom element pode invalidar seu SVG.
+                    desenho.remove();
+                    botao.insertAdjacentHTML("afterbegin", icone(nome));
+                } else if (desenho.getAttribute("icon") !== nome) {
+                    desenho.setAttribute("icon", nome);
+                }
+            } else if (desenho) {
+                desenho.remove();
+                botao.insertAdjacentHTML("afterbegin", icone(nome));
+            } else {
+                botao.insertAdjacentHTML("afterbegin", icone(nome));
+            }
+        }
+    );
+}
+
+/** Campo reutilizável para senhas provisórias e suas confirmações. */
+function criarCampoSenha(id, nome, rotulo, obrigatorio = false) {
+    return (
+        "<div class=\"campo\"><label class=\"campo__rotulo\" for=\""
+        + escaparHtml(id) + "\">" + escaparHtml(rotulo) + "</label>"
+        + "<div class=\"campo__grupo\">" + icone("lucide:lock")
+        + "<input class=\"campo__entrada campo__entrada--senha\" id=\""
+        + escaparHtml(id) + "\" name=\"" + escaparHtml(nome)
+        + "\" type=\"password\" autocomplete=\"new-password\" minlength=\"6\""
+        + (obrigatorio ? " required" : "") + ">"
+        + "<button type=\"button\" class=\"btn btn--icone\""
+        + " data-alternar-senha=\"" + escaparHtml(id)
+        + "\" aria-label=\"Mostrar senha\" title=\"Mostrar senha\""
+        + " aria-pressed=\"false\">" + icone("lucide:eye-off")
+        + "</button></div></div>"
+    );
+}
+
+/** Conteúdo compartilhado de visualização e análise de trabalhos. */
+function criarDetalhesTrabalho(trabalho) {
+    const imagens = trabalho.imagens && trabalho.imagens.length
+        ? trabalho.imagens : ["assets/img/avatar-padrao.jpg"];
+    const galeria = imagens.map(function (imagem, indice) {
+        return "<img src=\"" + escaparHtml(imagem) + "\" alt=\""
+            + escaparHtml(trabalho.titulo) + " — foto " + (indice + 1)
+            + "\" width=\"640\" height=\"480\" loading=\"lazy\">";
+    }).join("");
+    const preco = trabalho.preco === null || trabalho.preco === undefined
+        ? "Sob consulta" : Number(trabalho.preco).toLocaleString(
+            "pt-BR", {currency: "BRL", style: "currency"}
+        );
+    const dados = [
+        ["layers", "Materiais", trabalho.materiais || "Não informado"],
+        ["ruler", "Dimensões", trabalho.dimensoes || "Não informado"],
+        ["banknote", "Preço", preco]
+    ];
+    return (
+        "<div class=\"detalhe-trabalho\"><div class=\"detalhe-trabalho__galeria\""
+        + " role=\"group\" aria-label=\"Imagens do trabalho\">" + galeria
+        + "</div><div class=\"pilha\"><p class=\"linha\">"
+        + icone("lucide:user") + "<strong>Artesão</strong> "
+        + escaparHtml(trabalho.artesaoNome || "Não informado") + "</p>"
+        + "<p>" + criarStatus(trabalho.status) + "</p>"
+        + criarChips([trabalho.categoria, trabalho.tecnica].filter(Boolean))
+        + "<div class=\"pilha\"><h3>Descrição</h3><p>"
+        + escaparHtml(trabalho.descricao || "Não informada") + "</p></div>"
+        + "<dl class=\"detalhe-trabalho__metadados\">"
+        + dados.map(function (item) {
+            return "<div><dt>" + icone("lucide:" + item[0])
+                + escaparHtml(item[1]) + "</dt><dd>"
+                + escaparHtml(item[2]) + "</dd></div>";
+        }).join("") + "</dl></div></div>"
+    );
+}
+
 /**
  * Lista de chips estáticos (§5.3).
  * @param {string[]} itens
@@ -106,7 +262,8 @@ function criarChips(itens) {
  * @returns {string}
  */
 function criarCardProduto(trabalho, opcoes = {}) {
-    const href = opcoes.href ?? "#/produtos";
+    const href = opcoes.href ?? "#/produto?id="
+        + encodeURIComponent(trabalho.id);
     const favorito = (
         opcoes.favorito === false
         ? ""
@@ -224,11 +381,13 @@ function criarPaginacao(atual, total) {
         "<ul class=\"paginacao__lista\">"
         + "<li><button type=\"button\" class=\"paginacao__botao "
         + `paginacao__botao--seta" data-pagina="${anterior}"`
+        + (atual <= 1 ? " disabled" : "")
         + " aria-label=\"Página anterior\">" + icone("lucide:chevron-left")
         + "</button></li>"
         + numeros
         + "<li><button type=\"button\" class=\"paginacao__botao "
         + `paginacao__botao--seta" data-pagina="${proxima}"`
+        + (atual >= total ? " disabled" : "")
         + " aria-label=\"Próxima página\">" + icone("lucide:chevron-right")
         + "</button></li></ul>"
     );
@@ -330,6 +489,10 @@ function fecharModal(id) {
  */
 function prepararModais(raiz) {
     raiz.querySelectorAll("dialog.modal").forEach(function (modal) {
+        if (modaisPreparados.has(modal)) {
+            return;
+        }
+        modaisPreparados.add(modal);
         modal.querySelectorAll(
             ".modal__fechar, [data-fechar-modal]"
         ).forEach(function (botao) {
@@ -355,6 +518,35 @@ function prepararModais(raiz) {
     });
 }
 
+/** Cria conteúdo variável na anatomia compartilhada dos modais. */
+function criarDialogo(titulo, corpo, acoes = "", opcoes = {}) {
+    const raiz = opcoes.raiz || document.getElementById("conteudo");
+    const modal = document.createElement("dialog");
+    numeroDialogo += 1;
+    const id = "dialogo-" + numeroDialogo;
+    modal.id = id;
+    modal.className = "modal modal--" + (opcoes.tamanho || "medio");
+    modal.setAttribute("aria-labelledby", id + "-titulo");
+    modal.innerHTML = (
+        "<button type=\"button\" class=\"modal__fechar\""
+        + " aria-label=\"Fechar\">" + icone("lucide:circle-x")
+        + "</button><h2 class=\"modal__titulo\" id=\"" + id + "-titulo\">"
+        + escaparHtml(titulo) + "</h2><div class=\"modal__corpo\">"
+        + corpo + "</div>"
+        + (acoes ? "<div class=\"modal__acoes\">" + acoes + "</div>" : "")
+    );
+    raiz.append(modal);
+    prepararModais(raiz);
+    prepararCamposSenha(modal);
+    prepararMultisselecao(modal);
+    prepararAcoes(modal);
+    modal.addEventListener("close", function () {
+        modal.remove();
+    });
+    abrirModal(id);
+    return modal;
+}
+
 /**
  * Botões "olho" que alternam campos de senha (§5.2).
  * Marcação: <button data-alternar-senha="idDoInput" aria-pressed="false">.
@@ -362,18 +554,38 @@ function prepararModais(raiz) {
  */
 function prepararCamposSenha(raiz) {
     raiz.querySelectorAll("[data-alternar-senha]").forEach(function (botao) {
+        const campo = raiz.querySelector("#" + CSS.escape(
+            botao.dataset.alternarSenha
+        ));
+        if (!campo) {
+            return;
+        }
+        function atualizar() {
+            const visivel = campo.type === "text";
+            const rotulo = visivel ? "Ocultar senha" : "Mostrar senha";
+            botao.innerHTML = icone(visivel
+                ? "lucide:eye" : "lucide:eye-off");
+            botao.setAttribute("aria-pressed", String(visivel));
+            botao.setAttribute("aria-label", rotulo);
+            botao.setAttribute("title", rotulo);
+            botao.setAttribute("aria-controls", campo.id);
+            campo.classList.add("campo__entrada--senha");
+        }
+        atualizar();
+        if (senhasPreparadas.has(botao)) {
+            return;
+        }
+        senhasPreparadas.add(botao);
         botao.addEventListener("click", function () {
-            const campo = document.getElementById(
-                botao.dataset.alternarSenha
-            );
-            const mostrar = campo.type === "password";
-            campo.type = (
-                mostrar
-                ? "text"
-                : "password"
-            );
-            botao.setAttribute("aria-pressed", String(mostrar));
+            campo.type = campo.type === "password" ? "text" : "password";
+            atualizar();
         });
+        if (campo.form) {
+            campo.form.addEventListener("reset", function () {
+                campo.type = "password";
+                atualizar();
+            });
+        }
     });
 }
 
@@ -392,13 +604,69 @@ function mostrarAviso(mensagem) {
     }, 4000);
 }
 
+/** Substitui a apresentação do select múltiplo sem alterar seus valores. */
+function prepararMultisselecao(raiz) {
+    raiz.querySelectorAll("select[multiple]").forEach(function (select) {
+        if (select.dataset.multisselecao) {
+            return;
+        }
+        select.dataset.multisselecao = "true";
+        const rotulo = select.labels[0];
+        const grupo = document.createElement("fieldset");
+        grupo.className = "multisselecao";
+        const legenda = document.createElement("legend");
+        legenda.textContent = rotulo ? rotulo.textContent : select.name;
+        grupo.append(legenda);
+        const opcoes = document.createElement("div");
+        opcoes.className = "multisselecao__opcoes";
+        const resumo = document.createElement("p");
+        resumo.className = "multisselecao__resumo";
+        resumo.setAttribute("aria-live", "polite");
+        const controles = Array.from(select.options).map(function (opcao) {
+            const label = document.createElement("label");
+            label.className = "multisselecao__opcao";
+            const controle = document.createElement("input");
+            controle.type = "checkbox";
+            controle.checked = opcao.selected;
+            controle.disabled = select.disabled || opcao.disabled;
+            controle.addEventListener("change", function () {
+                opcao.selected = controle.checked;
+                select.dispatchEvent(new Event("change", {bubbles: true}));
+            });
+            label.append(controle, document.createTextNode(opcao.text));
+            opcoes.append(label);
+            return controle;
+        });
+        function atualizar() {
+            controles.forEach(function (controle, indice) {
+                controle.checked = select.options[indice].selected;
+            });
+            resumo.textContent = Array.from(select.selectedOptions).map(
+                function (opcao) { return opcao.text; }
+            ).join(", ") || "Nenhuma opção selecionada";
+        }
+        select.addEventListener("change", atualizar);
+        grupo.append(opcoes, resumo);
+        select.after(grupo);
+        select.hidden = true;
+        if (rotulo) {
+            rotulo.hidden = true;
+        }
+        atualizar();
+    });
+}
+
 export {
     STATUS,
     abrirModal,
+    conteudoAcao,
+    criarCampoSenha,
     criarCardEstatistica,
     criarCardProduto,
     criarCardTecnica,
     criarChips,
+    criarDetalhesTrabalho,
+    criarDialogo,
     criarPaginacao,
     criarStatus,
     escaparHtml,
@@ -407,6 +675,8 @@ export {
     iniciarCarrossel,
     mostrarAviso,
     padronizarIcones,
+    prepararAcoes,
     prepararCamposSenha,
-    prepararModais
+    prepararModais,
+    prepararMultisselecao
 };

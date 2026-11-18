@@ -12,24 +12,26 @@
     </div>
 </header>
 
-<search class="barra-filtros liceu-barra">
+<search class="liceu-filtros">
     <div class="busca">
         <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
         <input type="search" class="busca__entrada" data-busca aria-label="Buscar artesãos" placeholder="Buscar por nome, e-mail ou empreendimento...">
     </div>
-    <div class="barra-filtros__item">
-        <label for="liceu-artesaos-filtro">Filtrar por categoria/técnica:</label>
-        <!-- Opções de categorias e técnicas preenchidas via JS -->
-        <select id="liceu-artesaos-filtro" class="campo__entrada" data-filtro="categoria">
-            <option value="">Todas</option>
-        </select>
-    </div>
-    <div class="barra-filtros__item">
-        <label for="liceu-artesaos-ordem">Ordenar por:</label>
-        <select id="liceu-artesaos-ordem" class="campo__entrada" data-ordem>
-            <option value="recentes">Mais recentes</option>
-            <option value="nome">Nome A–Z</option>
-        </select>
+    <div class="liceu-filtros__controles">
+        <div class="campo">
+            <label class="campo__rotulo" for="liceu-artesaos-filtro">Categoria/Técnica:</label>
+            <!-- Opções de categorias e técnicas preenchidas via JS -->
+            <select id="liceu-artesaos-filtro" class="campo__entrada" data-filtro="categoria">
+                <option value="">Todas</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label class="campo__rotulo" for="liceu-artesaos-ordem">Ordenar:</label>
+            <select id="liceu-artesaos-ordem" class="campo__entrada" data-ordem>
+                <option value="recentes">Mais recentes</option>
+                <option value="nome">Nome A–Z</option>
+            </select>
+        </div>
     </div>
 </search>
 
