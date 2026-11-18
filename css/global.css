@@ -80,6 +80,9 @@
     --altura-barra: 72px;
     --tamanho-caixa-icone-secao: 2.5rem;
     --tamanho-icone-secao: 1.75rem;
+    --tamanho-icone-acao: 18px;
+    --tamanho-icone-status: 16px;
+    --alvo-acao: 44px;
 }
 
 /* ===== Reset ===== */

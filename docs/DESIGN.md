@@ -176,7 +176,7 @@ Classes ficam em [`css/componentes.css`](../css/componentes.css). Nomenclatura: 
 | Secundário | `.btn.btn--secundario` | fundo branco, borda `--cor-borda-forte` | "Ver trabalhos pendentes", "Analisar", "Ver perfil" |
 | Suave | `.btn.btn--suave` | fundo `--cor-superficie-forte`, borda `--cor-borda` | Botões do hero do portal, "Rascunho", "Editar" |
 | Link | `.btn.btn--link` | sem fundo, sublinhado | "Cancelar", "Ver motivo" |
-| Ícone | `.btn.btn--icone` | quadrado 40×40, só ícone + `aria-label` | "⋯", olho, lápis, lixeira, setas do carrossel |
+| Ícone | `.btn.btn--icone` | quadrado 44×44, só ícone + `aria-label` e `title` | "⋯", olho, lápis, lixeira, setas do carrossel |
 | Bloco | `+ .btn--bloco` | `width: 100%` | "Ver perfil →" nos cards |
 
 Altura 44px (mínimo de toque), raio `--raio-medio`, padding `0 var(--espaco-5)`, peso 600, gap 8px entre ícone e texto.
@@ -188,7 +188,7 @@ Link que parece botão: usar `<a class="btn …">`. Ação na mesma tela: `<butt
 - Estrutura: `<div class="campo"><label for="x" class="campo__rotulo">Nome *</label><input id="x" class="campo__entrada" …></div>`.
 - Entrada: altura 44px, borda 1px `--cor-borda`, raio `--raio-pequeno`, fundo branco; `:focus-visible` borda `--cor-borda-forte` + outline.
 - **Com ícone** (e-mail, WhatsApp, Instagram, busca): `.campo__grupo` com `iconify-icon` posicionado à esquerda; a entrada recebe `padding-left: 40px`.
-- **Senha**: botão `.btn--icone` "olho" à direita alternando `type="password"`/`text` (`aria-pressed`).
+- **Senha**: o controle compartilhado usa `eye-off` quando `type="password"` (ação “Mostrar senha”) e `eye` quando `type="text"` (ação “Ocultar senha”). `aria-label`, `title`, `aria-pressed` e `aria-controls` acompanham o estado; `prepararCamposSenha` inicializa login, provisória, confirmação e redefinição, sem duplicar eventos. O campo reserva espaço à direita para o alvo de 44px.
 - `select` nativo estilizado (seta própria via `background-image` SVG inline). `textarea` com `resize: vertical`.
 - Obrigatório: `*` no rótulo + atributo `required`. Agrupar blocos com `<fieldset class="bloco-form">` + `<legend>`.
 - **Bloco de formulário** (`.bloco-form`): card com borda, raio `--raio-medio`, padding `--espaco-5`; cabeçalho com ícone + título (h2 visual de `--fonte-h3`) + descrição.
@@ -284,13 +284,13 @@ Uso: `<iconify-icon icon="lucide:house" aria-hidden="true"></iconify-icon>`. Íc
 | Conceito | Ícone | | Conceito | Ícone |
 |---|---|---|---|---|
 | Início | `lucide:house` | | Notificações | `lucide:bell` |
-| Usuário / Entrar / Artesão | `boxicons:user` | | Sair | `lucide:log-out` |
-| Artesãos / grupos / pessoas | `boxicons:user` | | Voltar ao portal | `lucide:external-link` |
-| Cadastrar artesão | `boxicons:user` | | Novo / adicionar | `lucide:square-plus` / `lucide:plus` |
+| Usuário / Entrar / Artesão | `lucide:user` | | Sair | `lucide:log-out` |
+| Artesãos / grupos / pessoas | `lucide:user` | | Voltar ao portal | `lucide:external-link` |
+| Cadastrar artesão | `lucide:user` | | Novo / adicionar | `lucide:square-plus` / `lucide:plus` |
 | Trabalhos pendentes | `lucide:file-text` | | Meus trabalhos | `lucide:layers` |
 | Publicações / Status | `lucide:chart-no-axes-column` | | Configurações | `lucide:settings` |
-| Produtos | `bx:shopping-bag` | | Ideias / Saberes | `akar-icons:light-bulb` |
-| O Liceu | `uix-sharp:greek-temple` | | Local | `lucide:map-pin` |
+| Produtos | `lucide:shopping-bag` | | Ideias / Saberes | `lucide:lightbulb` |
+| O Liceu | `lucide:landmark` | | Local | `lucide:map-pin` |
 | Filtrar | `lucide:sliders-horizontal` | | Busca | `lucide:search` |
 | Grade / Lista | `lucide:layout-grid` / `lucide:list` | | Setas | `lucide:chevron-left/right/down`, `lucide:arrow-right` |
 | Ver | `lucide:eye` | | Ocultar | `lucide:eye-off` |
@@ -487,3 +487,36 @@ A composição segue a página Produto Individual dos wireframes: galeria com fa
 O catálogo em modo lista limita a imagem a 32% do card (máximo 180px), mantém altura natural para não cortar título/autor/preço e reserva espaço para o favorito. Seus controles podem quebrar em linhas no mobile. Essas regras se restringem ao catálogo; tabelas, paginação administrativa e cards em grade mantêm suas dimensões.
 
 O favorito ativo usa o mesmo ícone Lucide do estado inativo, com `aria-pressed="true"`, fundo primário e ícone invertido. O contraste do botão comunica o estado sem recorrer a outra coleção de ícones.
+
+## Padrões transversais de ações e detalhes
+
+Ações com texto usam ícone à esquerda (18px, `--tamanho-icone-acao`), seguido do verbo explícito. Status usam ícone de 16px (`--tamanho-icone-status`) e texto; nunca são botões, mesmo para rascunhos. Botões somente com ícone têm alvo de 44×44px (`--alvo-acao`), `aria-label`, `title` e foco nativo. Links de navegação editorial e chips de categoria mantêm só texto quando outro ícone não acrescenta significado. Controles de galeria e paginação mantêm setas; os nomes e números não mudam.
+
+A coleção da interface é Lucide, por meio do Iconify já instalado. Referências antigas a outras coleções são normalizadas por `padronizarIcones`; WhatsApp preserva o símbolo de marca já adotado, sem alternativa Lucide. Não introduzir outra biblioteca.
+
+| Ação | Ícone Lucide |
+|---|---|
+| Editar / corrigir | `pencil` |
+| Visualizar / ver perfil | `eye` |
+| Ocultar | `eye-off` |
+| Excluir | `trash-2` |
+| Duplicar | `copy` |
+| Enviar / reenviar | `send` |
+| Aprovar / republicar | `circle-check` |
+| Rejeitar / confirmar rejeição | `circle-x` |
+| Salvar / concluir cadastro | `check` |
+| Cancelar / descartar / limpar | `x` |
+| Adicionar / novo | `plus` |
+| Voltar | `arrow-left` |
+| Abrir no portal | `external-link` |
+| Filtrar | `sliders-horizontal` |
+| Analisar trabalho | `file-search` |
+| Redefinir senha | `key-round` |
+
+`conteudoAcao(texto)` gera ícone e texto escapado pelo registro semântico. `prepararAcoes(raiz)` aplica o mesmo registro ao conteúdo legado, sem substituir eventos nem alterar nomes/ações, e acrescenta títulos acessíveis aos controles compactos. Deve ser chamado após inserir conteúdo dinâmico. Ações destrutivas mantêm ícone e verbo explícito, variante de perigo e confirmação; não dependem só da cor.
+
+Modais de detalhe/análise compartilham `criarDetalhesTrabalho`: imagem principal com proporção 4:3 e demais fotos abaixo; artesão, status, chips e descrição agrupados; materiais, dimensões e preço em lista de descrição semântica. Duas colunas quando houver espaço (a partir de 600px), uma no smartphone. A rejeição aparece em campo separado; o rodapé continua com ações identificadas. Modais pequenos atendem a confirmações; menus de várias ações usam grade responsiva. A anatomia global de título, botão fechar, padding e backdrop permanece compartilhada.
+
+Filtros compactos usam rótulos curtos (“Status”, “Categoria/Técnica”, “Ordenar”) e selects de largura natural, sem fontes menores para forçar encaixe. Busca principal pode ocupar uma linha separada. Acima de 600px, grupos permanecem em linha enquanto couberem e quebram como unidades, sem separadores verticais; no smartphone os grupos reorganizam-se sem overflow. Chips de opções podem quebrar naturalmente.
+
+Listas de taxonomias usam seções `.lista-taxonomias` dentro do padding do card: “Categorias cadastradas” e “Técnicas cadastradas”, cada uma com `criarChips`. Os chips são informação estática, não controles de edição. Configurações futuras continuam desabilitadas.
