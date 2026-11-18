@@ -673,44 +673,19 @@ function criarBotaoAcao(acao, id, nomeIcone, texto, classes) {
 }
 
 /**
- * Bloco de estado de rascunhos e rejeitados (no lugar do badge).
+ * Faixa de status e acesso ao motivo, quando houver rejeição.
  * @param {object} trabalho
  * @returns {string}
  */
 function criarEstadoTrabalho(trabalho) {
-    if (trabalho.status === "rejeitado") {
-        return (
-            "<div class=\"artesao-estado\">"
-            + criarStatus("rejeitado")
-            + criarBotaoAcao(
-                "motivo",
-                trabalho.id,
-                "lucide:arrow-right",
-                "Ver motivo",
-                "btn--link"
-            )
-            + "</div>"
-        );
-    }
-    if (trabalho.status === "rascunho") {
-        return (
-            "<div class=\"artesao-estado artesao-estado--compacto\">"
-            + criarStatus("rascunho")
-            + criarBotaoAcao(
-                "enviar",
-                trabalho.id,
-                "lucide:send",
-                "Enviar para análise",
-                "btn--suave btn--pequeno"
-            )
-            + "</div>"
-        );
-    }
-    return (
-        "<div class=\"artesao-estado\">"
+    return "<div class=\"artesao-estado\">"
         + criarStatus(trabalho.status)
-        + "</div>"
-    );
+        + (trabalho.status === "rejeitado"
+            ? `<button type="button" class="btn btn--icone" data-acao="motivo"`
+                + ` data-id="${escaparHtml(trabalho.id)}"`
+                + ` aria-label="Ver motivo" title="Ver motivo">`
+                + icone("lucide:info") + "</button>"
+            : "") + "</div>";
 }
 
 /**
@@ -723,15 +698,21 @@ function criarAcoesTrabalho(trabalho) {
     const acoes = (
         criarEstadoTrabalho(trabalho)
         + "<div class=\"artesao-botoes\">"
+        + (trabalho.status === "rascunho"
+            ? `<button type="button" class="btn btn--suave btn--pequeno"`
+                + ` data-acao="enviar" data-id="${escaparHtml(trabalho.id)}"`
+                + ` aria-label="Enviar para análise" title="Enviar para análise">`
+                + icone("lucide:send") + "Enviar</button>"
+            : "")
         + (["em-analise", "reenviado"].includes(trabalho.status)
-            ? ""
-            : criarBotaoAcao(
-                "editar",
-                trabalho.id,
-                "lucide:pencil",
-                "Editar",
-                "btn--suave btn--pequeno"
-            ))
+            ? "<span class=\"texto-suave\">Edição indisponível</span>"
+            : trabalho.status === "rascunho"
+                ? `<button type="button" class="btn btn--icone"`
+                    + ` data-acao="editar" data-id="${escaparHtml(trabalho.id)}"`
+                    + ` aria-label="Editar" title="Editar">`
+                    + icone("lucide:pencil") + "</button>"
+                : criarBotaoAcao("editar", trabalho.id, "lucide:pencil",
+                    "Editar", "btn--suave btn--pequeno"))
         + "<button type=\"button\" class=\"btn btn--icone\""
         + ` data-acao="menu" data-id="${escaparHtml(trabalho.id)}"`
         + ` aria-label="Mais ações para ${titulo}">`
@@ -1205,45 +1186,28 @@ async function montarNovoTrabalho(raiz) {
  */
 function criarLinhaStatus(trabalho) {
     const id = escaparHtml(trabalho.id);
-    const botao = function (acao, nomeIcone, texto, classes) {
-        return (
-            `<button type="button" class="btn ${classes}"`
-            + ` data-acao="${acao}" data-id="${id}">`
-            + icone(nomeIcone) + texto + "</button>"
-        );
+    const botao = function (acao, nomeIcone, texto) {
+        return `<button type="button" class="btn btn--icone"`
+            + ` data-acao="${acao}" data-id="${id}"`
+            + ` aria-label="${texto}" title="${texto}">`
+            + icone(nomeIcone) + "</button>";
     };
     const acoes = {
-        "em-analise": (
-            "<button type=\"button\" class=\"btn btn--suave btn--pequeno\""
-            + " disabled>"
-            + icone("lucide:hourglass") + "Aguardando análise</button>"
-        ),
-        publicado: (
-            "<a class=\"btn btn--secundario btn--pequeno\" href=\"#/produto?id="
-            + encodeURIComponent(trabalho.id) + "\">"
-            + icone("lucide:external-link") + "Ver no portal</a>"
-        ),
-        rascunho: botao(
-            "editar",
-            "lucide:pencil",
-            "Continuar edição",
-            "btn--secundario btn--pequeno"
-        ),
-        rejeitado: (
-            "<button type=\"button\" class=\"btn btn--link\""
-            + ` data-acao="motivo" data-id="${id}">Ver motivo</button>`
-            + botao(
-                "editar",
-                "lucide:pencil",
-                "Editar e reenviar",
-                "btn--secundario btn--pequeno"
-            )
-        )
+        "em-analise": "<button type=\"button\" class=\"btn btn--icone\""
+            + " disabled aria-label=\"Aguardando análise\""
+            + " title=\"Aguardando análise\">"
+            + icone("lucide:hourglass") + "</button>",
+        publicado: `<a class="btn btn--icone" href="#/produto?id=`
+            + encodeURIComponent(trabalho.id)
+            + `" aria-label="Ver no portal" title="Ver no portal">`
+            + icone("lucide:external-link") + "</a>",
+        rascunho: botao("editar", "lucide:pencil", "Continuar edição"),
+        rejeitado: botao("motivo", "lucide:info", "Ver motivo")
+            + botao("editar", "lucide:pencil", "Editar e reenviar")
     };
     acoes.reenviado = acoes["em-analise"];
     acoes.oculto = botao(
-        "editar", "lucide:pencil", "Editar e enviar para análise",
-        "btn--secundario btn--pequeno"
+        "editar", "lucide:pencil", "Editar e enviar para análise"
     );
     return (
         "<tr>"

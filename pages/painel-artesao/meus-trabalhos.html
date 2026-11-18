@@ -1,22 +1,24 @@
-<header class="painel-cabecalho">
+<header class="painel-cabecalho artesao-cabecalho-acao">
     <div class="painel-cabecalho__texto">
         <span class="sobretitulo">Meus trabalhos</span>
         <h1>Meus trabalhos</h1>
         <p class="texto-apoio">Gerencie os trabalhos cadastrados e acompanhe o status de cada publicação</p>
+    </div>
+    <div class="painel-cabecalho__acoes">
+        <a class="btn btn--suave" href="#/painel-artesao/novo-trabalho">
+            <iconify-icon icon="lucide:plus" aria-hidden="true"></iconify-icon>
+            Cadastrar novo trabalho
+        </a>
     </div>
 </header>
 
 <section class="artesao-trabalhos" aria-labelledby="trabalhos-titulo">
     <h2 class="visualmente-oculto" id="trabalhos-titulo">Lista de trabalhos</h2>
     <div class="artesao-topo">
-        <a class="btn btn--suave" href="#/painel-artesao/novo-trabalho">
-            <iconify-icon icon="lucide:square-plus" aria-hidden="true"></iconify-icon>
-            Cadastrar novo trabalho
-        </a>
         <search class="busca">
             <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
-            <label for="trabalhos-busca" class="visualmente-oculto">Buscar produtos</label>
-            <input type="search" id="trabalhos-busca" class="busca__entrada" placeholder="Buscar produtos..." data-busca>
+            <label for="trabalhos-busca" class="visualmente-oculto">Buscar trabalhos</label>
+            <input type="search" id="trabalhos-busca" class="busca__entrada" placeholder="Buscar por nome do trabalho..." data-busca>
         </search>
     </div>
 

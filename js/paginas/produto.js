@@ -48,6 +48,9 @@ async function iniciarProduto(raiz) {
             ? "Preço sob consulta com o artesão" : Number(produto.preco).toLocaleString(
                 "pt-BR", {currency: "BRL", style: "currency"}
             );
+        raiz.querySelector("#produto-preco").classList.toggle(
+            "produto-preco--consulta", produto.preco === null
+        );
         const imagens = produto.imagens.length ? produto.imagens
             : ["assets/img/avatar-padrao.jpg"];
         const tecnicaImagem = raiz.querySelector("#produto-tecnica-imagem");
@@ -73,7 +76,8 @@ async function iniciarProduto(raiz) {
         raiz.querySelector("#produto-miniaturas").innerHTML = imagens.map(
             function (imagem, indice) {
                 return "<button type=\"button\" class=\"miniatura\""
-                    + ` data-foto="${indice}" aria-label="Selecionar foto ${indice + 1}">`
+                    + ` data-foto="${indice}" aria-label="Selecionar foto ${indice + 1}"`
+                    + ` aria-pressed="${indice === 0}">`
                     + `<img src="${escaparHtml(imagem)}" alt=""`
                     + " width=\"100\" height=\"100\"></button>";
             }
@@ -81,7 +85,23 @@ async function iniciarProduto(raiz) {
         galeria.querySelectorAll(".carrossel__seta").forEach(function (botao) {
             botao.hidden = imagens.length < 2;
         });
+        galeria.querySelector(".carrossel__indicadores").hidden = imagens.length < 2;
         iniciarCarrossel(galeria);
+        function atualizarMiniaturas() {
+            const pontos = galeria.querySelectorAll(".carrossel__ponto");
+            raiz.querySelectorAll("[data-foto]").forEach(function (botao, indice) {
+                botao.setAttribute("aria-pressed", String(
+                    pontos[indice].getAttribute("aria-current") === "true"
+                ));
+            });
+        }
+        const observador = new MutationObserver(atualizarMiniaturas);
+        observador.observe(galeria.querySelector(".carrossel__indicadores"), {
+            attributeFilter: ["aria-current"],
+            attributes: true,
+            subtree: true
+        });
+        atualizarMiniaturas();
         raiz.querySelector("#produto-miniaturas").addEventListener(
             "click", function (evento) {
                 const botao = evento.target.closest("[data-foto]");
@@ -93,15 +113,15 @@ async function iniciarProduto(raiz) {
             }
         );
         raiz.querySelector("#produto-artesao").innerHTML = (
-            "<div class=\"card-artesao-mini\"><img src=\""
+            "<img src=\""
             + escaparHtml(artesao.foto || "assets/img/avatar-padrao.jpg")
             + "\" alt=\"Foto de " + escaparHtml(artesao.nome)
-            + "\" width=\"96\" height=\"96\"><p>"
-            + escaparHtml(artesao.nome) + "<br>"
-            + escaparHtml(artesao.empreendimento) + "</p></div><p>"
+            + "\" width=\"96\" height=\"96\"><div class=\"pilha\"><p><strong>"
+            + escaparHtml(artesao.nome) + "</strong><br>"
+            + escaparHtml(artesao.empreendimento) + "</p><p>"
             + escaparHtml(artesao.bio) + "</p><a class=\"btn btn--secundario\""
             + " href=\"#/artesaos?id=" + encodeURIComponent(artesao.id)
-            + "\">Conheça este artesão</a>"
+            + "\">Conheça este artesão</a></div>"
         );
         raiz.querySelector("#produto-saber").textContent = produto.tecnica
             + ": conheça outros trabalhos e as pessoas que praticam este ofício.";
