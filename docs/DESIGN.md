@@ -886,3 +886,75 @@ Referência: `../capturas_ajustes_ui_liceu_rodada_atual.pdf`.
   a lista. O estado vazio explica como exibir todos. Usar a chave existente
   liceu:favoritos; não adicionar filtros fictícios a Artesãos/Saberes nem
   ferramentas de favoritos nos painéis de gestão.
+
+
+### Largura dos filtros do painel do artesao
+
+- A busca ocupa uma linha propria.
+- Em Meus trabalhos, os tres filtros dividem igualmente a largura no desktop.
+- Em Status das Publicacoes, os dois filtros dividem igualmente a largura.
+- Campos e seletores personalizados ocupam 100% da coluna.
+- Em telas menores, preservar organizacao responsiva sem overflow.
+
+## Identidade visual institucional — Liceu de Ofícios Criativos
+
+### Referências e escopo
+
+- Instagram: https://www.instagram.com/liceudeoficioscriativos/
+- Materiais institucionais divulgados pela Prefeitura de Curitiba.
+- Paleta proposta para o projeto acadêmico, não oficial.
+- Publicações atuais do Instagram não foram verificadas integralmente.
+
+### Conceito
+
+Criatividade, cultura, acolhimento, inovação e valorização
+do trabalho artesanal.
+
+A comunicação visual combina cores criativas, superfícies claras,
+elementos suavemente arredondados e fotografias que valorizam
+os artesãos e suas produções.
+
+### Paleta digital proposta
+
+| Papel | Hex |
+|---|---|
+| Turquesa institucional | #20A8A6 |
+| Ação primária | #0C7774 |
+| Hover primário | #095E5C |
+| Amarelo criativo | #FFC928 |
+| Rosa criativo | #E73571 |
+| Petróleo | #183E45 |
+| Off-white | #F8F7F3 |
+| Superfície suave | #EAF5F3 |
+| Borda suave | #C7DAD6 |
+
+### Regras de aplicação
+
+1. Usar turquesa profundo nas ações primárias.
+2. Manter botões secundários discretos.
+3. Reservar amarelo e rosa para destaques pontuais.
+4. Evitar grandes áreas funcionais com cores saturadas.
+5. Preservar a tipografia Inter.
+6. Manter cantos suaves em campos, botões, cards e modais.
+7. Reutilizar tokens globais em vez de repetir cores hexadecimais.
+8. Aplicar a mesma identidade nas áreas pública, do artesão e do Liceu.
+9. Manter a diferenciação semântica de erro, alerta e sucesso.
+10. Garantir contraste WCAG AA e foco visível.
+11. Não alterar os fluxos de autenticação, publicação e favoritos.
+12. Preservar as correções de UI/UX já aprovadas.
+
+### Herança de estilos
+
+A fonte central da identidade cromática é `css/global.css`.
+
+Atualizações em `docs/DESIGN.md` documentam o padrão, mas
+não modificam automaticamente os componentes.
+
+Componentes com cores fixas devem ser migrados cuidadosamente
+para os tokens globais após validação visual.
+
+### Recursos visuais
+
+Utilizar fotografias e logotipos institucionais autorizados.
+Manter os placeholders existentes enquanto não houver
+arquivos definitivos.

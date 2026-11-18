@@ -11,21 +11,29 @@
     --cor-texto-invertido: #ffffff;
 
     --cor-fundo: #ffffff;
-    --cor-fundo-alternado: #d9d9d9;
+    --cor-fundo-alternado: #F8F7F3;
     --cor-superficie: #f7f7f7;
-    --cor-superficie-forte: #ececec;
+    --cor-superficie-forte: #EAF5F3;
 
     --cor-barra: #a9a9a9;
     --cor-link-barra-hover: #333333;
-    --cor-indicador-hover: #666666;
-    --cor-lateral: #d9d9d9;
-    --cor-lateral-ativo: #b3b3b3;
+    --cor-indicador-hover: #0C7774;
+    --cor-lateral: #F1F7F5;
+    --cor-lateral-ativo: #D2EAE6;
 
-    --cor-borda: #bdbdbd;
+    --cor-borda: #C7DAD6;
     --cor-borda-forte: #272727;
 
-    --cor-primaria: #5f5f5f;
-    --cor-primaria-hover: #3f3f3f;
+    /* Identidade visual do Liceu: paleta proposta */
+    --marca-turquesa: #20A8A6;
+    --marca-amarelo: #FFC928;
+    --marca-rosa: #E73571;
+    --marca-petroleo: #183E45;
+    --marca-offwhite: #F8F7F3;
+    --marca-turquesa-profundo: #0C7774;
+
+    --cor-primaria: #0C7774;
+    --cor-primaria-hover: #095E5C;
     --cor-placeholder: #c8c8c8;
     --cor-sobreposicao: rgb(0 0 0 / 45%);
 
