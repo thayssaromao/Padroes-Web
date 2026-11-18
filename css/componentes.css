@@ -577,7 +577,7 @@ input[type="checkbox"] {
     border-top: 1px solid var(--cor-borda);
 }
 
-.card-produto__acoes .btn:first-child {
+.card-produto__acoes .btn:first-child:not(.btn--icone) {
     flex: 1;
 }
 
