@@ -832,3 +832,51 @@ Figma) e página Produto Individual de `../wireframes.pdf`.
   na Área do Artesão. Na Área do Liceu, o item é removido antes da inserção
   da casca; Sobre e copyright permanecem. Não duplicar o footer, esconder
   apenas por CSS nem alterar o footer público.
+
+
+## Rodada adicional: seletores, validação, cards e favoritos
+
+Referência: `../capturas_ajustes_ui_liceu_rodada_atual.pdf`.
+
+- Seleção simples: `js/seletores.js` melhora progressivamente os selects
+  através de `prepararSeletores`, chamado pelo preparador de ações. O select
+  permanece no formulário como fonte de valor, eventos e validade. A interface
+  é uma combobox somente de seleção com listbox em popover na camada superior.
+  Não cortar o valor selecionado: permitir quebra e reservar largura. Menus
+  usam tokens, opções com alvo de 44px, grupos, hover/seleção/foco e rolagem
+  interna de até 320px. Posicionar acima ou abaixo conforme a viewport.
+- Teclado dos seletores: setas, Home/End e PageUp/PageDown navegam; Enter,
+  Espaço ou Tab confirmam; Escape cancela a navegação sem mudar o valor e
+  preserva o diálogo. Digitação busca opções. Desabilitados não abrem.
+  Eventos input/change, reset, opções dinâmicas, rótulos e erros são
+  sincronizados. Navegadores sem Popover API mantêm o select nativo.
+  Referência semântica: [WAI-ARIA APG, select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/).
+- Seleção múltipla conserva fieldset/checkboxes ou select+chips já aprovados.
+  Não substituir por uma combobox simples nem perder valores persistidos.
+- Obrigatórios: Nome completo e E-mail exibem asterisco, required e mensagens
+  claras em região de alerta. Validar espaços no nome e formato do e-mail;
+  unicidade e atualização de credenciais permanecem na camada de dados.
+- Cards do artesão: remover a borda horizontal exclusiva do bloco de ações,
+  título sem altura artificial, espaçamentos com tokens e ações alinhadas na
+  base. Status usa altura de 32px e ícone de 16px. O motivo tem ícone de 16px
+  em alvo transparente de 44px, alinhado ao chip; não diminuir o alvo.
+- Status das publicações: busca e controles com áreas próprias no desktop,
+  busca acima no tablet e tudo empilhado no celular. Reservar pelo menos
+  12rem aos controles quando houver espaço e não ocultar seus valores.
+- Filtros administrativos: rótulos e controles separados por espaco-2 e
+  grade proporcional, sem compartilhar a linha da busca. Usar a combobox
+  também nos filtros e formulários dos modais.
+- Contexto do produto: duas colunas equivalentes com divisória no centro e
+  títulos alinhados. Mídia de 128px no tablet/desktop (avatar circular e
+  técnica retangular); textos flexíveis e botões com mesma anatomia/altura,
+  na base. Biografias extensas têm região de rolagem por teclado, sem perder
+  texto. No celular, preservar empilhamento e divisão horizontal.
+- Modais: manter variantes pequena/média/grande, título com quebra segura,
+  ações com texto completo e rolagem interna. Modal editorial de Saberes
+  usa corpo e rodapé próprios, gap de 24px e botão com largura natural,
+  altura mínima de 44px e texto que pode quebrar no smartphone.
+- Somente favoritos: chip com coração e aria-pressed no catálogo público.
+  Combinar com filtros, busca, ordenação e paginação; desfavoritar atualiza
+  a lista. O estado vazio explica como exibir todos. Usar a chave existente
+  liceu:favoritos; não adicionar filtros fictícios a Artesãos/Saberes nem
+  ferramentas de favoritos nos painéis de gestão.
