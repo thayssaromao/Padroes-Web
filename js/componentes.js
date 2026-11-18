@@ -160,14 +160,22 @@ function prepararAcoes(raiz) {
             }
             const desenho = botao.querySelector("iconify-icon, svg");
             if (desenho && desenho.localName === "iconify-icon") {
-                if (desenho.getAttribute("icon") !== nome) {
+                const primeiro = Array.from(botao.childNodes).find(
+                    function (node) {
+                        return node.nodeType === Node.ELEMENT_NODE
+                            || node.textContent.trim();
+                    }
+                );
+                if (primeiro !== desenho) {
+                    // Reconectar um custom element pode invalidar seu SVG.
+                    desenho.remove();
+                    botao.insertAdjacentHTML("afterbegin", icone(nome));
+                } else if (desenho.getAttribute("icon") !== nome) {
                     desenho.setAttribute("icon", nome);
                 }
-                if (botao.firstChild !== desenho) {
-                    botao.prepend(desenho);
-                }
             } else if (desenho) {
-                desenho.outerHTML = icone(nome);
+                desenho.remove();
+                botao.insertAdjacentHTML("afterbegin", icone(nome));
             } else {
                 botao.insertAdjacentHTML("afterbegin", icone(nome));
             }
