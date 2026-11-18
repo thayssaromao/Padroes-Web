@@ -706,7 +706,11 @@ function criarEstadoTrabalho(trabalho) {
             + "</div>"
         );
     }
-    return "";
+    return (
+        "<div class=\"artesao-estado\">"
+        + criarStatus(trabalho.status)
+        + "</div>"
+    );
 }
 
 /**
@@ -738,10 +742,7 @@ function criarAcoesTrabalho(trabalho) {
         favorito: false,
         href: "#/painel-artesao/novo-trabalho?id="
             + encodeURIComponent(trabalho.id),
-        status: (
-            trabalho.status !== "rascunho"
-            && trabalho.status !== "rejeitado"
-        )
+        status: false
     });
 }
 

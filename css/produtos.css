@@ -268,3 +268,53 @@
     #btnFiltroMobile { display: flex; }
     .input-com-icone { width: 100%; }
 }
+
+/* AJUSTE-LICEU: filtros alinhados com a grade de produtos */
+@media (min-width: 1024px) {
+    .catalogo-conteudo {
+        min-width: 0;
+    }
+
+    .catalogo-conteudo .opcao-categoria {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: space-between;
+        width: 100%;
+        gap: var(--espaco-2);
+        box-sizing: border-box;
+    }
+
+    .catalogo-conteudo .opcao-categoria .opcao {
+        flex: 1 1 auto;
+        width: auto;
+        min-width: max-content;
+        justify-content: center;
+        padding-inline: var(--espaco-2);
+    }
+
+    .catalogo-conteudo .catalogo-controles {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: var(--espaco-3);
+    }
+
+    .catalogo-conteudo .controles-direita {
+        flex: 0 0 auto;
+        margin-left: auto;
+    }
+}
+
+/* AJUSTE-LICEU: ritmo vertical do catalogo */
+@media (min-width: 1024px) {
+    .catalogo-conteudo .opcao-categoria {
+        margin-bottom: var(--espaco-3);
+    }
+
+    .catalogo-conteudo .catalogo-controles {
+        margin-top: 0;
+        margin-bottom: var(--espaco-4);
+    }
+}
