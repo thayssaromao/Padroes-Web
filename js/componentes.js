@@ -572,8 +572,7 @@ function prepararMultisselecao(raiz) {
             return;
         }
         select.dataset.multisselecao = "true";
-        const rotulo = raiz.querySelector("label[for=\""
-            + CSS.escape(select.id) + "\"]");
+        const rotulo = select.labels[0];
         const grupo = document.createElement("fieldset");
         grupo.className = "multisselecao";
         const legenda = document.createElement("legend");
