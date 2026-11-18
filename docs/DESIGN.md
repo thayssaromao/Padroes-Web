@@ -525,3 +525,5 @@ Listas de taxonomias usam seções `.lista-taxonomias` dentro do padding do card
 A preparação de ações é idempotente: não reaplica atributos de ícones já corretos. Os ícones da parcial são preparados imediatamente (`noobserver`), inclusive antes de mudar a página de uma listagem, para evitar controles temporariamente vazios. Remoção de chip/miniatura mantém o × convencional. Ações em cards preservam a área mínima de toque, mesmo em blocos de estado compactos.
 
 Os cabeçalhos de configurações reutilizam `.bloco-form__cabecalho--secao`, com wrapper de ícone e texto. No grid desktop, a altura mínima comum acomoda as descrições sem deslocar o início do conteúdo entre cards vizinhos; em telas menores, a altura volta a ser natural.
+
+Não reposicione um `iconify-icon` conectado apenas para remover espaços em branco. O preparador mantém nós já corretos; quando realmente precisa trocar um ícone de posição, cria uma instância nova. Isso evita estado interno de SVG inválido ao reconectar o custom element.
