@@ -508,14 +508,37 @@ input[type="checkbox"] {
     gap: var(--espaco-4);
     padding: var(--espaco-4) var(--espaco-5);
     text-decoration: none;
-    background-color: var(--cor-superficie-card);
+    background-color: transparent;
     color: var(--cor-texto);
-    box-shadow: inset 0 4px var(--cor-destaque), var(--sombra-card);
+    border-color: transparent;
+    border-bottom-color: var(--cor-primaria);
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .card-atalho > iconify-icon {
     font-size: 36px;
-    color: var(--cor-favorito);
+    color: var(--cor-primaria);
+}
+
+.card-atalho.card--clicavel:hover,
+.card-atalho.card--clicavel:focus-within {
+    transform: none;
+    border-color: transparent;
+    border-bottom-color: var(--cor-primaria);
+    box-shadow: none;
+}
+
+.card-atalho:hover .card-atalho__titulo,
+.card-atalho:focus-visible .card-atalho__titulo {
+    text-decoration: underline;
+    text-underline-offset: var(--espaco-1);
+}
+
+.card-atalho > iconify-icon:last-child {
+    width: 36px;
+    height: 36px;
+    font-size: var(--tamanho-icone-acao);
 }
 
 .card-atalho__texto {
