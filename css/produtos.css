@@ -243,8 +243,6 @@
 .grade-produtos.modo-lista { grid-template-columns: 1fr; }
 .grade-produtos.modo-lista .card-produto { flex-direction: row; height: 140px; }
 .grade-produtos.modo-lista .card-imagem { width: 180px; height: 100%; flex-shrink: 0; }
-.card-produto { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; text-decoration: none; color: var(--cor-texto, #333); display: flex; flex-direction: column; background: var(--cor-fundo, #fff); transition: transform 0.15s ease, box-shadow 0.15s ease; }
-.card-produto:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); }
 .card-imagem { height: 150px; background-color: #cccccc; position: relative; background-image: linear-gradient(to bottom right, transparent calc(50% - 1px), #aaa, transparent calc(50% + 1px)), linear-gradient(to top right, transparent calc(50% - 1px), #aaa, transparent calc(50% + 1px)); }
 .btn-favorito { position: absolute; top: 10px; right: 10px; border: none; background: white; border-radius: 6px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; line-height: 1; box-shadow: 0 1px 3px rgba(0,0,0,0.15); font-size: 1.2rem; }
 .btn-favorito.favoritado { color: #d93025; }
