@@ -57,6 +57,11 @@ function carregarCategorias() {
     return lerJson("data/categorias.json");
 }
 
+/** @returns {Promise<Array<object>>} catálogo de técnicas artesanais */
+function carregarTecnicas() {
+    return lerJson("data/tecnicas.json");
+}
+
 /**
  * @param {string} id
  * @returns {Promise<object|undefined>}
@@ -199,6 +204,7 @@ export {
     buscarArtesao,
     carregarArtesaos,
     carregarCategorias,
+    carregarTecnicas,
     carregarTrabalhos,
     comNomeDoArtesao,
     contarPorStatus,
