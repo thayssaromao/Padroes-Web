@@ -520,3 +520,5 @@ Modais de detalhe/análise compartilham `criarDetalhesTrabalho`: imagem principa
 Filtros compactos usam rótulos curtos (“Status”, “Categoria/Técnica”, “Ordenar”) e selects de largura natural, sem fontes menores para forçar encaixe. Busca principal pode ocupar uma linha separada. Acima de 600px, grupos permanecem em linha enquanto couberem e quebram como unidades, sem separadores verticais; no smartphone os grupos reorganizam-se sem overflow. Chips de opções podem quebrar naturalmente.
 
 Listas de taxonomias usam seções `.lista-taxonomias` dentro do padding do card: “Categorias cadastradas” e “Técnicas cadastradas”, cada uma com `criarChips`. Os chips são informação estática, não controles de edição. Configurações futuras continuam desabilitadas.
+
+A preparação de ações é idempotente: não reaplica atributos de ícones já corretos. Os ícones da parcial são preparados imediatamente (`noobserver`), inclusive antes de mudar a página de uma listagem, para evitar controles temporariamente vazios. Remoção de chip/miniatura mantém o × convencional. Ações em cards preservam a área mínima de toque, mesmo em blocos de estado compactos.

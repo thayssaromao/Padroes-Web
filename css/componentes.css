@@ -1539,3 +1539,9 @@ input[type="checkbox"] {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
     }
 }
+
+.card-produto__acoes .artesao-estado .btn {
+    min-height: var(--alvo-acao);
+    padding-inline: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+}

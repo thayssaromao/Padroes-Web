@@ -128,6 +128,11 @@ function conteudoAcao(texto) {
 /** Migra ações existentes sem alterar handlers, texto ou semântica. */
 function prepararAcoes(raiz) {
     padronizarIcones(raiz);
+    raiz.querySelectorAll("iconify-icon").forEach(function (elemento) {
+        if (!elemento.hasAttribute("noobserver")) {
+            elemento.setAttribute("noobserver", "");
+        }
+    });
     raiz.querySelectorAll("button, a.btn, a.link-seta").forEach(
         function (botao) {
             if (botao.hasAttribute("data-alternar-senha")) {
@@ -143,13 +148,21 @@ function prepararAcoes(raiz) {
             if (botao.classList.contains("modal__fechar")) {
                 botao.setAttribute("title", rotulo || "Fechar");
             }
+            if (botao.matches(".chip__remover, .miniatura__remover")) {
+                return;
+            }
             const nome = iconeAcao(texto || rotulo);
             if (!nome || botao.classList.contains("paginacao__botao")) {
                 return;
             }
             const desenho = botao.querySelector("iconify-icon, svg");
             if (desenho && desenho.localName === "iconify-icon") {
-                desenho.setAttribute("icon", nome);
+                if (desenho.getAttribute("icon") !== nome) {
+                    desenho.setAttribute("icon", nome);
+                }
+                if (botao.firstChild !== desenho) {
+                    botao.prepend(desenho);
+                }
             } else if (desenho) {
                 desenho.outerHTML = icone(nome);
             } else {
