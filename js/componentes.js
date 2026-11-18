@@ -146,6 +146,42 @@ function criarCardProduto(trabalho, opcoes = {}) {
 }
 
 /**
+ * Card de técnica da página Saberes (§5.5).
+ * @param {object} tecnica registro de data/tecnicas.json
+ * @param {object} [opcoes]
+ * @param {boolean} [opcoes.favoritado=false] estado inicial do favorito
+ * @returns {string}
+ */
+function criarCardTecnica(tecnica, opcoes = {}) {
+    const nome = escaparHtml(tecnica.nome);
+    const id = escaparHtml(tecnica.id);
+    const imagem = (
+        tecnica.imagem
+        ? `<img class="card-tecnica__imagem" src="${escaparHtml(tecnica.imagem)}"`
+        + ` alt="" width="400" height="150" loading="lazy">`
+        : "<div class=\"card-tecnica__imagem\" aria-hidden=\"true\"></div>"
+    );
+    return (
+        "<article class=\"card card-tecnica\">"
+        + imagem
+        + "<button type=\"button\" class=\"card-tecnica__favorito\""
+        + ` data-favorito="${id}"`
+        + ` aria-pressed="${Boolean(opcoes.favoritado)}"`
+        + ` aria-label="Favoritar ${nome}">`
+        + icone("lucide:heart") + "</button>"
+        + "<div class=\"card-tecnica__corpo\">"
+        + `<h3 class="card-tecnica__titulo">${nome}</h3>`
+        + "<p class=\"card-tecnica__descricao\">"
+        + escaparHtml(tecnica.descricao) + "</p>"
+        + "<button type=\"button\" class=\"btn btn--secundario btn--bloco"
+        + ` btn--pequeno" data-tecnica="${id}"`
+        + ` aria-label="Saiba mais sobre ${nome}">`
+        + "Saiba mais" + icone("lucide:arrow-right")
+        + "</button></div></article>"
+    );
+}
+
+/**
  * Card de estatística (§5.5).
  * @param {{icone: string, numero: number, rotulo: string}} dados
  * @returns {string}
@@ -351,6 +387,7 @@ export {
     abrirModal,
     criarCardEstatistica,
     criarCardProduto,
+    criarCardTecnica,
     criarChips,
     criarPaginacao,
     criarStatus,

@@ -513,7 +513,8 @@ input[type="checkbox"] {
     border-bottom: 1px solid var(--cor-borda);
 }
 
-.card-produto__favorito {
+.card-produto__favorito,
+.card-tecnica__favorito {
     position: absolute;
     top: var(--espaco-3);
     right: var(--espaco-3);
@@ -529,11 +530,13 @@ input[type="checkbox"] {
     transition: transform var(--transicao);
 }
 
-.card-produto__favorito:hover {
+.card-produto__favorito:hover,
+.card-tecnica__favorito:hover {
     transform: scale(1.1);
 }
 
-.card-produto__favorito[aria-pressed="true"] iconify-icon {
+.card-produto__favorito[aria-pressed="true"] iconify-icon,
+.card-tecnica__favorito[aria-pressed="true"] iconify-icon {
     color: var(--cor-borda-forte);
 }
 
@@ -575,6 +578,46 @@ input[type="checkbox"] {
 
 .card-produto__acoes .btn:first-child {
     flex: 1;
+}
+
+/* Técnica (Saberes) */
+.card-tecnica {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card-tecnica__imagem {
+    width: 100%;
+    aspect-ratio: 8 / 3;
+    object-fit: cover;
+    border-bottom: 1px solid var(--cor-borda);
+    background-color: var(--cor-placeholder);
+}
+
+.card-tecnica__corpo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    padding: var(--espaco-3) var(--espaco-4) var(--espaco-4);
+}
+
+.card-tecnica__titulo {
+    font-size: var(--fonte-corpo);
+}
+
+.card-tecnica__descricao {
+    font-size: var(--fonte-mini);
+    line-height: 1.35;
+    color: var(--cor-texto-suave);
+}
+
+.card-tecnica .btn--bloco {
+    margin-top: auto;
+    background-color: var(--cor-superficie);
+    border-color: var(--cor-borda);
 }
 
 /* Artesão (mini, redondo) */
