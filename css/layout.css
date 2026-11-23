@@ -797,3 +797,21 @@
         display: none;
     }
 }
+
+/* Atalho de teclado compartilhado, acima das duas cascas. */
+.pular-conteudo {
+    position: fixed;
+    top: var(--espaco-2);
+    left: var(--espaco-2);
+    z-index: 100;
+    min-height: var(--alvo-acao);
+    padding: var(--espaco-3) var(--espaco-4);
+    border-radius: var(--raio-pequeno);
+    background-color: var(--cor-superficie-card);
+    color: var(--cor-link);
+    transform: translateY(calc(-100% - var(--espaco-4)));
+}
+
+.pular-conteudo:focus {
+    transform: none;
+}

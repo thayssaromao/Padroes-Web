@@ -392,7 +392,29 @@ function iniciarCarrossel(carrossel) {
     const reduzir = window.matchMedia("(prefers-reduced-motion: reduce)");
     let atual = 0;
     let pausado = false;
+    let pausaSolicitada = reduzir.matches;
     let temporizador;
+    const reproducao = document.createElement("button");
+    reproducao.type = "button";
+    reproducao.className = "btn btn--link carrossel__reproducao";
+    function atualizarReproducao() {
+        reproducao.textContent = pausaSolicitada ? "Retomar rotação" : "Pausar rotação";
+    }
+    function acompanharMovimento() {
+        if (reduzir.matches) {
+            pausaSolicitada = true;
+            atualizarReproducao();
+        }
+    }
+    reproducao.addEventListener("click", function () {
+        pausaSolicitada = !pausaSolicitada;
+        atualizarReproducao();
+    });
+    atualizarReproducao();
+    if (slides.length > 1) {
+        carrossel.querySelector(".carrossel__indicadores").append(reproducao);
+        reduzir.addEventListener("change", acompanharMovimento);
+    }
 
     function irPara(indice) {
         atual = (indice + slides.length) % slides.length;
@@ -408,9 +430,10 @@ function iniciarCarrossel(carrossel) {
     function avancar() {
         if (!document.body.contains(carrossel)) {
             clearInterval(temporizador);
+            reduzir.removeEventListener("change", acompanharMovimento);
             return;
         }
-        if (!pausado) {
+        if (!pausado && !pausaSolicitada && !document.hidden) {
             irPara(atual + 1);
         }
     }
@@ -444,7 +467,7 @@ function iniciarCarrossel(carrossel) {
     });
 
     irPara(0);
-    if (!reduzir.matches && slides.length > 1) {
+    if (slides.length > 1) {
         temporizador = setInterval(avancar, INTERVALO_CARROSSEL);
     }
 }

@@ -408,6 +408,10 @@ input[type="checkbox"] {
 
 .chip__remover {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--alvo-acao);
+    min-height: var(--alvo-acao);
     padding: 2px;
     border-radius: var(--raio-pilula);
 }
@@ -494,6 +498,33 @@ input[type="checkbox"] {
     border-color: var(--chip-texto);
     box-shadow: inset 0 0 0 1px var(--chip-texto);
     font-weight: var(--peso-negrito);
+}
+
+/* Acordeão: botão nativo dentro do heading, sem substituir sua semântica. */
+.acordeao-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-2);
+    width: 100%;
+    min-height: var(--alvo-acao);
+    padding-block: var(--espaco-2);
+    color: var(--cor-texto);
+    font-size: var(--fonte-corpo);
+    font-weight: var(--peso-negrito);
+    text-align: left;
+}
+
+.lista-checkboxes label {
+    min-height: var(--alvo-acao);
+}
+
+.lista-checkboxes input[type="checkbox"],
+.lista-checkboxes input[type="radio"] {
+    width: var(--espaco-5);
+    height: var(--espaco-5);
+    flex-shrink: 0;
+    accent-color: var(--cor-primaria);
 }
 
 /* ===== 5.4 Status ===== */
@@ -918,9 +949,17 @@ input[type="checkbox"] {
 
 .carrossel__indicadores {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
     gap: var(--espaco-1);
     margin-top: var(--espaco-3);
+}
+
+.carrossel__reproducao {
+    min-height: var(--alvo-acao);
+    padding-inline: var(--espaco-2);
+    font-size: var(--fonte-pequena);
 }
 
 .carrossel__ponto {
