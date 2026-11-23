@@ -1157,3 +1157,28 @@ altera a largura do documento e não interfere em filtros ou favoritos.
   transparentes, e base clara arredondada para o lettering escuro continuar legível
   no cabeçalho e rodapé. Login usa `--tamanho-logo-login` (96px) e preserva a imagem
   inteira. O CSS funcional do login, ausente neste worktree, deve consumir o token.
+
+
+## Acessibilidade — auditoria de 23/11/2026
+
+- Marcas dos painéis têm nome acessível explícito; o menu de conta referencia
+  os rótulos `painel-conta-rotulo` e `painel-conta-nome`, inclusive quando o nome
+  visual é ocultado no celular. Campos de upload precisam de rótulo acessível.
+- Atalho `Pular para o conteúdo` é o primeiro link do documento e só aparece
+  no foco. Seu acionamento foca o main atual sem alterar a rota da SPA.
+- Acordeões preservam os headings: colocar botão nativo `.acordeao-toggle`
+  dentro de h3, com `aria-expanded` e `aria-controls` vinculados ao conteúdo.
+  Teclado usa o comportamento nativo de Enter/Espaço.
+- Checkboxes/radios do catálogo usam 24px, e seus labels têm alvo de 44px.
+  Botões de remoção de chips têm alvo de 44px. Não confundir o mínimo AA de
+  24px (WCAG 2.2, com exceções) com a recomendação de 44px do projeto.
+- Carrosséis com vários slides oferecem Pausar/Retomar rotação, preservando
+  a pausa quando o ponteiro/foco sai do componente. Preferência por movimento
+  reduzido inicia em pausa; mudá-la para reduzir também interrompe a rotação.
+  Pausa temporária por foco/hover e navegação manual são mantidas.
+- Falhas de carregamento devem apresentar mensagem de erro anunciável e ação
+  de tentar novamente; indisponibilidade da rede não equivale a rota inexistente.
+
+Referências: [WCAG 2.2, alvos](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html),
+[pausa](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html),
+[mensagens de status](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html).

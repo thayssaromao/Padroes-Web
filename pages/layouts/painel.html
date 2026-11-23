@@ -6,7 +6,7 @@
             <iconify-icon icon="lucide:menu" aria-hidden="true"></iconify-icon>
         </button>
 
-        <a class="marca" href="#/inicio">
+        <a class="marca" href="#/inicio" aria-label="Liceu de Ofícios — início do portal">
             <img src="assets/logo.png" alt="" class="marca__logo" width="72" height="52">
             <span>Liceu de Ofícios</span>
         </a>
@@ -16,9 +16,10 @@
                 <iconify-icon icon="lucide:bell" aria-hidden="true"></iconify-icon>
             </button>
             <span class="painel__divisor" aria-hidden="true"></span>
-            <button type="button" class="painel__perfil" aria-haspopup="dialog" aria-expanded="false" data-acao="menu-usuario">
+            <button type="button" class="painel__perfil" aria-labelledby="painel-conta-rotulo painel-conta-nome" aria-haspopup="dialog" aria-expanded="false" data-acao="menu-usuario">
+                <span id="painel-conta-rotulo" class="visualmente-oculto">Menu da conta de</span>
                 <img src="assets/img/avatar-padrao.jpg" alt="" class="avatar" width="40" height="40" data-usuario-foto>
-                <span class="painel__perfil-nome" data-usuario-nome>Usuário</span>
+                <span id="painel-conta-nome" class="painel__perfil-nome" data-usuario-nome>Usuário</span>
                 <iconify-icon icon="lucide:chevron-down" aria-hidden="true"></iconify-icon>
             </button>
         </div>
@@ -50,7 +51,7 @@
     <main id="conteudo" class="painel__principal" tabindex="-1"></main>
 
     <footer class="painel__rodape">
-        <a class="marca" href="#/inicio">
+        <a class="marca" href="#/inicio" aria-label="Liceu de Ofícios — início do portal">
             <img src="assets/logo.png" alt="" class="marca__logo" width="72" height="52">
             <span>Liceu de Ofícios</span>
         </a>
