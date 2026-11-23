@@ -252,17 +252,20 @@
 }
 
 .artesaos-grade .card-artesao__nome {
-    font-size: var(--fonte-corpo);
-    line-height: 1.2;
+    font-size: var(--fonte-nome-artesao);
+    line-height: var(--altura-linha-titulo-card);
 }
 
 .card-artesao__empreendimento {
-    font-size: var(--fonte-mini);
+    font-size: var(--fonte-pequena);
     color: var(--cor-texto-suave);
     overflow-wrap: anywhere;
 }
 
-.artesaos-grade .local,
+.artesaos-grade .local {
+    font-size: var(--fonte-pequena);
+}
+
 .artesaos-grade .chip {
     font-size: var(--fonte-mini);
 }
