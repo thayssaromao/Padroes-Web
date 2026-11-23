@@ -75,6 +75,20 @@
     --cor-rascunho: #485E59;
     --cor-rascunho-fundo: #EAEFE9;
 
+    /* Etiquetas de categorias e técnicas: pares decorativos legíveis */
+    --cor-chip-turquesa: var(--marca-turquesa-escuro);
+    --cor-chip-turquesa-fundo: var(--cor-superficie-forte);
+    --cor-chip-rosa: var(--marca-rosa-escuro);
+    --cor-chip-rosa-fundo: var(--cor-editorial-alternada);
+    --cor-chip-amarelo: var(--cor-alerta);
+    --cor-chip-amarelo-fundo: var(--cor-editorial);
+    --cor-chip-azul: var(--cor-informacao);
+    --cor-chip-azul-fundo: var(--cor-informacao-fundo);
+    --cor-chip-verde: var(--cor-sucesso);
+    --cor-chip-verde-fundo: var(--cor-sucesso-fundo);
+    --cor-chip-violeta: #65418A;
+    --cor-chip-violeta-fundo: #F1EAF8;
+
     /* ===== Tipografia ===== */
     --fonte-base: "Inter", Arial, Helvetica, sans-serif;
 

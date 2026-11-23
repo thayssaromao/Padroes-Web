@@ -129,9 +129,29 @@ function conteudoAcao(texto) {
     return (nome ? icone(nome) : "") + escaparHtml(texto);
 }
 
+/** A mesma categoria/técnica conserva sua cor em cards, filtros e painéis. */
+function corChip(texto) {
+    const grupos = [
+        ["Decoração", "Macramê", "Cestaria"],
+        ["Utilitários", "Cerâmica"],
+        ["Acessórios", "Bordado"],
+        ["Organização", "Crochê"],
+        ["Arte em tecido", "Madeira"],
+        ["Outros", "Patchwork", "Fibras naturais"]
+    ];
+    const cores = ["turquesa", "rosa", "amarelo", "azul", "verde", "violeta"];
+    const indice = grupos.findIndex(function (grupo) {
+        return grupo.includes(texto.trim());
+    });
+    return cores[indice < 0 ? 0 : indice];
+}
+
 /** Migra ações existentes sem alterar handlers, texto ou semântica. */
 function prepararAcoes(raiz) {
     prepararSeletores(raiz);
+    raiz.querySelectorAll(".chip, .filtro-chip").forEach(function (chip) {
+        chip.dataset.cor = corChip(chip.textContent);
+    });
     padronizarIcones(raiz);
     raiz.querySelectorAll("iconify-icon").forEach(function (elemento) {
         if (!elemento.hasAttribute("noobserver")) {
@@ -247,7 +267,7 @@ function criarDetalhesTrabalho(trabalho) {
  */
 function criarChips(itens) {
     return "<ul class=\"chips\">" + itens.map(function (item) {
-        return `<li class="chip">${escaparHtml(item)}</li>`;
+        return `<li class="chip" data-cor="${corChip(item)}">${escaparHtml(item)}</li>`;
     }).join("") + "</ul>";
 }
 

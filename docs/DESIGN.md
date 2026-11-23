@@ -1118,3 +1118,22 @@ por uma camada decorativa com expansão lateral e recorte vertical. A faixa
 começa logo abaixo do header público; o texto e os controles continuam
 alinhados à grade limitada do catálogo. A camada não recebe cliques, não
 altera a largura do documento e não interfere em filtros ou favoritos.
+
+
+## Refinamento de chips, artesãos e modal de técnicas
+
+- Chips de assunto usam seis pares de tokens `--cor-chip-…`: turquesa, rosa,
+  amarelo, azul, verde e violeta. `corChip` no componente compartilhado associa
+  categorias e técnicas a cores estáveis, inclusive em filtros e painéis.
+  Texto e fundo têm contraste AA; badges de status conservam sua semântica.
+  Seleção usa fundo escuro e peso forte; hover reforça a borda e foco mantém
+  o contorno global. Não atribuir cores por posição na lista.
+- Cards públicos de artesãos usam borda tricolor completa de 1px, superfície
+  branca, raio grande e sombra discreta, reforçada no hover/foco interno, sem
+  deslocamento. Avatares circulares têm moldura branca e halo turquesa suave.
+  Preservar dimensões, grade/lista, ações e leitura dos nomes.
+- O rodapé do modal editorial centraliza a ação de explorar os produtos,
+  mantendo largura natural e quebra de texto em telas pequenas.
+- A substituição do logo depende do PNG transparente fornecido pela equipe;
+  capturas de tela não substituem o arquivo institucional. As cascas públicas
+  e dos painéis compartilham `assets/logo.png`.
