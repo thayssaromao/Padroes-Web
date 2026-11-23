@@ -835,11 +835,7 @@ input[type="checkbox"] {
 
 .card-estatistica:has(> iconify-icon[icon="lucide:circle-x"]) {
     background-color: var(--cor-erro-fundo);
-    border: 1px solid transparent;
-    border-radius: var(--raio-grande);
-    background: linear-gradient(var(--cor-superficie-card), var(--cor-superficie-card)) padding-box,
-        var(--grafismo-marca) border-box;
-    box-shadow: var(--sombra-card);
+    box-shadow: inset 0 4px var(--cor-acento), var(--sombra-card);
 }
 
 .card-estatistica:has(> iconify-icon[icon="lucide:file-text"]) {
