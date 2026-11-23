@@ -1219,3 +1219,16 @@ altera a largura do documento e não interfere em filtros ou favoritos.
 Referências: [WCAG 2.2, alvos](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html),
 [pausa](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html),
 [mensagens de status](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html).
+
+
+### Cards editoriais de objetivos institucionais
+
+Em Sobre o Liceu, `.o-liceu-objetivo` utiliza composição editorial alinhada à
+esquerda, com ícone de 28px em apoio branco de 56px. Os três objetivos recebem
+superfícies suaves da paleta vigente: verde para Formação, rosa para Valorização
+e amarelo para Fortalecimento. Os ícones existentes identificam o papel para
+aplicar o acento, sem depender da posição na lista.
+
+Preservar os textos, headings, grade responsiva, altura uniforme por fileira e
+contorno completo suave compartilhado. Não usar a antiga faixa amarela superior.
+As cores são decorativas e não comunicam status nem exigem novas interações.
