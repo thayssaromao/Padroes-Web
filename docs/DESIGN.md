@@ -263,7 +263,7 @@ a fonte principal ou a navegacao publica.
 - **Senha**: o controle compartilhado usa `eye-off` quando `type="password"` (ação “Mostrar senha”) e `eye` quando `type="text"` (ação “Ocultar senha”). `aria-label`, `title`, `aria-pressed` e `aria-controls` acompanham o estado; `prepararCamposSenha` inicializa login, provisória, confirmação e redefinição, sem duplicar eventos. O campo reserva espaço à direita para o alvo de 44px.
 - `select` nativo estilizado (seta própria via `background-image` SVG inline). `textarea` com `resize: vertical`.
 - Obrigatório: `*` no rótulo + atributo `required`. Agrupar blocos com `<fieldset class="bloco-form">` + `<legend>`.
-- **Bloco de formulário** (`.bloco-form`): card com borda, raio `--raio-medio`, padding `--espaco-5`; cabeçalho com ícone + título (h2 visual de `--fonte-h3`) + descrição.
+- **Bloco de formulário** (`.bloco-form`): card com contorno `--borda-card`, raio `--raio-card`, padding `--espaco-5`; cabeçalho com ícone + título (h2 visual de `--fonte-h3`) + descrição.
 - **Cabeçalho de seção**: `.bloco-form__cabecalho.bloco-form__cabecalho--secao` usa flex com alinhamento central e gap de 16px. Contém `.bloco-form__icone` (caixa de 40px, token `--tamanho-caixa-icone-secao`, com ícone de 28px pelo token `--tamanho-icone-secao`) e `.bloco-form__texto` (título e descrição em coluna, gap de 4px e margens zeradas). O ícone é centralizado no conjunto título + descrição, nunca deslocado individualmente. Título usa line-height de 1.25 e descrição usa `--altura-linha`. Nos fieldsets do cadastro, o cabeçalho permanece em `legend`, com 16px até os campos. A variante é reutilizável em cadastro/edição, sem mudar outros cabeçalhos legados que não a utilizam.
 - Seletor de técnicas: `select` + lista de **chips removíveis** (§5.3).
 - Toggle (Configurações): `<input type="checkbox" role="switch" class="interruptor">`.
@@ -273,9 +273,9 @@ Cabeçalhos legados de cards, métricas e avisos não usam bordas verticais entr
 
 ### 5.3 Chips e etiquetas
 
-- `.chip` — etiqueta estática (categoria/técnica): fundo `--cor-superficie-forte`, borda `--cor-borda`, raio `--raio-pequeno`, `--fonte-mini`.
-- `.chip--removivel` — chip + `button.chip__remover` (×, `aria-label="Remover Cerâmica"`).
-- `.filtro-chip` — botão de filtro do portal ("Todos", "Decoração"…): `button` com `aria-pressed`; ativo = fundo `--cor-superficie-forte` + borda forte. Lista rola horizontalmente no smartphone.
+- `.chip` — etiqueta estática (categoria/técnica): `data-cor` e pares `--cor-chip-…`, raio `--raio-pequeno`, `--fonte-mini`. `criarChips` e `prepararChips` mantêm a cor por assunto.
+- `.chip--removivel` — chip + `button.chip__remover` (×, `aria-label="Remover Cerâmica"`, alvo mínimo de 44px).
+- `.filtro-chip` — botão de filtro ("Todos", "Decoração"…) com `aria-pressed`; ativo usa fundo escuro da própria cor e texto branco. Grades de categorias se adaptam ao espaço disponível. Favoritos conservam a variante rosa própria.
 
 ### 5.4 Badges de status — `.status`
 
@@ -362,12 +362,12 @@ de ser considerada concluida.
 | Atalho | `.card-atalho` | ícone · título + descrição · `chevron-right`; card inteiro é `<a>` | Home "Como você quer explorar?" |
 | Produto | `.card-produto` | `figure` com imagem 4:3 + botão favorito (círculo, canto sup. dir.) · nome · categoria · (opcional) status + ações | Home, Área do Artesão |
 | Artesão (mini) | `.card-artesao-mini` | avatar redondo 96px · nome · técnica principal | Home "Conheça quem produz" |
-| Artesão | `.card-artesao` | Na listagem pública: foto quadrada 64px · nome · empreendimento ou @ · local (`map-pin`) · chips abaixo da identificação, usando toda a largura · botão bloco "Ver perfil →" na base, com intervalo mínimo de 12px após os chips. Na grade desktop, fileiras de mesma altura, determinada pelo conteúdo, sem reserva de linhas vazias para chips; celular e lista têm altura adaptável. | Página Artesãos |
+| Artesão | `.card-artesao` | Na listagem pública: foto circular 64px · nome · empreendimento ou @ · local (`map-pin`) · chips abaixo da identificação, usando toda a largura · botão bloco "Ver perfil →" na base, com intervalo mínimo de 12px após os chips. Na grade desktop, fileiras de mesma altura, determinada pelo conteúdo, sem reserva de linhas vazias para chips; celular e lista têm altura adaptável. | Página Artesãos |
 | Técnica | `.card-tecnica` | imagem 8:3 (placeholder quando não há foto) + botão favorito (igual ao do Produto) · nome (`h3`) · descrição curta · botão bloco "Saiba mais →" na base. Gerado por `criarCardTecnica(tecnica, {favoritado})`; o favorito usa `data-favorito` e o botão usa `data-tecnica` (id). | Página Saberes |
 | Estatística | `.card-estatistica` | ícone · espaçamento · número grande (800) · rótulo, sem divisória vertical | Resumos dos painéis |
 | Trabalho (painel) | `.card-trabalho` | imagem · título · artesão (`user`) · categorias (`tag`) · status · botão | Painel Liceu "aguardando análise" |
 
-Todos: fundo branco (ou `--cor-superficie`), borda 1px `--cor-borda`, raio `--raio-medio`. **Hover** em cards clicáveis: `translateY(-3px)` + `--sombra-elevada` + borda forte (`transition: var(--transicao)`). Cards de lista são `<article>` com título `h3`.
+Todos: superfície branca, contorno completo de 1px `--borda-card` e raio `--raio-card`. Estatísticas preservam fundo e contorno semânticos. Hover/foco reforçam `--sombra-elevada`, sem deslocamento. Cards de lista são `<article>` com título `h3`.
 
 ### Padrao estrutural dos cards de trabalho do Artesao
 
@@ -403,7 +403,7 @@ Título `h2` à esquerda + link "Ver catálogo completo →" à direita (`.link-
 ### 5.7 Carrossel — `.carrossel`
 
 `<section class="carrossel" aria-roledescription="carrossel" aria-label="…">` contendo `ul.carrossel__trilho` > `li.carrossel__slide` (`aria-roledescription="slide"`, `aria-label="1 de 4"`), botões anterior/próximo (`.btn--icone` circulares sobre a imagem) e `div.carrossel__indicadores` com botões-ponto (`aria-label="Ir para slide 2"`, ativo com `aria-current="true"`).
-Animação: o trilho desliza com `transform: translateX(-n*100%)` + `transition: transform 500ms ease`. Avanço automático a cada 6s, pausado em hover/foco e desligado com `prefers-reduced-motion`. Controlado por `iniciarCarrossel(elemento)`.
+Animação: o trilho desliza com `transform: translateX(-n*100%)` + `transition: transform 500ms ease`. Avanço automático a cada 6s, com pausa temporária em hover/foco e controle Pausar/Retomar rotação. `prefers-reduced-motion` inicia em pausa persistente; retomada exige ação explícita. Controlado por `iniciarCarrossel(elemento)`.
 Proporção 16:7 no desktop, 4:3 no smartphone; raio `--raio-medio`.
 
 ### 5.8 Busca e barra de filtros
