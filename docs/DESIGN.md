@@ -1129,6 +1129,26 @@ altera a largura do documento e não interfere em filtros ou favoritos.
   Preservar dimensões, grade/lista, ações e leitura dos nomes.
 - O rodapé do modal editorial centraliza a ação de explorar os produtos,
   mantendo largura natural e quebra de texto em telas pequenas.
-- A substituição do logo depende do PNG transparente fornecido pela equipe;
-  capturas de tela não substituem o arquivo institucional. As cascas públicas
-  e dos painéis compartilham `assets/logo.png`.
+- PNG transparente institucional atualizado em `assets/logo.png`, fornecido
+  pela equipe. Portal, painéis e login utilizam o mesmo arquivo original.
+
+
+## Padrão compartilhado entre portal e painéis
+
+- `.card` e `.bloco-form` compartilham `--raio-card`, `--borda-card`, superfície
+  branca, contorno completo e sombra. Produtos, técnicas, pessoas, trabalhos,
+  atalhos e blocos de formulário usam a mesma linguagem visual nos três ambientes.
+  Hover/foco reforçam a sombra sem mover ou redimensionar os cards.
+- Estatísticas preservam ícones, texto, fundos semânticos e borda completa da
+  cor de status. Não aplicar borda tricolor a sinais de erro ou aprovação.
+- Avatares compartilham formato circular, moldura branca e halo suave; manter
+  as dimensões necessárias em tabelas, topbar e prévias. Tabelas mantêm grade,
+  colunas, altura e paginação existentes.
+- `prepararChips` conserva os pares de cores em etiquetas, filtros, chips
+  removíveis e prévias de perfil; reaplicar após atualizar uma prévia dinâmica.
+  Favoritos preservam o coração e a cor rosa, sem tratamento de categoria.
+- Logo original RGBA de 1254 × 1254, sem transformação do arquivo. Na marca da
+  casca, usar caixa de 72 × 52px com `object-fit: cover` para aproveitar as margens
+  transparentes, e base clara arredondada para o lettering escuro continuar legível
+  no cabeçalho e rodapé. Login usa `--tamanho-logo-login` (96px) e preserva a imagem
+  inteira. O CSS funcional do login, ausente neste worktree, deve consumir o token.
