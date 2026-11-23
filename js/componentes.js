@@ -146,12 +146,19 @@ function corChip(texto) {
     return cores[indice < 0 ? 0 : indice];
 }
 
+/** Aplica cores de assunto às etiquetas, inclusive em prévias dinâmicas. */
+function prepararChips(raiz) {
+    raiz.querySelectorAll(".chip, .filtro-chip:not(.catalogo-favoritos)").forEach(
+        function (chip) {
+            chip.dataset.cor = corChip(chip.textContent);
+        }
+    );
+}
+
 /** Migra ações existentes sem alterar handlers, texto ou semântica. */
 function prepararAcoes(raiz) {
     prepararSeletores(raiz);
-    raiz.querySelectorAll(".chip, .filtro-chip").forEach(function (chip) {
-        chip.dataset.cor = corChip(chip.textContent);
-    });
+    prepararChips(raiz);
     padronizarIcones(raiz);
     raiz.querySelectorAll("iconify-icon").forEach(function (elemento) {
         if (!elemento.hasAttribute("noobserver")) {
@@ -696,6 +703,7 @@ export {
     mostrarAviso,
     padronizarIcones,
     prepararAcoes,
+    prepararChips,
     prepararCamposSenha,
     prepararModais,
     prepararMultisselecao

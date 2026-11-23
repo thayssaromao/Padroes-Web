@@ -146,6 +146,8 @@
 /* ===== Avatar ===== */
 
 .avatar {
+    border: 3px solid var(--cor-superficie-card);
+    box-shadow: 0 0 0 2px var(--cor-superficie-forte);
     width: 40px;
     height: 40px;
     border-radius: var(--raio-pilula);
@@ -535,19 +537,25 @@ input[type="checkbox"] {
 
 /* ===== 5.5 Cards ===== */
 
-.card {
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-medio);
-    background-color: var(--cor-superficie-card);
+.card,
+.bloco-form {
+    --card-superficie: var(--cor-superficie-card);
+    --card-contorno: var(--borda-card);
+    border: 1px solid transparent;
+    border-radius: var(--raio-card);
+    background: linear-gradient(var(--card-superficie), var(--card-superficie)) padding-box,
+        var(--card-contorno) border-box;
     box-shadow: var(--sombra-card);
-    transition: transform var(--transicao), box-shadow var(--transicao),
-        border-color var(--transicao);
+    transition: box-shadow var(--transicao);
+}
+
+.card:hover,
+.card:focus-within {
+    box-shadow: var(--sombra-elevada);
 }
 
 .card--clicavel:hover,
 .card--clicavel:focus-within {
-    transform: translateY(-3px);
-    border-color: var(--cor-borda-forte);
     box-shadow: var(--sombra-elevada);
 }
 
@@ -558,11 +566,7 @@ input[type="checkbox"] {
     gap: var(--espaco-4);
     padding: var(--espaco-4) var(--espaco-5);
     text-decoration: none;
-    background-color: var(--cor-superficie-card);
     color: var(--cor-texto);
-    border-color: var(--cor-borda);
-    border-radius: var(--raio-medio);
-    box-shadow: var(--sombra-card);
 }
 
 .card-atalho > iconify-icon {
@@ -572,9 +576,7 @@ input[type="checkbox"] {
 
 .card-atalho.card--clicavel:hover,
 .card-atalho.card--clicavel:focus-within {
-    transform: none;
-    border-color: var(--cor-primaria);
-    box-shadow: var(--sombra-card);
+    box-shadow: var(--sombra-elevada);
 }
 
 .card-atalho:hover .card-atalho__titulo,
@@ -765,11 +767,6 @@ input[type="checkbox"] {
     flex-direction: column;
     gap: var(--espaco-4);
     padding: var(--espaco-5);
-    border: 1px solid transparent;
-    border-radius: var(--raio-grande);
-    background: linear-gradient(var(--cor-superficie-card), var(--cor-superficie-card)) padding-box,
-        var(--grafismo-marca) border-box;
-    box-shadow: var(--sombra-card);
 }
 
 .card-artesao:hover,
@@ -819,28 +816,27 @@ input[type="checkbox"] {
     align-items: center;
     gap: calc(2 * var(--espaco-4) + 1px);
     padding: var(--espaco-4) var(--espaco-5);
-    background-color: var(--cor-superficie-card);
-    box-shadow: inset 0 4px var(--marca-turquesa), var(--sombra-card);
+    --card-contorno: linear-gradient(var(--marca-turquesa), var(--marca-turquesa));
 }
 
 .card-estatistica:has(> iconify-icon[icon="lucide:circle-check"]) {
-    background-color: var(--cor-sucesso-fundo);
-    box-shadow: inset 0 4px var(--cor-sucesso), var(--sombra-card);
+    --card-superficie: var(--cor-sucesso-fundo);
+    --card-contorno: linear-gradient(var(--cor-sucesso), var(--cor-sucesso));
 }
 
 .card-estatistica:has(> iconify-icon[icon="lucide:clock"]) {
-    background-color: var(--cor-alerta-fundo);
-    box-shadow: inset 0 4px var(--cor-destaque), var(--sombra-card);
+    --card-superficie: var(--cor-alerta-fundo);
+    --card-contorno: linear-gradient(var(--cor-alerta), var(--cor-alerta));
 }
 
 .card-estatistica:has(> iconify-icon[icon="lucide:circle-x"]) {
-    background-color: var(--cor-erro-fundo);
-    box-shadow: inset 0 4px var(--cor-acento), var(--sombra-card);
+    --card-superficie: var(--cor-erro-fundo);
+    --card-contorno: linear-gradient(var(--cor-erro), var(--cor-erro));
 }
 
 .card-estatistica:has(> iconify-icon[icon="lucide:file-text"]) {
-    background-color: var(--cor-rascunho-fundo);
-    box-shadow: inset 0 4px var(--cor-rascunho), var(--sombra-card);
+    --card-superficie: var(--cor-rascunho-fundo);
+    --card-contorno: linear-gradient(var(--cor-rascunho), var(--cor-rascunho));
 }
 
 .card-estatistica > iconify-icon {
