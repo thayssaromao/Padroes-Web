@@ -3,8 +3,8 @@
 }
 
 .modal-login__logo {
-    width: 64px;
-    height: 64px;
+    width: var(--tamanho-logo-login);
+    height: var(--tamanho-logo-login);
     margin: 0 auto var(--espaco-4);
     background-color: transparent;
     object-fit: contain;

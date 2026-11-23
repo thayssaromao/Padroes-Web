@@ -137,13 +137,9 @@
 
 /* --- BARRA LATERAL E SANFONA --- */
 .tabela-filtros {
-    box-shadow: inset 0 4px var(--cor-destaque), var(--sombra-card);
     width: 250px;
     flex-shrink: 0;
-    border: 1px solid var(--cor-borda-controle);
-    padding: 1.5rem;
-    border-radius: 10px;
-    background: var(--cor-superficie-card);
+    padding: var(--espaco-5);
 }
 .filtros-cabecalho {
     display: flex;
@@ -234,18 +230,6 @@
 
 .catalogo-conteudo { flex-grow: 1; width: 100%; }
 .opcao-categoria { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem; align-items: center; }
-.opcao { padding: 0 1.2rem; border: 1px solid var(--cor-borda); background-color: var(--cor-fundo); border-radius: var(--raio-pequeno); cursor: pointer; font-size: 0.85rem; color: var(--cor-texto); transition: background-color 0.2s ease, border-color 0.2s ease; white-space: nowrap; display: inline-flex; align-items: center; height: 38px; }
-.opcao:hover { background-color: var(--cor-superficie-forte); border-color: var(--cor-borda); }
-/* Selecionada: mesmo estado do .filtro-chip[aria-pressed="true"] (componentes.css) */
-.opcao.ativa,
-.opcao.ativa:hover {
-    border-color: var(--cor-primaria);
-    background-color: var(--cor-primaria);
-    color: var(--cor-texto-invertido);
-    font-weight: var(--peso-semi);
-}
-
-
 
 .catalogo-controles { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; font-size: var(--fonte-tamanho-pequeno, 0.875rem); }
 .controles-direita { display: flex; align-items: center; gap: 10px; }
@@ -264,7 +248,8 @@
 @media (max-width: 768px) {
     .catalogo-corpo { flex-direction: column; }
     .tabela-filtros {
-    box-shadow: inset 0 4px var(--cor-destaque), var(--sombra-card); width: 100%; }
+        width: 100%;
+    }
     .tabela-filtros.oculto-mobile { display: none; }
     #btnFiltroMobile { display: flex; }
     .input-com-icone { width: 100%; }

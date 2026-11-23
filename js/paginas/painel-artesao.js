@@ -13,7 +13,8 @@ import {
     escaparHtml,
     icone,
     mostrarAviso,
-    prepararAcoes
+    prepararAcoes,
+    prepararChips
 } from "../componentes.js";
 import {
     buscarArtesao,
@@ -392,6 +393,7 @@ function atualizarPrevia(raiz, tecnicas) {
         || "Um breve texto sobre você, sua história e sua relação com o "
         + "artesanato."
     );
+    prepararChips(raiz.querySelector(".previa-perfil"));
 }
 
 /**

@@ -235,7 +235,7 @@ async function inicializarProdutos(raiz) {
         });
         pilulas.innerHTML = ["Todos"].concat(resultado[1].categorias).map(
             function (opcao) {
-                return "<button type=\"button\" class=\"opcao\""
+                return "<button type=\"button\" class=\"opcao filtro-chip\""
                     + " data-categoria=\"" + escaparHtml(opcao) + "\">"
                     + escaparHtml(opcao) + "</button>";
             }
