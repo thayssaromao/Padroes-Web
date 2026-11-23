@@ -1,0 +1,1722 @@
+{
+  "data": "2026-11-23",
+  "direcao": "Modernização Equilibrada",
+  "branch": "feat/modernizacao-equilibrada",
+  "base_antes": "37922e3",
+  "design_system": "cb4b8c1",
+  "viewports": [
+    320,
+    375,
+    430,
+    768,
+    1024,
+    1440,
+    1920
+  ],
+  "matriz": [
+    {
+      "rota": "/cadastro",
+      "papel": "publico",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/cadastro",
+      "papel": "publico",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/cadastro",
+      "papel": "publico",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/cadastro",
+      "papel": "publico",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/cadastro",
+      "papel": "publico",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/cadastro",
+      "papel": "publico",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/cadastro",
+      "papel": "publico",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/inicio",
+      "papel": "publico",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/inicio",
+      "papel": "publico",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/inicio",
+      "papel": "publico",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/inicio",
+      "papel": "publico",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/inicio",
+      "papel": "publico",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/inicio",
+      "papel": "publico",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/inicio",
+      "papel": "publico",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/produtos",
+      "papel": "publico",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/produtos",
+      "papel": "publico",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/produtos",
+      "papel": "publico",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/produtos",
+      "papel": "publico",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/produtos",
+      "papel": "publico",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/produtos",
+      "papel": "publico",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/produtos",
+      "papel": "publico",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/produto",
+      "papel": "publico",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/produto",
+      "papel": "publico",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/produto",
+      "papel": "publico",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/produto",
+      "papel": "publico",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/produto",
+      "papel": "publico",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/produto",
+      "papel": "publico",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/produto",
+      "papel": "publico",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/artesaos",
+      "papel": "publico",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/artesaos",
+      "papel": "publico",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/artesaos",
+      "papel": "publico",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/artesaos",
+      "papel": "publico",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/artesaos",
+      "papel": "publico",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/artesaos",
+      "papel": "publico",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/artesaos",
+      "papel": "publico",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/saberes",
+      "papel": "publico",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/saberes",
+      "papel": "publico",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/saberes",
+      "papel": "publico",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/saberes",
+      "papel": "publico",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/saberes",
+      "papel": "publico",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/saberes",
+      "papel": "publico",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/saberes",
+      "papel": "publico",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/o-liceu",
+      "papel": "publico",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/o-liceu",
+      "papel": "publico",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/o-liceu",
+      "papel": "publico",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/o-liceu",
+      "papel": "publico",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/o-liceu",
+      "papel": "publico",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/o-liceu",
+      "papel": "publico",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/o-liceu",
+      "papel": "publico",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/contato",
+      "papel": "publico",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/contato",
+      "papel": "publico",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/contato",
+      "papel": "publico",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/contato",
+      "papel": "publico",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/contato",
+      "papel": "publico",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/contato",
+      "papel": "publico",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/contato",
+      "papel": "publico",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/sobre",
+      "papel": "publico",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/sobre",
+      "papel": "publico",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/sobre",
+      "papel": "publico",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/sobre",
+      "papel": "publico",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/sobre",
+      "papel": "publico",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/sobre",
+      "papel": "publico",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/sobre",
+      "papel": "publico",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/login",
+      "papel": "publico",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/login",
+      "papel": "publico",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/login",
+      "papel": "publico",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/login",
+      "papel": "publico",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/login",
+      "papel": "publico",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/login",
+      "papel": "publico",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/login",
+      "papel": "publico",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-artesao",
+      "papel": "artesao",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-artesao",
+      "papel": "artesao",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-artesao",
+      "papel": "artesao",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-artesao",
+      "papel": "artesao",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-artesao",
+      "papel": "artesao",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-artesao",
+      "papel": "artesao",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-artesao",
+      "papel": "artesao",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "papel": "artesao",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "papel": "artesao",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "papel": "artesao",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "papel": "artesao",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "papel": "artesao",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "papel": "artesao",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "papel": "artesao",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "papel": "artesao",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "papel": "artesao",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "papel": "artesao",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "papel": "artesao",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "papel": "artesao",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "papel": "artesao",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "papel": "artesao",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "papel": "artesao",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "papel": "artesao",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "papel": "artesao",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "papel": "artesao",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "papel": "artesao",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "papel": "artesao",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "papel": "artesao",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "papel": "artesao",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "papel": "artesao",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "papel": "artesao",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "papel": "artesao",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "papel": "artesao",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "papel": "artesao",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "papel": "artesao",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-liceu",
+      "papel": "liceu",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-liceu",
+      "papel": "liceu",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-liceu",
+      "papel": "liceu",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-liceu",
+      "papel": "liceu",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-liceu",
+      "papel": "liceu",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-liceu",
+      "papel": "liceu",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-liceu",
+      "papel": "liceu",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "papel": "liceu",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "papel": "liceu",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "papel": "liceu",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "papel": "liceu",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "papel": "liceu",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "papel": "liceu",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "papel": "liceu",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "papel": "liceu",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "papel": "liceu",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "papel": "liceu",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "papel": "liceu",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "papel": "liceu",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "papel": "liceu",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "papel": "liceu",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "papel": "liceu",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "papel": "liceu",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "papel": "liceu",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "papel": "liceu",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "papel": "liceu",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "papel": "liceu",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "papel": "liceu",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "papel": "liceu",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "papel": "liceu",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "papel": "liceu",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "papel": "liceu",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "papel": "liceu",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "papel": "liceu",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "papel": "liceu",
+      "viewport": 1920,
+      "largura_documento": 1920
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "papel": "liceu",
+      "viewport": 320,
+      "largura_documento": 320
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "papel": "liceu",
+      "viewport": 375,
+      "largura_documento": 375
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "papel": "liceu",
+      "viewport": 430,
+      "largura_documento": 430
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "papel": "liceu",
+      "viewport": 768,
+      "largura_documento": 768
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "papel": "liceu",
+      "viewport": 1024,
+      "largura_documento": 1024
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "papel": "liceu",
+      "viewport": 1440,
+      "largura_documento": 1440
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "papel": "liceu",
+      "viewport": 1920,
+      "largura_documento": 1920
+    }
+  ],
+  "axe": {
+    "versao": "4.10.3",
+    "execucoes": 42,
+    "larguras": [
+      320,
+      1440
+    ],
+    "violacoes": [],
+    "inconclusivos": [
+      {
+        "rota": "/cadastro",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 3
+          }
+        ]
+      },
+      {
+        "rota": "/cadastro",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 10
+          }
+        ]
+      },
+      {
+        "rota": "/inicio",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 19
+          },
+          {
+            "id": "frame-tested",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "rota": "/inicio",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 25
+          },
+          {
+            "id": "frame-tested",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "rota": "/produtos",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 1
+          },
+          {
+            "id": "color-contrast",
+            "count": 43
+          }
+        ]
+      },
+      {
+        "rota": "/produtos",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 1
+          },
+          {
+            "id": "color-contrast",
+            "count": 49
+          }
+        ]
+      },
+      {
+        "rota": "/produto",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 12
+          }
+        ]
+      },
+      {
+        "rota": "/produto",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 20
+          }
+        ]
+      },
+      {
+        "rota": "/artesaos",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 27
+          }
+        ]
+      },
+      {
+        "rota": "/artesaos",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 33
+          }
+        ]
+      },
+      {
+        "rota": "/saberes",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 19
+          }
+        ]
+      },
+      {
+        "rota": "/saberes",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 25
+          }
+        ]
+      },
+      {
+        "rota": "/o-liceu",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 9
+          }
+        ]
+      },
+      {
+        "rota": "/o-liceu",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 15
+          }
+        ]
+      },
+      {
+        "rota": "/contato",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 10
+          }
+        ]
+      },
+      {
+        "rota": "/contato",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 16
+          }
+        ]
+      },
+      {
+        "rota": "/sobre",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 7
+          }
+        ]
+      },
+      {
+        "rota": "/sobre",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 14
+          }
+        ]
+      },
+      {
+        "rota": "/login",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 6
+          }
+        ]
+      },
+      {
+        "rota": "/login",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 6
+          }
+        ]
+      },
+      {
+        "rota": "/painel-artesao",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 20
+          }
+        ]
+      },
+      {
+        "rota": "/painel-artesao",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 28
+          }
+        ]
+      },
+      {
+        "rota": "/painel-artesao/meu-perfil",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 21
+          }
+        ]
+      },
+      {
+        "rota": "/painel-artesao/meu-perfil",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 26
+          }
+        ]
+      },
+      {
+        "rota": "/painel-artesao/meus-trabalhos",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 3
+          },
+          {
+            "id": "color-contrast",
+            "count": 20
+          }
+        ]
+      },
+      {
+        "rota": "/painel-artesao/meus-trabalhos",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 3
+          },
+          {
+            "id": "color-contrast",
+            "count": 29
+          }
+        ]
+      },
+      {
+        "rota": "/painel-artesao/novo-trabalho",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 22
+          }
+        ]
+      },
+      {
+        "rota": "/painel-artesao/novo-trabalho",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 28
+          }
+        ]
+      },
+      {
+        "rota": "/painel-artesao/status-publicacoes",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 12
+          }
+        ]
+      },
+      {
+        "rota": "/painel-artesao/status-publicacoes",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 19
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 23
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 31
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu/artesaos",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 3
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu/artesaos",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 13
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu/cadastrar-artesao",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 18
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu/cadastrar-artesao",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 23
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu/trabalhos-pendentes",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 9
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu/trabalhos-pendentes",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 2
+          },
+          {
+            "id": "color-contrast",
+            "count": 17
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu/publicacoes",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 3
+          },
+          {
+            "id": "color-contrast",
+            "count": 3
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu/publicacoes",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "aria-valid-attr-value",
+            "count": 3
+          },
+          {
+            "id": "color-contrast",
+            "count": 13
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu/configuracoes",
+        "largura": 320,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 12
+          }
+        ]
+      },
+      {
+        "rota": "/painel-liceu/configuracoes",
+        "largura": 1440,
+        "itens": [
+          {
+            "id": "color-contrast",
+            "count": 16
+          }
+        ]
+      }
+    ]
+  },
+  "erros_js": [],
+  "erros_http_locais": [],
+  "contraste_tokens": [
+    {
+      "name": "texto",
+      "foreground": "#213D38",
+      "background": "#FBFAF7",
+      "ratio": 11.244352596649215
+    },
+    {
+      "name": "secundario",
+      "foreground": "#0A514D",
+      "background": "#FFFFFF",
+      "ratio": 9.142191629651256
+    },
+    {
+      "name": "primario",
+      "foreground": "#FFFFFF",
+      "background": "#146F67",
+      "ratio": 6.001071968315072
+    },
+    {
+      "name": "header",
+      "foreground": "#FFFFFF",
+      "background": "#104C49",
+      "ratio": 9.758290777833965
+    },
+    {
+      "name": "footer",
+      "foreground": "#FFFFFF",
+      "background": "#173D3A",
+      "ratio": 11.897836729590031
+    },
+    {
+      "name": "sucesso",
+      "foreground": "#146347",
+      "background": "#E4F3E8",
+      "ratio": 6.293057806825758
+    },
+    {
+      "name": "alerta",
+      "foreground": "#765000",
+      "background": "#FAF0D7",
+      "ratio": 6.343907720961176
+    },
+    {
+      "name": "erro",
+      "foreground": "#A02548",
+      "background": "#F7EFF1",
+      "ratio": 6.5096844574844495
+    },
+    {
+      "name": "informacao",
+      "foreground": "#15546C",
+      "background": "#E5F0F7",
+      "ratio": 7.20775078227656
+    },
+    {
+      "name": "rascunho",
+      "foreground": "#485E59",
+      "background": "#EAEFE9",
+      "ratio": 5.965722573100891
+    },
+    {
+      "name": "chip-turquesa",
+      "foreground": "#095E5C",
+      "background": "#EDF3EF",
+      "ratio": 6.7459104056730705
+    },
+    {
+      "name": "chip-rosa",
+      "foreground": "#AD1B50",
+      "background": "#F7EFF1",
+      "ratio": 6.090133833651798
+    },
+    {
+      "name": "chip-amarelo",
+      "foreground": "#765000",
+      "background": "#FAF0D7",
+      "ratio": 6.343907720961176
+    },
+    {
+      "name": "chip-azul",
+      "foreground": "#15546C",
+      "background": "#E5F0F7",
+      "ratio": 7.20775078227656
+    },
+    {
+      "name": "chip-verde",
+      "foreground": "#146347",
+      "background": "#E4F3E8",
+      "ratio": 6.293057806825758
+    },
+    {
+      "name": "chip-violeta",
+      "foreground": "#65418A",
+      "background": "#F1EAF8",
+      "ratio": 6.674779364235407
+    }
+  ],
+  "logo_sha256": "9953c3ab9ee8c16d660c20d4a287cc68fe96668c5179639d3543aaf2c5b0dabc",
+  "testes": {
+    "dados": "12/12",
+    "estrutura": "20 rotas e 26 arquivos HTML",
+    "fluxos": [
+      "Chromium: passou",
+      "Firefox: passou"
+    ],
+    "regressoes": [
+      "Chromium: passou",
+      "Firefox: passou"
+    ],
+    "acessibilidade": [
+      "Chromium: passou",
+      "Firefox: passou"
+    ],
+    "sintaxe_js": "node --check em todos os arquivos de js/",
+    "diff": "git diff --check sem erros"
+  },
+  "comparacao": "http://localhost:8080/comparacoes/equilibrada/",
+  "comparacao_capturas": [
+    {
+      "phase": "antes",
+      "role": "publico",
+      "page": "inicio",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "antes",
+      "role": "publico",
+      "page": "inicio",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "antes",
+      "role": "publico",
+      "page": "artesaos",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "antes",
+      "role": "publico",
+      "page": "artesaos",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "antes",
+      "role": "publico",
+      "page": "produtos",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "antes",
+      "role": "publico",
+      "page": "produtos",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "antes",
+      "role": "liceu",
+      "page": "painel",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "antes",
+      "role": "liceu",
+      "page": "painel",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "antes",
+      "role": "liceu",
+      "page": "formulario",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "antes",
+      "role": "liceu",
+      "page": "formulario",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "antes",
+      "role": "artesao",
+      "page": "perfil",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "antes",
+      "role": "artesao",
+      "page": "perfil",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "depois",
+      "role": "publico",
+      "page": "inicio",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "depois",
+      "role": "publico",
+      "page": "inicio",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "depois",
+      "role": "publico",
+      "page": "artesaos",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "depois",
+      "role": "publico",
+      "page": "artesaos",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "depois",
+      "role": "publico",
+      "page": "produtos",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "depois",
+      "role": "publico",
+      "page": "produtos",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "depois",
+      "role": "liceu",
+      "page": "painel",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "depois",
+      "role": "liceu",
+      "page": "painel",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "depois",
+      "role": "liceu",
+      "page": "formulario",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "depois",
+      "role": "liceu",
+      "page": "formulario",
+      "width": 1440,
+      "document": 1440
+    },
+    {
+      "phase": "depois",
+      "role": "artesao",
+      "page": "perfil",
+      "width": 375,
+      "document": 375
+    },
+    {
+      "phase": "depois",
+      "role": "artesao",
+      "page": "perfil",
+      "width": 1440,
+      "document": 1440
+    }
+  ],
+  "limites": [
+    "Axe sem violações detectadas não certifica WCAG integralmente.",
+    "A matriz de sete larguras e o conjunto de capturas foram produzidos em Chromium; as suítes funcionais e de acessibilidade passaram também em Firefox.",
+    "Autenticação e persistência permanecem locais conforme o MVP; não houve teste de entrega real por Web3Forms."
+  ]
+}
