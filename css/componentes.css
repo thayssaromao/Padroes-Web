@@ -260,9 +260,6 @@ textarea.campo__entrada {
     flex-direction: column;
     gap: var(--espaco-4);
     padding: var(--espaco-5);
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-medio);
-    background-color: var(--cor-superficie-card);
 }
 
 .bloco-form__cabecalho {
@@ -299,6 +296,8 @@ textarea.campo__entrada {
     flex: 0 0 var(--tamanho-caixa-icone-secao);
     width: var(--tamanho-caixa-icone-secao);
     height: var(--tamanho-caixa-icone-secao);
+    background-color: var(--cor-superficie-forte);
+    color: var(--cor-primaria);
 }
 
 .bloco-form__cabecalho--secao .bloco-form__icone > iconify-icon {
@@ -394,7 +393,7 @@ input[type="checkbox"] {
     gap: var(--espaco-1);
     padding: 2px var(--espaco-2);
     border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-pequeno);
+    border-radius: var(--raio-chip);
     background-color: var(--cor-superficie-forte);
     font-size: var(--fonte-mini);
     white-space: nowrap;
@@ -485,7 +484,7 @@ input[type="checkbox"] {
 .filtro-chip[data-cor] {
     color: var(--chip-texto);
     background-color: var(--chip-fundo);
-    border-color: var(--chip-texto);
+    border-color: var(--cor-borda);
 }
 
 .filtro-chip[data-cor]:hover {
@@ -585,11 +584,6 @@ input[type="checkbox"] {
     box-shadow: var(--sombra-elevada);
 }
 
-.card--clicavel:hover,
-.card--clicavel:focus-within {
-    box-shadow: var(--sombra-elevada);
-}
-
 /* Atalho */
 .card-atalho {
     display: flex;
@@ -603,11 +597,6 @@ input[type="checkbox"] {
 .card-atalho > iconify-icon {
     font-size: 36px;
     color: var(--cor-primaria);
-}
-
-.card-atalho.card--clicavel:hover,
-.card-atalho.card--clicavel:focus-within {
-    box-shadow: var(--sombra-elevada);
 }
 
 .card-atalho:hover .card-atalho__titulo,
@@ -800,11 +789,6 @@ input[type="checkbox"] {
     padding: var(--espaco-5);
 }
 
-.card-artesao:hover,
-.card-artesao:focus-within {
-    box-shadow: var(--sombra-elevada);
-}
-
 .card-artesao .card-artesao__foto {
     border-radius: var(--raio-pilula);
     border: 3px solid var(--cor-superficie-card);
@@ -932,12 +916,6 @@ input[type="checkbox"] {
     margin-bottom: var(--espaco-5);
 }
 
-.secao-cabecalho > h2 {
-    text-decoration: underline;
-    text-decoration-color: var(--cor-acento);
-    text-decoration-thickness: 3px;
-    text-underline-offset: 8px;
-}
 
 /* ===== 5.7 Carrossel ===== */
 
@@ -1509,7 +1487,7 @@ input[type="checkbox"] {
     z-index: 40;
     padding: var(--espaco-3) var(--espaco-5);
     border-radius: var(--raio-medio);
-    background-color: var(--marca-petroleo);
+    background-color: var(--cor-rodape);
     color: var(--cor-texto-invertido);
     box-shadow: var(--sombra-elevada);
     animation: entrar 250ms ease both;
@@ -1608,7 +1586,7 @@ input[type="checkbox"] {
 
     .tabela th {
         color: var(--cor-texto-invertido);
-        background-color: var(--marca-petroleo);
+        background-color: var(--cor-cabecalho-tabela);
         font-size: var(--fonte-corpo);
         font-weight: var(--peso-negrito);
     }

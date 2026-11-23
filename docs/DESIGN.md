@@ -6,6 +6,48 @@ Guia visual e técnico do projeto. Vale para **quem escreve código** e para **q
 
 ---
 
+> **Direção vigente aprovada: Modernização Equilibrada (23/11/2026).**
+> A paleta e os contratos desta seção substituem as propostas cromáticas
+> históricas registradas mais adiante. Preservar as correções da auditoria
+> de acessibilidade, o logo e os seis grupos de chips.
+
+### Paleta vigente
+
+| Papel | Valor |
+|---|---|
+| Texto / apoio | `#213D38` / `#536B63` |
+| Fundo comum / card | `#FBFAF7` / `#FFFFFF` |
+| Alternado / apoio | `#EDF3EF` / `#F2F5F1` |
+| Editorial amarelo / rosa | `#FAF0D7` / `#F7EFF1` |
+| Ação / hover e link | `#146F67` / `#0A514D` |
+| Header / lateral e footer | `#104C49` / `#173D3A` |
+| Destaque de interface | `#F5CD58` |
+| Foco e favorito | `#A62255` |
+| Borda decorativa / card / controle | `#D5DFD9` / `#B8D0C8` / `#75877D` |
+
+- Símbolo e faixa institucional preservam `#20A8A6`, `#FFC928` e `#E73571`.
+  Não confundir cores do símbolo com todos os papéis funcionais da interface.
+- Estados semânticos preservam texto e ícone; chips mantêm seus seis pares de
+  cores por assunto, com borda suave nos não selecionados e seleção preenchida.
+- `.card` e `.bloco-form` compartilham contorno completo de 1px em verde suave,
+  raio de 16px, sombra `0 2px 6px rgb(23 61 58 / 4%)` e interação discreta
+  `0 5px 14px rgb(23 61 58 / 9%)`. Métricas conservam contorno de status.
+- Campos usam raio de 8px; botões e itens de menu, 10px; chips, 6px; modais,
+  24px; avatares e badges mantêm círculo/pílula. Alvos de interação permanecem.
+- Inter é preservada. Corpo público usa `--fonte-corpo-publico` (16px), gestão
+  mantém 14px. Títulos principais usam peso 700 e tracking de -0,025em,
+  subtítulos -0,015em; cabeçalho do painel usa -0,02em. Nomes públicos de
+  artesãos usam 16px, linha 1,35; empreendimento e local usam 13px.
+- Hero mantém plano editorial suave, sem grafismos de canto. Ações da Home:
+  `btn--primario` para Explorar produtos; `btn--secundario` para Conhecer o Liceu.
+  A parcial funcional da Home deve consumir essas variantes existentes.
+- Faixas alternam branco quente e verde suave, com rosa/amarelo reservados a
+  contexto editorial. Títulos de seção não recebem sublinhado decorativo.
+- Tabelas, popovers, menus, modais, feedback e footer consomem os mesmos tokens.
+  Hover, foco e desabilitados não devem depender só de cor nem perder semântica.
+- Alterações desta rodada são exclusivamente visuais. Não remover rótulos,
+  pausa de carrossel, atalho ao conteúdo, foco, guardas ou recuperação de rede.
+
 ## 1. Regras da disciplina (não negociáveis)
 
 | Regra | Como cumprimos |
@@ -47,8 +89,8 @@ Fonte: **Inter** (Google Fonts, pesos 400/500/600/700/800), fallback `Arial, Hel
 
 | Token | Valor (mobile → desktop) | Uso |
 |---|---|---|
-| `--fonte-display` | `clamp(2rem, 5vw, 3.25rem)` / peso 800 | Título do hero ("Portal do Artesão") |
-| `--fonte-h1` | `clamp(1.75rem, 3.5vw, 2.5rem)` / 800 | Título de página do painel ("Painel Administrativo") |
+| `--fonte-display` | `clamp(2rem, 5vw, 3.25rem)` / peso 700 | Título do hero ("Portal do Artesão") |
+| `--fonte-h1` | `clamp(1.75rem, 3.5vw, 2.5rem)` / 700 | Título de página do painel ("Painel Administrativo") |
 | `--fonte-h2` | `clamp(1.375rem, 2.5vw, 1.875rem)` / 700 | Título de seção ("Produtos em destaque") |
 | `--fonte-h3` | `1rem` / 700 | Título de card / bloco de formulário |
 | `--fonte-corpo` | `0.875rem` / 400 | Texto padrão |
