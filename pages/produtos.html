@@ -6,7 +6,7 @@
             <h1>Catálogo de Produtos</h1>
             <p>Descubra peças únicas, feitas à mão por nossos artesãos.<br>Cada produto carrega história, cultura e identidade local.</p>
         </div>
-        
+
 <div class="busca-container">
     <div class="input-com-icone">
         <span class="icone-busca">
@@ -17,7 +17,7 @@
         <label class="visualmente-oculto" for="inputBusca">Buscar produtos</label>
         <input type="search" id="inputBusca" placeholder="Buscar produtos...">
     </div>
-    
+
 
     <button type="button" class="filtro-chip catalogo-favoritos" id="btnSomenteFavoritos" aria-pressed="false">
         <iconify-icon icon="lucide:heart" aria-hidden="true"></iconify-icon>
@@ -28,7 +28,7 @@
 
     <!-- Corpo do Catálogo (Filtros + Grade) -->
     <div class="catalogo-corpo">
-        
+
         <!-- Barra Lateral de Filtros -->
         <aside class="card tabela-filtros" id="painelFiltros">
             <div class="filtros-cabecalho">
@@ -41,19 +41,19 @@
                         <circle cx="18" cy="5" r="2" stroke="currentColor" stroke-width="1.5"></circle>
                         <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.5"></circle>
                         <circle cx="6" cy="19" r="2" stroke="currentColor" stroke-width="1.5"></circle>
-                    </svg> 
+                    </svg>
                 </span>
                 <h2>Filtrar resultados</h2>
             </div>
-            
+
             <div class="grupo-filtro aberto">
-                <h3 class="acordeao-toggle">Categoria 
-                    <span class="seta">
+                <h3><button type="button" class="acordeao-toggle">Categoria
+                    <span class="seta" aria-hidden="true">
                         <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
                             <polyline points="5 8.5 12 15.5 19 8.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
                         </svg>
                     </span>
-                </h3>
+                </button></h3>
                 <div class="lista-checkboxes">
                     <label><input type="checkbox" value="Decoração" class="chk-categoria"> Decoração</label>
                     <label><input type="checkbox" value="Utilitários" class="chk-categoria"> Utilitários</label>
@@ -66,13 +66,13 @@
             </div>
 
             <div class="grupo-filtro">
-                <h3 class="acordeao-toggle">Técnica                     
-                    <span class="seta">
+                <h3><button type="button" class="acordeao-toggle">Técnica
+                    <span class="seta" aria-hidden="true">
                         <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
                             <polyline points="5 8.5 12 15.5 19 8.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
                         </svg>
                     </span>
-                </h3>
+                </button></h3>
                 <div class="lista-checkboxes">
                     <label><input type="checkbox" value="Tricô" class="chk-tecnica"> Tricô</label>
                     <label><input type="checkbox" value="Crochê" class="chk-tecnica"> Crochê</label>
@@ -86,13 +86,13 @@
             </div>
 
             <div class="grupo-filtro">
-                <h3 class="acordeao-toggle">Material                     
-                    <span class="seta">
+                <h3><button type="button" class="acordeao-toggle">Material
+                    <span class="seta" aria-hidden="true">
                         <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
                             <polyline points="5 8.5 12 15.5 19 8.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
                         </svg>
                     </span>
-                </h3>
+                </button></h3>
                 <div class="lista-checkboxes">
                     <label><input type="checkbox" value="Argila" class="chk-material"> Argila</label>
                     <label><input type="checkbox" value="Algodão" class="chk-material"> Algodão</label>
@@ -105,13 +105,13 @@
             </div>
 
             <div class="grupo-filtro">
-                <h3 class="acordeao-toggle">Faixa de preço                     
-                    <span class="seta">
+                <h3><button type="button" class="acordeao-toggle">Faixa de preço
+                    <span class="seta" aria-hidden="true">
                         <svg width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
                             <polyline points="5 8.5 12 15.5 19 8.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></polyline>
                         </svg>
                     </span>
-                </h3>
+                </button></h3>
                 <div class="lista-checkboxes">
                     <label><input type="radio" name="faixaPreco" value="todos" checked> Todos</label>
                     <label><input type="radio" name="faixaPreco" value="ate50"> Até R$ 50,00</label>

@@ -159,17 +159,7 @@
 }
 .grupo-filtro:last-of-type { border-bottom: none; }
 
-.acordeao-toggle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.95rem;
-    color: var(--cor-texto);
-    cursor: pointer;
-    user-select: none;
-    font-weight: bold;
-    padding: 5px 0;
-}
+
 .seta {
     transition: transform 0.3s ease;
     display: inline-block;
@@ -200,8 +190,6 @@
 .lista-checkboxes input[type="checkbox"],
 .lista-checkboxes input[type="radio"] {
     margin: 0;
-    width: 15px;
-    height: 15px;
     cursor: pointer;
 }
 

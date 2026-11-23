@@ -78,6 +78,20 @@ async function buscarParcial(arquivo) {
     return resposta.text();
 }
 
+/** Exibe falha recuperável sem depender de outra requisição de HTML. */
+function mostrarFalhaPagina(conteudo) {
+    conteudo.innerHTML = "<section class=\"secao\"><div class=\"container pilha\">"
+        + "<h1>Não foi possível carregar esta página</h1>"
+        + "<p role=\"alert\">Verifique sua conexão e tente novamente.</p>"
+        + "<div><button type=\"button\" class=\"btn btn--primario\""
+        + " data-tentar-novamente>Tentar novamente</button></div></div></section>";
+    conteudo.querySelector("[data-tentar-novamente]").addEventListener(
+        "click", carregarPagina
+    );
+    document.title = "Página indisponível | Liceu";
+    conteudo.focus({preventScroll: true});
+}
+
 /**
  * Monta a casca do layout da rota (só quando o layout muda).
  * @param {object} rota
@@ -150,9 +164,13 @@ async function carregarPagina() {
     try {
         conteudo = await prepararLayout(rota, minha);
     } catch (falha) {
+        if (minha !== navegacao) {
+            return;
+        }
         layoutAtual = "";
-        raiz.textContent = "Não foi possível carregar a página. Recarregue "
-            + "para tentar novamente.";
+        document.body.className = "layout-portal";
+        raiz.innerHTML = "<main id=\"conteudo\" class=\"conteudo\" tabindex=\"-1\"></main>";
+        mostrarFalhaPagina(document.getElementById("conteudo"));
         return;
     }
     if (minha !== navegacao) {
@@ -161,8 +179,10 @@ async function carregarPagina() {
     try {
         html = await buscarParcial(rota.arquivo);
     } catch (ignore) {
-        rota = ROTA_NAO_ENCONTRADA;
-        html = await buscarParcial(rota.arquivo);
+        if (minha === navegacao) {
+            mostrarFalhaPagina(conteudo);
+        }
+        return;
     }
     if (minha !== navegacao) {
         return;

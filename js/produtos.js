@@ -150,9 +150,10 @@ async function inicializarProdutos(raiz) {
         }
     });
 
-    painel.querySelectorAll(".acordeao-toggle").forEach(function (titulo) {
-        titulo.setAttribute("role", "button");
-        titulo.setAttribute("tabindex", "0");
+    painel.querySelectorAll(".acordeao-toggle").forEach(function (titulo, indice) {
+        const lista = titulo.closest(".grupo-filtro").querySelector(".lista-checkboxes");
+        lista.id = "catalogo-filtro-" + indice;
+        titulo.setAttribute("aria-controls", lista.id);
         function alternar() {
             const grupo = titulo.closest(".grupo-filtro");
             grupo.classList.toggle("aberto");
@@ -164,12 +165,6 @@ async function inicializarProdutos(raiz) {
             titulo.closest(".grupo-filtro").classList.contains("aberto")
         ));
         titulo.addEventListener("click", alternar);
-        titulo.addEventListener("keydown", function (evento) {
-            if (evento.key === "Enter" || evento.key === " ") {
-                evento.preventDefault();
-                alternar();
-            }
-        });
     });
     busca.addEventListener("input", recomecar);
     painel.addEventListener("change", recomecar);
