@@ -444,6 +444,56 @@ input[type="checkbox"] {
     color: var(--cor-texto-invertido);
 }
 
+/* Cores de assunto são independentes dos badges de status. */
+[data-cor="turquesa"] {
+    --chip-texto: var(--cor-chip-turquesa);
+    --chip-fundo: var(--cor-chip-turquesa-fundo);
+}
+
+[data-cor="rosa"] {
+    --chip-texto: var(--cor-chip-rosa);
+    --chip-fundo: var(--cor-chip-rosa-fundo);
+}
+
+[data-cor="amarelo"] {
+    --chip-texto: var(--cor-chip-amarelo);
+    --chip-fundo: var(--cor-chip-amarelo-fundo);
+}
+
+[data-cor="azul"] {
+    --chip-texto: var(--cor-chip-azul);
+    --chip-fundo: var(--cor-chip-azul-fundo);
+}
+
+[data-cor="verde"] {
+    --chip-texto: var(--cor-chip-verde);
+    --chip-fundo: var(--cor-chip-verde-fundo);
+}
+
+[data-cor="violeta"] {
+    --chip-texto: var(--cor-chip-violeta);
+    --chip-fundo: var(--cor-chip-violeta-fundo);
+}
+
+.chip[data-cor],
+.filtro-chip[data-cor] {
+    color: var(--chip-texto);
+    background-color: var(--chip-fundo);
+    border-color: var(--chip-texto);
+}
+
+.filtro-chip[data-cor]:hover {
+    box-shadow: inset 0 0 0 1px var(--chip-texto);
+}
+
+.filtro-chip[data-cor][aria-pressed="true"] {
+    background-color: var(--chip-texto);
+    color: var(--cor-texto-invertido);
+    border-color: var(--chip-texto);
+    box-shadow: inset 0 0 0 1px var(--chip-texto);
+    font-weight: var(--peso-negrito);
+}
+
 /* ===== 5.4 Status ===== */
 
 .status {
@@ -675,7 +725,22 @@ input[type="checkbox"] {
     flex-direction: column;
     gap: var(--espaco-4);
     padding: var(--espaco-5);
-    box-shadow: inset 0 4px var(--cor-acento), var(--sombra-card);
+    border: 1px solid transparent;
+    border-radius: var(--raio-grande);
+    background: linear-gradient(var(--cor-superficie-card), var(--cor-superficie-card)) padding-box,
+        var(--grafismo-marca) border-box;
+    box-shadow: var(--sombra-card);
+}
+
+.card-artesao:hover,
+.card-artesao:focus-within {
+    box-shadow: var(--sombra-elevada);
+}
+
+.card-artesao .card-artesao__foto {
+    border-radius: var(--raio-pilula);
+    border: 3px solid var(--cor-superficie-card);
+    box-shadow: 0 0 0 2px var(--cor-superficie-forte);
 }
 
 .card-artesao__topo {
@@ -730,7 +795,11 @@ input[type="checkbox"] {
 
 .card-estatistica:has(> iconify-icon[icon="lucide:circle-x"]) {
     background-color: var(--cor-erro-fundo);
-    box-shadow: inset 0 4px var(--cor-acento), var(--sombra-card);
+    border: 1px solid transparent;
+    border-radius: var(--raio-grande);
+    background: linear-gradient(var(--cor-superficie-card), var(--cor-superficie-card)) padding-box,
+        var(--grafismo-marca) border-box;
+    box-shadow: var(--sombra-card);
 }
 
 .card-estatistica:has(> iconify-icon[icon="lucide:file-text"]) {
@@ -1845,7 +1914,7 @@ input[type="checkbox"] {
 
 .modal--editorial .modal__acoes {
     margin-top: 0;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .modal--editorial .btn {
