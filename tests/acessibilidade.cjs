@@ -69,7 +69,7 @@ const base = process.env.PORTAL_URL || 'http://127.0.0.1:8091/';
             await page.locator('#conteudo h1').waitFor();
             const account = page.getByRole('button', {name: 'Menu da conta de Ana Martins Mock'});
             await account.waitFor();
-            await page.getByRole('link', {name: 'Liceu de Ofícios — início do portal'}).first().waitFor();
+            await page.getByRole('link', {name: 'Portal do Artesão — início do portal'}).first().waitFor();
             await page.goto(base + '#/painel-artesao/meu-perfil');
             await page.getByLabel('Selecionar foto do perfil', {exact: true}).waitFor({state: 'attached'});
             const technique = page.getByRole('checkbox', {name: 'Cerâmica', exact: true});
