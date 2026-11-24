@@ -1301,3 +1301,7 @@ Cards de trabalhos aguardando análise têm miniatura 1:1, conteúdo agrupado e 
 ### Opções visíveis de categoria e técnica — 24/11/2026
 
 O componente `prepararMultisselecao` também atende selects simples marcados com `data-escolha-unica`, usando os mesmos grupos e opções visuais com radios nativos. Perfil mantém múltiplas categorias/técnicas; cada trabalho mantém uma categoria e uma técnica. A obrigatoriedade fica nos controles visíveis, os valores do select original continuam sincronizados e o seletor popover ignora esses campos. Usar em Novo/Editar trabalho sem alterar regras de publicação ou rascunho.
+
+### Várias categorias e técnicas por trabalho — 24/11/2026
+
+Novo/Editar trabalho passa a usar checkboxes do componente compartilhado nos dois grupos. Exigir pelo menos uma opção de cada grupo ao enviar; rascunhos podem permanecer incompletos. A validação fica no primeiro checkbox visível, sem obrigar todas as opções. Cards e detalhes exibem todas as categorias e técnicas, preservando os chips por assunto. Esta regra substitui a escolha única anterior, inclusive na edição administrativa da publicação.
