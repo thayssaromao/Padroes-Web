@@ -837,18 +837,19 @@ function criarCardPendente(trabalho) {
     return (
         "<article class=\"card card-trabalho\">"
         + `<img class="card-trabalho__imagem" src="${imagemDe(trabalho)}"`
-        + " alt=\"\" width=\"400\" height=\"160\""
+        + " alt=\"\" width=\"160\" height=\"160\""
         + " loading=\"lazy\">"
-        + "<h3 class=\"card-trabalho__titulo\">"
+        + "<div class=\"card-trabalho__conteudo\"><h3 class=\"card-trabalho__titulo\">"
         + escaparHtml(trabalho.titulo) + "</h3>"
         + "<p class=\"card-trabalho__meta\">" + icone("lucide:user")
-        + escaparHtml(trabalho.artesaoNome) + "</p>"
+        + "<span>" + escaparHtml(trabalho.artesaoNome) + "</span></p>"
         + "<p class=\"card-trabalho__meta\">" + icone("lucide:tag")
-        + escaparHtml(trabalho.tecnica + " • " + trabalho.categoria) + "</p>"
-        + "<p>" + criarStatus(trabalho.status) + "</p>"
-        + "<button type=\"button\" class=\"btn btn--primario btn--bloco\""
+        + "<span>" + escaparHtml(trabalho.tecnica + " • " + trabalho.categoria)
+        + "</span></p></div>"
+        + "<div class=\"card-trabalho__rodape\">" + criarStatus(trabalho.status)
+        + "<button type=\"button\" class=\"btn btn--secundario\""
         + ` data-acao="analisar" data-id="${escaparHtml(trabalho.id)}">`
-        + icone("lucide:external-link") + "Analisar</button></article>"
+        + icone("lucide:file-search") + "Analisar</button></div></article>"
     );
 }
 
