@@ -1,0 +1,19 @@
+[
+    {
+        "id": "admin-mock",
+        "email": "admin@liceu.mock",
+        "senha": "admin123",
+        "nome": "Administração Mock",
+        "foto": "assets/img/avatar-padrao.jpg",
+        "perfil": "painel-liceu"
+    },
+    {
+        "id": "artesao-mock",
+        "email": "artesao@liceu.mock",
+        "senha": "artesao123",
+        "nome": "Ana Martins Mock",
+        "foto": "assets/img/artesaos/ana-martins.jpg",
+        "perfil": "painel-artesao",
+        "artesaoId": "ana-martins"
+    }
+]

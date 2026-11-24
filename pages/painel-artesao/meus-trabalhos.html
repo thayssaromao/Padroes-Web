@@ -2,6 +2,67 @@
     <div class="painel-cabecalho__texto">
         <span class="sobretitulo">Meus trabalhos</span>
         <h1>Meus trabalhos</h1>
+        <p class="texto-apoio">Gerencie os trabalhos cadastrados e acompanhe o status de cada publicação</p>
     </div>
 </header>
-<p class="em-construcao">Em construção.</p>
+
+<section class="artesao-trabalhos" aria-labelledby="trabalhos-titulo">
+    <h2 class="visualmente-oculto" id="trabalhos-titulo">Lista de trabalhos</h2>
+    <div class="artesao-topo">
+        <a class="btn btn--suave" href="#/painel-artesao/novo-trabalho">
+            <iconify-icon icon="lucide:square-plus" aria-hidden="true"></iconify-icon>
+            Cadastrar novo trabalho
+        </a>
+        <search class="busca">
+            <iconify-icon icon="lucide:search" aria-hidden="true"></iconify-icon>
+            <label for="trabalhos-busca" class="visualmente-oculto">Buscar produtos</label>
+            <input type="search" id="trabalhos-busca" class="busca__entrada" placeholder="Buscar produtos..." data-busca>
+        </search>
+    </div>
+
+    <div class="barra-filtros">
+        <div class="barra-filtros__item">
+            <label for="trabalhos-status">Filtrar por status:</label>
+            <select id="trabalhos-status" class="campo__entrada" data-filtro-status>
+                <option value="">Todos os status</option>
+                <option value="publicado">Publicado</option>
+                <option value="em-analise">Em análise</option>
+                <option value="rascunho">Rascunho</option>
+                <option value="rejeitado">Rejeitado</option>
+            </select>
+        </div>
+        <div class="barra-filtros__item">
+            <label for="trabalhos-categoria">Categoria / Técnica:</label>
+            <select id="trabalhos-categoria" class="campo__entrada" data-filtro-categoria>
+                <option value="">Todas</option>
+                <!-- Categorias e técnicas preenchidas via JS (data/categorias.json) -->
+            </select>
+        </div>
+        <div class="barra-filtros__item">
+            <label for="trabalhos-ordem">Ordenar por:</label>
+            <select id="trabalhos-ordem" class="campo__entrada" data-ordem>
+                <option value="recentes">Mais recentes</option>
+                <option value="antigos">Mais antigos</option>
+                <option value="nome">Nome A–Z</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="barra-ferramentas">
+        <p class="resultado-contagem" aria-live="polite" data-contagem>Exibindo trabalhos</p>
+        <div class="alternar-visualizacao" role="group" aria-label="Modo de visualização">
+            <button type="button" class="btn btn--icone" aria-pressed="true" aria-label="Ver em grade" data-visao="grade">
+                <iconify-icon icon="lucide:layout-grid" aria-hidden="true"></iconify-icon>
+            </button>
+            <button type="button" class="btn btn--icone" aria-pressed="false" aria-label="Ver em lista" data-visao="lista">
+                <iconify-icon icon="lucide:list" aria-hidden="true"></iconify-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- Cards dos trabalhos (criarCardProduto) da página atual, via JS -->
+    <div class="grade-cards artesao-grade" data-grade></div>
+
+    <!-- Paginação (criarPaginacao) via JS -->
+    <nav class="paginacao paginacao--centro paginacao--bordas" aria-label="Paginação" data-paginacao></nav>
+</section>

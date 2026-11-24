@@ -1,0 +1,100 @@
+.modal-login {
+    text-align: center;
+}
+
+.modal-login__logo {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--espaco-4);
+    background-color: transparent;
+    object-fit: contain;
+}
+
+/* espaço dos dois lados para o título continuar centralizado com o botão fechar */
+.modal-login .modal__titulo {
+    padding-inline: var(--espaco-7);
+}
+
+.modal-login__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    text-align: left;
+}
+
+/* espaço para o botão "olho" dentro do campo */
+.modal-login__senha {
+    padding-right: 44px;
+}
+
+.modal-login__opcoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-semi);
+}
+
+.modal-login__lembrar {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    cursor: pointer;
+}
+
+.modal-login__lembrar input {
+    width: 16px;
+    height: 16px;
+}
+
+.modal-login__entrar {
+    margin-top: var(--espaco-4);
+}
+
+.modal-login__erro {
+    color: var(--cor-erro);
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-semi);
+}
+
+.modal-login__cadastro {
+    margin-top: var(--espaco-4);
+    font-size: var(--fonte-pequena);
+}
+
+/* Página de cadastro (#/cadastro) */
+.cadastro {
+    max-width: 520px;
+}
+
+.cadastro__form {
+    margin-top: var(--espaco-5);
+}
+
+.cadastro__senha {
+    padding-right: 44px;
+}
+
+.cadastro__erro {
+    margin-top: var(--espaco-1);
+    color: var(--cor-erro);
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-semi);
+}
+
+.cadastro [aria-invalid="true"] {
+    border-color: var(--cor-erro);
+    border-width: 2px;
+}
+
+.cadastro__login {
+    text-align: center;
+}
+
+.cadastro__ajuda {
+    margin-top: var(--espaco-1);
+    color: var(--cor-texto-suave);
+    font-size: var(--fonte-pequena);
+}

@@ -152,8 +152,18 @@
     align-self: flex-start;
 }
 
-.artesao-trabalhos .barra-filtros__item select,
-.artesao-status-lista .barra-filtros__item select {
+.artesao-topo .busca {
+    width: 100%;
+    max-width: none;
+}
+
+.artesao-trabalhos .barra-filtros {
+    display: grid;
+    gap: var(--espaco-4);
+}
+
+.artesao-trabalhos .barra-filtros__item > .seletor,
+.artesao-status-lista .barra-filtros__item > .seletor {
     flex: 1;
 }
 
@@ -170,9 +180,9 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--espaco-1);
+    gap: var(--espaco-2);
     width: 100%;
-    margin-bottom: var(--espaco-1);
+    min-height: var(--alvo-acao);
 }
 
 .artesao-estado .btn {
@@ -191,17 +201,61 @@
 .artesao-botoes {
     display: flex;
     justify-content: flex-end;
-    gap: var(--espaco-3);
     width: 100%;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.artesao-botoes > .texto-suave {
+    flex: 1;
+    font-size: var(--fonte-mini);
+}
+
+.artesao-grade .card-produto__corpo {
+    gap: var(--espaco-2);
+    flex: 1;
+    min-width: 0;
+}
+
+.artesao-grade .card-produto__titulo {
+    overflow-wrap: anywhere;
 }
 
 .artesao-botoes .btn:first-child:not(.btn--icone) {
     flex: 1;
 }
 
+.artesao-botoes > .btn {
+    min-height: var(--alvo-acao);
+}
+
+.artesao-botoes > .btn:not(.btn--icone) {
+    min-width: 0;
+    padding-inline: var(--espaco-2);
+}
+
 .artesao-grade .card-produto__acoes {
     flex-direction: column;
     gap: var(--espaco-2);
+    margin-top: auto;
+    padding-top: var(--espaco-2);
+    border-top: none;
+}
+
+.artesao-estado .status {
+    min-height: var(--espaco-6);
+}
+
+.artesao-estado .status iconify-icon,
+.artesao-estado .btn--icone iconify-icon {
+    font-size: var(--tamanho-icone-status);
+}
+
+.artesao-estado .btn--icone {
+    flex: 0 0 var(--alvo-acao);
+    padding: 0;
+    border-color: transparent;
+    background-color: transparent;
 }
 
 .grade-cards.artesao-lista {
@@ -236,8 +290,18 @@
 }
 
 @media (min-width: 1024px) {
-    .artesao-topo .busca {
-        max-width: 560px;
+    .artesao-trabalhos .barra-filtros {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .artesao-trabalhos .barra-filtros__item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .artesao-trabalhos .barra-filtros__item > .seletor {
+        width: 100%;
+        max-width: none;
     }
 }
 
@@ -342,12 +406,114 @@
     min-height: 32px;
 }
 
-.artesao-status-busca {
-    flex: 1 0 100%;
+/* Busca e filtros de status reservam espaço próprio para os valores. */
+.artesao-status-lista .barra-filtros {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: end;
+    gap: var(--espaco-4);
+}
+
+.artesao-status-lista .barra-filtros__item {
+    display: grid;
+    gap: var(--espaco-2);
+    white-space: normal;
+}
+
+@media (min-width: 600px) {
+    .artesao-status-lista .barra-filtros {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .artesao-status-busca {
+        grid-column: 1 / -1;
+    }
 }
 
 @media (min-width: 1024px) {
-    .artesao-status-busca {
-        flex: 1 1 0;
+    .artesao-status-lista .barra-filtros {
+        grid-template-columns: minmax(14rem, 1.4fr) minmax(12rem, 1fr) minmax(12rem, 1fr);
     }
+
+    .artesao-status-busca {
+        grid-column: auto;
+    }
+}
+
+
+/* Ajuste final: filtros do artesao em largura total */
+.barra-filtros--trabalhos,
+.artesao-status-lista .barra-filtros--status {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--espaco-4);
+    align-items: end;
+}
+
+.barra-filtros--trabalhos > *,
+.artesao-status-lista .barra-filtros--status > * {
+    min-width: 0;
+}
+
+.barra-filtros--trabalhos .barra-filtros__item,
+.artesao-status-lista .barra-filtros--status .barra-filtros__item {
+    width: 100%;
+    min-width: 0;
+}
+
+.barra-filtros--trabalhos .campo__entrada,
+.barra-filtros--trabalhos .seletor,
+.barra-filtros--trabalhos .seletor__botao,
+.artesao-status-lista .barra-filtros--status .campo__entrada,
+.artesao-status-lista .barra-filtros--status .seletor,
+.artesao-status-lista .barra-filtros--status .seletor__botao {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+}
+
+@media (min-width: 600px) {
+    .barra-filtros--trabalhos,
+    .artesao-status-lista .barra-filtros--status {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .barra-filtros--trabalhos > .busca,
+    .artesao-status-lista .barra-filtros--status > .busca {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .barra-filtros--trabalhos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .artesao-status-lista .barra-filtros--status {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .barra-filtros--trabalhos > .busca,
+    .artesao-status-lista .barra-filtros--status > .busca {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ----- modais do trabalho rejeitado ----- */
+.artesao-motivo {
+    margin-top: var(--espaco-5);
+}
+
+.artesao-reenvio__motivo {
+    margin-top: var(--espaco-4);
+    padding: var(--espaco-3) var(--espaco-4);
+    border-radius: var(--raio-pequeno);
+    background-color: var(--cor-superficie-forte);
+    font-size: var(--fonte-pequena);
+}
+
+.artesao-reenvio {
+    display: grid;
+    gap: var(--espaco-4);
 }

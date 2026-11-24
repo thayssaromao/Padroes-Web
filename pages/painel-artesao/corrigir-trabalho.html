@@ -1,0 +1,66 @@
+<!-- modais do trabalho rejeitado: ver o motivo e editar/reenviar.
+     carregado pelo painel-artesao.js, usado em Meus trabalhos e Status das publicacoes -->
+<dialog class="modal modal--medio" id="modal-motivo" aria-labelledby="motivo-titulo">
+    <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
+    <span class="sobretitulo">Trabalho rejeitado</span>
+    <h2 class="modal__titulo" id="motivo-titulo" data-motivo="titulo"></h2>
+    <p class="modal__descricao">Rejeitado em <span data-motivo="data"></span></p>
+
+    <aside class="aviso artesao-motivo" aria-labelledby="motivo-subtitulo">
+        <iconify-icon icon="lucide:info" aria-hidden="true"></iconify-icon>
+        <div class="aviso__texto">
+            <h3 class="aviso__titulo" id="motivo-subtitulo">Motivo da rejeição</h3>
+            <p data-motivo="texto"></p>
+        </div>
+    </aside>
+
+    <div class="modal__acoes">
+        <button type="button" class="btn btn--link" data-fechar-modal>Fechar</button>
+        <button type="button" class="btn btn--primario" data-ir-reenviar><iconify-icon icon="lucide:pencil" aria-hidden="true"></iconify-icon>Editar e reenviar</button>
+    </div>
+</dialog>
+
+<dialog class="modal modal--medio" id="modal-reenviar" aria-labelledby="reenviar-titulo">
+    <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
+    <h2 class="modal__titulo" id="reenviar-titulo">Editar e reenviar</h2>
+    <p class="modal__descricao">Corrija o que o Liceu pediu e envie de novo. O trabalho volta pra fila de análise.</p>
+
+    <!-- lembrete do motivo enquanto edita -->
+    <p class="artesao-reenvio__motivo"><strong>Motivo:</strong> <span data-reenviar="motivo"></span></p>
+
+    <form class="modal__corpo artesao-reenvio" data-form-reenviar>
+        <div class="campo">
+            <label for="reenviar-nome" class="campo__rotulo">Nome do trabalho *</label>
+            <input type="text" id="reenviar-nome" name="titulo" class="campo__entrada" maxlength="80" required>
+        </div>
+        <div class="campos-duplos">
+            <div class="campo">
+                <label for="reenviar-categoria" class="campo__rotulo">Categoria *</label>
+                <!-- opcoes vem do categorias.json -->
+                <select id="reenviar-categoria" name="categoria" class="campo__entrada" required><option value="">Selecione a categoria</option></select>
+            </div>
+            <div class="campo">
+                <label for="reenviar-tecnica" class="campo__rotulo">Técnica *</label>
+                <select id="reenviar-tecnica" name="tecnica" class="campo__entrada" required><option value="">Selecione a técnica</option></select>
+            </div>
+        </div>
+        <div class="campo">
+            <label for="reenviar-descricao" class="campo__rotulo">Descrição *</label>
+            <textarea id="reenviar-descricao" name="descricao" class="campo__entrada" rows="4" maxlength="600" required></textarea>
+        </div>
+        <div class="campos-duplos">
+            <div class="campo">
+                <label for="reenviar-materiais" class="campo__rotulo">Materiais</label>
+                <input type="text" id="reenviar-materiais" name="materiais" class="campo__entrada" maxlength="120">
+            </div>
+            <div class="campo">
+                <label for="reenviar-dimensoes" class="campo__rotulo">Dimensões</label>
+                <input type="text" id="reenviar-dimensoes" name="dimensoes" class="campo__entrada" maxlength="80">
+            </div>
+        </div>
+        <div class="modal__acoes">
+            <button type="button" class="btn btn--link" data-fechar-modal>Cancelar</button>
+            <button type="submit" class="btn btn--primario"><iconify-icon icon="lucide:send" aria-hidden="true"></iconify-icon>Reenviar para análise</button>
+        </div>
+    </form>
+</dialog>

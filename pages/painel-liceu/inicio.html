@@ -1,7 +1,48 @@
-<header class="painel-cabecalho">
+<header class="painel-cabecalho painel-cabecalho--com-imagem">
     <div class="painel-cabecalho__texto">
         <span class="sobretitulo">Boas-vindas, equipe do Liceu</span>
         <h1>Painel Administrativo</h1>
+        <p>Gerencie artesãos, analise trabalhos enviados e acompanhe as publicações do Portal do Artesão.</p>
+        <div class="painel-cabecalho__acoes">
+            <a class="btn btn--primario" href="#/painel-liceu/cadastrar-artesao">
+                <iconify-icon icon="lucide:user-plus" aria-hidden="true"></iconify-icon>
+                Cadastrar novo artesão
+            </a>
+            <a class="btn btn--secundario" href="#/painel-liceu/trabalhos-pendentes">
+                <iconify-icon icon="lucide:file-text" aria-hidden="true"></iconify-icon>
+                Ver trabalhos pendentes
+            </a>
+        </div>
     </div>
+    <img class="painel-cabecalho__imagem" src="assets/img/paineis/liceu.jpg" alt="Ateliê do Liceu de Ofícios com peças artesanais" width="640" height="256">
 </header>
-<p class="em-construcao">Em construção.</p>
+
+<section class="liceu-secao" aria-labelledby="liceu-resumo-titulo">
+    <h2 id="liceu-resumo-titulo" class="liceu-secao__titulo">Resumo do Portal</h2>
+    <!-- Preenchido via JS: 4 cards de estatística (criarCardEstatistica) -->
+    <div class="grade-estatisticas" data-resumo></div>
+</section>
+
+<section class="liceu-secao" aria-labelledby="liceu-pendentes-titulo">
+    <div class="secao-cabecalho">
+        <h2 id="liceu-pendentes-titulo">Trabalhos aguardando análise</h2>
+        <a class="link-seta" href="#/painel-liceu/trabalhos-pendentes">
+            Ver todos os pendentes
+            <iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon>
+        </a>
+    </div>
+    <!-- Preenchido via JS: até 4 article.card-trabalho com trabalhos em análise ou reenviados -->
+    <div class="liceu-pendentes" data-pendentes></div>
+</section>
+
+<aside class="aviso">
+    <iconify-icon icon="lucide:info" aria-hidden="true"></iconify-icon>
+    <div class="aviso__texto">
+        <strong class="aviso__titulo">Ações administrativas</strong>
+        <span>Cadastre novos artesãos, mantenha categorias e técnicas atualizadas e acompanhe o fluxo de aprovação das publicações.</span>
+    </div>
+    <a class="btn btn--primario" href="#/painel-liceu/artesaos">
+        Gerenciar cadastros
+        <iconify-icon icon="lucide:arrow-right" aria-hidden="true"></iconify-icon>
+    </a>
+</aside>

@@ -8,6 +8,32 @@
     margin-bottom: var(--espaco-6);
 }
 
+.liceu-config-aviso {
+    margin-bottom: var(--espaco-5);
+}
+
+.liceu-analise .modal__corpo,
+.liceu-analise .pilha {
+    gap: var(--espaco-4);
+}
+
+.liceu-analise .detalhe-trabalho__galeria img:first-child {
+    max-height: calc(4 * var(--espaco-8));
+    object-fit: contain;
+    background-color: var(--cor-superficie);
+}
+
+.liceu-analise .detalhe-trabalho__metadados {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+    gap: var(--espaco-3);
+}
+
+@media (min-width: 600px) {
+    .liceu-analise .detalhe-trabalho {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    }
+}
+
 .liceu-secao__titulo {
     margin-bottom: var(--espaco-5);
 }

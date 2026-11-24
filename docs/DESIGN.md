@@ -406,6 +406,7 @@ de ser considerada concluida.
 | Produto | `.card-produto` | `figure` com imagem 4:3 + botão favorito (círculo, canto sup. dir.) · nome · categoria · (opcional) status + ações | Home, Área do Artesão |
 | Artesão (mini) | `.card-artesao-mini` | avatar redondo 96px · nome · técnica principal | Home "Conheça quem produz" |
 | Artesão | `.card-artesao` | Na listagem pública: foto circular 64px · nome · empreendimento ou @ · local (`map-pin`) · chips abaixo da identificação, usando toda a largura · botão bloco "Ver perfil →" na base, com intervalo mínimo de 12px após os chips. Na grade desktop, fileiras de mesma altura, determinada pelo conteúdo, sem reserva de linhas vazias para chips; celular e lista têm altura adaptável. | Página Artesãos |
+| Técnica | `.card-tecnica` | imagem 8:3 (placeholder quando não há foto) + botão favorito (igual ao do Produto) · nome (`h3`) · descrição curta · botão bloco "Saiba mais →" na base. Gerado por `criarCardTecnica(tecnica, {favoritado})`; o favorito usa `data-favorito` e o botão usa `data-tecnica` (id). | Página Saberes |
 | Estatística | `.card-estatistica` | ícone · espaçamento · número grande (800) · rótulo, sem divisória vertical | Resumos dos painéis |
 | Trabalho (painel) | `.card-trabalho` | imagem · título · artesão (`user`) · categorias (`tag`) · status · botão | Painel Liceu "aguardando análise" |
 
@@ -591,7 +592,7 @@ Todos os popups usam o elemento nativo **`<dialog>`** aberto com `showModal()` (
 | **Menu de ações** (popover `.menu-acoes`) | Botão `⋯` das tabelas/cards | Lista de `button` em `ul`, `role="menu"` não é necessário; fecha com `Esc`/clique fora. Itens destrutivos por último, separados por `hr` |
 | **Dropdown** do topo | Sino (notificações) e avatar (menu do usuário) | Popover alinhado à direita, largura 320px |
 
-### 8.3 Popups a desenhar (inventário a partir das telas)
+### 8.3 Inventário de interações dos popups
 
 | Origem | Popup | Tipo |
 |---|---|---|
@@ -599,7 +600,7 @@ Todos os popups usam o elemento nativo **`<dialog>`** aberto com `showModal()` (
 | Portal › Artesãos › "Filtrar" | Painel de filtros (categorias, técnicas, cidade) | Formulário (gaveta lateral no mobile) |
 | Portal › Home › card de produto | Detalhe do produto | Detalhe |
 | Liceu › "Analisar" | Analisar trabalho: imagens, dados, `Aprovar` / `Rejeitar` (rejeitar pede motivo) | Detalhe + formulário |
-| Liceu › Artesãos › "Ver perfil" / "Editar" / `⋯` | Perfil, edição rápida, menu (Ativar/Desativar, Redefinir senha, Excluir) | Detalhe / Formulário / Menu |
+| Liceu › Artesãos › "Ver perfil" / "Editar" / `⋯` | Perfil, edição rápida, menu (Ativar/Desativar, Redefinir senha) | Detalhe / Formulário / Menu |
 | Liceu › Publicações › olho / lápis / olho-cortado / lixeira | Ver, editar, ocultar (confirmação), excluir (confirmação destrutiva) | vários |
 | Liceu › Publicações › "Nova publicação" | Escolher trabalho aprovado para destacar | Formulário |
 | Liceu › Configurações › categorias/técnicas | Adicionar categoria, adicionar técnica, gerenciar listas | Formulário |
@@ -611,9 +612,13 @@ Todos os popups usam o elemento nativo **`<dialog>`** aberto com `showModal()` (
 | Ambos › "Sair" | "Deseja sair do painel?" | Confirmação |
 | Ambos › sino / avatar | Notificações / menu do usuário | Dropdown |
 
+Os diálogos de conteúdo variável são montados por `criarDialogo(titulo, corpo, acoes, opcoes)` em `js/componentes.js`, que reutiliza fechamento, backdrop, foco nativo e remoção após fechar. `opcoes` aceita `raiz` e `tamanho`; o padrão é o conteúdo atual e tamanho médio. Textos provenientes de registros devem passar por `escaparHtml` antes de entrar no corpo HTML.
+
+No MVP, notificações e menu da conta da topbar reutilizam esse diálogo; notificações mostram o estado atual dos trabalhos. Gestão de taxonomias, senha administrativa e permissões continua futura e desabilitada. O inventário não amplia o escopo definido nas especificações.
+
 ### 8.4 Feedback
 
-Após salvar/aprovar/excluir: **toast** (`.aviso-flutuante`, `role="status"`) no canto inferior direito por 4s. Função `mostrarAviso(mensagem)` (stub).
+Após salvar/aprovar/excluir: **toast** (`.aviso-flutuante`, `role="status"`) no canto inferior direito por 4s. Função `mostrarAviso(mensagem)`.
 
 ---
 

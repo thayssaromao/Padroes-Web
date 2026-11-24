@@ -1,0 +1,52 @@
+<section class="secao">
+    <div class="container cadastro">
+        <header class="pilha">
+            <span class="sobretitulo">Área do artesão</span>
+            <h1>Criar conta</h1>
+            <p class="texto-suave">Preencha os campos abaixo para criar sua conta e cadastrar seus trabalhos no Portal. Os campos com * são obrigatórios.</p>
+        </header>
+
+        <!-- Validado e enviado por js/paginas/cadastro.js (novalidate: as mensagens são nossas) -->
+        <form class="pilha cadastro__form" id="cadastro-form" novalidate>
+            <div class="campo">
+                <label for="cadastro-nome" class="campo__rotulo">Nome *</label>
+                <input id="cadastro-nome" class="campo__entrada" type="text" name="nome" autocomplete="name" placeholder="Digite seu nome" required aria-describedby="cadastro-nome-erro">
+                <p class="cadastro__erro" id="cadastro-nome-erro" role="alert" hidden></p>
+            </div>
+
+            <div class="campo">
+                <label for="cadastro-email" class="campo__rotulo">E-mail *</label>
+                <input id="cadastro-email" class="campo__entrada" type="email" name="email" autocomplete="email" placeholder="Digite seu e-mail" required aria-describedby="cadastro-email-erro">
+                <p class="cadastro__erro" id="cadastro-email-erro" role="alert" hidden></p>
+            </div>
+
+            <div class="campo">
+                <label for="cadastro-senha" class="campo__rotulo">Senha *</label>
+                <div class="campo__grupo">
+                    <iconify-icon icon="lucide:lock" aria-hidden="true"></iconify-icon>
+                    <input id="cadastro-senha" class="campo__entrada cadastro__senha" type="password" name="senha" autocomplete="new-password" placeholder="Crie uma senha" required aria-describedby="cadastro-senha-ajuda cadastro-senha-erro">
+                    <button type="button" class="btn btn--icone" data-alternar-senha="cadastro-senha" aria-pressed="false" aria-label="Mostrar senha">
+                        <iconify-icon icon="lucide:eye" aria-hidden="true"></iconify-icon>
+                    </button>
+                </div>
+                <p class="cadastro__ajuda" id="cadastro-senha-ajuda">De 8 a 12 caracteres, com pelo menos um número e um caractere especial (como ! @ # $ %).</p>
+                <p class="cadastro__erro" id="cadastro-senha-erro" role="alert" hidden></p>
+            </div>
+
+            <div class="campo">
+                <label for="cadastro-confirmar" class="campo__rotulo">Confirmar senha *</label>
+                <div class="campo__grupo">
+                    <iconify-icon icon="lucide:lock" aria-hidden="true"></iconify-icon>
+                    <input id="cadastro-confirmar" class="campo__entrada cadastro__senha" type="password" name="confirmar" autocomplete="new-password" placeholder="Repita a senha" required aria-describedby="cadastro-confirmar-erro">
+                    <button type="button" class="btn btn--icone" data-alternar-senha="cadastro-confirmar" aria-pressed="false" aria-label="Mostrar senha">
+                        <iconify-icon icon="lucide:eye" aria-hidden="true"></iconify-icon>
+                    </button>
+                </div>
+                <p class="cadastro__erro" id="cadastro-confirmar-erro" role="alert" hidden></p>
+            </div>
+
+            <button type="submit" class="btn btn--primario btn--bloco">Criar conta</button>
+            <p class="texto-suave cadastro__login">Já tem conta? <a href="#/login">Entrar</a></p>
+        </form>
+    </div>
+</section>
