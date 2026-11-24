@@ -54,6 +54,10 @@
     background-color: var(--cor-superficie-forte);
 }
 
+.liceu-inicio-resumo .grade-estatisticas {
+    grid-template-columns: minmax(0, 1fr);
+}
+
 .liceu-inicio-resumo .card.card-estatistica {
     --card-superficie: var(--cor-superficie-card);
     --card-contorno: var(--borda-card);
@@ -134,6 +138,7 @@
 }
 
 .liceu-inicio-acoes {
+    box-shadow: var(--sombra-card);
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-card);
     background-color: var(--cor-superficie-forte);
@@ -148,6 +153,10 @@
 @media (min-width: 600px) {
     .liceu-inicio-cabecalho {
         padding: var(--espaco-5);
+    }
+
+    .liceu-inicio-resumo .grade-estatisticas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .liceu-pendentes {
@@ -414,5 +423,12 @@
 @media (min-width: 1280px) {
     .liceu-bloco-config__cabecalho {
         min-height: calc(var(--espaco-8) + var(--espaco-6));
+    }
+}
+
+/* Quatro métricas somente quando a largura útil permite seus rótulos. */
+@media (min-width: 1280px) {
+    .liceu-inicio-resumo .grade-estatisticas {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }
