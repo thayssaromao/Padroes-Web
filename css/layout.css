@@ -497,19 +497,6 @@
     border-radius: var(--raio-medio);
 }
 
-.painel .card-estatistica {
-    gap: calc(2 * var(--espaco-3) + 1px);
-    padding: var(--espaco-4);
-}
-
-.painel .card-estatistica > iconify-icon {
-    font-size: 28px;
-}
-
-.painel .card-estatistica__numero {
-    font-size: 1.75rem;
-}
-
 .painel .tabela-container {
     overflow-x: auto;
 }
@@ -841,36 +828,4 @@
 
 .layout-painel .btn--suave:hover {
     background-color: var(--cor-painel-selecionado);
-}
-
-.layout-painel .card.card-estatistica {
-    --card-superficie: var(--cor-superficie-card);
-    --card-contorno: var(--borda-card);
-    --metrica-acento: var(--cor-texto-suave);
-}
-
-.layout-painel .card-estatistica:has(> iconify-icon[icon="lucide:circle-check"]) {
-    --metrica-acento: var(--cor-sucesso);
-}
-
-.layout-painel .card-estatistica:has(> iconify-icon[icon="lucide:clock"]) {
-    --metrica-acento: var(--cor-alerta);
-}
-
-.layout-painel .card-estatistica:has(> iconify-icon[icon="lucide:circle-x"]) {
-    --metrica-acento: var(--cor-erro);
-}
-
-.layout-painel .card-estatistica > iconify-icon {
-    width: var(--tamanho-icone-secao);
-    height: var(--tamanho-icone-secao);
-    color: var(--metrica-acento);
-}
-
-.layout-painel .card-estatistica {
-    border-top: 3px solid var(--metrica-acento);
-}
-
-.layout-painel .card-estatistica:has(> iconify-icon[icon="lucide:layers"]) {
-    --metrica-acento: var(--cor-selecao-texto);
 }
