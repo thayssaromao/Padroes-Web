@@ -1034,6 +1034,7 @@ async function montarNovoTrabalho(raiz) {
         raiz.querySelector(".texto-apoio").textContent =
             "Este trabalho está em análise. Aguarde o retorno do Liceu.";
     }
+    prepararMultisselecao(raiz);
     raiz.querySelectorAll("[data-preco-tipo]").forEach(function (opcao) {
         opcao.addEventListener("change", function () {
             const definir = formulario.querySelector(

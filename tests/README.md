@@ -37,7 +37,9 @@ autocadastro, conclusão do perfil, login, sessão e guardas de acesso.
 ações compartilhadas, identidade/logout entre abas e navegação rápida.
 
 `perfil-multisselecao.cjs` cobre categorias e técnicas por checkbox, prévia,
-descarte, persistência de múltiplos valores, teclado e responsividade.
+descarte, persistência de múltiplos valores, teclado e responsividade. Também
+confere as opções visíveis de Novo/Editar trabalho, escolha única, valores
+salvos e obrigatoriedade com foco no controle visível.
 
 As suítes usam contextos isolados e dados fictícios. Evidências geradas ficam
 por padrão no diretório temporário do sistema; `RELATORIO_DIR` permite escolher
