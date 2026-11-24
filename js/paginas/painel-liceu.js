@@ -843,7 +843,7 @@ function criarCardPendente(trabalho) {
         + "<p class=\"card-trabalho__meta\">" + icone("lucide:tag")
         + escaparHtml(trabalho.tecnica + " • " + trabalho.categoria) + "</p>"
         + "<p>" + criarStatus(trabalho.status) + "</p>"
-        + "<button type=\"button\" class=\"btn btn--secundario btn--bloco\""
+        + "<button type=\"button\" class=\"btn btn--primario btn--bloco\""
         + ` data-acao="analisar" data-id="${escaparHtml(trabalho.id)}">`
         + icone("lucide:external-link") + "Analisar</button></article>"
     );
