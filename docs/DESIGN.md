@@ -1319,3 +1319,6 @@ apresentada em 80×56px, sobre base clara, preservando a legibilidade do texto
 cinza e as cores do arquivo original. O texto ao lado e o nome acessível do
 link identificam o produto como **Portal do Artesão**; a inscrição institucional
 embutida no PNG e os créditos do Liceu continuam preservados.
+
+No desktop, o conteúdo do rodapé interno respeita a largura da sidebar, evitando
+que a marca fique encoberta pela navegação lateral durante a rolagem.

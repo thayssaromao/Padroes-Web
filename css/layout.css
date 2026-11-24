@@ -779,6 +779,7 @@
 
     .painel__rodape {
         padding-inline: var(--espaco-6);
+        padding-inline-start: calc(var(--largura-lateral) + var(--espaco-6));
     }
 
     .painel-cabecalho--com-imagem {
