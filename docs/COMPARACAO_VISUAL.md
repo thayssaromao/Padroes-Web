@@ -22,3 +22,14 @@ As fotos de demonstração continuam sendo placeholders. Estas capturas são
 artefatos de revisão e não fazem parte da navegação do produto. Os relatórios
 anteriores de auditoria permanecem no repositório como registros históricos;
 a validação mais recente está em [VALIDACAO_MVP.md](VALIDACAO_MVP.md).
+
+## Galerias históricas completas
+
+Os arquivos que antes estavam apenas no ambiente local foram versionados em
+[comparacoes/](../comparacoes/README.md) e
+[propostas-visuais/](../propostas-visuais/README.md). As capturas preservam a
+aparência de cada etapa, incluindo propostas posteriormente substituídas.
+
+Na versão atual, a marca usa o PNG transparente, inscrição adaptada ao fundo e
+o nome Portal do Artesão. O último aumento de espaçamento foi desfeito; o
+componente voltou a 80×56px e intervalo de 12px, conforme o design system.

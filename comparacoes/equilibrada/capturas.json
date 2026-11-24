@@ -1,0 +1,170 @@
+[
+  {
+    "phase": "antes",
+    "role": "publico",
+    "page": "inicio",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "antes",
+    "role": "publico",
+    "page": "inicio",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "antes",
+    "role": "publico",
+    "page": "artesaos",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "antes",
+    "role": "publico",
+    "page": "artesaos",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "antes",
+    "role": "publico",
+    "page": "produtos",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "antes",
+    "role": "publico",
+    "page": "produtos",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "antes",
+    "role": "liceu",
+    "page": "painel",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "antes",
+    "role": "liceu",
+    "page": "painel",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "antes",
+    "role": "liceu",
+    "page": "formulario",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "antes",
+    "role": "liceu",
+    "page": "formulario",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "antes",
+    "role": "artesao",
+    "page": "perfil",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "antes",
+    "role": "artesao",
+    "page": "perfil",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "depois",
+    "role": "publico",
+    "page": "inicio",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "depois",
+    "role": "publico",
+    "page": "inicio",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "depois",
+    "role": "publico",
+    "page": "artesaos",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "depois",
+    "role": "publico",
+    "page": "artesaos",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "depois",
+    "role": "publico",
+    "page": "produtos",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "depois",
+    "role": "publico",
+    "page": "produtos",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "depois",
+    "role": "liceu",
+    "page": "painel",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "depois",
+    "role": "liceu",
+    "page": "painel",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "depois",
+    "role": "liceu",
+    "page": "formulario",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "depois",
+    "role": "liceu",
+    "page": "formulario",
+    "width": 1440,
+    "document": 1440
+  },
+  {
+    "phase": "depois",
+    "role": "artesao",
+    "page": "perfil",
+    "width": 375,
+    "document": 375
+  },
+  {
+    "phase": "depois",
+    "role": "artesao",
+    "page": "perfil",
+    "width": 1440,
+    "document": 1440
+  }
+]

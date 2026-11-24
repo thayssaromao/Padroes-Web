@@ -1,0 +1,218 @@
+[
+  {
+    "variant": "atual",
+    "page": "inicio",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "conservador",
+    "page": "inicio",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "equilibrado",
+    "page": "inicio",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "atual",
+    "page": "inicio",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "conservador",
+    "page": "inicio",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "equilibrado",
+    "page": "inicio",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "atual",
+    "page": "artesaos",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "conservador",
+    "page": "artesaos",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "equilibrado",
+    "page": "artesaos",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "atual",
+    "page": "artesaos",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "conservador",
+    "page": "artesaos",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "equilibrado",
+    "page": "artesaos",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "atual",
+    "page": "produtos",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "conservador",
+    "page": "produtos",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "equilibrado",
+    "page": "produtos",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "atual",
+    "page": "produtos",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "conservador",
+    "page": "produtos",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "equilibrado",
+    "page": "produtos",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "atual",
+    "page": "painel",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "conservador",
+    "page": "painel",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "equilibrado",
+    "page": "painel",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "atual",
+    "page": "painel",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "conservador",
+    "page": "painel",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "equilibrado",
+    "page": "painel",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "atual",
+    "page": "formulario",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "conservador",
+    "page": "formulario",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "equilibrado",
+    "page": "formulario",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "atual",
+    "page": "formulario",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "conservador",
+    "page": "formulario",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "equilibrado",
+    "page": "formulario",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "atual",
+    "page": "perfil",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "conservador",
+    "page": "perfil",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "equilibrado",
+    "page": "perfil",
+    "width": 375,
+    "documentWidth": 375
+  },
+  {
+    "variant": "atual",
+    "page": "perfil",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "conservador",
+    "page": "perfil",
+    "width": 1440,
+    "documentWidth": 1440
+  },
+  {
+    "variant": "equilibrado",
+    "page": "perfil",
+    "width": 1440,
+    "documentWidth": 1440
+  }
+]

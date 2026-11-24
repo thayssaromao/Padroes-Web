@@ -1,0 +1,23 @@
+/* Estudo temporário: não carregado pelo index do projeto. */
+:root {
+    --cor-fundo-publico: #F8F7F3;
+    --cor-fundo: #F8F7F3;
+    --cor-editorial: #FFF3CF;
+    --cor-editorial-alternada: #F9EDF1;
+    --cor-superficie-forte: #EAF3F0;
+    --cor-borda: #CCDAD5;
+    --borda-card: linear-gradient(to right, #5A9D98 0 50%, #D4B25C 50% 75%, #C96C89 75%);
+    --raio-card: 20px;
+    --sombra-card: 0 2px 5px rgb(24 62 69 / 5%);
+    --sombra-elevada: 0 6px 16px rgb(24 62 69 / 10%);
+}
+.layout-portal { font-size: 15px; }
+.card:hover, .card:focus-within { box-shadow: var(--sombra-elevada); }
+.artesaos-grade .card-artesao__nome { font-size: 15px; line-height: 1.35; }
+.artesaos-grade .card-artesao__empreendimento, .artesaos-grade .local { font-size: 13px; }
+.chip[data-cor], .filtro-chip[data-cor]:not([aria-pressed="true"]) { border-color: var(--cor-borda); }
+.inicio-hero .btn--suave:first-child { background: var(--cor-primaria); color: #FFFFFF; }
+.inicio-hero .btn--suave:nth-child(2) { background: #FFFFFF; color: var(--cor-link); border-color: var(--cor-borda-controle); }
+.secao-cabecalho > h2 { text-decoration: none; }
+.campo__entrada { border-radius: 8px; }
+.painel__link[aria-current="page"] { border-radius: 10px; }

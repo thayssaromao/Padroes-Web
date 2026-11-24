@@ -28,3 +28,15 @@ externo e serviços de produção não foram exercitados com envios reais.
 Veja [tests/README.md](../tests/README.md) para reproduzir as seis suítes. Os
 relatórios anteriores em `AUDITORIA_UI_UX*`, `MODERNIZACAO_EQUILIBRADA*` e
 `REFINAMENTOS_PAINEIS*` documentam etapas históricas da evolução visual.
+
+## Preservação dos arquivos de revisão
+
+As galerias de `comparacoes/` e `propostas-visuais/` foram incluídas no
+repositório e identificadas como material histórico. Foram conferidos os
+JSONs, 98 referências locais, 60 combinações de capturas e o carregamento
+das cinco galerias no navegador. Os 17 testes de dados e os contratos de
+20 rotas/26 HTML foram repetidos na preparação desta publicação.
+
+O estado vigente da marca é transparente, com identificação Portal do Artesão
+e espaçamento original restaurado. A referência de estilo é `DESIGN.md`,
+não os protótipos ou as capturas históricas.
