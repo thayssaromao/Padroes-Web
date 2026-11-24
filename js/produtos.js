@@ -64,7 +64,7 @@ async function inicializarProdutos(raiz) {
             });
             const texto = normalizar([
                 trabalho.titulo, artesao.nome, trabalho.descricao,
-                trabalho.categoria, trabalho.tecnica
+                trabalho.categorias.join(" "), trabalho.tecnicas.join(" ")
             ].join(" "));
             const valor = trabalho.preco;
             const passaPreco = preco === "todos" || (
@@ -76,8 +76,8 @@ async function inicializarProdutos(raiz) {
             );
             return (!somenteFavoritos || favoritos.includes(trabalho.id))
                 && texto.includes(normalizar(busca.value.trim()))
-                && (!categorias.length || categorias.includes(trabalho.categoria))
-                && (!tecnicas.length || tecnicas.includes(trabalho.tecnica))
+                && (!categorias.length || trabalho.categorias.some(function (valor) { return categorias.includes(valor); }))
+                && (!tecnicas.length || trabalho.tecnicas.some(function (valor) { return tecnicas.includes(valor); }))
                 && (!materiais.length || materiais.some(function (material) {
                     return normalizar(trabalho.materiais).includes(
                         normalizar(material)

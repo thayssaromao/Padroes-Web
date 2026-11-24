@@ -1,5 +1,5 @@
 /*jslint browser */
-import {escaparHtml, icone, iniciarCarrossel} from "../componentes.js";
+import {criarChips, escaparHtml, icone, iniciarCarrossel} from "../componentes.js";
 import {
     carregarVitrine,
     criarCardPublico,
@@ -36,13 +36,14 @@ async function iniciarProduto(raiz) {
         ["detalhes", "contexto", "relacionados-secao"].forEach(function (parte) {
             raiz.querySelector("#produto-" + parte).hidden = false;
         });
-        ["titulo", "categoria", "materiais", "tecnica", "dimensoes", "descricao"].forEach(
+        ["titulo", "materiais", "tecnica", "dimensoes", "descricao"].forEach(
             function (campo) {
                 raiz.querySelector("#produto-" + campo).textContent = (
-                    produto[campo] || "Não informado"
+                    (campo === "tecnica" ? produto.tecnicas.join(", ") : produto[campo]) || "Não informado"
                 );
             }
         );
+        raiz.querySelector("#produto-categoria").innerHTML = criarChips(produto.categorias);
         raiz.querySelector("#produto-breadcrumb").textContent = produto.titulo;
         raiz.querySelector("#produto-preco").textContent = produto.preco === null
             ? "Preço sob consulta com o artesão" : Number(produto.preco).toLocaleString(
@@ -55,7 +56,7 @@ async function iniciarProduto(raiz) {
             : ["assets/img/avatar-padrao.jpg"];
         const tecnicaImagem = raiz.querySelector("#produto-tecnica-imagem");
         tecnicaImagem.src = imagens[0];
-        tecnicaImagem.alt = "Trabalho na técnica " + produto.tecnica;
+        tecnicaImagem.alt = "Trabalho nas técnicas " + produto.tecnicas.join(", ");
         const galeria = raiz.querySelector("#produto-galeria");
         galeria.querySelector(".carrossel__trilho").innerHTML = imagens.map(
             function (imagem, indice) {
@@ -124,15 +125,23 @@ async function iniciarProduto(raiz) {
             + "\">Conheça este artesão" + icone("lucide:arrow-right")
             + "</a></div>"
         );
-        raiz.querySelector("#produto-saber-nome").textContent = produto.tecnica;
+        raiz.querySelector("#produto-saber-nome").textContent = produto.tecnicas.join(", ");
         raiz.querySelector("#produto-saber").textContent =
             "Conheça outros trabalhos e as pessoas que praticam este ofício.";
-        raiz.querySelector("#produto-saber-link").href = "#/saberes?tecnica="
-            + encodeURIComponent(produto.tecnica);
+        const linkTecnica = raiz.querySelector("#produto-saber-link");
+        produto.tecnicas.forEach(function (nome, indice) {
+            const link = indice ? linkTecnica.cloneNode(true) : linkTecnica;
+            if (indice) {
+                link.removeAttribute("id");
+                linkTecnica.parentElement.append(link);
+            }
+            link.href = "#/saberes?tecnica=" + encodeURIComponent(nome);
+            link.innerHTML = "Conheça " + escaparHtml(nome) + icone("lucide:arrow-right");
+        });
         const relacionados = vitrine.trabalhos.filter(function (trabalho) {
             return trabalho.id !== produto.id && (
-                trabalho.categoria === produto.categoria
-                || trabalho.tecnica === produto.tecnica
+                trabalho.categorias.some(function (valor) { return produto.categorias.includes(valor); })
+                || trabalho.tecnicas.some(function (valor) { return produto.tecnicas.includes(valor); })
             );
         }).slice(0, 4);
         raiz.querySelector("#produto-relacionados").classList.toggle(

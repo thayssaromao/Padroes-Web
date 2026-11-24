@@ -72,10 +72,14 @@ const base = process.env.PORTAL_URL || 'http://127.0.0.1:8091/';
             await page.getByRole('link', {name: 'Liceu de Ofícios — início do portal'}).first().waitFor();
             await page.goto(base + '#/painel-artesao/meu-perfil');
             await page.getByLabel('Selecionar foto do perfil', {exact: true}).waitFor({state: 'attached'});
-            const remove = page.locator('.chip__remover').first();
-            await remove.waitFor();
-            const removeSize = await remove.boundingBox();
-            assert.ok(removeSize.width >= 43.99 && removeSize.height >= 43.99, JSON.stringify(removeSize));
+            const technique = page.getByRole('checkbox', {name: 'Cerâmica', exact: true});
+            await technique.waitFor();
+            const optionSize = await technique.locator('..').boundingBox();
+            assert.ok(optionSize.width >= 43.99 && optionSize.height >= 43.99, JSON.stringify(optionSize));
+            await technique.focus();
+            const checked = await technique.isChecked();
+            await page.keyboard.press('Space');
+            assert.notEqual(await technique.isChecked(), checked);
 
             for (const [route, file, expected] of [
                 ['/inicio', 'pages/inicio.html', 'Portal do Artesão'],

@@ -46,24 +46,24 @@ const base = process.env.PORTAL_URL || 'http://127.0.0.1:8091/';
                 await page.setViewportSize({width, height: 1000});
                 assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
             }
-            // Novo/Editar trabalho usa as mesmas opções visuais, com escolha única.
+            // Novo/Editar trabalho usa as mesmas opções visuais, com múltiplas escolhas.
             await page.goto(base + '#/painel-artesao/novo-trabalho?id=travessa-ceramica');
-            const utilitarios = page.getByRole('radio', {name: 'Utilitários', exact: true});
-            const decoracao = page.getByRole('radio', {name: 'Decoração', exact: true});
-            const ceramica = page.getByRole('radio', {name: 'Cerâmica', exact: true});
+            const utilitarios = page.getByRole('checkbox', {name: 'Utilitários', exact: true});
+            const decoracao = page.getByRole('checkbox', {name: 'Decoração', exact: true});
+            const ceramica = page.getByRole('checkbox', {name: 'Cerâmica', exact: true});
             await utilitarios.waitFor();
             assert.equal(await utilitarios.isChecked(), true);
             assert.equal(await ceramica.isChecked(), true);
             await decoracao.check();
-            assert.equal(await utilitarios.isChecked(), false);
-            assert.equal(await page.locator('#trabalho-categoria').inputValue(), 'Decoração');
+            assert.equal(await utilitarios.isChecked(), true);
+            assert.deepEqual(await page.locator('#trabalho-categoria').evaluate(e => Array.from(e.selectedOptions, o => o.value)), ['Decoração', 'Utilitários']);
             await page.reload();
             await utilitarios.waitFor();
             assert.equal(await utilitarios.isChecked(), true);
             await page.goto(base + '#/painel-artesao/novo-trabalho');
             await decoracao.waitFor();
             assert.equal(await page.locator('.multisselecao input:checked').count(), 0);
-            assert.equal(await decoracao.evaluate(e => e.validity.valueMissing), true);
+            assert.equal(await decoracao.evaluate(e => !e.validity.valid), true);
             await page.fill('#trabalho-nome', 'Validação das escolhas visíveis');
             await page.locator('[data-form-trabalho] [type=submit]').click();
             assert.equal(await decoracao.evaluate(e => e === document.activeElement), true);
@@ -77,7 +77,7 @@ const base = process.env.PORTAL_URL || 'http://127.0.0.1:8091/';
             }
             assert.deepEqual(errors, []);
             console.log(JSON.stringify({browser: name, initialSelection: true, livePreview: true,
-                discard: true, persistedMultipleValues: true, keyboard: true, workSingleSelection: true, workRequiredValidation: true, workEditValues: true, overflow: 0, errors}));
+                discard: true, persistedMultipleValues: true, keyboard: true, workMultipleSelection: true, workRequiredValidation: true, workEditValues: true, overflow: 0, errors}));
         } finally {
             await browser.close();
         }

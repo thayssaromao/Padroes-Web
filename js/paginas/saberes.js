@@ -49,7 +49,7 @@ async function iniciarSaberes(raiz) {
 
     function trabalhosTecnica(nome) {
         return trabalhos.filter(function (trabalho) {
-            return trabalho.tecnica === nome;
+            return trabalho.tecnicas.includes(nome);
         });
     }
 
@@ -76,7 +76,7 @@ async function iniciarSaberes(raiz) {
             return (!tecnica || tecnica === nome)
                 && normalizar(texto).includes(normalizar(busca.value.trim()))
                 && (!filtroCategoria || obras.some(function (trabalho) {
-                    return trabalho.categoria === filtroCategoria;
+                    return trabalho.categorias.includes(filtroCategoria);
                 }));
         }).sort(function (a, b) {
             if (ordem.value === "nome") {

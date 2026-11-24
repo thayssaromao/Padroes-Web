@@ -257,3 +257,51 @@ test("contas de demonstração da main permanecem disponíveis", async () => {
     const perfil = await dados.buscarArtesao("ana-martins");
     await assert.rejects(dados.salvarArtesao({...perfil, email: "admin@liceu.mock"}));
 });
+
+
+test("trabalhos preservam múltiplas classificações no envio, moderação e edição", async () => {
+    limpar();
+    await entrarArtesao();
+    const trabalho = await dados.salvarTrabalho({...novo("Trabalho misto"),
+        categorias: ["Decoração", "Utilitários", "Decoração"],
+        tecnicas: ["Cerâmica", "Bordado", "Bordado"]});
+    assert.deepEqual(trabalho.categorias, ["Decoração", "Utilitários"]);
+    assert.deepEqual(trabalho.tecnicas, ["Cerâmica", "Bordado"]);
+    const persistido = JSON.parse(localStorage.getItem("liceu:base:v1")).trabalhos[0];
+    assert.equal(Object.hasOwn(persistido, "categoria"), false);
+    assert.equal(Object.hasOwn(persistido, "tecnica"), false);
+    await entrarLiceu();
+    await dados.atualizarStatusTrabalho(trabalho.id, "publicado");
+    const publicado = (await dados.carregarTrabalhos()).find(t => t.id === trabalho.id);
+    assert.deepEqual(publicado.categorias, ["Decoração", "Utilitários"]);
+    assert.deepEqual(publicado.tecnicas, ["Cerâmica", "Bordado"]);
+    const editado = await dados.salvarTrabalho({...publicado,
+        categorias: ["Acessórios", "Outros"], tecnicas: ["Bordado", "Madeira"]});
+    assert.deepEqual(editado.categorias, ["Acessórios", "Outros"]);
+    assert.deepEqual(editado.tecnicas, ["Bordado", "Madeira"]);
+});
+
+test("classificação antiga é lida como lista sem apagar o armazenamento", async () => {
+    limpar();
+    const legado = {...novo("Legado"), id: "legado"};
+    localStorage.setItem("liceu:base:v1", JSON.stringify({artesaos: [], credenciais: {}, trabalhos: [legado]}));
+    const antes = localStorage.getItem("liceu:base:v1");
+    const trabalho = (await dados.carregarTrabalhos()).find(t => t.id === "legado");
+    assert.deepEqual(trabalho.categorias, ["Decoração"]);
+    assert.deepEqual(trabalho.tecnicas, ["Cerâmica"]);
+    assert.equal(localStorage.getItem("liceu:base:v1"), antes);
+});
+
+test("envio valida todas as opções e exige ambos os grupos; rascunho aceita listas vazias", async () => {
+    limpar();
+    await entrarArtesao();
+    const valido = {...novo(), categorias: ["Decoração", "Utilitários"], tecnicas: ["Cerâmica", "Bordado"]};
+    await assert.rejects(dados.salvarTrabalho({...valido, categorias: []}), /pelo menos uma/);
+    await assert.rejects(dados.salvarTrabalho({...valido, tecnicas: []}), /pelo menos uma/);
+    await assert.rejects(dados.salvarTrabalho({...valido, categorias: ["Decoração", "Inventada"]}));
+    await assert.rejects(dados.salvarTrabalho({...valido, tecnicas: ["Cerâmica", "Inventada"]}));
+    await assert.rejects(dados.salvarTrabalho({...valido, categorias: "Decoração"}), /devem ser listas/);
+    const rascunho = await dados.salvarTrabalho({...valido, status: "rascunho", categorias: [], tecnicas: []});
+    assert.deepEqual(rascunho.categorias, []);
+    assert.deepEqual(rascunho.tecnicas, []);
+});

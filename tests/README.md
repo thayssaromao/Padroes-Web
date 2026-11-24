@@ -38,7 +38,7 @@ ações compartilhadas, identidade/logout entre abas e navegação rápida.
 
 `perfil-multisselecao.cjs` cobre categorias e técnicas por checkbox, prévia,
 descarte, persistência de múltiplos valores, teclado e responsividade. Também
-confere as opções visíveis de Novo/Editar trabalho, escolha única, valores
+confere as opções visíveis de Novo/Editar trabalho, seleção múltipla, valores
 salvos e obrigatoriedade com foco no controle visível.
 
 As suítes usam contextos isolados e dados fictícios. Evidências geradas ficam

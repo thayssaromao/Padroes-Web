@@ -91,3 +91,10 @@ Alterações feitas pelos formulários continuam no `localStorage` existente;
 a refatoração preserva esses registros e as sessões. O navegador não reescreve
 arquivos do servidor: este JSON continua sendo uma base de demonstração, com
 regras executadas em JavaScript, e não um serviço de backend com persistência remota.
+
+Cada trabalho aceita várias `categorias` e `tecnicas`. O envio exige ao menos
+uma opção predefinida em cada grupo; rascunhos podem ficar incompletos.
+Trabalhos locais no formato antigo (`categoria`/`tecnica`) são convertidos
+em memória, sem apagar o armazenamento. As gravações usam as listas; aliases
+singulares são mantidos apenas na leitura para compatibilidade. Filtros e
+detalhes consideram todas as escolhas, inclusive na edição administrativa.

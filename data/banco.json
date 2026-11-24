@@ -235,8 +235,6 @@
       "id": "vaso-ceramica-rustica",
       "titulo": "Vaso em Cerâmica Rústica Mock",
       "artesaoId": "ana-martins",
-      "categoria": "Decoração",
-      "tecnica": "Cerâmica",
       "status": "publicado",
       "imagens": [
         "assets/img/trabalhos/vaso-ceramica-rustica.jpg"
@@ -249,14 +247,18 @@
       "atualizadoEm": "2026-11-14T10:24:00-03:00",
       "publicadoEm": "2026-11-14T10:24:00-03:00",
       "motivoRejeicao": null,
-      "destaque": true
+      "destaque": true,
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Cerâmica"
+      ]
     },
     {
       "id": "tapete-macrame",
       "titulo": "Tapete Macramê Mock",
       "artesaoId": "carlos-silva",
-      "categoria": "Utilitários",
-      "tecnica": "Crochê",
       "status": "em-analise",
       "imagens": [
         "assets/img/trabalhos/tapete-macrame.jpg"
@@ -269,14 +271,18 @@
       "atualizadoEm": "2026-11-13T16:37:00-03:00",
       "publicadoEm": null,
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Utilitários"
+      ],
+      "tecnicas": [
+        "Crochê"
+      ]
     },
     {
       "id": "cesto-trancado",
       "titulo": "Cesto Trançado Mock",
       "artesaoId": "mariana-costa",
-      "categoria": "Organização",
-      "tecnica": "Cestaria",
       "status": "reenviado",
       "imagens": [
         "assets/img/trabalhos/cesto-trancado.jpg"
@@ -289,14 +295,18 @@
       "atualizadoEm": "2026-11-12T09:15:00-03:00",
       "publicadoEm": null,
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Organização"
+      ],
+      "tecnicas": [
+        "Cestaria"
+      ]
     },
     {
       "id": "almofada-bordada",
       "titulo": "Almofada Bordada Mock",
       "artesaoId": "beatriz-lima",
-      "categoria": "Decoração",
-      "tecnica": "Bordado",
       "status": "em-analise",
       "imagens": [
         "assets/img/trabalhos/almofada-bordada.jpg"
@@ -309,14 +319,18 @@
       "atualizadoEm": "2026-11-11T14:02:00-03:00",
       "publicadoEm": null,
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Bordado"
+      ]
     },
     {
       "id": "porta-joias-ceramica",
       "titulo": "Porta-joias em Cerâmica Mock",
       "artesaoId": "ana-martins",
-      "categoria": "Acessórios",
-      "tecnica": "Cerâmica",
       "status": "em-analise",
       "imagens": [
         "assets/img/trabalhos/porta-joias-ceramica.jpg"
@@ -329,14 +343,18 @@
       "atualizadoEm": "2026-11-11T10:08:00-03:00",
       "publicadoEm": null,
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Acessórios"
+      ],
+      "tecnicas": [
+        "Cerâmica"
+      ]
     },
     {
       "id": "bolsa-fibra-natural",
       "titulo": "Bolsa de Fibra Natural Mock",
       "artesaoId": "joao-santos",
-      "categoria": "Acessórios",
-      "tecnica": "Fibras naturais",
       "status": "publicado",
       "imagens": [
         "assets/img/trabalhos/bolsa-fibra-natural.jpg"
@@ -349,14 +367,18 @@
       "atualizadoEm": "2026-01-14T10:00:00-03:00",
       "publicadoEm": "2026-01-14T10:00:00-03:00",
       "motivoRejeicao": null,
-      "destaque": true
+      "destaque": true,
+      "categorias": [
+        "Acessórios"
+      ],
+      "tecnicas": [
+        "Fibras naturais"
+      ]
     },
     {
       "id": "escultura-madeira",
       "titulo": "Escultura em Madeira Mock",
       "artesaoId": "ana-costa",
-      "categoria": "Decoração",
-      "tecnica": "Madeira",
       "status": "publicado",
       "imagens": [
         "assets/img/trabalhos/escultura-madeira.jpg"
@@ -369,14 +391,18 @@
       "atualizadoEm": "2026-01-12T10:00:00-03:00",
       "publicadoEm": "2026-01-12T10:00:00-03:00",
       "motivoRejeicao": null,
-      "destaque": true
+      "destaque": true,
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Madeira"
+      ]
     },
     {
       "id": "toalha-bordada",
       "titulo": "Toalha Bordada Mock",
       "artesaoId": "luciana-mendes",
-      "categoria": "Utilitários",
-      "tecnica": "Bordado",
       "status": "publicado",
       "imagens": [
         "assets/img/trabalhos/toalha-bordada.jpg"
@@ -389,14 +415,18 @@
       "atualizadoEm": "2026-01-10T10:00:00-03:00",
       "publicadoEm": "2026-01-10T10:00:00-03:00",
       "motivoRejeicao": null,
-      "destaque": true
+      "destaque": true,
+      "categorias": [
+        "Utilitários"
+      ],
+      "tecnicas": [
+        "Bordado"
+      ]
     },
     {
       "id": "peca-decorativa-croche",
       "titulo": "Peça Decorativa em Crochê Mock",
       "artesaoId": "carlos-lima",
-      "categoria": "Decoração",
-      "tecnica": "Crochê",
       "status": "publicado",
       "imagens": [
         "assets/img/trabalhos/peca-decorativa-croche.jpg"
@@ -409,14 +439,18 @@
       "atualizadoEm": "2026-01-08T10:00:00-03:00",
       "publicadoEm": "2026-01-08T10:00:00-03:00",
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Crochê"
+      ]
     },
     {
       "id": "travessa-ceramica",
       "titulo": "Travessa em Cerâmica Mock",
       "artesaoId": "ana-martins",
-      "categoria": "Utilitários",
-      "tecnica": "Cerâmica",
       "status": "publicado",
       "imagens": [
         "assets/img/trabalhos/travessa-ceramica.jpg"
@@ -429,14 +463,18 @@
       "atualizadoEm": "2026-10-05T15:00:00-03:00",
       "publicadoEm": "2026-10-05T15:00:00-03:00",
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Utilitários"
+      ],
+      "tecnicas": [
+        "Cerâmica"
+      ]
     },
     {
       "id": "luminaria-ceramica",
       "titulo": "Luminária em Cerâmica Mock",
       "artesaoId": "ana-martins",
-      "categoria": "Decoração",
-      "tecnica": "Cerâmica",
       "status": "publicado",
       "imagens": [
         "assets/img/trabalhos/luminaria-ceramica.jpg"
@@ -449,14 +487,18 @@
       "atualizadoEm": "2026-09-22T15:00:00-03:00",
       "publicadoEm": "2026-09-22T15:00:00-03:00",
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Cerâmica"
+      ]
     },
     {
       "id": "jogo-xicaras",
       "titulo": "Jogo de Xícaras Mock",
       "artesaoId": "ana-martins",
-      "categoria": "Utilitários",
-      "tecnica": "Cerâmica",
       "status": "rascunho",
       "imagens": [
         "assets/img/trabalhos/jogo-xicaras.jpg"
@@ -469,14 +511,18 @@
       "atualizadoEm": "2026-11-12T09:15:00-03:00",
       "publicadoEm": null,
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Utilitários"
+      ],
+      "tecnicas": [
+        "Cerâmica"
+      ]
     },
     {
       "id": "painel-ceramica",
       "titulo": "Painel em Azulejo Mock",
       "artesaoId": "ana-martins",
-      "categoria": "Decoração",
-      "tecnica": "Cerâmica",
       "status": "rejeitado",
       "imagens": [
         "assets/img/trabalhos/painel-ceramica.jpg"
@@ -489,14 +535,18 @@
       "atualizadoEm": "2026-11-11T14:02:00-03:00",
       "publicadoEm": null,
       "motivoRejeicao": "As fotos estão escuras. Envie novas imagens com boa iluminação e fundo neutro.",
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Cerâmica"
+      ]
     },
     {
       "id": "colar-ceramica",
       "titulo": "Colar de Contas de Cerâmica Mock",
       "artesaoId": "ana-martins",
-      "categoria": "Acessórios",
-      "tecnica": "Cerâmica",
       "status": "em-analise",
       "imagens": [
         "assets/img/trabalhos/colar-ceramica.jpg"
@@ -509,14 +559,18 @@
       "atualizadoEm": "2026-11-13T16:37:00-03:00",
       "publicadoEm": null,
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Acessórios"
+      ],
+      "tecnicas": [
+        "Cerâmica"
+      ]
     },
     {
       "id": "quadro-retalhos",
       "titulo": "Quadro de Retalhos Mock",
       "artesaoId": "rosa-almeida",
-      "categoria": "Arte em tecido",
-      "tecnica": "Patchwork",
       "status": "publicado",
       "imagens": [
         "assets/img/trabalhos/quadro-retalhos.jpg"
@@ -529,14 +583,18 @@
       "atualizadoEm": "2026-08-22T10:00:00-03:00",
       "publicadoEm": "2026-08-22T10:00:00-03:00",
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Arte em tecido"
+      ],
+      "tecnicas": [
+        "Patchwork"
+      ]
     },
     {
       "id": "chaveiro-macrame",
       "titulo": "Chaveiro em Macramê Mock",
       "artesaoId": "pedro-rocha",
-      "categoria": "Acessórios",
-      "tecnica": "Macramê",
       "status": "publicado",
       "imagens": [
         "assets/img/trabalhos/chaveiro-macrame.jpg"
@@ -549,7 +607,13 @@
       "atualizadoEm": "2026-10-03T10:00:00-03:00",
       "publicadoEm": "2026-10-03T10:00:00-03:00",
       "motivoRejeicao": null,
-      "destaque": false
+      "destaque": false,
+      "categorias": [
+        "Acessórios"
+      ],
+      "tecnicas": [
+        "Macramê"
+      ]
     }
   ],
   "categorias": {

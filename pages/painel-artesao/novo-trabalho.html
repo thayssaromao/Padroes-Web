@@ -21,16 +21,14 @@
                 <input type="text" id="trabalho-nome" class="campo__entrada" name="titulo" placeholder="Digite o nome do trabalho" required>
             </div>
             <div class="campo">
-                <label for="trabalho-categoria" class="campo__rotulo">Categoria *</label>
-                <select id="trabalho-categoria" class="campo__entrada" name="categoria" required data-escolha-unica>
-                    <option value="">Selecione uma categoria</option>
+                <label for="trabalho-categoria" class="campo__rotulo">Categorias (selecione uma ou mais) *</label>
+                <select id="trabalho-categoria" class="campo__entrada" name="categoria" required multiple>
                     <!-- Categorias preenchidas via JS (data/banco.json (categorias)) -->
                 </select>
             </div>
             <div class="campo">
-                <label for="trabalho-tecnica" class="campo__rotulo">Técnica *</label>
-                <select id="trabalho-tecnica" class="campo__entrada" name="tecnica" required data-escolha-unica>
-                    <option value="">Selecione uma técnica</option>
+                <label for="trabalho-tecnica" class="campo__rotulo">Técnicas (selecione uma ou mais) *</label>
+                <select id="trabalho-tecnica" class="campo__entrada" name="tecnica" required multiple>
                     <!-- Técnicas preenchidas via JS (data/banco.json (categorias)) -->
                 </select>
             </div>

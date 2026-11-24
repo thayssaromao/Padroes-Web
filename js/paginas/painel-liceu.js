@@ -98,12 +98,12 @@ function areaTexto(nome, rotulo, valor = "") {
     );
 }
 
-function selecionarCampo(nome, rotulo, opcoes, valores, multiplo = false) {
+function selecionarCampo(nome, rotulo, opcoes, valores, multiplo = false, obrigatorio = !multiplo) {
     return (
         "<div class=\"campo\"><label class=\"campo__rotulo\""
         + ` for="liceu-${nome}">${escaparHtml(rotulo)}</label>`
         + `<select class="campo__entrada" id="liceu-${nome}"`
-        + ` name="${nome}"${multiplo ? " multiple" : " required"}>`
+        + ` name="${nome}"${multiplo ? " multiple" : ""}${obrigatorio ? " required" : ""}>`
         + opcoes.map(function (valor) {
             return (
                 `<option value="${escaparHtml(valor)}"`
@@ -429,10 +429,10 @@ async function editarPublicacao(id) {
     const modal = dialogo("Editar publicação", "<form>"
         + campo("titulo", "Título *", trabalho.titulo, "text", true)
         + areaTexto("descricao", "Descrição *", trabalho.descricao)
-        + selecionarCampo("categoria", "Categoria *", dados[1].categorias,
-            [trabalho.categoria])
-        + selecionarCampo("tecnica", "Técnica *", dados[1].tecnicas,
-            [trabalho.tecnica])
+        + selecionarCampo("categoria", "Categorias (selecione uma ou mais) *", dados[1].categorias,
+            trabalho.categorias, true, true)
+        + selecionarCampo("tecnica", "Técnicas (selecione uma ou mais) *", dados[1].tecnicas,
+            trabalho.tecnicas, true, true)
         + campo("materiais", "Materiais", trabalho.materiais)
         + campo("dimensoes", "Dimensões", trabalho.dimensoes)
         + campo("preco", "Preço (R$)", trabalho.preco ?? "", "number")
@@ -445,12 +445,12 @@ async function editarPublicacao(id) {
             throw new Error("Preencha título e descrição.");
         }
         await salvarTrabalho(Object.assign({}, trabalho, {
-            categoria: campos.categoria.value,
+            categorias: Array.from(campos.categoria.selectedOptions, function (opcao) { return opcao.value; }),
             descricao: campos.descricao.value.trim(),
             dimensoes: campos.dimensoes.value.trim(),
             materiais: campos.materiais.value.trim(),
             preco: campos.preco.value ? Number(campos.preco.value) : null,
-            tecnica: campos.tecnica.value,
+            tecnicas: Array.from(campos.tecnica.selectedOptions, function (opcao) { return opcao.value; }),
             titulo: campos.titulo.value.trim()
         }));
     }, "Publicação atualizada.");
@@ -844,7 +844,7 @@ function criarCardPendente(trabalho) {
         + "<p class=\"card-trabalho__meta\">" + icone("lucide:user")
         + "<span>" + escaparHtml(trabalho.artesaoNome) + "</span></p>"
         + "<p class=\"card-trabalho__meta\">" + icone("lucide:tag")
-        + "<span>" + escaparHtml(trabalho.tecnica + " • " + trabalho.categoria)
+        + "<span>" + escaparHtml(trabalho.tecnicas.concat(trabalho.categorias).join(" • "))
         + "</span></p></div>"
         + "<div class=\"card-trabalho__rodape\">" + criarStatus(trabalho.status)
         + "<button type=\"button\" class=\"btn btn--secundario\""
@@ -1162,7 +1162,7 @@ function criarLinhaPendente(trabalho) {
         + "<td data-rotulo=\"Artesão\">"
         + escaparHtml(trabalho.artesaoNome) + "</td>"
         + "<td data-rotulo=\"Categoria / Técnica\">"
-        + criarChips([trabalho.tecnica, trabalho.categoria]) + "</td>"
+        + criarChips(trabalho.tecnicas.concat(trabalho.categorias)) + "</td>"
         + "<td data-rotulo=\"Enviado em\"><span class=\"liceu-data\">"
         + icone("lucide:calendar") + formatarData(trabalho.enviadoEm)
         + "</span></td>"
@@ -1229,8 +1229,8 @@ async function montarPendentes(raiz) {
         filtros: {
             categoria: function (trabalho, valor) {
                 return (
-                    trabalho.categoria === valor
-                    || trabalho.tecnica === valor
+                    trabalho.categorias.includes(valor)
+                    || trabalho.tecnicas.includes(valor)
                 );
             }
         },
@@ -1289,7 +1289,7 @@ function criarLinhaPublicacao(trabalho) {
         + "<td data-rotulo=\"Artesão\">"
         + escaparHtml(trabalho.artesaoNome) + "</td>"
         + "<td data-rotulo=\"Categoria\">"
-        + escaparHtml(trabalho.categoria) + "</td>"
+        + escaparHtml(trabalho.categorias.join(", ")) + "</td>"
         + "<td data-rotulo=\"Data de publicação\">"
         + formatarData(trabalho.publicadoEm, false) + "</td>"
         + "<td data-rotulo=\"Status\">" + criarStatus(trabalho.status) + "</td>"
@@ -1355,7 +1355,7 @@ async function montarPublicacoes(raiz) {
                 return trabalho.artesaoId === valor;
             },
             categoria: function (trabalho, valor) {
-                return trabalho.categoria === valor;
+                return trabalho.categorias.includes(valor);
             },
             status: function (trabalho, valor) {
                 return trabalho.status === valor;

@@ -147,8 +147,8 @@ function filtrarTrabalhos(trabalhos, filtros) {
     return trabalhos.filter(function (trabalho) {
         const texto = semAcento([
             trabalho.titulo,
-            trabalho.categoria,
-            trabalho.tecnica
+            trabalho.categorias.join(" "),
+            trabalho.tecnicas.join(" ")
         ].join(" "));
         const statusOk = (
             !filtros.status
@@ -160,8 +160,8 @@ function filtrarTrabalhos(trabalhos, filtros) {
         );
         const categoriaOk = (
             !filtros.categoria
-            || trabalho.categoria === filtros.categoria
-            || trabalho.tecnica === filtros.categoria
+            || trabalho.categorias.includes(filtros.categoria)
+            || trabalho.tecnicas.includes(filtros.categoria)
         );
         return statusOk && categoriaOk && (!termo || texto.includes(termo));
     });
@@ -636,7 +636,7 @@ function verMotivo(trabalho) {
 }
 
 async function enviarParaAnalise(trabalho, aoMudar) {
-    if (!trabalho.titulo.trim() || !trabalho.categoria || !trabalho.tecnica) {
+    if (!trabalho.titulo.trim() || !trabalho.categorias.length || !trabalho.tecnicas.length) {
         mostrarAviso("Complete nome, categoria e técnica antes de enviar.");
         editarTrabalho(trabalho);
         return;
@@ -1034,6 +1034,13 @@ async function montarNovoTrabalho(raiz) {
         raiz.querySelector(".texto-apoio").textContent =
             "Este trabalho está em análise. Aguarde o retorno do Liceu.";
     }
+    ["categoria", "tecnica"].forEach(function (nome) {
+        const campo = formulario.querySelector("[name=" + nome + "]");
+        const valores = existente ? existente[nome === "categoria" ? "categorias" : "tecnicas"] : [];
+        Array.from(campo.options).forEach(function (opcao) {
+            opcao.selected = valores.includes(opcao.value);
+        });
+    });
     prepararMultisselecao(raiz);
     raiz.querySelectorAll("[data-preco-tipo]").forEach(function (opcao) {
         opcao.addEventListener("change", function () {
@@ -1135,6 +1142,8 @@ async function montarNovoTrabalho(raiz) {
             );
             await salvarTrabalho(Object.assign({}, existente || {}, dados, {
                 artesaoId: sessao.artesaoId,
+                categorias: new FormData(formulario).getAll("categoria"),
+                tecnicas: new FormData(formulario).getAll("tecnica"),
                 destaque: false,
                 enviadoEm: status === "rascunho"
                     ? null : new Date().toISOString(),
@@ -1224,7 +1233,7 @@ function criarLinhaStatus(trabalho) {
         + " alt=\"\" width=\"64\" height=\"44\" loading=\"lazy\">"
         + "<div><strong>" + escaparHtml(trabalho.titulo) + "</strong>"
         + "<span class=\"texto-suave\">"
-        + escaparHtml(trabalho.categoria + " • " + trabalho.tecnica)
+        + escaparHtml(trabalho.categorias.concat(trabalho.tecnicas).join(" • "))
         + "</span></div></div></td>"
         + "<td data-rotulo=\"Status\">" + criarStatus(trabalho.status)
         + "</td>"

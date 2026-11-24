@@ -149,6 +149,17 @@ function gravarBase(base) {
     }
 }
 
+/** Lê o formato anterior e mantém aliases de leitura para integrações antigas. */
+function normalizarTrabalho(trabalho) {
+    const categorias = Array.from(new Set(Array.isArray(trabalho.categorias)
+        ? trabalho.categorias : (trabalho.categoria ? [trabalho.categoria] : [])));
+    const tecnicas = Array.from(new Set(Array.isArray(trabalho.tecnicas)
+        ? trabalho.tecnicas : (trabalho.tecnica ? [trabalho.tecnica] : [])));
+    return Object.assign({}, trabalho, {
+        categorias, tecnicas, categoria: categorias[0] || "", tecnica: tecnicas[0] || ""
+    });
+}
+
 async function carregarColecao(nome) {
     const iniciais = await lerColecaoInicial(nome);
     await migrarCredenciais();
@@ -161,6 +172,8 @@ async function carregarColecao(nome) {
     });
     return structuredClone(Array.from(mapa.values()).filter(function (item) {
         return !item.excluido;
+    }).map(function (item) {
+        return nome === "trabalhos" ? normalizarTrabalho(item) : item;
     }));
 }
 
@@ -468,10 +481,14 @@ async function salvarTrabalho(trabalho) {
         return item.id === trabalho.id;
     });
     const agora = new Date().toISOString();
-    const registro = Object.assign({}, anterior, trabalho, {
+    if ((trabalho.categorias !== undefined && !Array.isArray(trabalho.categorias))
+            || (trabalho.tecnicas !== undefined && !Array.isArray(trabalho.tecnicas))) {
+        throw new Error("Categorias e técnicas devem ser listas.");
+    }
+    const registro = normalizarTrabalho(Object.assign({}, anterior, trabalho, {
         atualizadoEm: agora,
         id: trabalho.id || crypto.randomUUID()
-    });
+    }));
     if (sessao.perfil === "painel-artesao") {
         if (registro.artesaoId !== sessao.artesaoId
                 || (anterior && anterior.artesaoId !== sessao.artesaoId)) {
@@ -498,14 +515,21 @@ async function salvarTrabalho(trabalho) {
     }
     const opcoes = await carregarCategorias();
     if (registro.status !== "rascunho" && (
-        !opcoes.categorias.includes(registro.categoria)
-        || !opcoes.tecnicas.includes(registro.tecnica)
+        !registro.categorias.length || !registro.tecnicas.length
+        || !registro.categorias.every(function (valor) {
+            return opcoes.categorias.includes(valor);
+        }) || !registro.tecnicas.every(function (valor) {
+            return opcoes.tecnicas.includes(valor);
+        })
     )) {
-        throw new Error("Selecione categoria e técnica predefinidas.");
+        throw new Error("Selecione pelo menos uma categoria e uma técnica predefinidas.");
     }
     registro.titulo = registro.titulo.trim();
     const base = lerBase();
-    base.trabalhos = substituir(base.trabalhos, registro);
+    const persistido = Object.assign({}, registro);
+    delete persistido.categoria;
+    delete persistido.tecnica;
+    base.trabalhos = substituir(base.trabalhos, persistido);
     gravarBase(base);
     return structuredClone(registro);
 }
