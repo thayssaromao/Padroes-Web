@@ -1,6 +1,6 @@
 # Testes de regressão
 
-O projeto mantém cinco suítes voltadas às funcionalidades e à acessibilidade do portal.
+O projeto mantém seis suítes voltadas às funcionalidades e à acessibilidade do portal.
 
 ## Dados e estrutura
 
@@ -28,12 +28,16 @@ export PORTAL_URL="http://127.0.0.1:8091/"
 # export PLAYWRIGHT_BROWSERS_PATH="/caminho/para/navegadores"
 node tests/fluxos.cjs
 node tests/regressoes.cjs
+node tests/perfil-multisselecao.cjs
 ```
 
 `fluxos.cjs` cobre envio, aprovação, rejeição e reenvio, cadastro administrativo,
 autocadastro, conclusão do perfil, login, sessão e guardas de acesso.
 `regressoes.cjs` cobre catálogo, favoritos, produto, tabela administrativa,
 ações compartilhadas, identidade/logout entre abas e navegação rápida.
+
+`perfil-multisselecao.cjs` cobre categorias e técnicas por checkbox, prévia,
+descarte, persistência de múltiplos valores, teclado e responsividade.
 
 As suítes usam contextos isolados e dados fictícios. Evidências geradas ficam
 por padrão no diretório temporário do sistema; `RELATORIO_DIR` permite escolher

@@ -7,6 +7,7 @@
 import {
     criarCardEstatistica,
     criarCardProduto,
+    criarChips,
     criarDialogo,
     criarPaginacao,
     criarStatus,
@@ -14,7 +15,8 @@ import {
     icone,
     mostrarAviso,
     prepararAcoes,
-    prepararChips
+    prepararChips,
+    prepararMultisselecao
 } from "../componentes.js";
 import {
     buscarArtesao,
@@ -265,55 +267,20 @@ function preencherOpcoes(seletor, valores) {
     }).join(""));
 }
 
-/**
- * Seletor de técnicas: o select adiciona um chip removível por técnica.
- * @param {HTMLSelectElement} seletor
- * @param {HTMLElement} lista <ul class="chips"> que recebe os chips
- * @param {Function} aoMudar chamada com a lista atual de técnicas
- * @returns {{definir: Function, obter: Function}}
- */
-function ligarSeletorTecnicas(seletor, lista, aoMudar) {
-    let tecnicas = [];
-
-    function desenhar() {
-        lista.innerHTML = tecnicas.map(function (tecnica) {
-            return (
-                "<li class=\"chip chip--removivel\">"
-                + escaparHtml(tecnica)
-                + "<button type=\"button\" class=\"chip__remover\""
-                + ` data-remover="${escaparHtml(tecnica)}"`
-                + ` aria-label="Remover ${escaparHtml(tecnica)}">`
-                + icone("lucide:x") + "</button></li>"
-            );
-        }).join("");
-        prepararAcoes(lista);
-        aoMudar(tecnicas);
-    }
-
-    seletor.addEventListener("change", function () {
-        if (seletor.value && !tecnicas.includes(seletor.value)) {
-            tecnicas = tecnicas.concat(seletor.value);
-            desenhar();
-        }
-        seletor.value = "";
-    });
-    lista.addEventListener("click", function (evento) {
-        const botao = evento.target.closest("[data-remover]");
-        if (botao) {
-            tecnicas = tecnicas.filter(function (tecnica) {
-                return tecnica !== botao.dataset.remover;
-            });
-            desenhar();
-        }
-    });
-
+/** Valores de um select múltiplo apresentado pelo componente compartilhado. */
+function ligarSelecaoMultipla(seletor, aoMudar) {
+    seletor.addEventListener("change", aoMudar);
     return {
-        definir: function (novas) {
-            tecnicas = novas.slice();
-            desenhar();
+        definir: function (valores) {
+            Array.from(seletor.options).forEach(function (opcao) {
+                opcao.selected = valores.includes(opcao.value);
+            });
+            seletor.dispatchEvent(new Event("change", {bubbles: true}));
         },
         obter: function () {
-            return tecnicas;
+            return Array.from(seletor.selectedOptions, function (opcao) {
+                return opcao.value;
+            });
         }
     };
 }
@@ -382,9 +349,12 @@ function atualizarPrevia(raiz, tecnicas) {
         raiz.querySelector(gancho).textContent = conteudo;
     };
     texto("[data-previa-nome]", valor("#perfil-nome") || "Nome do Artesão");
-    texto(
-        "[data-previa-categoria]",
-        valor("#perfil-categoria") || "Categoria"
+    const categorias = Array.from(
+        raiz.querySelector("#perfil-categoria").selectedOptions,
+        function (opcao) { return opcao.value; }
+    );
+    raiz.querySelector("[data-previa-categorias]").innerHTML = criarChips(
+        categorias.length ? categorias : ["Categoria"]
     );
     texto("[data-previa-tecnicas]", "Técnicas: " + tecnicas.join(", "));
     texto(
@@ -411,6 +381,7 @@ async function montarPerfil(raiz) {
     const previaFoto = raiz.querySelector("[data-previa-foto]");
     const seletorCategoria = raiz.querySelector("#perfil-categoria");
     let seletorTecnicas;
+    let seletorCategorias;
     let salvo;
 
     function aoMudar() {
@@ -422,11 +393,10 @@ async function montarPerfil(raiz) {
         raiz.querySelector("#perfil-tecnica"),
         dadosCategorias.tecnicas
     );
-    seletorTecnicas = ligarSeletorTecnicas(
-        raiz.querySelector("#perfil-tecnica"),
-        raiz.querySelector("[data-tecnicas]"),
-        aoMudar
+    seletorTecnicas = ligarSelecaoMultipla(
+        raiz.querySelector("#perfil-tecnica"), aoMudar
     );
+    seletorCategorias = ligarSelecaoMultipla(seletorCategoria, aoMudar);
     const foto = ligarTrocaDeFoto(raiz, function (url) {
         previaFoto.src = url;
     });
@@ -444,7 +414,7 @@ async function montarPerfil(raiz) {
             raiz.querySelector(seletor).value = valor ?? "";
             raiz.querySelector(seletor).setCustomValidity("");
         });
-        seletorCategoria.value = artesao.categorias[0] ?? "";
+        seletorCategorias.definir(artesao.categorias);
         foto.restaurar(artesao.foto);
         seletorTecnicas.definir(artesao.tecnicas);
     }
@@ -452,6 +422,7 @@ async function montarPerfil(raiz) {
     function estadoPerfil() {
         return JSON.stringify({
             campos: Object.fromEntries(new FormData(formulario)),
+            categorias: seletorCategorias.obter(),
             foto: previaFoto.src,
             tecnicas: seletorTecnicas.obter()
         });
@@ -493,6 +464,7 @@ async function montarPerfil(raiz) {
             ? "" : "Informe um WhatsApp com DDD.");
     });
     preencher();
+    prepararMultisselecao(raiz);
     salvo = estadoPerfil();
     ["#perfil-nome", "#perfil-categoria", "#perfil-bio"].forEach(
         function (seletor) {
@@ -534,7 +506,7 @@ async function montarPerfil(raiz) {
                 return;
             }
             artesao = await salvarArtesao(Object.assign({}, artesao, dados, {
-                categorias: dados.categoria ? [dados.categoria] : [],
+                categorias: seletorCategorias.obter(),
                 foto: imagem,
                 tecnicas: seletorTecnicas.obter()
             }));
