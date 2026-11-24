@@ -1250,3 +1250,31 @@ O dashboard administrativo usa uma variante local da identidade Equilibrada:
 
 Os modificadores são aplicados somente no Início do Liceu. Não alterar sidebar,
 roteamento, telas de listagem, painel do artesão ou cards da vitrine pública.
+
+
+## Áreas internas neutras e ícones sem fundo — 24/11/2026
+
+- A identidade pública Equilibrada permanece como referência. Nas áreas
+  internas, sidebar e footer usam branco, texto escuro, hover neutro e seleção
+  cinza suave com acento lateral discreto. O header mantém a marca institucional.
+- Tabelas internas têm cabeçalho cinza claro e texto escuro, sem alterar
+  proporções, colunas, paginação ou apresentação móvel.
+- Ações secundárias antes amarelas usam superfície neutra. Primárias mantêm
+  turquesa; badges conservam cores, texto e ícones semânticos.
+- Ícones de apresentação não recebem caixas preenchidas: formulários, métricas
+  e objetivos institucionais usam apenas o desenho. Botões de ação mantêm
+  alvos, foco e hover; não confundir apresentação com área interativa.
+- Métricas internas compartilham cards brancos com contorno suave e ícones
+  semânticos sem fundo. Essa variante fica em `css/layout.css`, sem duplicar
+  os estilos entre Artesão e Liceu.
+- No início do artesão, o cabeçalho recebe card neutro e mídia compacta.
+  `artesao-resumo` não usa plano amarelo nem padding de bloco colorido; cards
+  de status se distinguem da página. Dicas usam apoio neutro próprio.
+- Os apoios internos consomem `--cor-painel-apoio`, `--cor-painel-hover`,
+  `--cor-painel-selecionado` e `--cor-painel-cabecalho-tabela`.
+- Logo fornecido como `assets/logo-liceu.png` substitui o arquivo anterior e
+  passa a existir somente como `assets/logo.png`. Os dois arquivos fornecidos
+  nesta rodada possuem o mesmo SHA-256; a renomeação não muda seus pixels.
+
+Esta seção atualiza os fundos de ícones e métricas descritos nas rodadas
+anteriores; não remover acessibilidade, ações nem regras do MVP.

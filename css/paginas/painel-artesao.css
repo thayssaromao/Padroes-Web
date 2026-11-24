@@ -10,18 +10,46 @@
     flex-direction: column;
     gap: var(--espaco-5);
     margin-bottom: var(--espaco-6);
-    padding: var(--espaco-5);
-    border-radius: var(--raio-medio);
-    background-color: var(--cor-editorial);
+}
+
+.artesao-inicio-cabecalho {
+    padding: var(--espaco-4);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-card);
+    background-color: var(--cor-superficie-card);
+}
+
+.artesao-inicio-dicas {
+    box-shadow: var(--sombra-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-card);
+    background-color: var(--cor-painel-apoio);
+    color: var(--cor-texto);
+}
+
+.artesao-inicio-dicas > iconify-icon {
+    color: var(--cor-texto-suave);
 }
 
 .artesao-ultimos {
     margin-bottom: var(--espaco-6);
 }
 
+@media (min-width: 600px) {
+    .artesao-inicio-cabecalho {
+        padding: var(--espaco-5);
+    }
+}
+
 @media (min-width: 1024px) {
-    .artesao-resumo {
-        padding: var(--espaco-6);
+    .artesao-inicio-cabecalho.painel-cabecalho--com-imagem {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .artesao-inicio-cabecalho .painel-cabecalho__imagem {
+        width: calc(3 * var(--espaco-8));
+        height: calc(2 * var(--espaco-8));
+        object-fit: cover;
     }
 }
 

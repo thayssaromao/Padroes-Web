@@ -33,6 +33,11 @@
     --cor-destaque: #F5CD58;
     --cor-acento: var(--marca-rosa);
     --cor-placeholder: #C8C8C8;
+    /* Apoio neutro exclusivo das áreas de gestão */
+    --cor-painel-apoio: #F3F4F2;
+    --cor-painel-hover: #F1F3F2;
+    --cor-painel-selecionado: #E8ECE9;
+    --cor-painel-cabecalho-tabela: #EEF1EF;
     --cor-sobreposicao: rgb(24 62 69 / 65%);
 
     /* Navegação */

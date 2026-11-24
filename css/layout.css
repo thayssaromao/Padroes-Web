@@ -345,13 +345,14 @@
     width: min(85vw, var(--largura-lateral));
     padding: var(--espaco-4) var(--espaco-3);
     overflow-y: auto;
-    background-color: var(--cor-lateral);
+    background-color: var(--cor-superficie-card);
+    border-right: 1px solid var(--cor-borda);
     box-shadow: var(--sombra-elevada);
     visibility: hidden;
     transform: translateX(-100%);
     transition: transform 250ms ease, visibility 250ms ease;
-    color: var(--cor-nav-texto);
-    --cor-foco: var(--marca-amarelo);
+    color: var(--cor-texto);
+    --cor-foco: var(--cor-favorito);
 }
 
 .painel__lateral--aberto {
@@ -365,7 +366,7 @@
     font-size: 1.125rem;
     font-weight: var(--peso-extra);
     line-height: 1.15;
-    color: var(--marca-amarelo);
+    color: var(--cor-texto);
 }
 
 .painel__menu-lista {
@@ -396,11 +397,12 @@
 }
 
 .painel__link:hover {
-    background-color: var(--cor-nav-hover);
+    background-color: var(--cor-painel-hover);
 }
 
 .painel__link[aria-current="page"] {
-    background-color: var(--cor-lateral-ativo);
+    background-color: var(--cor-painel-selecionado);
+    box-shadow: inset 3px 0 var(--cor-primaria);
     font-weight: var(--peso-negrito);
     color: var(--cor-texto);
 }
@@ -408,7 +410,7 @@
 .painel__separador {
     margin: var(--espaco-4) var(--espaco-3);
     border: none;
-    border-top: 1px solid var(--cor-divisor-nav);
+    border-top: 1px solid var(--cor-borda);
 }
 
 .painel__sair {
@@ -431,10 +433,10 @@
     flex-direction: column;
     gap: var(--espaco-3);
     padding: var(--espaco-4);
-    background-color: var(--cor-rodape);
+    background-color: var(--cor-superficie-card);
     font-size: var(--fonte-footer);
-    color: var(--cor-nav-texto);
-    --cor-foco: var(--marca-amarelo);
+    color: var(--cor-texto);
+    --cor-foco: var(--cor-favorito);
     background-image: var(--grafismo-marca);
     background-size: 100% 4px;
     background-position: top;
@@ -454,7 +456,7 @@
 
 .painel__rodape-links a:hover,
 .painel__rodape-links a:focus-visible {
-    color: var(--cor-link-barra-hover);
+    color: var(--cor-link);
     text-decoration: underline;
 }
 
@@ -818,4 +820,45 @@
 
 .pular-conteudo:focus {
     transform: none;
+}
+
+/* Superfícies internas neutras: status e ações conservam seus próprios papéis. */
+.layout-painel .tabela thead,
+.layout-painel .tabela th {
+    background-color: var(--cor-painel-cabecalho-tabela);
+    color: var(--cor-texto);
+}
+
+.layout-painel .btn--suave {
+    background-color: var(--cor-painel-hover);
+    border-color: var(--cor-borda);
+    color: var(--cor-texto);
+}
+
+.layout-painel .btn--suave:hover {
+    background-color: var(--cor-painel-selecionado);
+}
+
+.layout-painel .card.card-estatistica {
+    --card-superficie: var(--cor-superficie-card);
+    --card-contorno: var(--borda-card);
+    --metrica-acento: var(--cor-texto-suave);
+}
+
+.layout-painel .card-estatistica:has(> iconify-icon[icon="lucide:circle-check"]) {
+    --metrica-acento: var(--cor-sucesso);
+}
+
+.layout-painel .card-estatistica:has(> iconify-icon[icon="lucide:clock"]) {
+    --metrica-acento: var(--cor-alerta);
+}
+
+.layout-painel .card-estatistica:has(> iconify-icon[icon="lucide:circle-x"]) {
+    --metrica-acento: var(--cor-erro);
+}
+
+.layout-painel .card-estatistica > iconify-icon {
+    width: var(--tamanho-icone-secao);
+    height: var(--tamanho-icone-secao);
+    color: var(--metrica-acento);
 }

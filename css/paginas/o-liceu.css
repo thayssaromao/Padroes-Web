@@ -80,10 +80,8 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: calc(var(--espaco-7) + var(--espaco-2));
-    height: calc(var(--espaco-7) + var(--espaco-2));
-    border-radius: var(--raio-medio);
-    background-color: var(--cor-superficie-card);
+    width: var(--espaco-6);
+    height: var(--espaco-6);
     color: var(--objetivo-acento);
     font-size: calc(var(--espaco-5) + var(--espaco-1));
 }
