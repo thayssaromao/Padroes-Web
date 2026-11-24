@@ -49,7 +49,7 @@
     --cor-nav-hover: #24545B;
     --cor-link-barra-hover: var(--marca-amarelo);
     --cor-indicador-hover: var(--marca-amarelo);
-    --cor-lateral: var(--cor-rodape);
+    --cor-lateral: var(--cor-superficie-card);
     --cor-lateral-ativo: var(--cor-destaque);
     --cor-divisor-nav: #729A98;
     --grafismo-marca: linear-gradient(to right, var(--marca-turquesa) 0 50%, var(--marca-amarelo) 50% 75%, var(--marca-rosa) 75%);
