@@ -20,7 +20,7 @@
 .marca {
     display: inline-flex;
     align-items: center;
-    gap: clamp(var(--espaco-4), 2vw, var(--espaco-5));
+    gap: var(--espaco-3);
     text-decoration: none;
     font-weight: var(--peso-medio);
     color: inherit;
@@ -30,8 +30,8 @@
 .marca__imagem {
     position: relative;
     display: inline-block;
-    width: 72px;
-    height: 50px;
+    width: 80px;
+    height: 56px;
     flex-shrink: 0;
 }
 
