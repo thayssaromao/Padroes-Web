@@ -33,7 +33,7 @@ relatórios anteriores em `AUDITORIA_UI_UX*`, `MODERNIZACAO_EQUILIBRADA*` e
 
 As galerias de `comparacoes/` e `propostas-visuais/` foram incluídas no
 repositório e identificadas como material histórico. Foram conferidos os
-JSONs, 98 referências locais, 60 combinações de capturas e o carregamento
+JSONs, 99 referências locais, 60 combinações de capturas e o carregamento
 das cinco galerias no navegador. Os 17 testes de dados e os contratos de
 20 rotas/26 HTML foram repetidos na preparação desta publicação.
 
