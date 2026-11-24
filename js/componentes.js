@@ -569,13 +569,15 @@ function mostrarAviso(mensagem) {
     }, 4000);
 }
 
-/** Substitui a apresentação do select múltiplo sem alterar seus valores. */
+/** Opções visíveis: checkboxes para múltiplas e radios para escolha única. */
 function prepararMultisselecao(raiz) {
-    raiz.querySelectorAll("select[multiple]").forEach(function (select) {
+    raiz.querySelectorAll("select[multiple], select[data-escolha-unica]").forEach(function (select) {
         if (select.dataset.multisselecao) {
             return;
         }
         select.dataset.multisselecao = "true";
+        const multipla = select.multiple;
+        const obrigatorio = select.required;
         const rotulo = select.labels[0];
         const grupo = document.createElement("fieldset");
         grupo.className = "multisselecao";
@@ -587,15 +589,27 @@ function prepararMultisselecao(raiz) {
         const resumo = document.createElement("p");
         resumo.className = "multisselecao__resumo";
         resumo.setAttribute("aria-live", "polite");
-        const controles = Array.from(select.options).map(function (opcao) {
+        const alternativas = Array.from(select.options).filter(function (opcao) {
+            return opcao.value !== "";
+        });
+        const controles = alternativas.map(function (opcao) {
             const label = document.createElement("label");
             label.className = "multisselecao__opcao";
             const controle = document.createElement("input");
-            controle.type = "checkbox";
+            controle.type = multipla ? "checkbox" : "radio";
+            if (!multipla) {
+                controle.name = select.name || select.id;
+                controle.required = obrigatorio;
+                controle.value = opcao.value;
+            }
             controle.checked = opcao.selected;
             controle.disabled = select.disabled || opcao.disabled;
             controle.addEventListener("change", function () {
-                opcao.selected = controle.checked;
+                if (multipla) {
+                    opcao.selected = controle.checked;
+                } else {
+                    select.value = opcao.value;
+                }
                 select.dispatchEvent(new Event("change", {bubbles: true}));
             });
             label.append(controle, document.createTextNode(opcao.text));
@@ -604,7 +618,7 @@ function prepararMultisselecao(raiz) {
         });
         function atualizar() {
             controles.forEach(function (controle, indice) {
-                controle.checked = select.options[indice].selected;
+                controle.checked = alternativas[indice].selected;
             });
             resumo.textContent = Array.from(select.selectedOptions).map(
                 function (opcao) { return opcao.text; }
@@ -614,6 +628,10 @@ function prepararMultisselecao(raiz) {
         grupo.append(opcoes, resumo);
         select.after(grupo);
         select.hidden = true;
+        // Radios visíveis recebem a validação, evitando focar um select oculto.
+        if (!multipla) {
+            select.required = false;
+        }
         if (rotulo) {
             rotulo.hidden = true;
         }

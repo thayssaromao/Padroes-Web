@@ -304,7 +304,7 @@ function prepararSeletores(raiz) {
     }
     if (aberto && !aberto.select.isConnected) { fecharSeletor(); }
     ligarEventos();
-    raiz.querySelectorAll("select:not([multiple])").forEach(function (select) {
+    raiz.querySelectorAll("select:not([multiple]):not([data-escolha-unica])").forEach(function (select) {
         const existente = seletores.get(select);
         if (existente) { existente.atualizar(); }
         else { montarSeletor(select); }
