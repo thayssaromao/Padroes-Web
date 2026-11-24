@@ -1332,10 +1332,3 @@ e no rodapé público escuro, e preto no rodapé interno claro; lâmpada, cores 
 base cinza continuam originais. A marca visual fica em `marca__imagem` e o
 nome adjacente em `marca__nome`, para a regra responsiva ocultar somente o nome
 no cabeçalho interno mobile. O link conserva o nome acessível Portal do Artesão.
-
-### Respiro da marca — 24/11/2026
-
-A aplicação compartilhada da logo passa a 72×50px, centralizada, para ampliar
-a folga vertical dentro da barra. O espaço para o nome usa 16 a 24px conforme
-a largura disponível, em todos os cabeçalhos e rodapés. Transparência, cores
-do símbolo e adaptação da inscrição ao fundo permanecem preservadas.
