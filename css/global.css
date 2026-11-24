@@ -15,15 +15,15 @@
     --marca-offwhite: #F8F7F3;
 
     /* Texto e superfícies */
-    --cor-texto: #213D38;
-    --cor-texto-suave: #536B63;
-    --cor-texto-apagado: #536B63;
+    --cor-texto: #263641;
+    --cor-texto-suave: #5D6874;
+    --cor-texto-apagado: #5D6874;
     --cor-texto-invertido: #FFFFFF;
     --cor-fundo: #FBFAF7;
     --cor-fundo-publico: var(--cor-fundo);
     --cor-fundo-alternado: var(--cor-superficie-forte);
-    --cor-superficie: #F2F5F1;
-    --cor-superficie-forte: #EDF3EF;
+    --cor-superficie: #F4F5F6;
+    --cor-superficie-forte: #F0F2F4;
     --cor-superficie-card: var(--cor-texto-invertido);
     --cor-superficie-menu: var(--cor-superficie-card);
     --cor-superficie-modal: var(--cor-superficie-card);
@@ -39,7 +39,7 @@
     --cor-painel-selecionado: #F7EFF1;
     --cor-selecao-opcao: #EAF1F8;
     --cor-selecao-texto: #284F70;
-    --cor-painel-cabecalho-tabela: #EEF1EF;
+    --cor-painel-cabecalho-tabela: #F0F2F4;
     --cor-sobreposicao: rgb(24 62 69 / 65%);
 
     /* Navegação */
@@ -57,20 +57,20 @@
     --imagem-seta-select: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23213D38' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 
     /* Interação e bordas */
-    --cor-borda: #D5DFD9;
-    --cor-contorno-card: #B8D0C8;
+    --cor-borda: #DADDE2;
+    --cor-contorno-card: #DADDE2;
     --cor-cabecalho-tabela: var(--cor-rodape);
-    --cor-borda-controle: #75877D;
+    --cor-borda-controle: #7A8490;
     --cor-borda-forte: var(--cor-primaria);
-    --cor-primaria: #146F67;
-    --cor-primaria-hover: #0A514D;
+    --cor-primaria: #284F70;
+    --cor-primaria-hover: #1C3C57;
     --cor-secundaria: var(--cor-superficie-card);
-    --cor-secundaria-hover: var(--cor-superficie-forte);
+    --cor-secundaria-hover: var(--cor-selecao-opcao);
     --cor-link: var(--cor-primaria-hover);
     --cor-foco: #A62255;
     --cor-favorito: var(--cor-foco);
-    --cor-desabilitado: #E4E8E2;
-    --cor-desabilitado-texto: #52665F;
+    --cor-desabilitado: #EEF0F3;
+    --cor-desabilitado-texto: #5D6874;
 
     /* Estados: texto e fundo (ícones/rótulos permanecem obrigatórios) */
     --cor-sucesso: #146347;
@@ -86,7 +86,7 @@
 
     /* Etiquetas de categorias e técnicas: pares decorativos legíveis */
     --cor-chip-turquesa: var(--marca-turquesa-escuro);
-    --cor-chip-turquesa-fundo: var(--cor-superficie-forte);
+    --cor-chip-turquesa-fundo: #E5F3F1;
     --cor-chip-rosa: var(--marca-rosa-escuro);
     --cor-chip-rosa-fundo: var(--cor-editorial-alternada);
     --cor-chip-amarelo: var(--cor-alerta);
