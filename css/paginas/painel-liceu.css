@@ -91,9 +91,18 @@
 }
 
 .liceu-pendentes .card-trabalho__meta {
-    flex-wrap: wrap;
-    row-gap: var(--espaco-1);
+    flex-wrap: nowrap;
+    align-items: flex-start;
     color: var(--cor-texto-suave);
+}
+
+.liceu-pendentes .card-trabalho__meta > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.liceu-pendentes .card-trabalho__meta > iconify-icon {
+    flex-shrink: 0;
 }
 
 .liceu-pendentes .card-trabalho__rodape {
