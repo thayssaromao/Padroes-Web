@@ -1322,3 +1322,13 @@ embutida no PNG e os créditos do Liceu continuam preservados.
 
 No desktop, o conteúdo do rodapé interno respeita a largura da sidebar, evitando
 que a marca fique encoberta pela navegação lateral durante a rolagem.
+
+### Logo sem fundo — revisão de 24/11/2026
+
+Substitui a orientação anterior de base clara: a logo não recebe fundo, placa
+ou borda arredondada no cabeçalho ou rodapé. O PNG transparente original é
+preservado. Uma camada CSS recorta apenas a inscrição, em branco nos cabeçalhos
+e no rodapé público escuro, e preto no rodapé interno claro; lâmpada, cores e
+base cinza continuam originais. A marca visual fica em `marca__imagem` e o
+nome adjacente em `marca__nome`, para a regra responsiva ocultar somente o nome
+no cabeçalho interno mobile. O link conserva o nome acessível Portal do Artesão.
