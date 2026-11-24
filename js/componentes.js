@@ -74,6 +74,13 @@ function padronizarIcones(raiz) {
     });
 }
 
+/** Aceita o formato singular anterior e as listas da base atual. */
+function classificacoesDoTrabalho(trabalho) {
+    return (trabalho.tecnicas || [trabalho.tecnica]).concat(
+        trabalho.categorias || [trabalho.categoria]
+    ).filter(Boolean);
+}
+
 /**
  * Badge de status (§5.4).
  * @param {string} status chave de STATUS
@@ -255,7 +262,7 @@ function criarDetalhesTrabalho(trabalho) {
         + icone("lucide:user") + "<strong>Artesão</strong> "
         + escaparHtml(trabalho.artesaoNome || "Não informado") + "</p>"
         + "<p>" + criarStatus(trabalho.status) + "</p>"
-        + criarChips(trabalho.categorias.concat(trabalho.tecnicas))
+        + criarChips(classificacoesDoTrabalho(trabalho))
         + "<div class=\"pilha\"><h3>Descrição</h3><p>"
         + escaparHtml(trabalho.descricao || "Não informada") + "</p></div>"
         + "<dl class=\"detalhe-trabalho__metadados\">"
@@ -323,7 +330,7 @@ function criarCardProduto(trabalho, opcoes = {}) {
         + `<h3 class="card-produto__titulo"><a href="${href}">`
         + escaparHtml(trabalho.titulo) + "</a></h3>"
         + "<p class=\"card-produto__meta\">"
-        + escaparHtml(trabalho.tecnicas.concat(trabalho.categorias).join(" • ")) + "</p>"
+        + escaparHtml(classificacoesDoTrabalho(trabalho).join(" • ")) + "</p>"
         + status + acoes
         + "</div></article>"
     );
