@@ -1295,3 +1295,9 @@ anteriores; não remover acessibilidade, ações nem regras do MVP.
 ### Cards de métricas — revisão global de 24/11/2026
 
 Substitui a versão anterior com borda superior colorida. Todo `card-estatistica` usa superfície pastel por estado, sem contorno, faixa superior ou sombra. Número e rótulo ficam à esquerda, ícone sem fundo no canto superior direito. A composição é compartilhada pelos inícios do Liceu e do artesão, status de publicações e fila de pendentes. Não criar sobrescritas por página. Estados continuam identificados por ícone e texto; métricas são informativas, sem efeito de elevação ao passar o mouse.
+
+### Harmonia cromática e cards da fila — 24/11/2026
+
+Esta revisão substitui os papéis anteriores de ação turquesa: ações e links usam azul `#284F70` / hover `#1C3C57`; texto e bordas são neutros. Rosa identifica seleção e foco, amarelo sinaliza atenção, verde identifica sucesso. Turquesa permanece na marca e nas etiquetas de assunto. Não alternar cores de botões por posição ou por card. As cores dos chips e os estados semânticos são preservados.
+
+Cards de trabalhos aguardando análise têm miniatura 1:1, conteúdo agrupado e rodapé separado por divisor neutro. Status à esquerda, ação secundária compacta à direita, com alvo mínimo de 44px. Configurações usam cabeçalhos brancos; cores de seção aparecem somente nos ícones (institucional azul, preferências rosa, taxonomias violeta, segurança âmbar).

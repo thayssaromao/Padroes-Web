@@ -58,7 +58,7 @@
     grid-template-columns: minmax(0, 1fr);
 }
 
-/* A fila usa miniatura lateral e ação explícita, sem aparência de vitrine. */
+/* Fila de revisão: conteúdo e rodapé com ação compacta. */
 .liceu-pendentes {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -70,24 +70,22 @@
     grid-template-columns: calc(var(--espaco-8) + var(--espaco-4)) minmax(0, 1fr);
     align-content: start;
     align-items: start;
-    column-gap: var(--espaco-3);
-    row-gap: var(--espaco-2);
+    gap: var(--espaco-4);
     height: 100%;
     padding: var(--espaco-4);
 }
 
 .liceu-pendentes .card-trabalho__imagem {
-    grid-column: 1;
-    grid-row: 1 / span 4;
     width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
     object-fit: cover;
 }
 
-.liceu-pendentes .card-trabalho > h3,
-.liceu-pendentes .card-trabalho > p {
-    grid-column: 2;
+.liceu-pendentes .card-trabalho__conteudo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
     min-width: 0;
     overflow-wrap: anywhere;
 }
@@ -98,10 +96,22 @@
     color: var(--cor-texto-suave);
 }
 
-.liceu-pendentes .card-trabalho .btn--bloco {
+.liceu-pendentes .card-trabalho__rodape {
     grid-column: 1 / -1;
-    align-self: end;
-    margin-top: var(--espaco-2);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-3);
+    padding-top: var(--espaco-3);
+    border-top: 1px solid var(--cor-borda);
+}
+
+.liceu-pendentes .card-trabalho__rodape .btn {
+    flex: 0 0 auto;
+    width: auto;
+    padding-inline: var(--espaco-3);
+    margin-left: auto;
 }
 
 .liceu-inicio-acoes {
@@ -293,7 +303,24 @@
 .liceu-bloco-config__cabecalho {
     align-items: center;
     padding: var(--espaco-4) var(--espaco-5);
-    background-color: var(--cor-superficie-forte);
+    background-color: var(--cor-superficie-card);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.liceu-bloco-config__cabecalho .bloco-form__icone {
+    color: var(--config-acento, var(--cor-selecao-texto));
+}
+
+.liceu-bloco-config:has(#config-preferencias) {
+    --config-acento: var(--cor-foco);
+}
+
+.liceu-bloco-config:has(#config-categorias) {
+    --config-acento: var(--cor-chip-violeta);
+}
+
+.liceu-bloco-config:has(#config-seguranca) {
+    --config-acento: var(--cor-alerta);
 }
 
 .liceu-bloco-config__corpo {
