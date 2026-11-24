@@ -1310,3 +1310,12 @@ O componente `prepararMultisselecao` também atende selects simples marcados com
 ### Várias categorias e técnicas por trabalho — 24/11/2026
 
 Novo/Editar trabalho passa a usar checkboxes do componente compartilhado nos dois grupos. Exigir pelo menos uma opção de cada grupo ao enviar; rascunhos podem permanecer incompletos. A validação fica no primeiro checkbox visível, sem obrigar todas as opções. Cards e detalhes exibem todas as categorias e técnicas, preservando os chips por assunto. Esta regra substitui a escolha única anterior, inclusive na edição administrativa da publicação.
+
+### Marca no cabeçalho e rodapé — 24/11/2026
+
+Páginas públicas e painéis usam o PNG fornecido em `assets/logo.png`, com
+identificador de versão na URL para atualizar o cache da imagem. A marca é
+apresentada em 80×56px, sobre base clara, preservando a legibilidade do texto
+cinza e as cores do arquivo original. O texto ao lado e o nome acessível do
+link identificam o produto como **Portal do Artesão**; a inscrição institucional
+embutida no PNG e os créditos do Liceu continuam preservados.
