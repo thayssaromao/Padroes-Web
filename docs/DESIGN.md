@@ -15,23 +15,24 @@ Guia visual e técnico do projeto. Vale para **quem escreve código** e para **q
 
 | Papel | Valor |
 |---|---|
-| Texto / apoio | `#213D38` / `#536B63` |
+| Texto / apoio | `#263641` / `#5D6874` |
 | Fundo comum / card | `#FBFAF7` / `#FFFFFF` |
-| Alternado / apoio | `#EDF3EF` / `#F2F5F1` |
+| Alternado / apoio | `#F0F2F4` / `#F4F5F6` |
 | Editorial amarelo / rosa | `#FAF0D7` / `#F7EFF1` |
-| Ação / hover e link | `#146F67` / `#0A514D` |
-| Header / lateral e footer | `#104C49` / `#173D3A` |
+| Ação / hover e link | `#284F70` / `#1C3C57` |
+| Header / footer público | `#104C49` / `#173D3A` |
+| Sidebar e footer interno | `#FFFFFF` |
 | Destaque de interface | `#F5CD58` |
 | Foco e favorito | `#A62255` |
-| Borda decorativa / card / controle | `#D5DFD9` / `#B8D0C8` / `#75877D` |
+| Borda decorativa / card / controle | `#DADDE2` / `#DADDE2` / `#7A8490` |
 
 - Símbolo e faixa institucional preservam `#20A8A6`, `#FFC928` e `#E73571`.
   Não confundir cores do símbolo com todos os papéis funcionais da interface.
 - Estados semânticos preservam texto e ícone; chips mantêm seus seis pares de
   cores por assunto, com borda suave nos não selecionados e seleção preenchida.
-- `.card` e `.bloco-form` compartilham contorno completo de 1px em verde suave,
+- `.card` e `.bloco-form` compartilham contorno completo de 1px em cinza suave,
   raio de 16px, sombra `0 2px 6px rgb(23 61 58 / 4%)` e interação discreta
-  `0 5px 14px rgb(23 61 58 / 9%)`. Métricas conservam contorno de status.
+  `0 5px 14px rgb(23 61 58 / 9%)`. Métricas usam superfícies pastel sem contorno, faixa ou sombra.
 - Campos usam raio de 8px; botões e itens de menu, 10px; chips, 6px; modais,
   24px; avatares e badges mantêm círculo/pílula. Alvos de interação permanecem.
 - Inter é preservada. Corpo público usa `--fonte-corpo-publico` (16px), gestão
