@@ -1237,3 +1237,21 @@ aplicar o acento, sem depender da posição na lista.
 Preservar os textos, headings, grade responsiva, altura uniforme por fileira e
 contorno completo suave compartilhado. Não usar a antiga faixa amarela superior.
 As cores são decorativas e não comunicam status nem exigem novas interações.
+
+
+### Início do painel do Liceu — apresentação de gestão
+
+O dashboard administrativo usa uma variante local da identidade Equilibrada:
+
+- `.liceu-inicio-cabecalho`: superfície verde suave, contorno completo e imagem
+  de apoio compacta. Preservar título, descrição e os dois atalhos existentes.
+- `.liceu-inicio-resumo`: métricas brancas com ícones em bases semânticas suaves,
+  mantendo números, rótulos e significados de estado.
+- `.liceu-pendentes`: cards de trabalho com miniatura lateral, conteúdo à direita
+  e ação primária Analisar abaixo. Uma coluna no celular e duas a partir de
+  600px. Preservar todos os metadados, status, identificadores e análise existente.
+- `.liceu-inicio-acoes`: bloco de apoio verde suave, sem aparência de alerta
+  amarelo. Os links e os textos administrativos permanecem.
+
+Os modificadores são aplicados somente no Início do Liceu. Não alterar sidebar,
+roteamento, telas de listagem, painel do artesão ou cards da vitrine pública.
