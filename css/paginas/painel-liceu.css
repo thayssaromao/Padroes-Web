@@ -51,44 +51,11 @@
     padding: var(--espaco-4);
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-card);
-    background-color: var(--cor-superficie-forte);
+    background-color: var(--cor-superficie-card);
 }
 
 .liceu-inicio-resumo .grade-estatisticas {
     grid-template-columns: minmax(0, 1fr);
-}
-
-.liceu-inicio-resumo .card.card-estatistica {
-    --card-superficie: var(--cor-superficie-card);
-    --card-contorno: var(--borda-card);
-    --metrica-acento: var(--cor-primaria);
-    --metrica-fundo: var(--cor-superficie-forte);
-}
-
-.liceu-inicio-resumo .card-estatistica:has(> iconify-icon[icon="lucide:circle-check"]) {
-    --metrica-acento: var(--cor-sucesso);
-    --metrica-fundo: var(--cor-sucesso-fundo);
-}
-
-.liceu-inicio-resumo .card-estatistica:has(> iconify-icon[icon="lucide:clock"]) {
-    --metrica-acento: var(--cor-alerta);
-    --metrica-fundo: var(--cor-alerta-fundo);
-}
-
-.liceu-inicio-resumo .card-estatistica:has(> iconify-icon[icon="lucide:circle-x"]) {
-    --metrica-acento: var(--cor-erro);
-    --metrica-fundo: var(--cor-erro-fundo);
-}
-
-.liceu-inicio-resumo .card-estatistica > iconify-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--espaco-7);
-    height: var(--espaco-7);
-    border-radius: var(--raio-medio);
-    color: var(--metrica-acento);
-    background-color: var(--metrica-fundo);
 }
 
 /* A fila usa miniatura lateral e ação explícita, sem aparência de vitrine. */
@@ -141,7 +108,7 @@
     box-shadow: var(--sombra-card);
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-card);
-    background-color: var(--cor-superficie-forte);
+    background-color: var(--cor-painel-apoio);
     color: var(--cor-texto);
 }
 

@@ -296,8 +296,7 @@ textarea.campo__entrada {
     flex: 0 0 var(--tamanho-caixa-icone-secao);
     width: var(--tamanho-caixa-icone-secao);
     height: var(--tamanho-caixa-icone-secao);
-    background-color: var(--cor-superficie-forte);
-    color: var(--cor-primaria);
+    color: var(--cor-texto-suave);
 }
 
 .bloco-form__cabecalho--secao .bloco-form__icone > iconify-icon {
