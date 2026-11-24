@@ -54,8 +54,8 @@
     grid-column: 1;
     grid-row: 1 / span 4;
     width: 100%;
-    height: calc(var(--espaco-8) + var(--espaco-7));
-    aspect-ratio: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
 }
 
@@ -82,7 +82,7 @@
     box-shadow: var(--sombra-card);
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-card);
-    background-color: var(--cor-painel-apoio);
+    background-color: var(--cor-editorial);
     color: var(--cor-texto);
 }
 

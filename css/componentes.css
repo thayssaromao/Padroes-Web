@@ -1866,18 +1866,27 @@ input[type="checkbox"] {
 
 .seletor__opcao:hover,
 .seletor__opcao[data-ativo] {
-    background: var(--cor-editorial);
-    box-shadow: inset 3px 0 var(--cor-foco);
+    background: var(--cor-painel-hover);
+    box-shadow: none;
+    outline: 1px solid var(--cor-borda);
+    outline-offset: -1px;
 }
 
 .seletor__opcao[aria-selected="true"] {
-    background: var(--cor-primaria);
-    color: var(--cor-texto-invertido);
+    background: var(--cor-selecao-opcao);
+    color: var(--cor-selecao-texto);
     font-weight: var(--peso-semi);
 }
 
+.seletor__opcao[aria-selected="true"]::after {
+    content: "✓";
+    margin-left: auto;
+    padding-left: var(--espaco-3);
+    font-weight: var(--peso-negrito);
+}
+
 .seletor__opcao[aria-selected="true"][data-ativo] {
-    box-shadow: inset 3px 0 var(--cor-destaque);
+    outline-color: var(--cor-selecao-texto);
 }
 
 .seletor__opcao[aria-disabled="true"] {
@@ -1928,4 +1937,46 @@ input[type="checkbox"] {
 .modal--editorial .btn {
     padding: var(--espaco-3) var(--espaco-5);
     font-size: var(--fonte-corpo);
+}
+
+/* Perfil de consulta: compacto, com rolagem interna em telas pequenas. */
+.modal.modal--perfil {
+    width: min(calc(100% - 2 * var(--espaco-4)), 600px);
+    max-height: 85vh;
+    margin: auto;
+    padding: var(--espaco-5);
+    border-radius: var(--raio-grande);
+}
+
+.modal--perfil .modal__titulo {
+    font-size: var(--fonte-h3);
+}
+
+.modal--perfil .modal__corpo {
+    gap: var(--espaco-3);
+    margin-top: var(--espaco-4);
+}
+
+.perfil-consulta__identidade {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+}
+
+.perfil-consulta__identidade .avatar {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+}
+
+.perfil-consulta__local {
+    color: var(--cor-texto-suave);
+}
+
+.perfil-consulta__contato {
+    display: grid;
+    gap: var(--espaco-2);
+    overflow-wrap: anywhere;
+    padding-top: var(--espaco-3);
+    border-top: 1px solid var(--cor-borda);
 }

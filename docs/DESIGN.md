@@ -1278,3 +1278,11 @@ roteamento, telas de listagem, painel do artesão ou cards da vitrine pública.
 
 Esta seção atualiza os fundos de ícones e métricas descritos nas rodadas
 anteriores; não remover acessibilidade, ações nem regras do MVP.
+
+### Seleção discreta e cores de apoio — 24/11/2026
+
+- Sidebar selecionada: superfície rosa suave, contorno completo e ícone magenta; sem faixa lateral verde. Mantém `aria-current` e peso de texto.
+- Seletores compartilhados: foco/hover neutro, seleção azul suave e marca de confirmação; sem combinação de amarelo, verde e faixa rosa no mesmo item.
+- Métricas recebem apenas uma borda superior colorida; apoio administrativo usa amarelo editorial suave. Fundos gerais permanecem neutros.
+- Miniaturas da fila de pendentes usam proporção 1:1 e `object-fit: cover`.
+- Variante `modal--perfil`: largura máxima 600px, espaçamento compacto, centralização e limite de 85vh com rolagem. Identidade agrupa foto, ateliê e localização.
