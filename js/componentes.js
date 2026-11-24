@@ -255,7 +255,7 @@ function criarDetalhesTrabalho(trabalho) {
         + icone("lucide:user") + "<strong>Artesão</strong> "
         + escaparHtml(trabalho.artesaoNome || "Não informado") + "</p>"
         + "<p>" + criarStatus(trabalho.status) + "</p>"
-        + criarChips([trabalho.categoria, trabalho.tecnica].filter(Boolean))
+        + criarChips(trabalho.categorias.concat(trabalho.tecnicas))
         + "<div class=\"pilha\"><h3>Descrição</h3><p>"
         + escaparHtml(trabalho.descricao || "Não informada") + "</p></div>"
         + "<dl class=\"detalhe-trabalho__metadados\">"
@@ -323,7 +323,7 @@ function criarCardProduto(trabalho, opcoes = {}) {
         + `<h3 class="card-produto__titulo"><a href="${href}">`
         + escaparHtml(trabalho.titulo) + "</a></h3>"
         + "<p class=\"card-produto__meta\">"
-        + escaparHtml(trabalho.tecnica + " • " + trabalho.categoria) + "</p>"
+        + escaparHtml(trabalho.tecnicas.concat(trabalho.categorias).join(" • ")) + "</p>"
         + status + acoes
         + "</div></article>"
     );
@@ -705,6 +705,11 @@ function prepararMultisselecao(raiz) {
             controles.forEach(function (controle, indice) {
                 controle.checked = alternativas[indice].selected;
             });
+            if (multipla && controles.length) {
+                controles[0].setCustomValidity(obrigatorio
+                    && !select.selectedOptions.length
+                    ? "Selecione pelo menos uma opção." : "");
+            }
             resumo.textContent = Array.from(select.selectedOptions).map(
                 function (opcao) { return opcao.text; }
             ).join(", ") || "Nenhuma opção selecionada";
@@ -713,10 +718,8 @@ function prepararMultisselecao(raiz) {
         grupo.append(opcoes, resumo);
         select.after(grupo);
         select.hidden = true;
-        // Radios visíveis recebem a validação, evitando focar um select oculto.
-        if (!multipla) {
-            select.required = false;
-        }
+        // Os controles visíveis recebem a validação, inclusive em grupos múltiplos.
+        select.required = false;
         if (rotulo) {
             rotulo.hidden = true;
         }
