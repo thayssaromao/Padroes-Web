@@ -14,7 +14,9 @@ node tests/estrutura.mjs
 `dados.mjs` verifica persistência, permissões, moderação, cadastro público e
 administrativo, credenciais, unicidade de e-mail e compatibilidade dos dados
 locais anteriores. Também verifica a base JSON única, requisições concorrentes,
-isolamento das coleções e recuperação após falha de leitura. `estrutura.mjs` verifica rotas, parciais e contratos HTML.
+isolamento das coleções e recuperação após falha de leitura. As 17 verificações
+de dados incluem listas múltiplas, opções inválidas, compatibilidade singular
+e rascunhos incompletos. `estrutura.mjs` verifica rotas, parciais e contratos HTML.
 
 ## Fluxos no navegador
 
@@ -22,7 +24,7 @@ Com o servidor estático ativo e uma instalação existente de Playwright com
 Chromium e Firefox disponíveis:
 
 ```bash
-export PORTAL_URL="http://127.0.0.1:8091/"
+export PORTAL_URL="http://127.0.0.1:8080/"
 # Se o módulo não estiver na resolução padrão, informe a instalação existente:
 # export PLAYWRIGHT_MODULE="/caminho/para/node_modules/playwright"
 # export PLAYWRIGHT_BROWSERS_PATH="/caminho/para/navegadores"

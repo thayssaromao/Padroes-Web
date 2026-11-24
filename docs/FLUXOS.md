@@ -16,9 +16,9 @@ O roteador resolve o caminho antes do `?` no hash. O layout, a navegação e as 
 | Acesso | Cadastro `#/cadastro` | Login → novo painel | Nome/e-mail/senha/confirmar, perfil inicial pendente e conclusão do perfil |
 | Acesso | Login `#/login` (modal) | Entrar/guarda → painel do papel | Credenciais mock, lembrar, mostrar senha, recuperar via contato e fechar |
 | Artesão | Início `#/painel-artesao` | Login/sidebar → perfil/trabalhos/status/portal | Resumos calculados, atalhos, últimas publicações |
-| Artesão | Perfil `#/painel-artesao/meu-perfil` | Sidebar/dashboard → salvar/cancelar | Dados atuais, nicho/técnicas, contatos, bio, foto e prévia |
+| Artesão | Perfil `#/painel-artesao/meu-perfil` | Sidebar/dashboard → salvar/cancelar | Dados atuais, múltiplas categorias/técnicas por checkbox, contatos, bio, foto e prévia |
 | Artesão | Trabalhos `#/painel-artesao/meus-trabalhos` | Sidebar/dashboard/formulário → editar/status/produto | Busca/filtros/ordem, paginação, grade/lista, menu, duplicar e exclusão permitida |
-| Artesão | Novo/editar `#/painel-artesao/novo-trabalho` | Sidebar/trabalhos/motivo → rascunhos/status | Dados, imagens, preço opcional, rascunho, envio, cancelamento confirmado; edição recebe `?id=` |
+| Artesão | Novo/editar `#/painel-artesao/novo-trabalho` | Sidebar/trabalhos/motivo → rascunhos/status | Dados, múltiplas categorias/técnicas, imagens, preço opcional, rascunho, envio, cancelamento confirmado; edição recebe `?id=` |
 | Artesão | Status `#/painel-artesao/status-publicacoes` | Sidebar/envio → motivo/edição/produto | Resumos, busca/status/ordem, motivo, reenvio e ações conforme estado |
 | Liceu | Início `#/painel-liceu` | Login/sidebar → pendentes/cadastro/artesãos | Resumos reais, trabalhos pendentes e atalhos |
 | Liceu | Artesãos `#/painel-liceu/artesaos` | Sidebar/cadastro → perfil/edição/acesso | Busca/filtros/ordem, paginação, ativar/desativar, redefinir senha |
@@ -63,3 +63,15 @@ credenciais derivadas por PBKDF2. Contas e trabalhos das antigas chaves
 `liceu:artesaos`, `liceu:usuarios` e `liceu:trabalhos` são incorporados na
 leitura, preservando as chaves originais. Registros já atualizados na base
 compartilhada têm prioridade, inclusive exclusões e redefinições de senha.
+
+## Classificações múltiplas
+
+Perfil e trabalhos usam o componente compartilhado de checkboxes. Cada trabalho
+aceita várias categorias e técnicas; enviar exige pelo menos uma de cada.
+Rascunhos podem permanecer incompletos. A edição reabre com todas as escolhas
+salvas, inclusive no painel do Liceu. Filtros consideram qualquer valor da lista;
+produtos, cards, detalhes e contagens de saberes refletem todas as classificações.
+
+A base inicial está em `data/banco.json`; trabalhos antigos com campos singulares
+continuam legíveis sem limpeza do armazenamento. As gravações usam listas sem
+duplicatas e preservam as regras de propriedade, bloqueio e moderação.
