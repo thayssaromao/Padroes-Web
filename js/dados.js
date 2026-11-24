@@ -1,8 +1,8 @@
 /*jslint browser */
 /**
- * dados.js — acesso aos dados simulados (pasta data) e à sessão.
+ * dados.js — acesso aos dados simulados (data/banco.json) e à sessão.
  *
- * Sem back-end: os JSON são a "base de dados" inicial e o localStorage
+ * Sem back-end: o JSON é a "base de dados" inicial e o localStorage
  * guarda a sessão e as alterações compartilhadas pelos painéis.
  * Guia: docs/DESIGN.md §10 e docs/ESPECIFICACOES.md (Fonte de Dados).
  */
@@ -49,7 +49,8 @@ async function criarCredencial(senha) {
 
 async function conferirCredencial(senha, credencial) {
     if (!credencial) {
-        return senha === "artesao123";
+        const banco = await carregarBanco();
+        return senha === banco.autenticacao.senhaArtesaoPadrao;
     }
     if (credencial.algoritmo !== "PBKDF2-SHA-256"
             || !Number.isInteger(credencial.iteracoes)
@@ -148,8 +149,8 @@ function gravarBase(base) {
     }
 }
 
-async function carregarColecao(nome, arquivo) {
-    const iniciais = await lerJson(arquivo);
+async function carregarColecao(nome) {
+    const iniciais = await lerColecaoInicial(nome);
     await migrarCredenciais();
     const alterados = lerBase()[nome];
     const mapa = new Map(iniciais.map(function (item) {
@@ -176,58 +177,62 @@ function substituir(lista, registro) {
         return item.id !== registro.id;
     }).concat([registro]);
 }
-const cache = new Map();
+let bancoInicial;
 
-const SESSOES_DEMONSTRACAO = Object.freeze({
-    "painel-artesao": {
-        artesaoId: "ana-martins",
-        foto: "assets/img/artesaos/ana-martins.jpg",
-        nome: "Ana Martins Mock",
-        perfil: "painel-artesao"
-    },
-    "painel-liceu": {
-        foto: "assets/img/avatar-padrao.jpg",
-        nome: "Administração",
-        perfil: "painel-liceu"
+/** Uma única requisição compartilhada; falhas permitem tentar novamente. */
+async function carregarBanco() {
+    if (!bancoInicial) {
+        bancoInicial = (async function () {
+            const resposta = await fetch("data/banco.json");
+            if (!resposta.ok) {
+                throw new Error("Falha ao carregar data/banco.json");
+            }
+            const banco = await resposta.json();
+            if (banco.versao !== 1 || !Array.isArray(banco.artesaos)
+                    || !Array.isArray(banco.trabalhos)
+                    || !Array.isArray(banco.usuarios)
+                    || !Array.isArray(banco.tecnicas)
+                    || !Array.isArray(banco.categorias?.categorias)
+                    || !Array.isArray(banco.categorias?.tecnicas)
+                    || !banco.sessoesDemonstracao
+                    || !banco.autenticacao?.senhaArtesaoPadrao) {
+                throw new Error("Base JSON inválida ou versão não suportada.");
+            }
+            return banco;
+        }());
     }
-});
+    try {
+        return await bancoInicial;
+    } catch (erro) {
+        bancoInicial = undefined;
+        throw erro;
+    }
+}
 
-/**
- * Lê um arquivo JSON uma única vez e guarda o resultado em memória.
- * @param {string} caminho
- * @returns {Promise<object>}
- */
-async function lerJson(caminho) {
-    if (cache.has(caminho)) {
-        return cache.get(caminho);
-    }
-    const resposta = await fetch(caminho);
-    if (!resposta.ok) {
-        throw new Error("Falha ao carregar " + caminho);
-    }
-    const dados = await resposta.json();
-    cache.set(caminho, dados);
-    return dados;
+/** Isola os consumidores para não alterar a base inicial em memória. */
+async function lerColecaoInicial(nome) {
+    const banco = await carregarBanco();
+    return structuredClone(banco[nome]);
 }
 
 /** @returns {Promise<Array<object>>} lista de artesãos */
 function carregarArtesaos() {
-    return carregarColecao("artesaos", "data/artesaos.json");
+    return carregarColecao("artesaos");
 }
 
 /** @returns {Promise<Array<object>>} lista de trabalhos (produtos) */
 function carregarTrabalhos() {
-    return carregarColecao("trabalhos", "data/trabalhos.json");
+    return carregarColecao("trabalhos");
 }
 
 /** @returns {Promise<{categorias: string[], tecnicas: string[]}>} */
 function carregarCategorias() {
-    return lerJson("data/categorias.json");
+    return lerColecaoInicial("categorias");
 }
 
 /** Catálogo institucional de técnicas já publicado na main. */
 function carregarTecnicas() {
-    return lerJson("data/tecnicas.json");
+    return lerColecaoInicial("tecnicas");
 }
 
 function emailValido(email) {
@@ -255,10 +260,9 @@ async function registrarArtesao(dados) {
         throw new Error("As senhas não são iguais.");
     }
     const artesaos = await carregarArtesaos();
-    const usuarios = await lerJson("data/usuarios.json");
+    const usuarios = await lerColecaoInicial("usuarios");
     if (artesaos.some(function (item) { return item.email === email; })
-            || usuarios.some(function (item) { return item.email === email; })
-            || email === "liceu@exemplo.com") {
+            || usuarios.some(function (item) { return item.email === email; })) {
         throw new Error("Este e-mail já está cadastrado.");
     }
     const artesao = {
@@ -408,7 +412,7 @@ function encerrarSessao() {
 /** Autenticação acadêmica local: nunca usar senhas reais. */
 async function autenticar(email, senha, lembrar = true) {
     let endereco = email.trim().toLowerCase();
-    const usuarios = await lerJson("data/usuarios.json");
+    const usuarios = await lerColecaoInicial("usuarios");
     const contaPadrao = usuarios.find(function (item) {
         return item.email === endereco && item.senha === senha;
     });
@@ -418,9 +422,8 @@ async function autenticar(email, senha, lembrar = true) {
         endereco = artesao?.email || endereco;
     }
     let sessao;
-    if ((endereco === "liceu@exemplo.com" && senha === "liceu123")
-            || contaPadrao?.perfil === "painel-liceu") {
-        sessao = Object.assign({}, SESSOES_DEMONSTRACAO["painel-liceu"]);
+    if (contaPadrao?.perfil === "painel-liceu") {
+        sessao = await sessaoDemonstracao("painel-liceu");
     } else {
         const artesaos = await carregarArtesaos();
         const artesao = artesaos.find(function (item) {
@@ -446,12 +449,13 @@ async function autenticar(email, senha, lembrar = true) {
 }
 
 /**
- * Sessão fictícia usada enquanto a tela de login não existe.
+ * Identidade de demonstração mantida para compatibilidade das telas.
  * @param {string} layout "painel-liceu" | "painel-artesao"
- * @returns {object}
+ * @returns {Promise<object>}
  */
-function sessaoDemonstracao(layout) {
-    return SESSOES_DEMONSTRACAO[layout];
+async function sessaoDemonstracao(layout) {
+    const banco = await carregarBanco();
+    return structuredClone(banco.sessoesDemonstracao[layout]);
 }
 
 // ===== Escrita local compartilhada entre os papéis =====
@@ -569,10 +573,10 @@ async function salvarArtesao(artesao) {
     if (!registro.nome || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(registro.email)
             || artesaos.some(function (item) {
         return item.id !== registro.id && item.email === registro.email;
-    }) || registro.email === "liceu@exemplo.com") {
+    })) {
         throw new Error("Informe nome e um e-mail válido ainda não cadastrado.");
     }
-    const usuariosPadrao = await lerJson("data/usuarios.json");
+    const usuariosPadrao = await lerColecaoInicial("usuarios");
     if (usuariosPadrao.some(function (usuario) {
         return usuario.email === registro.email && usuario.artesaoId !== registro.id;
     })) {

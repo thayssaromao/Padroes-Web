@@ -19,7 +19,7 @@ const MAXIMO_ARTESAOS = 4;
 
 /**
  * Card mini de artesão (foto redonda, nome e técnica principal).
- * @param {object} artesao registro de data/artesaos.json
+ * @param {object} artesao registro de data/banco.json (artesaos)
  * @returns {string}
  */
 function criarCardArtesaoMini(artesao) {

@@ -1,0 +1,118 @@
+{
+  "data": "2026-11-24",
+  "dados": {
+    "testes": 14,
+    "resultado": "passou",
+    "colecoesOriginaisPreservadas": 5
+  },
+  "estrutura": {
+    "rotas": 20,
+    "arquivosHTML": 26,
+    "resultado": "passou"
+  },
+  "navegadores": [
+    "Chromium",
+    "Firefox"
+  ],
+  "suites": [
+    "fluxos",
+    "regressoes",
+    "acessibilidade"
+  ],
+  "responsividade": {
+    "combinacoes": 147,
+    "overflow": 0,
+    "errosJS": 0,
+    "falhasHTTP": 0
+  },
+  "axe": {
+    "paginasELarguras": 42,
+    "violacoes": 0
+  },
+  "alvos": [
+    {
+      "width": 375,
+      "photos": [
+        {
+          "width": 80,
+          "height": 80
+        },
+        {
+          "width": 80,
+          "height": 80
+        },
+        {
+          "width": 80,
+          "height": 80
+        },
+        {
+          "width": 80,
+          "height": 80
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "modal": {
+        "x": 16,
+        "y": 301.109375,
+        "width": 343,
+        "height": 429.78125
+      },
+      "axe": []
+    },
+    {
+      "width": 1440,
+      "photos": [
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        },
+        {
+          "width": 96,
+          "height": 96
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "modal": {
+        "x": 420,
+        "y": 306.109375,
+        "width": 600,
+        "height": 387.78125
+      },
+      "axe": []
+    },
+    {
+      "role": "liceu",
+      "requests": [
+        "/data/banco.json"
+      ]
+    },
+    {
+      "width": 375,
+      "selectionWorks": true,
+      "axe": []
+    },
+    {
+      "width": 1440,
+      "selectionWorks": true,
+      "axe": []
+    },
+    {
+      "role": "artesao",
+      "requests": [
+        "/data/banco.json"
+      ]
+    }
+  ]
+}

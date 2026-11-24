@@ -13,7 +13,8 @@ node tests/estrutura.mjs
 
 `dados.mjs` verifica persistência, permissões, moderação, cadastro público e
 administrativo, credenciais, unicidade de e-mail e compatibilidade dos dados
-locais anteriores. `estrutura.mjs` verifica rotas, parciais e contratos HTML.
+locais anteriores. Também verifica a base JSON única, requisições concorrentes,
+isolamento das coleções e recuperação após falha de leitura. `estrutura.mjs` verifica rotas, parciais e contratos HTML.
 
 ## Fluxos no navegador
 

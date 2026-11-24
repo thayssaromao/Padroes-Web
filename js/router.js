@@ -112,7 +112,7 @@ async function prepararLayout(rota, minha) {
             recipiente,
             rota.layout,
             PAINEIS[rota.layout],
-            obterSessao() ?? sessaoDemonstracao(rota.layout)
+            obterSessao() ?? await sessaoDemonstracao(rota.layout)
         );
     }
     if (minha !== navegacao) {

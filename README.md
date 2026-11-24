@@ -69,7 +69,7 @@ Este MVP usa dados e autenticação locais. Use apenas dados fictícios.
 | Liceu | `liceu@exemplo.com` | `liceu123` |
 | Artesã (Ana) | `ana@exemplo.com` | `artesao123` |
 
-Os demais artesãos ativos da base inicial usam seus e-mails de `data/artesaos.json` e a senha `artesao123`, até uma redefinição pelo Liceu. O cadastro administrativo define uma senha provisória. O cadastro público em `#/cadastro` permite criar uma conta e completar o perfil; o artesão só aparece no portal após informar categoria e técnica.
+Os demais artesãos ativos da base inicial usam seus e-mails de `data/banco.json`, na coleção `artesaos`, e a senha `artesao123`, até uma redefinição pelo Liceu. O cadastro administrativo define uma senha provisória. O cadastro público em `#/cadastro` permite criar uma conta e completar o perfil; o artesão só aparece no portal após informar categoria e técnica.
 
 O ciclo de envio, moderação e reenvio funciona compartilhando o `localStorage` na mesma origem. “Lembrar de mim” controla a persistência da sessão; os cadastros/trabalhos permanecem locais independentemente dessa opção. A autenticação continua sendo uma simulação local, sem backend. As contas de demonstração `admin@liceu.mock` / `admin123` e `artesao@liceu.mock` / `artesao123`, já existentes na main, também são aceitas.
 
@@ -78,3 +78,16 @@ Veja [rotas e comportamentos](docs/FLUXOS.md) e [como executar os testes de regr
 ```bash
 node tests/dados.mjs
 ```
+
+### Base JSON única
+
+`data/banco.json` centraliza artesãos, trabalhos, usuários de demonstração,
+categorias, técnicas e configurações da simulação. `versao` identifica o formato;
+`js/dados.js` carrega e valida o arquivo uma única vez por documento, inclusive
+quando várias páginas solicitam coleções ao mesmo tempo. Leituras recebem cópias.
+
+Para editar a base inicial, altere a coleção correspondente nesse arquivo.
+Alterações feitas pelos formulários continuam no `localStorage` existente;
+a refatoração preserva esses registros e as sessões. O navegador não reescreve
+arquivos do servidor: este JSON continua sendo uma base de demonstração, com
+regras executadas em JavaScript, e não um serviço de backend com persistência remota.

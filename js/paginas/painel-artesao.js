@@ -171,7 +171,7 @@ function filtrarTrabalhos(trabalhos, filtros) {
  */
 async function artesaoLogado() {
     const salva = obterSessao();
-    const demonstracao = sessaoDemonstracao("painel-artesao");
+    const demonstracao = await sessaoDemonstracao("painel-artesao");
     let sessao = (
         (salva && salva.artesaoId)
         ? salva

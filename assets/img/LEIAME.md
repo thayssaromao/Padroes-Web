@@ -21,35 +21,35 @@ Dicas:
 | `carrossel/artesaos-2.jpg` | 1600 × 700 | Carrossel da página Artesãos, slide 2 |
 | `carrossel/artesaos-3.jpg` | 1600 × 700 | Carrossel da página Artesãos, slide 3 |
 | `carrossel/artesaos-4.jpg` | 1600 × 700 | Carrossel da página Artesãos, slide 4 |
-| `artesaos/ana-martins.jpg` | 600 × 600 | Foto de Ana Martins (data/artesaos.json) |
-| `artesaos/carlos-silva.jpg` | 600 × 600 | Foto de Carlos Silva (data/artesaos.json) |
-| `artesaos/mariana-costa.jpg` | 600 × 600 | Foto de Mariana Costa (data/artesaos.json) |
-| `artesaos/beatriz-lima.jpg` | 600 × 600 | Foto de Beatriz Lima (data/artesaos.json) |
-| `artesaos/paulo-mendes.jpg` | 600 × 600 | Foto de Paulo Mendes (data/artesaos.json) |
-| `artesaos/maria-oliveira.jpg` | 600 × 600 | Foto de Maria Oliveira (data/artesaos.json) |
-| `artesaos/joao-santos.jpg` | 600 × 600 | Foto de João Santos (data/artesaos.json) |
-| `artesaos/ana-costa.jpg` | 600 × 600 | Foto de Ana Costa (data/artesaos.json) |
-| `artesaos/luciana-mendes.jpg` | 600 × 600 | Foto de Luciana Mendes (data/artesaos.json) |
-| `artesaos/carlos-lima.jpg` | 600 × 600 | Foto de Carlos Lima (data/artesaos.json) |
-| `artesaos/rosa-almeida.jpg` | 600 × 600 | Foto de Rosa Almeida (data/artesaos.json) |
-| `artesaos/pedro-rocha.jpg` | 600 × 600 | Foto de Pedro Rocha (data/artesaos.json) |
-| `trabalhos/vaso-ceramica-rustica.jpg` | 800 × 600 | Vaso em Cerâmica Rústica (data/trabalhos.json) |
-| `trabalhos/tapete-macrame.jpg` | 800 × 600 | Tapete Macramê (data/trabalhos.json) |
-| `trabalhos/cesto-trancado.jpg` | 800 × 600 | Cesto Trançado (data/trabalhos.json) |
-| `trabalhos/almofada-bordada.jpg` | 800 × 600 | Almofada Bordada (data/trabalhos.json) |
-| `trabalhos/porta-joias-ceramica.jpg` | 800 × 600 | Porta-joias em Cerâmica (data/trabalhos.json) |
-| `trabalhos/bolsa-fibra-natural.jpg` | 800 × 600 | Bolsa de Fibra Natural (data/trabalhos.json) |
-| `trabalhos/escultura-madeira.jpg` | 800 × 600 | Escultura em Madeira (data/trabalhos.json) |
-| `trabalhos/toalha-bordada.jpg` | 800 × 600 | Toalha Bordada (data/trabalhos.json) |
-| `trabalhos/peca-decorativa-croche.jpg` | 800 × 600 | Peça Decorativa em Crochê (data/trabalhos.json) |
-| `trabalhos/travessa-ceramica.jpg` | 800 × 600 | Travessa em Cerâmica (data/trabalhos.json) |
-| `trabalhos/luminaria-ceramica.jpg` | 800 × 600 | Luminária em Cerâmica (data/trabalhos.json) |
-| `trabalhos/jogo-xicaras.jpg` | 800 × 600 | Jogo de Xícaras (data/trabalhos.json) |
-| `trabalhos/painel-ceramica.jpg` | 800 × 600 | Painel em Azulejo (data/trabalhos.json) |
-| `trabalhos/colar-ceramica.jpg` | 800 × 600 | Colar de Contas de Cerâmica (data/trabalhos.json) |
-| `trabalhos/quadro-retalhos.jpg` | 800 × 600 | Quadro de Retalhos (data/trabalhos.json) |
-| `trabalhos/chaveiro-macrame.jpg` | 800 × 600 | Chaveiro em Macramê (data/trabalhos.json) |
+| `artesaos/ana-martins.jpg` | 600 × 600 | Foto de Ana Martins (data/banco.json (artesaos)) |
+| `artesaos/carlos-silva.jpg` | 600 × 600 | Foto de Carlos Silva (data/banco.json (artesaos)) |
+| `artesaos/mariana-costa.jpg` | 600 × 600 | Foto de Mariana Costa (data/banco.json (artesaos)) |
+| `artesaos/beatriz-lima.jpg` | 600 × 600 | Foto de Beatriz Lima (data/banco.json (artesaos)) |
+| `artesaos/paulo-mendes.jpg` | 600 × 600 | Foto de Paulo Mendes (data/banco.json (artesaos)) |
+| `artesaos/maria-oliveira.jpg` | 600 × 600 | Foto de Maria Oliveira (data/banco.json (artesaos)) |
+| `artesaos/joao-santos.jpg` | 600 × 600 | Foto de João Santos (data/banco.json (artesaos)) |
+| `artesaos/ana-costa.jpg` | 600 × 600 | Foto de Ana Costa (data/banco.json (artesaos)) |
+| `artesaos/luciana-mendes.jpg` | 600 × 600 | Foto de Luciana Mendes (data/banco.json (artesaos)) |
+| `artesaos/carlos-lima.jpg` | 600 × 600 | Foto de Carlos Lima (data/banco.json (artesaos)) |
+| `artesaos/rosa-almeida.jpg` | 600 × 600 | Foto de Rosa Almeida (data/banco.json (artesaos)) |
+| `artesaos/pedro-rocha.jpg` | 600 × 600 | Foto de Pedro Rocha (data/banco.json (artesaos)) |
+| `trabalhos/vaso-ceramica-rustica.jpg` | 800 × 600 | Vaso em Cerâmica Rústica (data/banco.json (trabalhos)) |
+| `trabalhos/tapete-macrame.jpg` | 800 × 600 | Tapete Macramê (data/banco.json (trabalhos)) |
+| `trabalhos/cesto-trancado.jpg` | 800 × 600 | Cesto Trançado (data/banco.json (trabalhos)) |
+| `trabalhos/almofada-bordada.jpg` | 800 × 600 | Almofada Bordada (data/banco.json (trabalhos)) |
+| `trabalhos/porta-joias-ceramica.jpg` | 800 × 600 | Porta-joias em Cerâmica (data/banco.json (trabalhos)) |
+| `trabalhos/bolsa-fibra-natural.jpg` | 800 × 600 | Bolsa de Fibra Natural (data/banco.json (trabalhos)) |
+| `trabalhos/escultura-madeira.jpg` | 800 × 600 | Escultura em Madeira (data/banco.json (trabalhos)) |
+| `trabalhos/toalha-bordada.jpg` | 800 × 600 | Toalha Bordada (data/banco.json (trabalhos)) |
+| `trabalhos/peca-decorativa-croche.jpg` | 800 × 600 | Peça Decorativa em Crochê (data/banco.json (trabalhos)) |
+| `trabalhos/travessa-ceramica.jpg` | 800 × 600 | Travessa em Cerâmica (data/banco.json (trabalhos)) |
+| `trabalhos/luminaria-ceramica.jpg` | 800 × 600 | Luminária em Cerâmica (data/banco.json (trabalhos)) |
+| `trabalhos/jogo-xicaras.jpg` | 800 × 600 | Jogo de Xícaras (data/banco.json (trabalhos)) |
+| `trabalhos/painel-ceramica.jpg` | 800 × 600 | Painel em Azulejo (data/banco.json (trabalhos)) |
+| `trabalhos/colar-ceramica.jpg` | 800 × 600 | Colar de Contas de Cerâmica (data/banco.json (trabalhos)) |
+| `trabalhos/quadro-retalhos.jpg` | 800 × 600 | Quadro de Retalhos (data/banco.json (trabalhos)) |
+| `trabalhos/chaveiro-macrame.jpg` | 800 × 600 | Chaveiro em Macramê (data/banco.json (trabalhos)) |
 
 ## Novas imagens
 
-Artesão ou trabalho novo: adicione o registro em `data/artesaos.json` ou `data/trabalhos.json` com o caminho `assets/img/artesaos/<id>.jpg` / `assets/img/trabalhos/<id>.jpg` e salve a foto com esse nome.
+Artesão ou trabalho novo: adicione o registro em `data/banco.json (artesaos)` ou `data/banco.json (trabalhos)` com o caminho `assets/img/artesaos/<id>.jpg` / `assets/img/trabalhos/<id>.jpg` e salve a foto com esse nome.

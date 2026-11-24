@@ -1,0 +1,764 @@
+{
+  "versao": 1,
+  "artesaos": [
+    {
+      "id": "ana-martins",
+      "nome": "Ana Martins Mock",
+      "empreendimento": "Cerâmica da Ana Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Cerâmica"
+      ],
+      "foto": "assets/img/artesaos/ana-martins.jpg",
+      "bio": "Ana trabalha com cerâmica há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@anamartins.ceramica",
+      "whatsapp": "(41) 98848-7161",
+      "email": "ana@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-02-10T10:00:00-03:00"
+    },
+    {
+      "id": "carlos-silva",
+      "nome": "Carlos Silva Mock",
+      "empreendimento": "Tramas do Carlos Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Utilitários"
+      ],
+      "tecnicas": [
+        "Crochê"
+      ],
+      "foto": "assets/img/artesaos/carlos-silva.jpg",
+      "bio": "Carlos trabalha com crochê há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@tramasdocarlos",
+      "whatsapp": "(41) 99765-4321",
+      "email": "carlos@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-03-02T10:00:00-03:00"
+    },
+    {
+      "id": "mariana-costa",
+      "nome": "Mariana Costa Mock",
+      "empreendimento": "Cestaria Raiz Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Organização"
+      ],
+      "tecnicas": [
+        "Cestaria"
+      ],
+      "foto": "assets/img/artesaos/mariana-costa.jpg",
+      "bio": "Mariana trabalha com cestaria há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@cestariaraiz",
+      "whatsapp": "(41) 99123-9876",
+      "email": "mariana@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-03-15T10:00:00-03:00"
+    },
+    {
+      "id": "beatriz-lima",
+      "nome": "Beatriz Lima Mock",
+      "empreendimento": "Bordados da Bia Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Bordado"
+      ],
+      "foto": "assets/img/artesaos/beatriz-lima.jpg",
+      "bio": "Beatriz trabalha com bordado há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@bordadosdabia",
+      "whatsapp": "(41) 98901-2345",
+      "email": "beatriz@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-04-01T10:00:00-03:00"
+    },
+    {
+      "id": "paulo-mendes",
+      "nome": "Paulo Mendes Mock",
+      "empreendimento": "Madeira Criativa Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Utilitários"
+      ],
+      "tecnicas": [
+        "Madeira"
+      ],
+      "foto": "assets/img/artesaos/paulo-mendes.jpg",
+      "bio": "Paulo trabalha com madeira há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@madeiracriativa",
+      "whatsapp": "(41) 99555-6789",
+      "email": "paulo@exemplo.com",
+      "status": "inativo",
+      "cadastradoEm": "2026-04-20T10:00:00-03:00"
+    },
+    {
+      "id": "maria-oliveira",
+      "nome": "Maria Oliveira Mock",
+      "empreendimento": "Barro & Arte Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Cerâmica"
+      ],
+      "foto": "assets/img/artesaos/maria-oliveira.jpg",
+      "bio": "Maria trabalha com cerâmica há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@barroearte",
+      "whatsapp": "(41) 99811-2020",
+      "email": "maria@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-05-05T10:00:00-03:00"
+    },
+    {
+      "id": "joao-santos",
+      "nome": "João Santos Mock",
+      "empreendimento": "Fibras do Sul Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Acessórios"
+      ],
+      "tecnicas": [
+        "Fibras naturais"
+      ],
+      "foto": "assets/img/artesaos/joao-santos.jpg",
+      "bio": "João trabalha com fibras naturais há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@fibrasdosul",
+      "whatsapp": "(41) 99702-3030",
+      "email": "joao@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-05-18T10:00:00-03:00"
+    },
+    {
+      "id": "ana-costa",
+      "nome": "Ana Costa Mock",
+      "empreendimento": "Ateliê Entalhe Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Madeira"
+      ],
+      "foto": "assets/img/artesaos/ana-costa.jpg",
+      "bio": "Ana trabalha com madeira há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@atelieentalhe",
+      "whatsapp": "(41) 99633-4040",
+      "email": "anacosta@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-06-03T10:00:00-03:00"
+    },
+    {
+      "id": "luciana-mendes",
+      "nome": "Luciana Mendes Mock",
+      "empreendimento": "Linha & Agulha Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Utilitários"
+      ],
+      "tecnicas": [
+        "Bordado"
+      ],
+      "foto": "assets/img/artesaos/luciana-mendes.jpg",
+      "bio": "Luciana trabalha com bordado há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@linhaeagulha",
+      "whatsapp": "(41) 99544-5050",
+      "email": "luciana@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-06-21T10:00:00-03:00"
+    },
+    {
+      "id": "carlos-lima",
+      "nome": "Carlos Lima Mock",
+      "empreendimento": "Crochê do Carlos Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Decoração"
+      ],
+      "tecnicas": [
+        "Crochê"
+      ],
+      "foto": "assets/img/artesaos/carlos-lima.jpg",
+      "bio": "Carlos trabalha com crochê há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@crochedocarlos",
+      "whatsapp": "(41) 99455-6060",
+      "email": "carloslima@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-07-09T10:00:00-03:00"
+    },
+    {
+      "id": "rosa-almeida",
+      "nome": "Rosa Almeida Mock",
+      "empreendimento": "Retalhos da Rosa Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Arte em tecido"
+      ],
+      "tecnicas": [
+        "Patchwork"
+      ],
+      "foto": "assets/img/artesaos/rosa-almeida.jpg",
+      "bio": "Rosa trabalha com patchwork há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@retalhosdarosa",
+      "whatsapp": "(41) 99366-7070",
+      "email": "rosa@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-08-14T10:00:00-03:00"
+    },
+    {
+      "id": "pedro-rocha",
+      "nome": "Pedro Rocha Mock",
+      "empreendimento": "Macramê Rocha Mock",
+      "cidade": "Curitiba - PR",
+      "categorias": [
+        "Acessórios"
+      ],
+      "tecnicas": [
+        "Macramê"
+      ],
+      "foto": "assets/img/artesaos/pedro-rocha.jpg",
+      "bio": "Pedro trabalha com macramê há mais de dez anos. Aprendeu o ofício em família e hoje compartilha seus saberes nas oficinas do Liceu, valorizando materiais locais e técnicas tradicionais.",
+      "instagram": "@macramerocha",
+      "whatsapp": "(41) 99277-8080",
+      "email": "pedro@exemplo.com",
+      "status": "ativo",
+      "cadastradoEm": "2026-09-30T10:00:00-03:00"
+    }
+  ],
+  "trabalhos": [
+    {
+      "id": "vaso-ceramica-rustica",
+      "titulo": "Vaso em Cerâmica Rústica Mock",
+      "artesaoId": "ana-martins",
+      "categoria": "Decoração",
+      "tecnica": "Cerâmica",
+      "status": "publicado",
+      "imagens": [
+        "assets/img/trabalhos/vaso-ceramica-rustica.jpg"
+      ],
+      "descricao": "Vaso em Cerâmica Rústica feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-11-10T09:24:00-03:00",
+      "atualizadoEm": "2026-11-14T10:24:00-03:00",
+      "publicadoEm": "2026-11-14T10:24:00-03:00",
+      "motivoRejeicao": null,
+      "destaque": true
+    },
+    {
+      "id": "tapete-macrame",
+      "titulo": "Tapete Macramê Mock",
+      "artesaoId": "carlos-silva",
+      "categoria": "Utilitários",
+      "tecnica": "Crochê",
+      "status": "em-analise",
+      "imagens": [
+        "assets/img/trabalhos/tapete-macrame.jpg"
+      ],
+      "descricao": "Tapete Macramê feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-11-10T10:17:00-03:00",
+      "atualizadoEm": "2026-11-13T16:37:00-03:00",
+      "publicadoEm": null,
+      "motivoRejeicao": null,
+      "destaque": false
+    },
+    {
+      "id": "cesto-trancado",
+      "titulo": "Cesto Trançado Mock",
+      "artesaoId": "mariana-costa",
+      "categoria": "Organização",
+      "tecnica": "Cestaria",
+      "status": "reenviado",
+      "imagens": [
+        "assets/img/trabalhos/cesto-trancado.jpg"
+      ],
+      "descricao": "Cesto Trançado feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-11-11T08:52:00-03:00",
+      "atualizadoEm": "2026-11-12T09:15:00-03:00",
+      "publicadoEm": null,
+      "motivoRejeicao": null,
+      "destaque": false
+    },
+    {
+      "id": "almofada-bordada",
+      "titulo": "Almofada Bordada Mock",
+      "artesaoId": "beatriz-lima",
+      "categoria": "Decoração",
+      "tecnica": "Bordado",
+      "status": "em-analise",
+      "imagens": [
+        "assets/img/trabalhos/almofada-bordada.jpg"
+      ],
+      "descricao": "Almofada Bordada feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-11-11T09:31:00-03:00",
+      "atualizadoEm": "2026-11-11T14:02:00-03:00",
+      "publicadoEm": null,
+      "motivoRejeicao": null,
+      "destaque": false
+    },
+    {
+      "id": "porta-joias-ceramica",
+      "titulo": "Porta-joias em Cerâmica Mock",
+      "artesaoId": "ana-martins",
+      "categoria": "Acessórios",
+      "tecnica": "Cerâmica",
+      "status": "em-analise",
+      "imagens": [
+        "assets/img/trabalhos/porta-joias-ceramica.jpg"
+      ],
+      "descricao": "Porta-joias em Cerâmica feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-11-11T10:08:00-03:00",
+      "atualizadoEm": "2026-11-11T10:08:00-03:00",
+      "publicadoEm": null,
+      "motivoRejeicao": null,
+      "destaque": false
+    },
+    {
+      "id": "bolsa-fibra-natural",
+      "titulo": "Bolsa de Fibra Natural Mock",
+      "artesaoId": "joao-santos",
+      "categoria": "Acessórios",
+      "tecnica": "Fibras naturais",
+      "status": "publicado",
+      "imagens": [
+        "assets/img/trabalhos/bolsa-fibra-natural.jpg"
+      ],
+      "descricao": "Bolsa de Fibra Natural feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-01-14T10:00:00-03:00",
+      "atualizadoEm": "2026-01-14T10:00:00-03:00",
+      "publicadoEm": "2026-01-14T10:00:00-03:00",
+      "motivoRejeicao": null,
+      "destaque": true
+    },
+    {
+      "id": "escultura-madeira",
+      "titulo": "Escultura em Madeira Mock",
+      "artesaoId": "ana-costa",
+      "categoria": "Decoração",
+      "tecnica": "Madeira",
+      "status": "publicado",
+      "imagens": [
+        "assets/img/trabalhos/escultura-madeira.jpg"
+      ],
+      "descricao": "Escultura em Madeira feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-01-12T10:00:00-03:00",
+      "atualizadoEm": "2026-01-12T10:00:00-03:00",
+      "publicadoEm": "2026-01-12T10:00:00-03:00",
+      "motivoRejeicao": null,
+      "destaque": true
+    },
+    {
+      "id": "toalha-bordada",
+      "titulo": "Toalha Bordada Mock",
+      "artesaoId": "luciana-mendes",
+      "categoria": "Utilitários",
+      "tecnica": "Bordado",
+      "status": "publicado",
+      "imagens": [
+        "assets/img/trabalhos/toalha-bordada.jpg"
+      ],
+      "descricao": "Toalha Bordada feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-01-10T10:00:00-03:00",
+      "atualizadoEm": "2026-01-10T10:00:00-03:00",
+      "publicadoEm": "2026-01-10T10:00:00-03:00",
+      "motivoRejeicao": null,
+      "destaque": true
+    },
+    {
+      "id": "peca-decorativa-croche",
+      "titulo": "Peça Decorativa em Crochê Mock",
+      "artesaoId": "carlos-lima",
+      "categoria": "Decoração",
+      "tecnica": "Crochê",
+      "status": "publicado",
+      "imagens": [
+        "assets/img/trabalhos/peca-decorativa-croche.jpg"
+      ],
+      "descricao": "Peça Decorativa em Crochê feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-01-08T10:00:00-03:00",
+      "atualizadoEm": "2026-01-08T10:00:00-03:00",
+      "publicadoEm": "2026-01-08T10:00:00-03:00",
+      "motivoRejeicao": null,
+      "destaque": false
+    },
+    {
+      "id": "travessa-ceramica",
+      "titulo": "Travessa em Cerâmica Mock",
+      "artesaoId": "ana-martins",
+      "categoria": "Utilitários",
+      "tecnica": "Cerâmica",
+      "status": "publicado",
+      "imagens": [
+        "assets/img/trabalhos/travessa-ceramica.jpg"
+      ],
+      "descricao": "Travessa em Cerâmica feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-10-02T11:00:00-03:00",
+      "atualizadoEm": "2026-10-05T15:00:00-03:00",
+      "publicadoEm": "2026-10-05T15:00:00-03:00",
+      "motivoRejeicao": null,
+      "destaque": false
+    },
+    {
+      "id": "luminaria-ceramica",
+      "titulo": "Luminária em Cerâmica Mock",
+      "artesaoId": "ana-martins",
+      "categoria": "Decoração",
+      "tecnica": "Cerâmica",
+      "status": "publicado",
+      "imagens": [
+        "assets/img/trabalhos/luminaria-ceramica.jpg"
+      ],
+      "descricao": "Luminária em Cerâmica feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-09-20T11:00:00-03:00",
+      "atualizadoEm": "2026-09-22T15:00:00-03:00",
+      "publicadoEm": "2026-09-22T15:00:00-03:00",
+      "motivoRejeicao": null,
+      "destaque": false
+    },
+    {
+      "id": "jogo-xicaras",
+      "titulo": "Jogo de Xícaras Mock",
+      "artesaoId": "ana-martins",
+      "categoria": "Utilitários",
+      "tecnica": "Cerâmica",
+      "status": "rascunho",
+      "imagens": [
+        "assets/img/trabalhos/jogo-xicaras.jpg"
+      ],
+      "descricao": "Jogo de Xícaras feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-11-12T09:15:00-03:00",
+      "atualizadoEm": "2026-11-12T09:15:00-03:00",
+      "publicadoEm": null,
+      "motivoRejeicao": null,
+      "destaque": false
+    },
+    {
+      "id": "painel-ceramica",
+      "titulo": "Painel em Azulejo Mock",
+      "artesaoId": "ana-martins",
+      "categoria": "Decoração",
+      "tecnica": "Cerâmica",
+      "status": "rejeitado",
+      "imagens": [
+        "assets/img/trabalhos/painel-ceramica.jpg"
+      ],
+      "descricao": "Painel em Azulejo feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-11-05T14:02:00-03:00",
+      "atualizadoEm": "2026-11-11T14:02:00-03:00",
+      "publicadoEm": null,
+      "motivoRejeicao": "As fotos estão escuras. Envie novas imagens com boa iluminação e fundo neutro.",
+      "destaque": false
+    },
+    {
+      "id": "colar-ceramica",
+      "titulo": "Colar de Contas de Cerâmica Mock",
+      "artesaoId": "ana-martins",
+      "categoria": "Acessórios",
+      "tecnica": "Cerâmica",
+      "status": "em-analise",
+      "imagens": [
+        "assets/img/trabalhos/colar-ceramica.jpg"
+      ],
+      "descricao": "Colar de Contas de Cerâmica feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-11-13T16:37:00-03:00",
+      "atualizadoEm": "2026-11-13T16:37:00-03:00",
+      "publicadoEm": null,
+      "motivoRejeicao": null,
+      "destaque": false
+    },
+    {
+      "id": "quadro-retalhos",
+      "titulo": "Quadro de Retalhos Mock",
+      "artesaoId": "rosa-almeida",
+      "categoria": "Arte em tecido",
+      "tecnica": "Patchwork",
+      "status": "publicado",
+      "imagens": [
+        "assets/img/trabalhos/quadro-retalhos.jpg"
+      ],
+      "descricao": "Quadro de Retalhos feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-08-20T10:00:00-03:00",
+      "atualizadoEm": "2026-08-22T10:00:00-03:00",
+      "publicadoEm": "2026-08-22T10:00:00-03:00",
+      "motivoRejeicao": null,
+      "destaque": false
+    },
+    {
+      "id": "chaveiro-macrame",
+      "titulo": "Chaveiro em Macramê Mock",
+      "artesaoId": "pedro-rocha",
+      "categoria": "Acessórios",
+      "tecnica": "Macramê",
+      "status": "publicado",
+      "imagens": [
+        "assets/img/trabalhos/chaveiro-macrame.jpg"
+      ],
+      "descricao": "Chaveiro em Macramê feito à mão, peça única produzida em ateliê local com técnicas tradicionais.",
+      "materiais": "A definir",
+      "dimensoes": "30 cm (A) x 20 cm (L) x 15 cm (P)",
+      "preco": null,
+      "enviadoEm": "2026-10-01T10:00:00-03:00",
+      "atualizadoEm": "2026-10-03T10:00:00-03:00",
+      "publicadoEm": "2026-10-03T10:00:00-03:00",
+      "motivoRejeicao": null,
+      "destaque": false
+    }
+  ],
+  "categorias": {
+    "categorias": [
+      "Decoração",
+      "Utilitários",
+      "Acessórios",
+      "Organização",
+      "Arte em tecido",
+      "Outros"
+    ],
+    "tecnicas": [
+      "Cerâmica",
+      "Crochê",
+      "Cestaria",
+      "Bordado",
+      "Madeira",
+      "Macramê",
+      "Fibras naturais",
+      "Patchwork"
+    ]
+  },
+  "tecnicas": [
+    {
+      "id": "ceramica",
+      "nome": "Cerâmica Mock",
+      "categoria": "Cerâmica",
+      "descricao": "Modelagem e queima de argila para criar peças utilitárias e decorativas.",
+      "materiais": [
+        "argila",
+        "barro",
+        "esmalte"
+      ],
+      "cadastradoEm": "2026-01-10"
+    },
+    {
+      "id": "croche",
+      "nome": "Crochê Mock",
+      "categoria": "Tecelagem",
+      "descricao": "Trama manual de fios com agulha para produzir peças de vestir e decoração.",
+      "materiais": [
+        "linhas",
+        "fios",
+        "agulha"
+      ],
+      "cadastradoEm": "2026-02-03"
+    },
+    {
+      "id": "cestaria",
+      "nome": "Cestaria Mock",
+      "categoria": "Cestaria",
+      "descricao": "Trançado de fibras para confeccionar cestos, utensílios e objetos decorativos.",
+      "materiais": [
+        "fibras naturais",
+        "taquara",
+        "palha"
+      ],
+      "cadastradoEm": "2026-02-20"
+    },
+    {
+      "id": "bordado",
+      "nome": "Bordado Mock",
+      "categoria": "Costura e Bordado",
+      "descricao": "Desenhos e ornamentos feitos à mão sobre tecidos com agulha e linha.",
+      "materiais": [
+        "tecidos",
+        "linhas",
+        "agulha"
+      ],
+      "cadastradoEm": "2026-03-08"
+    },
+    {
+      "id": "madeira",
+      "nome": "Entalhe em madeira Mock",
+      "categoria": "Madeira",
+      "descricao": "Recorte, entalhe e acabamento manual da madeira para criar objetos e esculturas.",
+      "materiais": [
+        "madeira",
+        "goivas",
+        "formões"
+      ],
+      "cadastradoEm": "2026-03-25"
+    },
+    {
+      "id": "macrame",
+      "nome": "Macramê Mock",
+      "categoria": "Outros",
+      "descricao": "Composição de nós feitos à mão para formar painéis, acessórios e peças decorativas.",
+      "materiais": [
+        "cordões",
+        "barbantes",
+        "fibras naturais"
+      ],
+      "cadastradoEm": "2026-04-12"
+    },
+    {
+      "id": "fibras-naturais",
+      "nome": "Trançado de fibras naturais Mock",
+      "categoria": "Cestaria",
+      "descricao": "Técnica de entrelaçar fibras vegetais para criar peças resistentes e funcionais.",
+      "materiais": [
+        "palha",
+        "sisal",
+        "fibras naturais"
+      ],
+      "cadastradoEm": "2026-05-02"
+    },
+    {
+      "id": "patchwork",
+      "nome": "Patchwork Mock",
+      "categoria": "Costura e Bordado",
+      "descricao": "União de retalhos de tecido em padrões que dão origem a peças únicas.",
+      "materiais": [
+        "retalhos",
+        "tecidos",
+        "linhas"
+      ],
+      "cadastradoEm": "2026-05-28"
+    },
+    {
+      "id": "tear",
+      "nome": "Tear manual Mock",
+      "categoria": "Tecelagem",
+      "descricao": "Entrelaçamento de fios no tear para produzir tapetes, mantas e tecidos.",
+      "materiais": [
+        "fios",
+        "lã",
+        "algodão"
+      ],
+      "cadastradoEm": "2026-06-15"
+    },
+    {
+      "id": "pintura-tecido",
+      "nome": "Pintura em tecido Mock",
+      "categoria": "Pintura",
+      "descricao": "Aplicação de tintas e pincéis sobre tecidos para criar estampas exclusivas.",
+      "materiais": [
+        "tecidos",
+        "tintas",
+        "pincéis"
+      ],
+      "cadastradoEm": "2026-07-09"
+    },
+    {
+      "id": "marchetaria",
+      "nome": "Marchetaria Mock",
+      "categoria": "Madeira",
+      "descricao": "Montagem de lâminas de madeira de tons diferentes para formar desenhos.",
+      "materiais": [
+        "madeira",
+        "cola",
+        "estilete"
+      ],
+      "cadastradoEm": "2026-08-21"
+    },
+    {
+      "id": "pintura-ceramica",
+      "nome": "Pintura em cerâmica Mock",
+      "categoria": "Pintura",
+      "descricao": "Decoração de peças de cerâmica com pigmentos antes ou depois da queima.",
+      "materiais": [
+        "argila",
+        "pigmentos",
+        "pincéis"
+      ],
+      "cadastradoEm": "2026-09-30"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "admin-mock",
+      "email": "admin@liceu.mock",
+      "senha": "admin123",
+      "nome": "Administração Mock",
+      "foto": "assets/img/avatar-padrao.jpg",
+      "perfil": "painel-liceu"
+    },
+    {
+      "id": "artesao-mock",
+      "email": "artesao@liceu.mock",
+      "senha": "artesao123",
+      "nome": "Ana Martins Mock",
+      "foto": "assets/img/artesaos/ana-martins.jpg",
+      "perfil": "painel-artesao",
+      "artesaoId": "ana-martins"
+    },
+    {
+      "id": "liceu-exemplo",
+      "email": "liceu@exemplo.com",
+      "senha": "liceu123",
+      "foto": "assets/img/avatar-padrao.jpg",
+      "nome": "Administração",
+      "perfil": "painel-liceu"
+    }
+  ],
+  "sessoesDemonstracao": {
+    "painel-artesao": {
+      "artesaoId": "ana-martins",
+      "foto": "assets/img/artesaos/ana-martins.jpg",
+      "nome": "Ana Martins Mock",
+      "perfil": "painel-artesao"
+    },
+    "painel-liceu": {
+      "foto": "assets/img/avatar-padrao.jpg",
+      "nome": "Administração",
+      "perfil": "painel-liceu"
+    }
+  },
+  "autenticacao": {
+    "senhaArtesaoPadrao": "artesao123"
+  }
+}

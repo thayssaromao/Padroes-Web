@@ -305,17 +305,20 @@ async function verPerfilArtesao(id) {
         return;
     }
     dialogo(artesao.nome,
-        `<img class="avatar" src="${escaparHtml(artesao.foto)}"`
-        + " alt=\"\" width=\"80\" height=\"80\"><p>"
-        + escaparHtml(artesao.empreendimento) + "</p><p>"
-        + escaparHtml(artesao.cidade) + "</p>"
+        "<div class=\"perfil-consulta__identidade\">"
+        + `<img class="avatar" src="${escaparHtml(artesao.foto)}"`
+        + " alt=\"\" width=\"64\" height=\"64\"><div><p>"
+        + escaparHtml(artesao.empreendimento) + "</p>"
+        + "<p class=\"perfil-consulta__local\">"
+        + escaparHtml(artesao.cidade) + "</p></div></div>"
         + criarChips(artesao.categorias.concat(artesao.tecnicas))
         + "<p>" + escaparHtml(artesao.bio || "Perfil em elaboração.")
-        + "</p><h3>Contato</h3><p>"
+        + "</p><section class=\"perfil-consulta__contato\" aria-label=\"Contato\">"
+        + "<h3>Contato</h3><p>"
         + escaparHtml(artesao.email) + "</p><p>"
         + escaparHtml(artesao.whatsapp || "WhatsApp não informado")
-        + "</p><p>" + escaparHtml(artesao.instagram || "") + "</p>",
-        "grande");
+        + "</p><p>" + escaparHtml(artesao.instagram || "") + "</p></section>",
+        "perfil");
 }
 
 async function editarArtesao(id) {
@@ -904,7 +907,7 @@ async function montarInicio(raiz) {
 
 /**
  * Linha da tabela de artesãos.
- * @param {object} artesao registro de data/artesaos.json
+ * @param {object} artesao registro de data/banco.json (artesaos)
  * @returns {string}
  */
 function criarLinhaArtesao(artesao) {

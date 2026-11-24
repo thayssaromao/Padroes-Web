@@ -14,13 +14,47 @@ function armazenamento() {
 }
 globalThis.localStorage = armazenamento();
 globalThis.sessionStorage = armazenamento();
+const requisicoes = [];
 globalThis.fetch = async function (caminho) {
+    requisicoes.push(caminho);
     const conteudo = await readFile(new URL("../" + caminho, import.meta.url));
     return {json: async () => JSON.parse(conteudo), ok: true};
 };
 const fonte = await readFile(new URL("../js/dados.js", import.meta.url), "utf8");
 const dados = await import("data:text/javascript;base64,"
     + Buffer.from(fonte).toString("base64"));
+
+test("base única compartilha requisições concorrentes e isola as leituras", async () => {
+    const [artesaos, trabalhos, categorias, tecnicas] = await Promise.all([
+        dados.carregarArtesaos(), dados.carregarTrabalhos(),
+        dados.carregarCategorias(), dados.carregarTecnicas()
+    ]);
+    assert.deepEqual(requisicoes, ["data/banco.json"]);
+    assert.ok(artesaos.length && trabalhos.length && tecnicas.length);
+    categorias.categorias.length = 0;
+    tecnicas[0].nome = "Alteração externa";
+    assert.ok((await dados.carregarCategorias()).categorias.length);
+    assert.notEqual((await dados.carregarTecnicas())[0].nome, "Alteração externa");
+});
+
+test("base indisponível ou inválida permite nova tentativa sem apagar dados locais", async () => {
+    const fetchOriginal = globalThis.fetch;
+    const isolado = await import("data:text/javascript;base64,"
+        + Buffer.from(fonte + "\n// teste de recuperação").toString("base64"));
+    localStorage.setItem("preservar", "registro local");
+    try {
+        globalThis.fetch = async () => ({ok: false});
+        await assert.rejects(isolado.carregarArtesaos(), /Falha ao carregar/);
+        globalThis.fetch = async () => ({ok: true, json: async () => ({versao: 99})});
+        await assert.rejects(isolado.carregarArtesaos(), /Base JSON inválida/);
+        globalThis.fetch = fetchOriginal;
+        assert.ok((await isolado.carregarArtesaos()).length);
+        assert.equal(localStorage.getItem("preservar"), "registro local");
+    } finally {
+        globalThis.fetch = fetchOriginal;
+        localStorage.removeItem("preservar");
+    }
+});
 
 function limpar() {
     localStorage.clear();

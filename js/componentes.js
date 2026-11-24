@@ -280,7 +280,7 @@ function criarChips(itens) {
 
 /**
  * Card de produto/trabalho (§5.5).
- * @param {object} trabalho registro de data/trabalhos.json
+ * @param {object} trabalho registro de data/banco.json (trabalhos)
  * @param {object} [opcoes]
  * @param {boolean} [opcoes.favorito=true] mostra o botão de favorito
  * @param {boolean} [opcoes.status=false] mostra o badge de status
@@ -331,7 +331,7 @@ function criarCardProduto(trabalho, opcoes = {}) {
 
 /**
  * Card de técnica da página Saberes (§5.5).
- * @param {object} tecnica registro de data/tecnicas.json
+ * @param {object} tecnica registro de data/banco.json (tecnicas)
  * @param {object} [opcoes]
  * @param {boolean} [opcoes.favoritado=false] estado inicial do favorito
  * @returns {string}
