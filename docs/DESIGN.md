@@ -1291,3 +1291,7 @@ anteriores; não remover acessibilidade, ações nem regras do MVP.
 - Métricas recebem apenas uma borda superior colorida; apoio administrativo usa amarelo editorial suave. Fundos gerais permanecem neutros.
 - Miniaturas da fila de pendentes usam proporção 1:1 e `object-fit: cover`.
 - Variante `modal--perfil`: largura máxima 600px, espaçamento compacto, centralização e limite de 85vh com rolagem. Identidade agrupa foto, ateliê e localização.
+
+### Cards de métricas — revisão global de 24/11/2026
+
+Substitui a versão anterior com borda superior colorida. Todo `card-estatistica` usa superfície pastel por estado, sem contorno, faixa superior ou sombra. Número e rótulo ficam à esquerda, ícone sem fundo no canto superior direito. A composição é compartilhada pelos inícios do Liceu e do artesão, status de publicações e fila de pendentes. Não criar sobrescritas por página. Estados continuam identificados por ícone e texto; métricas são informativas, sem efeito de elevação ao passar o mouse.

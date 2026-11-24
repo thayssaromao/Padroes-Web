@@ -824,49 +824,77 @@ input[type="checkbox"] {
     color: var(--cor-texto-suave);
 }
 
-/* Estatística */
-.card-estatistica {
-    display: flex;
-    align-items: center;
-    gap: calc(2 * var(--espaco-4) + 1px);
-    padding: var(--espaco-4) var(--espaco-5);
-    --card-contorno: linear-gradient(var(--marca-turquesa), var(--marca-turquesa));
+/* Estatística: superfície suave e número em destaque, sem faixa ou contorno. */
+.card.card-estatistica {
+    --metrica-fundo: var(--cor-selecao-opcao);
+    --metrica-acento: var(--cor-selecao-texto);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: var(--espaco-3);
+    min-height: 136px;
+    padding: var(--espaco-5);
+    border: 0;
+    border-radius: var(--raio-medio);
+    background: var(--metrica-fundo);
+    box-shadow: none;
+}
+
+.card.card-estatistica:hover {
+    box-shadow: none;
+    transform: none;
 }
 
 .card-estatistica:has(> iconify-icon[icon="lucide:circle-check"]) {
-    --card-superficie: var(--cor-sucesso-fundo);
-    --card-contorno: linear-gradient(var(--cor-sucesso), var(--cor-sucesso));
+    --metrica-fundo: var(--cor-sucesso-fundo);
+    --metrica-acento: var(--cor-sucesso);
 }
 
 .card-estatistica:has(> iconify-icon[icon="lucide:clock"]) {
-    --card-superficie: var(--cor-alerta-fundo);
-    --card-contorno: linear-gradient(var(--cor-alerta), var(--cor-alerta));
+    --metrica-fundo: var(--cor-alerta-fundo);
+    --metrica-acento: var(--cor-alerta);
 }
 
 .card-estatistica:has(> iconify-icon[icon="lucide:circle-x"]) {
-    --card-superficie: var(--cor-erro-fundo);
-    --card-contorno: linear-gradient(var(--cor-erro), var(--cor-erro));
+    --metrica-fundo: var(--cor-erro-fundo);
+    --metrica-acento: var(--cor-erro);
 }
 
 .card-estatistica:has(> iconify-icon[icon="lucide:file-text"]) {
-    --card-superficie: var(--cor-rascunho-fundo);
-    --card-contorno: linear-gradient(var(--cor-rascunho), var(--cor-rascunho));
+    --metrica-fundo: var(--cor-rascunho-fundo);
+    --metrica-acento: var(--cor-texto-suave);
 }
 
 .card-estatistica > iconify-icon {
-    font-size: 40px;
+    grid-column: 2;
+    grid-row: 1;
+    width: var(--tamanho-icone-secao);
+    height: var(--tamanho-icone-secao);
+    font-size: var(--tamanho-icone-secao);
+    color: var(--metrica-acento);
+}
+
+.card-estatistica > p {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    min-width: 0;
 }
 
 .card-estatistica__numero {
     display: block;
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-weight: var(--peso-extra);
     line-height: 1;
+    letter-spacing: -0.025em;
 }
 
 .card-estatistica__rotulo {
     font-size: var(--fonte-pequena);
-    line-height: 1.3;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
 }
 
 .grade-estatisticas {
