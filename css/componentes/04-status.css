@@ -1,0 +1,43 @@
+/* =========================================================
+   componentes/04-status.css — badges de status
+   Guia: docs/DESIGN.md §5.4
+   ========================================================= */
+
+/* ===== 5.4 Status ===== */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    padding: var(--espaco-1) var(--espaco-3);
+    border-radius: var(--raio-pilula);
+    background-color: var(--cor-rascunho-fundo);
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-medio);
+    white-space: nowrap;
+    color: var(--cor-rascunho);
+}
+
+.status[data-status="rejeitado"],
+.status[data-status="inativo"] {
+    border: 1px solid var(--cor-erro);
+    color: var(--cor-erro);
+    background-color: var(--cor-erro-fundo);
+}
+
+.status[data-status="publicado"],
+.status[data-status="ativo"] {
+    color: var(--cor-sucesso);
+    background-color: var(--cor-sucesso-fundo);
+}
+
+.status[data-status="em-analise"],
+.status[data-status="reenviado"] {
+    color: var(--cor-alerta);
+    background-color: var(--cor-alerta-fundo);
+}
+
+.status[data-status="oculto"] {
+    color: var(--cor-informacao);
+    background-color: var(--cor-informacao-fundo);
+}

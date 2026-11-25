@@ -1,0 +1,142 @@
+/* =========================================================
+   componentes/14-seletor.css — seleção simples (combobox progressiva)
+   Guia: docs/DESIGN.md §5.2
+   ========================================================= */
+
+/* Seleção simples: combobox progressiva com menu na camada superior. */
+.seletor {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    width: 100%;
+}
+
+.seletor select.seletor__nativo {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    clip-path: inset(50%);
+    pointer-events: none;
+}
+
+.seletor__botao {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-2);
+    width: 100%;
+    min-width: 0;
+    min-height: var(--alvo-acao);
+    padding: var(--espaco-2) var(--espaco-3);
+    text-align: left;
+    cursor: pointer;
+}
+
+.seletor__valor {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.seletor__botao > iconify-icon {
+    flex-shrink: 0;
+    font-size: var(--tamanho-icone-acao);
+}
+
+.seletor__botao[aria-expanded="true"] {
+    border-color: var(--cor-primaria);
+}
+
+.campo__entrada[aria-invalid="true"],
+.seletor__botao[aria-invalid="true"] {
+    border-color: var(--cor-erro);
+}
+
+.seletor__lista {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    min-width: min(16rem, calc(100vw - 2 * var(--espaco-2)));
+    max-width: calc(100vw - 2 * var(--espaco-2));
+    max-height: 20rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--espaco-1);
+    border: 1px solid var(--cor-borda-controle);
+    border-radius: var(--raio-medio);
+    background: var(--cor-superficie-menu);
+    color: var(--cor-texto);
+    box-shadow: var(--sombra-elevada);
+    font-size: var(--fonte-pequena);
+}
+
+.seletor__opcao {
+    display: flex;
+    align-items: center;
+    min-height: var(--alvo-acao);
+    padding: var(--espaco-2) var(--espaco-3);
+    border-radius: var(--raio-medio);
+    white-space: normal;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+}
+
+.seletor__opcao:hover,
+.seletor__opcao[data-ativo] {
+    background: var(--cor-painel-hover);
+    box-shadow: none;
+    outline: 1px solid var(--cor-borda);
+    outline-offset: -1px;
+}
+
+.seletor__opcao[aria-selected="true"] {
+    background: var(--cor-selecao-opcao);
+    color: var(--cor-selecao-texto);
+    font-weight: var(--peso-semi);
+}
+
+.seletor__opcao[aria-selected="true"]::after {
+    content: "✓";
+    margin-left: auto;
+    padding-left: var(--espaco-3);
+    font-weight: var(--peso-negrito);
+}
+
+.seletor__opcao[aria-selected="true"][data-ativo] {
+    outline-color: var(--cor-selecao-texto);
+}
+
+.seletor__opcao[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.seletor__grupo {
+    padding: var(--espaco-2) var(--espaco-3);
+    font-weight: var(--peso-negrito);
+    color: var(--cor-texto-suave);
+}
+
+.seletor__erro {
+    font-size: var(--fonte-pequena);
+    color: var(--cor-erro);
+}
+
+.seletor__erro:empty {
+    display: none;
+}
+
+.linha > .seletor,
+.controles-direita > .seletor {
+    width: auto;
+    max-width: 100%;
+}
+
+.barra-filtros__item > .seletor {
+    flex: 1;
+}

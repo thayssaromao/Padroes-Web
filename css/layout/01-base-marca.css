@@ -1,0 +1,63 @@
+/* =========================================================
+   layout/01-base-marca.css — raiz da aplicação, área de conteúdo e marca
+   (logo + nome)
+   Guia: docs/DESIGN.md §4
+   ========================================================= */
+
+#raiz {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.conteudo {
+    --cor-fundo: var(--cor-fundo-publico);
+    background-color: var(--cor-fundo);
+    flex: 1;
+}
+
+/* ===== Marca (logo + nome) ===== */
+
+.marca {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    text-decoration: none;
+    font-weight: var(--peso-medio);
+    color: inherit;
+}
+
+/* A transparência e o símbolo vêm do PNG original, sem placa de fundo. */
+.marca__imagem {
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 56px;
+    flex-shrink: 0;
+}
+
+.marca__logo,
+.marca__inscricao {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-radius: 0;
+    object-fit: cover;
+    background-color: transparent;
+}
+
+/* Recorte alinhado às letras do PNG, preservando lâmpada e base cinza. */
+.marca__inscricao {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0 62%, 41% 62%, 41% 65%, 57% 65%, 57% 62%, 100% 62%, 100% 100%, 0 100%);
+    filter: brightness(0);
+    pointer-events: none;
+}
+
+.cabecalho .marca__inscricao,
+.rodape .marca__inscricao,
+.painel__topo .marca__inscricao {
+    filter: brightness(0) invert(1);
+}

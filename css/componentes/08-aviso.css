@@ -1,0 +1,34 @@
+/* =========================================================
+   componentes/08-aviso.css — aviso
+   Guia: docs/DESIGN.md §5.11
+   ========================================================= */
+
+/* ===== 5.11 Aviso ===== */
+
+.aviso {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+    padding: var(--espaco-5);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-editorial);
+    box-shadow: inset 4px 0 var(--cor-destaque);
+}
+
+.aviso > iconify-icon {
+    font-size: 40px;
+    color: var(--cor-alerta);
+}
+
+.aviso__texto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+    font-size: var(--fonte-pequena);
+}
+
+.aviso__titulo {
+    font-size: var(--fonte-corpo);
+    font-weight: var(--peso-negrito);
+}

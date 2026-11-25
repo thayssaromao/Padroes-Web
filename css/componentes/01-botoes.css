@@ -1,0 +1,160 @@
+/* =========================================================
+   componentes/01-botoes.css — botões e avatar
+   Guia: docs/DESIGN.md §5.1
+   ========================================================= */
+
+/* ===== 5.1 Botões ===== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-2);
+    min-height: 44px;
+    padding: 0 var(--espaco-5);
+    border: 1px solid transparent;
+    border-radius: var(--raio-medio);
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-semi);
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color var(--transicao), border-color var(--transicao),
+        color var(--transicao), transform var(--transicao),
+        box-shadow var(--transicao);
+    color: var(--cor-texto);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn--primario {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-invertido);
+}
+
+.btn--primario:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+.btn--secundario {
+    background-color: var(--cor-secundaria);
+    border-color: var(--cor-primaria);
+    color: var(--cor-link);
+}
+
+.btn--secundario:hover,
+.btn--icone:hover {
+    background-color: var(--cor-secundaria-hover);
+}
+
+.btn--suave:hover {
+    background-color: var(--cor-editorial);
+}
+
+.btn--suave {
+    background-color: var(--cor-destaque);
+    border-color: var(--cor-destaque);
+}
+
+.btn--perigo {
+    background-color: var(--cor-erro);
+    color: var(--cor-texto-invertido);
+}
+
+.btn--perigo:hover {
+    background-color: var(--cor-favorito);
+}
+
+.btn--link {
+    min-height: auto;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--cor-link);
+}
+
+.btn--link:hover {
+    transform: none;
+    text-decoration-thickness: 2px;
+}
+
+.btn--icone {
+    width: 40px;
+    min-height: 40px;
+    height: 40px;
+    padding: 0;
+    border-color: var(--cor-borda-controle);
+    background-color: var(--cor-superficie-card);
+}
+
+.btn--icone iconify-icon {
+    font-size: 20px;
+}
+
+.btn--circular {
+    border-radius: var(--raio-pilula);
+}
+
+.btn--pequeno {
+    min-height: 36px;
+    padding-inline: var(--espaco-3);
+}
+
+.btn--bloco {
+    width: 100%;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+    opacity: 1;
+    cursor: not-allowed;
+    transform: none;
+    background-color: var(--cor-desabilitado);
+    border-color: var(--cor-desabilitado);
+    color: var(--cor-desabilitado-texto);
+}
+
+.link-seta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-1);
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-negrito);
+    text-decoration: none;
+    color: var(--cor-link);
+}
+
+.link-seta iconify-icon {
+    transition: transform var(--transicao);
+}
+
+.link-seta:hover {
+    text-decoration: underline;
+}
+
+.link-seta:hover iconify-icon {
+    transform: translateX(3px);
+}
+
+/* ===== Avatar ===== */
+
+.avatar {
+    border: 3px solid var(--cor-superficie-card);
+    box-shadow: 0 0 0 2px var(--cor-superficie-forte);
+    width: 40px;
+    height: 40px;
+    border-radius: var(--raio-pilula);
+    object-fit: cover;
+}
+
+.avatar--grande {
+    width: 96px;
+    height: 96px;
+}

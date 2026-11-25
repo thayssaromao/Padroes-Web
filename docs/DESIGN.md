@@ -221,7 +221,7 @@ Menus definidos (decisão de unificação — as telas `Publicações` e `Config
 
 ## 5. Componentes
 
-Classes ficam em [`css/componentes.css`](../css/componentes.css). Nomenclatura: bloco em português + modificador com `--` + elemento com `__` (ex.: `.card-produto__titulo`, `.btn--primario`).
+Classes ficam em [`css/componentes/`](../css/componentes/), um arquivo por grupo de componentes. Nomenclatura: bloco em português + modificador com `--` + elemento com `__` (ex.: `.card-produto__titulo`, `.btn--primario`).
 
 ### 5.1 Botões — `.btn`
 
@@ -342,7 +342,7 @@ Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 - O catalogo renderiza os produtos com `criarCardPublico()`,
   reutilizando `criarCardProduto()` e `.card-produto`.
 - Borda, raio, sombra e hover pertencem ao componente
-  compartilhado em `css/componentes.css`.
+  compartilhado em `css/componentes/`.
 - `css/produtos.css` nao deve redefinir globalmente
   `.card-produto` ou `.card-produto:hover`.
 - As regras de grade e modo lista permanecem especificas
@@ -647,9 +647,12 @@ Vídeo: seção "O Liceu em vídeo" na Home com `<iframe>` do YouTube (`youtube-
 ```
 index.html                    casca: <head>, cabeçalho/rodapé do portal, #raiz
 css/global.css                tokens, reset, tipografia, utilitários
-css/componentes.css           tudo da §5 e §8
-css/layout.css                cabeçalho/rodapé do portal, casca do painel, gavetas
-                              (ordem de carga: global → componentes → layout → paginas)
+css/componentes/NN-*.css      tudo da §5 e §8, um arquivo por grupo de componentes
+css/layout/NN-*.css           base e marca, portal, casca do painel, responsivo
+                              (ordem de carga: global → componentes → layout → paginas;
+                              dentro de cada pasta, pelo prefixo numérico NN, que
+                              preserva a cascata — os responsivo.css vêm depois dos
+                              componentes que ajustam)
 css/paginas/<pagina>.css      estilos exclusivos de uma página (dono: branch da página)
 js/router.js                  ponto de entrada; roteia, monta layout, chama a página
 js/rotas.js                   tabela de rotas (caminho, arquivo, layout, menu, ícone, módulo)
@@ -710,7 +713,7 @@ assets/img/                   imagens (placeholders trocáveis)
 - Mobile-first; só `min-width` nas media queries (§3).
 - Nada de cor/fonte/raio fora dos tokens.
 - Seletores por classe; sem `id` no CSS; profundidade máxima 3.
-- Página não estiliza componente global — se precisar de variação, cria modificador em `componentes.css` (na branch de base) ou classe própria prefixada com o nome da página (`.inicio-hero`).
+- Página não estiliza componente global — se precisar de variação, cria modificador no arquivo do componente em `css/componentes/` (na branch de base) ou classe própria prefixada com o nome da página (`.inicio-hero`).
 
 ---
 
@@ -1273,7 +1276,7 @@ roteamento, telas de listagem, painel do artesão ou cards da vitrine pública.
   e objetivos institucionais usam apenas o desenho. Botões de ação mantêm
   alvos, foco e hover; não confundir apresentação com área interativa.
 - Métricas internas compartilham cards brancos com contorno suave e ícones
-  semânticos sem fundo. Essa variante fica em `css/layout.css`, sem duplicar
+  semânticos sem fundo. Essa variante fica em `css/componentes/05-cards.css`, sem duplicar
   os estilos entre Artesão e Liceu.
 - No início do artesão, o cabeçalho recebe card neutro e mídia compacta.
   `artesao-resumo` não usa plano amarelo nem padding de bloco colorido; cards

@@ -1,0 +1,60 @@
+/* =========================================================
+   componentes/13-multisselecao.css — seleção múltipla com checkboxes nativos
+   Guia: docs/DESIGN.md §5.2
+   ========================================================= */
+
+/* Seleção múltipla mantém checkboxes nativos e contrato do select. */
+.multisselecao {
+    min-width: 0;
+    padding: var(--espaco-4);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+}
+
+.multisselecao legend {
+    padding-inline: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-semi);
+}
+
+.multisselecao__opcoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: var(--espaco-2);
+}
+
+.multisselecao__opcao {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    min-height: var(--alvo-acao);
+    padding: var(--espaco-2);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+    cursor: pointer;
+    overflow-wrap: anywhere;
+}
+
+.multisselecao__opcao:has(:checked) {
+    background-color: var(--cor-superficie-forte);
+    border-color: var(--cor-borda-forte);
+}
+
+.multisselecao__resumo {
+    margin-top: var(--espaco-3);
+    font-size: var(--fonte-pequena);
+    color: var(--cor-texto-suave);
+}
+
+@media (min-width: 1024px) {
+    .modal__acoes--grade {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .modal__acoes--grade > .btn {
+        flex: 1;
+        min-width: 0;
+        padding-inline: var(--espaco-3);
+    }
+}

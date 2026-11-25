@@ -1,0 +1,139 @@
+/* =========================================================
+   componentes/09-midia.css — upload, pré-visualização do perfil e vídeo
+   incorporado
+   Guia: docs/DESIGN.md §5.12 e §5.13
+   ========================================================= */
+
+/* ===== 5.12 Upload ===== */
+
+.upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-2);
+    padding: var(--espaco-6) var(--espaco-4);
+    border: 2px dashed var(--cor-borda-controle);
+    border-radius: var(--raio-medio);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color var(--transicao), background-color var(--transicao);
+}
+
+.upload:hover,
+.upload--arrastando {
+    border-color: var(--cor-borda-forte);
+    background-color: var(--cor-superficie);
+}
+
+.upload > iconify-icon {
+    font-size: 48px;
+}
+
+.upload__titulo {
+    font-size: var(--fonte-grande);
+    font-weight: var(--peso-negrito);
+}
+
+.miniaturas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--espaco-3);
+}
+
+.miniatura {
+    position: relative;
+}
+
+.miniatura img {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+}
+
+.miniatura__remover {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    display: inline-flex;
+    padding: 2px;
+    border: 1px solid var(--cor-borda-forte);
+    border-radius: var(--raio-pilula);
+    background-color: var(--cor-fundo);
+}
+
+.miniatura__capa {
+    position: absolute;
+    bottom: var(--espaco-1);
+    left: var(--espaco-1);
+    padding: 0 var(--espaco-2);
+    border-radius: var(--raio-pequeno);
+    background-color: var(--cor-texto-suave);
+    color: var(--cor-texto-invertido);
+    font-size: var(--fonte-mini);
+}
+
+/* ===== 5.13 Pré-visualização do perfil ===== */
+.previa-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+    padding: var(--espaco-4);
+    border: 1px solid var(--cor-borda-forte);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-superficie-forte);
+}
+
+.previa-perfil__cabecalho {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    font-size: var(--fonte-mini);
+}
+
+.previa-perfil__cabecalho iconify-icon {
+    font-size: 24px;
+}
+
+.previa-perfil__cabecalho h2 {
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-negrito);
+}
+
+.previa-perfil__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-3);
+    padding: var(--espaco-5);
+    background-color: var(--cor-superficie-card);
+    text-align: center;
+}
+
+.previa-perfil__nome {
+    font-size: var(--fonte-h3);
+    font-weight: var(--peso-extra);
+    overflow-wrap: anywhere;
+}
+
+.previa-perfil__tecnicas {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+}
+
+.previa-perfil__bio {
+    font-size: var(--fonte-pequena);
+    overflow-wrap: anywhere;
+}
+
+/* ===== Vídeo incorporado ===== */
+
+.video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-placeholder);
+}

@@ -1,0 +1,373 @@
+/* =========================================================
+   componentes/05-cards.css — cards (atalho, produto, técnica, artesão,
+   estatística, trabalho)
+   Guia: docs/DESIGN.md §5.5
+   ========================================================= */
+
+/* ===== 5.5 Cards ===== */
+
+.card,
+.bloco-form {
+    --card-superficie: var(--cor-superficie-card);
+    --card-contorno: var(--borda-card);
+    border: 1px solid transparent;
+    border-radius: var(--raio-card);
+    background: linear-gradient(var(--card-superficie), var(--card-superficie)) padding-box,
+        var(--card-contorno) border-box;
+    box-shadow: var(--sombra-card);
+    transition: box-shadow var(--transicao);
+}
+
+.card:hover,
+.card:focus-within {
+    box-shadow: var(--sombra-elevada);
+}
+
+/* Atalho */
+.card-atalho {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-4);
+    padding: var(--espaco-4) var(--espaco-5);
+    text-decoration: none;
+    color: var(--cor-texto);
+}
+
+.card-atalho > iconify-icon {
+    font-size: 36px;
+    color: var(--cor-primaria);
+}
+
+.card-atalho:hover .card-atalho__titulo,
+.card-atalho:focus-visible .card-atalho__titulo {
+    text-decoration: underline;
+    text-underline-offset: var(--espaco-1);
+}
+
+.card-atalho > iconify-icon:last-child {
+    width: 36px;
+    height: 36px;
+    font-size: var(--tamanho-icone-acao);
+}
+
+.card-atalho__texto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-atalho__titulo {
+    font-size: var(--fonte-grande);
+    font-weight: var(--peso-negrito);
+}
+
+.card-atalho__descricao {
+    font-size: var(--fonte-pequena);
+    color: var(--cor-texto-suave);
+}
+
+/* Produto */
+.card-produto {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card-produto__imagem {
+    width: 100%;
+    aspect-ratio: 8 / 3;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.card-produto__favorito {
+    position: absolute;
+    top: var(--espaco-3);
+    right: var(--espaco-3);
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--raio-pilula);
+    background-color: var(--cor-superficie-card);
+    box-shadow: var(--sombra-card);
+    transition: transform var(--transicao);
+    color: var(--cor-favorito);
+}
+
+.card-produto__favorito:hover {
+    transform: scale(1.1);
+}
+
+.card-produto__favorito[aria-pressed="true"] {
+    background-color: var(--cor-favorito);
+}
+
+.card-produto__favorito[aria-pressed="true"] iconify-icon {
+    color: var(--cor-texto-invertido);
+}
+
+.card-produto__corpo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+    padding: var(--espaco-3) var(--espaco-4) var(--espaco-4);
+}
+
+.card-produto__titulo {
+    font-size: var(--fonte-corpo);
+}
+
+.card-produto__titulo a {
+    text-decoration: none;
+    color: var(--cor-texto);
+}
+
+.card-produto__titulo a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.card-produto__meta {
+    font-size: var(--fonte-pequena);
+    color: var(--cor-texto-suave);
+}
+
+.card-produto__acoes {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: var(--espaco-3);
+    margin-top: var(--espaco-3);
+    padding-top: var(--espaco-3);
+    border-top: 1px solid var(--cor-borda);
+}
+
+.card-produto__acoes .btn:first-child:not(.btn--icone) {
+    flex: 1;
+}
+
+/* Técnica (Saberes) */
+.card-tecnica {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card-tecnica__imagem {
+    width: 100%;
+    aspect-ratio: 8 / 3;
+    object-fit: cover;
+    border-bottom: 1px solid var(--cor-borda);
+    background-color: var(--cor-placeholder);
+}
+
+.card-tecnica__corpo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    padding: var(--espaco-3) var(--espaco-4) var(--espaco-4);
+}
+
+.card-tecnica__titulo {
+    font-size: var(--fonte-corpo);
+}
+
+.card-tecnica__descricao {
+    font-size: var(--fonte-mini);
+    line-height: 1.35;
+    color: var(--cor-texto-suave);
+}
+
+.card-tecnica .btn--bloco {
+    margin-top: auto;
+    background-color: var(--cor-superficie);
+    border-color: var(--cor-borda);
+}
+
+/* Artesão (mini, redondo) */
+.card-artesao-mini {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-4);
+    text-decoration: none;
+    color: var(--cor-texto);
+}
+
+.card-artesao-mini > .pilha {
+    gap: 0;
+    line-height: 1.2;
+}
+
+.card-artesao-mini img {
+    width: 96px;
+    height: 96px;
+    border-radius: var(--raio-pilula);
+    transition: transform var(--transicao);
+}
+
+.card-artesao-mini:hover img {
+    transform: scale(1.05);
+}
+
+.card-artesao-mini__nome {
+    font-size: var(--fonte-grande);
+    font-weight: var(--peso-semi);
+}
+
+/* Artesão (card da listagem) */
+.card-artesao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+    padding: var(--espaco-5);
+}
+
+.card-artesao .card-artesao__foto {
+    border-radius: var(--raio-pilula);
+    border: 3px solid var(--cor-superficie-card);
+    box-shadow: 0 0 0 2px var(--cor-superficie-forte);
+}
+
+.card-artesao__topo {
+    display: flex;
+    gap: var(--espaco-4);
+}
+
+.card-artesao__foto {
+    width: 88px;
+    height: 88px;
+    border-radius: var(--raio-pequeno);
+}
+
+.card-artesao__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+    min-width: 0;
+}
+
+.card-artesao__nome {
+    font-size: var(--fonte-grande);
+}
+
+.local {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-1);
+    font-size: var(--fonte-pequena);
+    color: var(--cor-texto-suave);
+}
+
+/* Estatística: superfície suave e número em destaque, sem faixa ou contorno. */
+.card.card-estatistica {
+    --metrica-fundo: var(--cor-selecao-opcao);
+    --metrica-acento: var(--cor-selecao-texto);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: var(--espaco-3);
+    min-height: 136px;
+    padding: var(--espaco-5);
+    border: 0;
+    border-radius: var(--raio-medio);
+    background: var(--metrica-fundo);
+    box-shadow: none;
+}
+
+.card.card-estatistica:hover {
+    box-shadow: none;
+    transform: none;
+}
+
+.card-estatistica:has(> iconify-icon[icon="lucide:circle-check"]) {
+    --metrica-fundo: var(--cor-sucesso-fundo);
+    --metrica-acento: var(--cor-sucesso);
+}
+
+.card-estatistica:has(> iconify-icon[icon="lucide:clock"]) {
+    --metrica-fundo: var(--cor-alerta-fundo);
+    --metrica-acento: var(--cor-alerta);
+}
+
+.card-estatistica:has(> iconify-icon[icon="lucide:circle-x"]) {
+    --metrica-fundo: var(--cor-erro-fundo);
+    --metrica-acento: var(--cor-erro);
+}
+
+.card-estatistica:has(> iconify-icon[icon="lucide:file-text"]) {
+    --metrica-fundo: var(--cor-rascunho-fundo);
+    --metrica-acento: var(--cor-texto-suave);
+}
+
+.card-estatistica > iconify-icon {
+    grid-column: 2;
+    grid-row: 1;
+    width: var(--tamanho-icone-secao);
+    height: var(--tamanho-icone-secao);
+    font-size: var(--tamanho-icone-secao);
+    color: var(--metrica-acento);
+}
+
+.card-estatistica > p {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    min-width: 0;
+}
+
+.card-estatistica__numero {
+    display: block;
+    font-size: 2.25rem;
+    font-weight: var(--peso-extra);
+    line-height: 1;
+    letter-spacing: -0.025em;
+}
+
+.card-estatistica__rotulo {
+    font-size: var(--fonte-pequena);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.grade-estatisticas {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espaco-4);
+}
+
+/* Trabalho (painel do Liceu) */
+.card-trabalho {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    padding: var(--espaco-3);
+}
+
+.card-trabalho__imagem {
+    width: 100%;
+    aspect-ratio: 5 / 2;
+    border-radius: var(--raio-pequeno);
+}
+
+.card-trabalho__titulo {
+    font-size: var(--fonte-corpo);
+}
+
+.card-trabalho__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+}
+
+.card-trabalho .btn {
+    margin-top: var(--espaco-2);
+}
