@@ -1,0 +1,122 @@
+/* =========================================================
+   componentes/11-responsivo.css — ajustes de Tablet e Desktop dos
+   componentes 01 a 10. Fica depois deles para preservar a cascata.
+   Guia: docs/DESIGN.md §5
+   ========================================================= */
+
+/* ===== Tablet ===== */
+@media (min-width: 600px) {
+    .campos-duplos {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .grade-estatisticas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .barra-filtros {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .aviso {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .aviso > iconify-icon {
+        margin-inline-end: calc(var(--espaco-4) + 1px);
+    }
+
+    .carrossel__slide img {
+        aspect-ratio: 16 / 7;
+    }
+
+    .modal {
+        width: min(100% - 2 * var(--espaco-5), 880px);
+        margin: auto;
+        padding: var(--espaco-7);
+        border-radius: var(--raio-grande);
+    }
+
+    .modal--pequeno {
+        width: min(100% - 2 * var(--espaco-5), 440px);
+        padding: var(--espaco-6);
+    }
+
+    .modal--medio {
+        width: min(100% - 2 * var(--espaco-5), 640px);
+    }
+
+    .modal__fechar {
+        top: var(--espaco-5);
+        right: var(--espaco-5);
+    }
+}
+
+/* ===== Desktop ===== */
+@media (min-width: 1024px) {
+    .grade-estatisticas {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .grade-estatisticas--3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .barra-filtros {
+        flex-wrap: nowrap;
+    }
+
+    .barra-filtros--grupos {
+        row-gap: var(--espaco-3);
+        column-gap: calc(2 * var(--espaco-3) + 1px);
+    }
+
+    .tabela thead {
+        position: static;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        clip-path: none;
+    }
+
+    .tabela tr {
+        display: table-row;
+        padding: 0;
+    }
+
+    .tabela th,
+    .tabela td {
+        display: table-cell;
+        padding: var(--espaco-3) var(--espaco-4);
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    .tabela th {
+        color: var(--cor-texto-invertido);
+        background-color: var(--cor-cabecalho-tabela);
+        font-size: var(--fonte-corpo);
+        font-weight: var(--peso-negrito);
+    }
+
+    .tabela td[data-rotulo]::before {
+        content: none;
+    }
+
+    .tabela td > * + * {
+        margin-top: var(--espaco-1);
+    }
+
+    .tabela td .chips,
+    .tabela td .tabela__acoes,
+    .tabela td .tabela__principal {
+        margin-top: 0;
+    }
+
+    .tabela tbody tr {
+        border-top: 1px solid var(--cor-borda);
+    }
+}

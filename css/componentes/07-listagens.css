@@ -1,0 +1,205 @@
+/* =========================================================
+   componentes/07-listagens.css — busca e filtros, paginação e tabela
+   Guia: docs/DESIGN.md §5.8 a §5.10
+   ========================================================= */
+
+/* ===== 5.8 Busca e filtros ===== */
+
+.busca {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+.busca > iconify-icon {
+    position: absolute;
+    top: 50%;
+    left: var(--espaco-4);
+    font-size: 22px;
+    color: var(--cor-texto-suave);
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.busca__entrada {
+    width: 100%;
+    min-height: 48px;
+    padding: var(--espaco-2) var(--espaco-4) var(--espaco-2) 52px;
+    border: 1px solid var(--cor-borda-controle);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-campo);
+}
+
+.busca__entrada:focus-visible {
+    border-color: var(--cor-borda-forte);
+}
+
+.barra-filtros {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+    margin-bottom: var(--espaco-5);
+}
+
+.barra-filtros--grupos {
+    gap: calc(2 * var(--espaco-3));
+}
+
+.barra-filtros__item {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+    white-space: nowrap;
+}
+
+.barra-filtros__item .campo__entrada {
+    min-width: 0;
+}
+
+.barra-ferramentas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-3);
+    margin-block: var(--espaco-5);
+}
+
+.alternar-visualizacao {
+    display: flex;
+    gap: var(--espaco-2);
+}
+
+.alternar-visualizacao .btn--icone[aria-pressed="true"] {
+    border-color: var(--cor-primaria);
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-invertido);
+}
+
+.resultado-contagem {
+    font-size: var(--fonte-pequena);
+}
+
+/* ===== 5.9 Paginação ===== */
+
+.paginacao {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-4);
+    margin-top: var(--espaco-6);
+}
+
+.paginacao--centro {
+    justify-content: center;
+}
+
+.paginacao__lista {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.paginacao__botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding-inline: var(--espaco-2);
+    border: 1px solid transparent;
+    border-radius: var(--raio-pequeno);
+    font-weight: var(--peso-semi);
+    transition: background-color var(--transicao);
+}
+
+.paginacao--bordas .paginacao__botao {
+    border-color: var(--cor-borda);
+}
+
+.paginacao__botao:hover {
+    background-color: var(--cor-superficie-forte);
+}
+
+.paginacao__botao--seta {
+    background-color: var(--cor-superficie-forte);
+}
+
+.paginacao__botao[aria-current="page"] {
+    border-color: var(--cor-primaria);
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-invertido);
+}
+
+/* ===== 5.10 Tabela ===== */
+
+.tabela-container {
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    overflow: hidden;
+    background-color: var(--cor-superficie-card);
+}
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fonte-pequena);
+}
+
+.tabela thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+}
+
+.tabela tr {
+    display: grid;
+    gap: var(--espaco-2);
+    padding: var(--espaco-4);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.tabela tbody tr:hover {
+    background-color: var(--cor-superficie);
+}
+
+.tabela tbody tr:last-child {
+    border-bottom: none;
+}
+
+.tabela td {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espaco-2);
+}
+
+.tabela td[data-rotulo]::before {
+    content: attr(data-rotulo) ": ";
+    min-width: 96px;
+    font-weight: var(--peso-negrito);
+}
+
+.tabela__principal {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    font-weight: var(--peso-negrito);
+}
+
+.tabela__miniatura {
+    width: 64px;
+    height: 44px;
+    border-radius: var(--raio-pequeno);
+}
+
+.tabela__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+}

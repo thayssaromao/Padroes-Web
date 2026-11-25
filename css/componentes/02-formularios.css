@@ -1,0 +1,224 @@
+/* =========================================================
+   componentes/02-formularios.css — campos, grupos e cabeçalho de seção
+   reutilizável (inclusive dentro de legend)
+   Guia: docs/DESIGN.md §5.2
+   ========================================================= */
+
+/* ===== 5.2 Formulários ===== */
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+}
+
+.campo__rotulo {
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-negrito);
+}
+
+.campo__entrada {
+    width: 100%;
+    min-height: 44px;
+    padding: var(--espaco-2) var(--espaco-3);
+    border: 1px solid var(--cor-borda-controle);
+    border-radius: var(--raio-pequeno);
+    background-color: var(--cor-campo);
+    font-size: var(--fonte-pequena);
+    transition: border-color var(--transicao);
+}
+
+.campo__entrada::placeholder {
+    color: var(--cor-texto-apagado);
+}
+
+.campo__entrada:hover {
+    border-color: var(--cor-texto-suave);
+}
+
+.campo__entrada:focus-visible {
+    border-color: var(--cor-borda-forte);
+}
+
+.campo__entrada:disabled {
+    background-color: var(--cor-desabilitado);
+    cursor: not-allowed;
+    color: var(--cor-desabilitado-texto);
+}
+
+select.campo__entrada {
+    appearance: none;
+    padding-right: var(--espaco-7);
+    background-image: var(--imagem-seta-select);
+    background-position: right var(--espaco-3) center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+textarea.campo__entrada {
+    min-height: 96px;
+    resize: vertical;
+}
+
+.campo__grupo {
+    position: relative;
+}
+
+.campo__grupo > iconify-icon {
+    position: absolute;
+    top: 50%;
+    left: var(--espaco-3);
+    transform: translateY(-50%);
+    color: var(--cor-texto-suave);
+    pointer-events: none;
+}
+
+.campo__grupo > .campo__entrada {
+    padding-left: 40px;
+}
+
+.campo__grupo > .btn--icone {
+    position: absolute;
+    top: 50%;
+    right: var(--espaco-1);
+    width: 36px;
+    min-height: 36px;
+    height: 36px;
+    border: none;
+    background: none;
+    transform: translateY(-50%);
+}
+
+.campo__ajuda {
+    font-size: var(--fonte-mini);
+    color: var(--cor-texto-suave);
+}
+
+.campos-duplos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espaco-4);
+}
+
+.bloco-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+    padding: var(--espaco-5);
+}
+
+.bloco-form__cabecalho {
+    display: flex;
+    align-items: flex-start;
+    /* Incorpora ao gap o espaço antes ocupado pelo padding e pela borda. */
+    gap: calc(2 * var(--espaco-4) + 1px);
+}
+
+.bloco-form__cabecalho > iconify-icon {
+    font-size: 32px;
+    color: var(--cor-primaria);
+}
+
+.bloco-form__titulo {
+    font-size: var(--fonte-h3);
+    font-weight: var(--peso-negrito);
+}
+
+.bloco-form__descricao {
+    font-size: var(--fonte-pequena);
+    color: var(--cor-texto-suave);
+}
+
+/* Cabeçalho de seção reutilizável, inclusive dentro de legend. */
+.bloco-form__cabecalho--secao {
+    align-items: center;
+    gap: var(--espaco-4);
+}
+
+.bloco-form__cabecalho--secao .bloco-form__icone {
+    display: grid;
+    place-items: center;
+    flex: 0 0 var(--tamanho-caixa-icone-secao);
+    width: var(--tamanho-caixa-icone-secao);
+    height: var(--tamanho-caixa-icone-secao);
+    color: var(--cor-texto-suave);
+}
+
+.bloco-form__cabecalho--secao .bloco-form__icone > iconify-icon {
+    display: block;
+    width: 1em;
+    height: 1em;
+    padding: 0;
+    border: 0;
+    font-size: var(--tamanho-icone-secao);
+    line-height: 1;
+}
+
+.bloco-form__cabecalho--secao .bloco-form__texto {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: var(--espaco-1);
+}
+
+.bloco-form__cabecalho--secao .bloco-form__texto > * {
+    margin: 0;
+}
+
+.bloco-form__cabecalho--secao .bloco-form__titulo {
+    line-height: 1.25;
+}
+
+.bloco-form__cabecalho--secao .bloco-form__descricao {
+    line-height: var(--altura-linha);
+}
+
+.form-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--espaco-4);
+}
+
+.interruptor {
+    position: relative;
+    flex-shrink: 0;
+    width: 48px;
+    height: 28px;
+    appearance: none;
+    border-radius: var(--raio-pilula);
+    background-color: var(--cor-borda);
+    cursor: pointer;
+    transition: background-color var(--transicao);
+}
+
+.interruptor::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: var(--raio-pilula);
+    background-color: var(--cor-fundo);
+    box-shadow: var(--sombra-card);
+    transition: transform var(--transicao);
+}
+
+.interruptor:checked {
+    background-color: var(--cor-primaria);
+}
+
+.interruptor:checked::after {
+    transform: translateX(20px);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    accent-color: var(--cor-primaria);
+}
+
+[role="alert"] {
+    color: var(--cor-erro);
+}

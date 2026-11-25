@@ -1,0 +1,199 @@
+/* =========================================================
+   layout/02-portal.css — cabeçalho e rodapé do portal
+   Guia: docs/DESIGN.md §4
+   ========================================================= */
+
+/* ===== Cabeçalho do portal ===== */
+
+.cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background-color: var(--cor-barra);
+    color: var(--cor-nav-texto);
+    --cor-foco: var(--marca-amarelo);
+    background-image: var(--grafismo-marca);
+    background-size: 100% 4px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+.cabecalho__interno {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-4);
+    width: min(100% - 2 * var(--espaco-4), 1320px);
+    height: var(--altura-barra);
+    margin-inline: auto;
+}
+
+.cabecalho__menu {
+    display: inline-flex;
+}
+
+.nav-portal {
+    position: absolute;
+    top: var(--altura-barra);
+    right: calc(-1 * var(--espaco-4));
+    left: calc(-1 * var(--espaco-4));
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    padding: var(--espaco-4);
+    max-height: calc(100dvh - var(--altura-barra));
+    overflow-y: auto;
+    background-color: var(--cor-barra);
+    box-shadow: var(--sombra-elevada);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity var(--transicao), transform var(--transicao),
+        visibility var(--transicao);
+}
+
+.nav-portal--aberto {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.nav-portal__lista {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-1);
+}
+
+.nav-portal__link,
+.nav-portal__entrar {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    min-height: 44px;
+    padding-inline: var(--espaco-2);
+    font-size: var(--fonte-header);
+    text-decoration: none;
+    border-radius: var(--raio-pequeno);
+    transition: background-color var(--transicao), color var(--transicao);
+    color: inherit;
+}
+
+.nav-portal__link:not([aria-current="page"]):hover,
+.nav-portal__link:not([aria-current="page"]):focus-visible {
+    background-color: var(--cor-nav-hover);
+}
+
+.nav-portal__link[aria-current="page"],
+.rodape__links a[aria-current="page"] {
+    background-color: var(--cor-destaque);
+    color: var(--cor-texto);
+    font-weight: var(--peso-negrito);
+}
+
+.nav-portal__entrar {
+    font-weight: var(--peso-medio);
+    border-top: 1px solid var(--cor-divisor-nav);
+    padding-top: var(--espaco-2);
+    transition: color var(--transicao);
+}
+
+.nav-portal__link:not([aria-current="page"]):hover,
+.nav-portal__link:not([aria-current="page"]):focus-visible,
+.nav-portal__entrar:hover,
+.nav-portal__entrar:focus-visible,
+.rodape__links a:not([aria-current="page"]):hover,
+.rodape__links a:not([aria-current="page"]):focus-visible,
+.rodape__social a:hover,
+.rodape__social a:focus-visible {
+    color: var(--cor-link-barra-hover);
+}
+
+.nav-portal__entrar iconify-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+}
+
+/* ===== Rodapé do portal ===== */
+
+.rodape {
+    background-color: var(--cor-rodape);
+    font-size: var(--fonte-footer);
+    color: var(--cor-nav-texto);
+    --cor-foco: var(--marca-amarelo);
+    background-image: var(--grafismo-marca);
+    background-size: 100% 4px;
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+.rodape .marca {
+    font-size: 0.875rem;
+}
+
+.rodape__interno {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+    width: min(100% - 2 * var(--espaco-4), 1320px);
+    margin-inline: auto;
+    padding-block: var(--espaco-4);
+}
+
+.rodape__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2) var(--espaco-5);
+}
+
+.rodape__links a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: var(--espaco-2);
+    text-decoration: none;
+    transition: color var(--transicao);
+    color: inherit;
+}
+
+.rodape__links a[aria-current="page"] {
+    align-self: center;
+    padding-block: var(--espaco-2);
+    border-radius: var(--raio-pequeno);
+    box-shadow: 0 0 0 var(--espaco-1) var(--cor-destaque);
+}
+
+.rodape__social {
+    display: flex;
+    gap: var(--espaco-3);
+}
+
+.rodape__social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+    transition: transform var(--transicao), color var(--transicao);
+    color: inherit;
+}
+
+.rodape__social iconify-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+}
+
+.rodape__social a:hover,
+.rodape__social a:focus-visible {
+    transform: translateY(-2px);
+}
+
+/* Portal some quando o layout é painel */
+.layout-painel .cabecalho,
+.layout-painel .rodape {
+    display: none;
+}

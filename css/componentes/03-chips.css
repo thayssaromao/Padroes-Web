@@ -1,0 +1,151 @@
+/* =========================================================
+   componentes/03-chips.css — chips, cores de assunto e acordeão
+   Guia: docs/DESIGN.md §5.3
+   ========================================================= */
+
+/* ===== 5.3 Chips ===== */
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espaco-1);
+    padding: 2px var(--espaco-2);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-chip);
+    background-color: var(--cor-superficie-forte);
+    font-size: var(--fonte-mini);
+    white-space: nowrap;
+}
+
+.chip--removivel {
+    padding: var(--espaco-1) var(--espaco-1) var(--espaco-1) var(--espaco-3);
+    border-radius: var(--raio-pilula);
+    font-size: var(--fonte-pequena);
+}
+
+.chip__remover {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--alvo-acao);
+    min-height: var(--alvo-acao);
+    padding: 2px;
+    border-radius: var(--raio-pilula);
+}
+
+.chip__remover:hover {
+    background-color: var(--cor-borda);
+}
+
+.filtros-chips {
+    display: flex;
+    gap: var(--espaco-3);
+    overflow-x: auto;
+    padding-bottom: var(--espaco-1);
+}
+
+.filtro-chip {
+    flex-shrink: 0;
+    min-width: 120px;
+    min-height: 44px;
+    padding-inline: var(--espaco-4);
+    border: 1px solid var(--cor-texto-suave);
+    border-radius: var(--raio-pequeno);
+    background-color: var(--cor-superficie-card);
+    font-size: var(--fonte-pequena);
+    transition: background-color var(--transicao), border-color var(--transicao);
+}
+
+.filtro-chip:hover {
+    background-color: var(--cor-editorial);
+}
+
+.filtro-chip[aria-pressed="true"] {
+    border-color: var(--cor-primaria);
+    background-color: var(--cor-primaria);
+    font-weight: var(--peso-semi);
+    color: var(--cor-texto-invertido);
+}
+
+/* Cores de assunto são independentes dos badges de status. */
+[data-cor="turquesa"] {
+    --chip-texto: var(--cor-chip-turquesa);
+    --chip-fundo: var(--cor-chip-turquesa-fundo);
+}
+
+[data-cor="rosa"] {
+    --chip-texto: var(--cor-chip-rosa);
+    --chip-fundo: var(--cor-chip-rosa-fundo);
+}
+
+[data-cor="amarelo"] {
+    --chip-texto: var(--cor-chip-amarelo);
+    --chip-fundo: var(--cor-chip-amarelo-fundo);
+}
+
+[data-cor="azul"] {
+    --chip-texto: var(--cor-chip-azul);
+    --chip-fundo: var(--cor-chip-azul-fundo);
+}
+
+[data-cor="verde"] {
+    --chip-texto: var(--cor-chip-verde);
+    --chip-fundo: var(--cor-chip-verde-fundo);
+}
+
+[data-cor="violeta"] {
+    --chip-texto: var(--cor-chip-violeta);
+    --chip-fundo: var(--cor-chip-violeta-fundo);
+}
+
+.chip[data-cor],
+.filtro-chip[data-cor] {
+    color: var(--chip-texto);
+    background-color: var(--chip-fundo);
+    border-color: var(--cor-borda);
+}
+
+.filtro-chip[data-cor]:hover {
+    box-shadow: inset 0 0 0 1px var(--chip-texto);
+}
+
+.filtro-chip[data-cor][aria-pressed="true"] {
+    background-color: var(--chip-texto);
+    color: var(--cor-texto-invertido);
+    border-color: var(--chip-texto);
+    box-shadow: inset 0 0 0 1px var(--chip-texto);
+    font-weight: var(--peso-negrito);
+}
+
+/* Acordeão: botão nativo dentro do heading, sem substituir sua semântica. */
+.acordeao-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-2);
+    width: 100%;
+    min-height: var(--alvo-acao);
+    padding-block: var(--espaco-2);
+    color: var(--cor-texto);
+    font-size: var(--fonte-corpo);
+    font-weight: var(--peso-negrito);
+    text-align: left;
+}
+
+.lista-checkboxes label {
+    min-height: var(--alvo-acao);
+}
+
+.lista-checkboxes input[type="checkbox"],
+.lista-checkboxes input[type="radio"] {
+    width: var(--espaco-5);
+    height: var(--espaco-5);
+    flex-shrink: 0;
+    accent-color: var(--cor-primaria);
+}

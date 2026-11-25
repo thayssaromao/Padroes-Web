@@ -1,0 +1,101 @@
+/* =========================================================
+   componentes/06-secao-carrossel.css — cabeçalho de seção e carrossel
+   Guia: docs/DESIGN.md §5.6 e §5.7
+   ========================================================= */
+
+/* ===== 5.6 Cabeçalho de seção ===== */
+
+.secao-cabecalho {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--espaco-2) var(--espaco-4);
+    margin-bottom: var(--espaco-5);
+}
+
+
+/* ===== 5.7 Carrossel ===== */
+
+.carrossel {
+    position: relative;
+}
+
+.carrossel__janela {
+    overflow: hidden;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+}
+
+.carrossel__trilho {
+    display: flex;
+    transition: transform 500ms ease;
+}
+
+.carrossel__slide {
+    flex: 0 0 100%;
+}
+
+.carrossel__slide img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+}
+
+.carrossel__seta {
+    position: absolute;
+    top: calc(50% - 16px);
+    z-index: 1;
+    border: none;
+    background-color: var(--cor-superficie-card);
+    transform: translateY(-50%);
+}
+
+.carrossel__seta:hover {
+    background-color: var(--cor-fundo);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.carrossel__seta--anterior {
+    left: var(--espaco-3);
+}
+
+.carrossel__seta--proxima {
+    right: var(--espaco-3);
+}
+
+.carrossel__indicadores {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-1);
+    margin-top: var(--espaco-3);
+}
+
+.carrossel__reproducao {
+    min-height: var(--alvo-acao);
+    padding-inline: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+}
+
+.carrossel__ponto {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.carrossel__ponto::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: var(--raio-pilula);
+    background-color: var(--cor-borda);
+    transition: background-color var(--transicao), transform var(--transicao);
+}
+
+.carrossel__ponto[aria-current="true"]::before {
+    background-color: var(--cor-favorito);
+    transform: scale(1.25);
+}

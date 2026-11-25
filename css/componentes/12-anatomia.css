@@ -1,0 +1,161 @@
+/* =========================================================
+   componentes/12-anatomia.css — refinamentos que unificam escala e anatomia
+   de ações, detalhes e estados (sobrescrevem regras anteriores).
+   Guia: docs/DESIGN.md §5 e §8
+   ========================================================= */
+
+/* Ações, detalhes e estados partilham a mesma escala e anatomia. */
+.btn > iconify-icon {
+    width: 1em;
+    height: 1em;
+    flex: none;
+    font-size: var(--tamanho-icone-acao);
+}
+
+.btn--icone {
+    width: var(--alvo-acao);
+    min-width: var(--alvo-acao);
+    height: var(--alvo-acao);
+    min-height: var(--alvo-acao);
+    flex: none;
+}
+
+.status > iconify-icon {
+    width: 1em;
+    height: 1em;
+    font-size: var(--tamanho-icone-status);
+}
+
+.campo__entrada--senha {
+    padding-right: var(--espaco-7);
+}
+
+.campo__grupo > .btn--icone {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: var(--alvo-acao);
+    height: 100%;
+    min-height: var(--alvo-acao);
+    transform: none;
+}
+
+.modal__fechar {
+    width: var(--alvo-acao);
+    height: var(--alvo-acao);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal__corpo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-5);
+    min-width: 0;
+}
+
+.modal__corpo > form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-4);
+}
+
+.modal__corpo [data-erro]:empty {
+    display: none;
+}
+
+.modal__acoes .btn {
+    white-space: normal;
+}
+
+.modal__acoes--grade {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.detalhe-trabalho {
+    display: grid;
+    gap: var(--espaco-5);
+    align-items: start;
+}
+
+.detalhe-trabalho__galeria {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--espaco-2);
+    min-width: 0;
+}
+
+.detalhe-trabalho__galeria img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--raio-medio);
+}
+
+.detalhe-trabalho__galeria img:first-child {
+    grid-column: 1 / -1;
+}
+
+.detalhe-trabalho__metadados {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    gap: var(--espaco-4);
+}
+
+.detalhe-trabalho__metadados dt {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    margin-bottom: var(--espaco-1);
+    font-size: var(--fonte-pequena);
+    font-weight: var(--peso-semi);
+}
+
+.detalhe-trabalho__metadados dd {
+    overflow-wrap: anywhere;
+}
+
+.lista-taxonomias {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-3);
+}
+
+.lista-taxonomias h3 {
+    font-size: var(--fonte-corpo);
+}
+
+.modal-login__lembrar,
+.modal-login__opcoes .btn--link {
+    min-height: var(--alvo-acao);
+}
+
+@media (min-width: 600px) {
+    .barra-filtros__item .campo__entrada {
+        width: auto;
+        max-width: 16rem;
+    }
+
+    .barra-filtros__item {
+        flex: 0 1 auto;
+        min-width: 0;
+    }
+
+    .barra-filtros > .busca {
+        flex-basis: 100%;
+    }
+
+    .modal__acoes--grade {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .detalhe-trabalho {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    }
+}
+
+.card-produto__acoes .artesao-estado .btn {
+    min-height: var(--alvo-acao);
+    padding-inline: var(--espaco-2);
+    font-size: var(--fonte-pequena);
+}

@@ -1,0 +1,300 @@
+/* =========================================================
+   layout/04-responsivo.css — ajustes de Tablet e Desktop do portal e dos
+   painéis. Fica depois deles para preservar a cascata.
+   Guia: docs/DESIGN.md §4
+   ========================================================= */
+
+/* ===== Tablet ===== */
+@media (min-width: 600px) {
+    .painel__perfil-nome,
+    .painel__topo .marca > .marca__nome {
+        display: inline;
+    }
+
+    .painel__principal {
+        padding: var(--espaco-5) var(--espaco-5) var(--espaco-6);
+    }
+
+    .rodape__interno,
+    .painel__rodape {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .rodape__nav {
+        flex-basis: 100%;
+    }
+}
+
+/* O menu completo precisa de espaço para todos os rótulos. */
+@media (min-width: 1280px) {
+    .cabecalho__menu {
+        display: none;
+    }
+
+    .cabecalho .marca {
+        font-size: 1rem;
+    }
+
+    .nav-portal {
+        position: static;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--espaco-6);
+        padding: 0;
+        background: none;
+        box-shadow: none;
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+        overflow: visible;
+    }
+
+    .nav-portal__lista {
+        align-items: center;
+        position: relative;
+        flex-direction: row;
+        gap: var(--espaco-2);
+        height: var(--altura-barra);
+    }
+
+    .nav-portal__link {
+        position: relative;
+        height: var(--alvo-acao);
+        padding-inline: var(--espaco-4);
+        border-radius: var(--raio-pequeno);
+    }
+
+    .nav-portal__link,
+    .nav-portal__entrar {
+        font-size: var(--fonte-header);
+    }
+
+    .nav-portal__entrar {
+        gap: var(--espaco-2);
+        padding-left: var(--espaco-5);
+        border-top: none;
+        border-left: 1px solid var(--cor-divisor-nav);
+        border-radius: 0;
+    }
+
+    .nav-portal__entrar iconify-icon {
+        font-size: 1.5rem;
+    }
+
+    .rodape__interno {
+        align-items: stretch;
+        flex-wrap: nowrap;
+        padding-block: 0;
+    }
+
+    .rodape .marca {
+        padding-block: var(--espaco-4);
+        white-space: nowrap;
+    }
+
+    .rodape__nav {
+        flex-basis: auto;
+    }
+
+    .rodape__links {
+        height: 100%;
+        flex-wrap: nowrap;
+    }
+
+    .rodape__links li {
+        display: flex;
+    }
+
+    .rodape__links a {
+        padding-block: var(--espaco-4);
+        white-space: nowrap;
+    }
+
+    .rodape__social {
+        align-items: center;
+        padding-block: var(--espaco-4);
+    }
+}
+
+/* ===== Desktop dos painéis ===== */
+@media (min-width: 1024px) {
+    .painel .liceu-listagem-artesaos {
+        --altura-linha-artesaos: 84px;
+        --altura-cabecalho-artesaos: 48px;
+        display: flex;
+        flex-direction: column;
+        row-gap: var(--espaco-6);
+        /* Reserva a página completa fora da caixa com borda da tabela. */
+        min-height: calc(var(--altura-cabecalho-artesaos) + 5 * var(--altura-linha-artesaos) + var(--espaco-6) + 40px);
+    }
+
+    .painel .liceu-listagem-artesaos > .paginacao {
+        margin-top: auto;
+    }
+
+    .painel .tabela--artesaos {
+        table-layout: fixed;
+        width: 100%;
+        min-width: 1120px;
+    }
+
+    .painel .tabela--artesaos colgroup {
+        display: table-column-group;
+    }
+
+    .painel .tabela--artesaos .col-artesao {
+        width: 18%;
+    }
+
+    .painel .tabela--artesaos .col-empreendimento,
+    .painel .tabela--artesaos .col-categoria {
+        width: 15%;
+    }
+
+    .painel .tabela--artesaos .col-contato {
+        width: 21%;
+    }
+
+    .painel .tabela--artesaos .col-status {
+        width: 9%;
+    }
+
+    .painel .tabela--artesaos .col-acoes {
+        width: 22%;
+    }
+
+    .painel .tabela--artesaos td {
+        height: var(--altura-linha-artesaos, 84px);
+        overflow-wrap: anywhere;
+    }
+
+    .painel .tabela--artesaos .avatar {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+    }
+
+    .painel .tabela--artesaos td:nth-child(2),
+    .painel .tabela--artesaos .tabela__texto {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .painel .tabela--artesaos .liceu-contato,
+    .painel .tabela--artesaos .liceu-contato > span {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .painel .tabela--artesaos .chip {
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .painel .tabela--artesaos .tabela__acoes > button {
+        flex-shrink: 0;
+    }
+
+    .painel .tabela--artesaos .liceu-contato > span {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .painel__menu {
+        display: none;
+    }
+
+    .painel {
+        grid-template-areas:
+            "topo topo"
+            "lateral principal"
+            "rodape rodape";
+        grid-template-columns: var(--largura-lateral) 1fr;
+        /* Pinta a coluna do menu até o rodapé, mesmo em páginas longas */
+        background-image: linear-gradient(
+            to right,
+            var(--cor-lateral) var(--largura-lateral),
+            transparent var(--largura-lateral)
+        );
+    }
+
+    .painel__topo {
+        padding-inline: var(--espaco-5);
+    }
+
+    .painel__lateral {
+        position: sticky;
+        top: var(--altura-barra);
+        grid-area: lateral;
+        height: calc(100vh - var(--altura-barra));
+        width: auto;
+        box-shadow: none;
+        visibility: visible;
+        transform: none;
+        transition: none;
+    }
+
+    .painel__principal {
+        padding: var(--espaco-5) var(--espaco-6) var(--espaco-7);
+    }
+
+    .painel__rodape {
+        padding-inline: var(--espaco-6);
+        padding-inline-start: calc(var(--largura-lateral) + var(--espaco-6));
+    }
+
+    .painel-cabecalho--com-imagem {
+        grid-template-columns: 1.3fr 1fr;
+        align-items: center;
+    }
+
+    .painel-cabecalho__imagem {
+        display: block;
+    }
+
+    .veu {
+        display: none;
+    }
+}
+
+/* Atalho de teclado compartilhado, acima das duas cascas. */
+.pular-conteudo {
+    position: fixed;
+    top: var(--espaco-2);
+    left: var(--espaco-2);
+    z-index: 100;
+    min-height: var(--alvo-acao);
+    padding: var(--espaco-3) var(--espaco-4);
+    border-radius: var(--raio-pequeno);
+    background-color: var(--cor-superficie-card);
+    color: var(--cor-link);
+    transform: translateY(calc(-100% - var(--espaco-4)));
+}
+
+.pular-conteudo:focus {
+    transform: none;
+}
+
+/* Superfícies internas neutras: status e ações conservam seus próprios papéis. */
+.layout-painel .tabela thead,
+.layout-painel .tabela th {
+    background-color: var(--cor-painel-cabecalho-tabela);
+    color: var(--cor-texto);
+}
+
+.layout-painel .btn--suave {
+    background-color: var(--cor-painel-hover);
+    border-color: var(--cor-borda);
+    color: var(--cor-texto);
+}
+
+.layout-painel .btn--suave:hover {
+    background-color: var(--cor-painel-selecionado);
+}

@@ -1,0 +1,130 @@
+/* =========================================================
+   componentes/10-modal.css — modal, menu de ações (⋯) e toast
+   Guia: docs/DESIGN.md §8
+   ========================================================= */
+
+/* ===== 8. Modal ===== */
+
+.modal {
+    width: 100%;
+    max-width: 100%;
+    max-height: 92vh;
+    margin: auto auto 0;
+    padding: var(--espaco-5);
+    border: none;
+    border-radius: var(--raio-grande) var(--raio-grande) 0 0;
+    background-color: var(--cor-superficie-modal);
+    color: var(--cor-texto);
+    box-shadow: var(--sombra-elevada);
+    background-image: var(--grafismo-marca);
+    background-size: 100% 6px;
+    background-repeat: no-repeat;
+}
+
+.modal[open] {
+    animation: modal-entrar 200ms ease both;
+}
+
+.modal::backdrop {
+    background-color: var(--cor-sobreposicao);
+}
+
+@keyframes modal-entrar {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal__fechar {
+    position: absolute;
+    top: var(--espaco-4);
+    right: var(--espaco-4);
+    display: inline-flex;
+    border-radius: var(--raio-pilula);
+    transition: transform var(--transicao);
+    color: var(--cor-link);
+}
+
+.modal__fechar iconify-icon {
+    font-size: 36px;
+}
+
+.modal__fechar:hover {
+    transform: rotate(90deg);
+}
+
+.modal__titulo {
+    overflow-wrap: anywhere;
+    padding-right: var(--espaco-7);
+    font-size: var(--fonte-h2);
+    font-weight: var(--peso-extra);
+}
+
+.modal__descricao {
+    margin-top: var(--espaco-2);
+    color: var(--cor-texto-suave);
+}
+
+.modal__corpo {
+    margin-top: var(--espaco-5);
+}
+
+.modal__divisoria {
+    margin-block: var(--espaco-5);
+    border: none;
+    border-top: 1px solid var(--cor-borda-forte);
+}
+
+.modal__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--espaco-4);
+    margin-top: var(--espaco-6);
+}
+
+/* Menu de ações (⋯) */
+.menu-acoes {
+    position: absolute;
+    z-index: 30;
+    min-width: 200px;
+    padding: var(--espaco-2);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-superficie-menu);
+    box-shadow: var(--sombra-elevada);
+}
+
+.menu-acoes button {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-2);
+    width: 100%;
+    padding: var(--espaco-2) var(--espaco-3);
+    border-radius: var(--raio-pequeno);
+    text-align: left;
+}
+
+.menu-acoes button:hover {
+    background-color: var(--cor-superficie-forte);
+}
+
+/* Toast */
+.aviso-flutuante {
+    position: fixed;
+    right: var(--espaco-4);
+    bottom: var(--espaco-4);
+    z-index: 40;
+    padding: var(--espaco-3) var(--espaco-5);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-rodape);
+    color: var(--cor-texto-invertido);
+    box-shadow: var(--sombra-elevada);
+    animation: entrar 250ms ease both;
+}
