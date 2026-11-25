@@ -657,6 +657,8 @@ js/layout.js                  menu do portal, casca do painel, gavetas mobile
 js/componentes.js             carrossel, modal, status, paginação, cards reutilizáveis
 js/dados.js                   leitura dos JSON + sessão em localStorage
 js/paginas/<pagina>.js        export function iniciar…(raiz) de cada tela
+js/paginas/painel-*/          um módulo por aba do painel + helpers; index.js
+                              reexporta os iniciar…(raiz) usados por rotas.js
 pages/<rota>.html             parciais do portal
 pages/painel-liceu/*.html     abas da Área do Liceu
 pages/painel-artesao/*.html   abas da Área do Artesão

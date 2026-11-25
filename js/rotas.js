@@ -28,14 +28,14 @@ import {
     iniciarLiceuInicio,
     iniciarLiceuPendentes,
     iniciarLiceuPublicacoes
-} from "./paginas/painel-liceu.js";
+} from "./paginas/painel-liceu/index.js";
 import {
     iniciarArtesaoInicio,
     iniciarArtesaoNovoTrabalho,
     iniciarArtesaoPerfil,
     iniciarArtesaoStatus,
     iniciarArtesaoTrabalhos
-} from "./paginas/painel-artesao.js";
+} from "./paginas/painel-artesao/index.js";
 
 const PAINEIS = Object.freeze({
     "painel-artesao": {titulo: "Área do Artesão"},
