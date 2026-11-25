@@ -31,10 +31,9 @@ relatórios anteriores em `AUDITORIA_UI_UX*`, `MODERNIZACAO_EQUILIBRADA*` e
 
 ## Preservação dos arquivos de revisão
 
-As galerias de `comparacoes/` e `propostas-visuais/` foram incluídas no
-repositório e identificadas como material histórico. Foram conferidos os
-JSONs, 99 referências locais, 60 combinações de capturas e o carregamento
-das cinco galerias no navegador. Os 17 testes de dados e os contratos de
+As galerias históricas completas de comparações e propostas visuais não são
+versionadas, para manter o repositório leve; a seleção representativa está em
+[COMPARACAO_VISUAL.md](COMPARACAO_VISUAL.md). Os 17 testes de dados e os contratos de
 20 rotas/26 HTML foram repetidos na preparação desta publicação.
 
 O estado vigente da marca é transparente, com identificação Portal do Artesão

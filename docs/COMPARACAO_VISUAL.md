@@ -25,10 +25,8 @@ a validação mais recente está em [VALIDACAO_MVP.md](VALIDACAO_MVP.md).
 
 ## Galerias históricas completas
 
-Os arquivos que antes estavam apenas no ambiente local foram versionados em
-[comparacoes/](../comparacoes/README.md) e
-[propostas-visuais/](../propostas-visuais/README.md). As capturas preservam a
-aparência de cada etapa, incluindo propostas posteriormente substituídas.
+As galerias completas de comparações e propostas visuais não são versionadas,
+para manter o repositório leve. As capturas acima são a seleção representativa.
 
 Na versão atual, a marca usa o PNG transparente, inscrição adaptada ao fundo e
 o nome Portal do Artesão. O último aumento de espaçamento foi desfeito; o

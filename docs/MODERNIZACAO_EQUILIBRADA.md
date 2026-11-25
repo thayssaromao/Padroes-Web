@@ -50,20 +50,17 @@ force-push ou publicação remota.
 
 ## Comparação visual
 
-[Antes e depois no navegador local](http://localhost:8080/comparacoes/equilibrada/).
-
 A galeria compara seis telas em 375 e 1440px: Início, Artesãos, Produtos,
 painel do Liceu, cadastro do Liceu e perfil do artesão. São 24 capturas reais,
 com a mesma origem de dados, resolução e preferência por movimento reduzido.
 A versão anterior foi servida a partir de um arquivo do commit `37922e3` em
 servidor temporário separado; não foi simulada com filtros sobre a imagem.
 
-[Revisão de todas as páginas](http://localhost:8080/comparacoes/equilibrada/revisao.html).
-
-Essa segunda galeria reúne as 42 capturas atuais das 20 rotas e do login em
+Uma segunda galeria reuniu as 42 capturas das 20 rotas e do login em
 320 e 1440px. Foi inspecionado o conjunto renderizado, com conferência ampliada
-de telas representativas públicas e internas. Os arquivos de comparação ficam
-em `comparacoes/equilibrada/`, como artefatos locais da entrega.
+de telas representativas públicas e internas. As galerias completas não são
+versionadas, para manter o repositório leve; a seleção representativa está em
+[COMPARACAO_VISUAL.md](COMPARACAO_VISUAL.md).
 
 ## Testes executados
 

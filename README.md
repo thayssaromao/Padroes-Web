@@ -108,8 +108,7 @@ Os testes usam contextos isolados e dados fictícios. Instalação, cobertura e 
 
 ## Histórico visual
 
-As [comparações](comparacoes/README.md) e os [estudos visuais](propostas-visuais/README.md)
-foram preservados como arquivo de revisão. Não representam necessariamente o
-estado atual e não integram a navegação do portal. A referência vigente é o
-[design system](docs/DESIGN.md): logo transparente, identificação **Portal do
-Artesão** e espaçamento restaurado após a revisão visual.
+A referência vigente é o [design system](docs/DESIGN.md): logo transparente,
+identificação **Portal do Artesão** e espaçamento restaurado após a revisão
+visual. Capturas de antes e depois estão em
+[Comparação visual](docs/COMPARACAO_VISUAL.md).
