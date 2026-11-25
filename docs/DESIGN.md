@@ -2,9 +2,52 @@
 
 Guia visual e técnico do projeto. Vale para **quem escreve código** e para **quem desenha as telas que ainda faltam** (popups de ação, páginas novas). Derivado dos wireframes do Figma (`Tela Principal`, `Tela Perfil do Artesão`, `Tela Adm *`, `Tela do Artesão *`).
 
-> O visual atual é **wireframe em tons de cinza**. Quando a identidade visual oficial do Liceu chegar, trocar apenas os valores dos tokens em [`css/global.css`](../css/global.css). Nenhum outro arquivo deve conter cor, fonte ou raio "chumbados".
+> A identidade cromática é uma **interpretação digital proposta**, inspirada no símbolo do Liceu. A paleta cinza era provisória. Tokens semânticos ficam em `css/global.css`; a aplicação nos componentes e nas páginas segue os papéis descritos em § Identidade cromática aplicada, ao final deste guia. Os hexadecimais não constituem um manual oficial da instituição.
 
 ---
+
+> **Direção vigente aprovada: Modernização Equilibrada (23/11/2026).**
+> A paleta e os contratos desta seção substituem as propostas cromáticas
+> históricas registradas mais adiante. Preservar as correções da auditoria
+> de acessibilidade, o logo e os seis grupos de chips.
+
+### Paleta vigente
+
+| Papel | Valor |
+|---|---|
+| Texto / apoio | `#263641` / `#5D6874` |
+| Fundo comum / card | `#FBFAF7` / `#FFFFFF` |
+| Alternado / apoio | `#F0F2F4` / `#F4F5F6` |
+| Editorial amarelo / rosa | `#FAF0D7` / `#F7EFF1` |
+| Ação / hover e link | `#284F70` / `#1C3C57` |
+| Header / footer público | `#104C49` / `#173D3A` |
+| Sidebar e footer interno | `#FFFFFF` |
+| Destaque de interface | `#F5CD58` |
+| Foco e favorito | `#A62255` |
+| Borda decorativa / card / controle | `#DADDE2` / `#DADDE2` / `#7A8490` |
+
+- Símbolo e faixa institucional preservam `#20A8A6`, `#FFC928` e `#E73571`.
+  Não confundir cores do símbolo com todos os papéis funcionais da interface.
+- Estados semânticos preservam texto e ícone; chips mantêm seus seis pares de
+  cores por assunto, com borda suave nos não selecionados e seleção preenchida.
+- `.card` e `.bloco-form` compartilham contorno completo de 1px em cinza suave,
+  raio de 16px, sombra `0 2px 6px rgb(23 61 58 / 4%)` e interação discreta
+  `0 5px 14px rgb(23 61 58 / 9%)`. Métricas usam superfícies pastel sem contorno, faixa ou sombra.
+- Campos usam raio de 8px; botões e itens de menu, 10px; chips, 6px; modais,
+  24px; avatares e badges mantêm círculo/pílula. Alvos de interação permanecem.
+- Inter é preservada. Corpo público usa `--fonte-corpo-publico` (16px), gestão
+  mantém 14px. Títulos principais usam peso 700 e tracking de -0,025em,
+  subtítulos -0,015em; cabeçalho do painel usa -0,02em. Nomes públicos de
+  artesãos usam 16px, linha 1,35; empreendimento e local usam 13px.
+- Hero mantém plano editorial suave, sem grafismos de canto. Ações da Home:
+  `btn--primario` para Explorar produtos; `btn--secundario` para Conhecer o Liceu.
+  A parcial funcional da Home deve consumir essas variantes existentes.
+- Faixas alternam branco quente e verde suave, com rosa/amarelo reservados a
+  contexto editorial. Títulos de seção não recebem sublinhado decorativo.
+- Tabelas, popovers, menus, modais, feedback e footer consomem os mesmos tokens.
+  Hover, foco e desabilitados não devem depender só de cor nem perder semântica.
+- Alterações desta rodada são exclusivamente visuais. Não remover rótulos,
+  pausa de carrossel, atalho ao conteúdo, foco, guardas ou recuperação de rede.
 
 ## 1. Regras da disciplina (não negociáveis)
 
@@ -28,26 +71,18 @@ Definidos em `:root` no [`css/global.css`](../css/global.css). **Use sempre `var
 
 ### 2.1 Cores
 
-| Token | Valor | Uso |
+| Grupo | Tokens principais | Aplicação |
 |---|---|---|
-| `--cor-texto` | `#111111` | Texto principal, títulos |
-| `--cor-texto-suave` | `#555555` | Subtítulos, metadados ("Curitiba - PR", "Categoria") |
-| `--cor-texto-apagado` | `#8a8a8a` | Sobretítulos ("NOSSAS PESSOAS"), placeholders |
-| `--cor-texto-invertido` | `#ffffff` | Texto sobre fundos escuros (botão primário, paginação ativa) |
-| `--cor-fundo` | `#ffffff` | Fundo da página |
-| `--cor-fundo-alternado` | `#d9d9d9` | Faixas de seção alternadas ("Como você quer explorar?") |
-| `--cor-superficie` | `#f7f7f7` | Cards, campos de busca |
-| `--cor-superficie-forte` | `#ececec` | Cabeçalho de tabela, caixas de aviso, chips |
-| `--cor-barra` | `#a9a9a9` | Cabeçalho e rodapé do portal/painéis |
-| `--cor-lateral` | `#d9d9d9` | Menu lateral dos painéis |
-| `--cor-lateral-ativo` | `#b3b3b3` | Item ativo do menu lateral |
-| `--cor-borda` | `#bdbdbd` | Bordas de cards, inputs, tabelas |
-| `--cor-borda-forte` | `#272727` | Divisórias fortes, underline do menu ativo, foco |
-| `--cor-primaria` | `#5f5f5f` | Botão primário, paginação ativa, toggle "grade" ativo |
-| `--cor-primaria-hover` | `#3f3f3f` | Hover do primário |
-| `--cor-placeholder` | `#c8c8c8` | Fundo de imagens ainda não carregadas |
-| `--cor-sobreposicao` | `rgb(0 0 0 / 45%)` | Fundo do modal (`::backdrop`) |
-| `--cor-sucesso` / `--cor-alerta` / `--cor-erro` | `#4a4a4a` / `#4a4a4a` / `#4a4a4a` | Reservado: status. Hoje em cinza; ganham cor com a identidade visual |
+| Marca | `--marca-turquesa`, `--marca-amarelo`, `--marca-rosa`, `--marca-petroleo` | Símbolo e grafismos, sem presumir códigos oficiais |
+| Texto | `--cor-texto`, `--cor-texto-suave`, `--cor-texto-apagado`, `--cor-texto-invertido` | Petróleo/verde legível sobre superfícies claras; branco sobre fundos escuros |
+| Superfície | `--cor-fundo`, `--cor-superficie-card`, `--cor-superficie-menu`, `--cor-superficie-modal`, `--cor-campo` | Off-white no plano principal, branco nas áreas elevadas e campos |
+| Editorial | `--cor-editorial`, `--cor-editorial-alternada`, `--cor-destaque`, `--cor-acento` | Amarelo suave, rosa suave, amarelo e rosa saturados em acentos |
+| Navegação | `--cor-barra`, `--cor-rodape`, `--cor-lateral`, `--cor-lateral-ativo`, `--cor-nav-texto`, `--cor-nav-hover` | Header turquesa profundo, footer/sidebar petróleo, item ativo amarelo |
+| Interação | `--cor-primaria`, `--cor-primaria-hover`, `--cor-secundaria`, `--cor-link`, `--cor-foco`, `--cor-favorito` | Ação turquesa, secundário branco, links turquesa, foco e favoritos rosa escuro |
+| Estados | `--cor-sucesso`, `--cor-alerta`, `--cor-erro`, `--cor-informacao`, `--cor-rascunho` e respectivos `-fundo` | Pares AA; rótulos e ícones mantêm significado sem depender da cor |
+| Bordas | `--cor-borda`, `--cor-borda-controle`, `--cor-borda-forte` | Bordas decorativas suaves; controles/foco com contraste próprio |
+
+Os valores e aliases completos estão em `css/global.css`.
 
 ### 2.2 Tipografia
 
@@ -55,16 +90,36 @@ Fonte: **Inter** (Google Fonts, pesos 400/500/600/700/800), fallback `Arial, Hel
 
 | Token | Valor (mobile → desktop) | Uso |
 |---|---|---|
-| `--fonte-display` | `clamp(2rem, 5vw, 3.25rem)` / peso 800 | Título do hero ("Portal do Artesão") |
-| `--fonte-h1` | `clamp(1.75rem, 3.5vw, 2.5rem)` / 800 | Título de página do painel ("Painel Administrativo") |
+| `--fonte-display` | `clamp(2rem, 5vw, 3.25rem)` / peso 700 | Título do hero ("Portal do Artesão") |
+| `--fonte-h1` | `clamp(1.75rem, 3.5vw, 2.5rem)` / 700 | Título de página do painel ("Painel Administrativo") |
 | `--fonte-h2` | `clamp(1.375rem, 2.5vw, 1.875rem)` / 700 | Título de seção ("Produtos em destaque") |
-| `--fonte-h3` | `1.125rem` / 700 | Título de card / bloco de formulário |
-| `--fonte-corpo` | `1rem` / 400 | Texto padrão |
-| `--fonte-grande` | `1.25rem` / 400 | Texto de apoio do hero |
-| `--fonte-pequena` | `0.875rem` | Metadados, labels |
+| `--fonte-h3` | `1rem` / 700 | Título de card / bloco de formulário |
+| `--fonte-corpo` | `0.875rem` / 400 | Texto padrão |
+| `--fonte-grande` | `1.125rem` / 400 | Texto de apoio do hero |
+| `--fonte-pequena` | `0.8125rem` | Metadados, labels |
 | `--fonte-mini` | `0.75rem` | Chips, sobretítulos, legenda |
 
 Sobretítulo (`.sobretitulo`): `--fonte-pequena`, maiúsculas, `letter-spacing: .04em`, cor `--cor-texto-apagado`.
+
+### 2.2.1 Hierarquia tipografica de navegacao
+
+A navegacao utiliza tamanhos proprios, independentes dos
+titulos das paginas e dos textos de conteudo.
+
+| Elemento | Tamanho | Regra |
+|---|---|---|
+| Links do header publico | `15px` | Navegacao principal |
+| Links do footer publico | `13px` | Menor que o header |
+| Copyright e textos auxiliares do footer | `12px` | Escala discreta |
+| Botoes e campos | `13px` a `14px` | Preservar legibilidade |
+| Areas clicaveis | minimo `44px` | Nao reduzir com a fonte |
+
+A reducao tipografica nao altera automaticamente a altura
+do header, footer, logotipos ou icones.
+
+Os layouts autenticados preservam suas variantes existentes.
+
+No portal publico, o cabecalho utiliza `64px` de altura, links de `15px` e marca de `16px`. O rodape utiliza links de `13px`, marca de `14px` e espacamento vertical de `16px`. Os paineis mantem sua altura independente.
 
 ### 2.3 Espaçamento, raio, sombra, movimento
 
@@ -80,7 +135,7 @@ Sobretítulo (`.sobretitulo`): `--fonte-pequena`, maiúsculas, `letter-spacing: 
 | `--transicao` | `200ms ease` |
 | `--largura-conteudo` | `1180px` (container do portal) |
 | `--largura-lateral` | `280px` (menu lateral do painel) |
-| `--altura-barra` | `72px` (cabeçalho) |
+| `--altura-barra` | `64px` (cabeçalho) |
 
 ---
 
@@ -174,24 +229,84 @@ Classes ficam em [`css/componentes.css`](../css/componentes.css). Nomenclatura: 
 |---|---|---|---|
 | Primário | `.btn.btn--primario` | fundo `--cor-primaria`, texto branco | Ação principal da tela (1 por área): "Cadastrar novo artesão", "Enviar para análise" |
 | Secundário | `.btn.btn--secundario` | fundo branco, borda `--cor-borda-forte` | "Ver trabalhos pendentes", "Analisar", "Ver perfil" |
-| Suave | `.btn.btn--suave` | fundo `--cor-superficie-forte`, borda `--cor-borda` | Botões do hero do portal, "Rascunho", "Editar" |
+| Suave | `.btn.btn--suave` | fundo `--cor-superficie-forte`, borda `--cor-borda` | Botões do hero do portal e "Editar" |
 | Link | `.btn.btn--link` | sem fundo, sublinhado | "Cancelar", "Ver motivo" |
-| Ícone | `.btn.btn--icone` | quadrado 40×40, só ícone + `aria-label` | "⋯", olho, lápis, lixeira, setas do carrossel |
+| Ícone | `.btn.btn--icone` | quadrado 44×44, só ícone + `aria-label` e `title` | "⋯", olho, lápis, lixeira, setas do carrossel |
 | Bloco | `+ .btn--bloco` | `width: 100%` | "Ver perfil →" nos cards |
 
 Altura 44px (mínimo de toque), raio `--raio-medio`, padding `0 var(--espaco-5)`, peso 600, gap 8px entre ícone e texto.
 Estados: `:hover` escurece (primário → `--cor-primaria-hover`; outros → fundo `--cor-superficie-forte`) com `transform: translateY(-1px)`; `:focus-visible` → `outline: 3px solid var(--cor-borda-forte); outline-offset: 2px`; `:disabled`/`[aria-disabled="true"]` → opacidade .5, sem hover ("Aguardando análise").
 Link que parece botão: usar `<a class="btn …">`. Ação na mesma tela: `<button type="button">`.
 
+### 5.1.1 Consistencia dimensional dos controles
+
+A escala tipografica global aprovada deve ser preservada.
+A revisao de componentes nao implica reduzir novamente
+a fonte principal ou a navegacao publica.
+
+**Botoes e interatividade**
+
+- Botoes principais seguem a altura minima de 44px.
+- Botoes somente com icone possuem descricao acessivel.
+- Controles compactos podem ter superficie visual menor,
+  desde que a area interativa efetiva seja adequada.
+- Acoes de senha, favoritos, visualizacao e paginacao
+  precisam ser verificadas individualmente.
+- Nao aumentar dimensoes indiscriminadamente quando
+  isso comprometer o alinhamento aprovado.
+
+**Campos e filtros**
+
+- Campos principais preservam altura minima de 44px.
+- Labels e valores seguem os tokens tipograficos.
+- Filtros de Produtos, Artesaos e Saberes preservam os
+  alinhamentos horizontais e espacamentos aprovados.
+- Variantes compactas devem ser documentadas e manter
+  navegacao por teclado e foco visivel.
+
+**Cards e estilos especificos**
+
+- Componentes equivalentes devem compartilhar tokens
+  de borda, raio, cor, tipografia e estados interativos.
+- Evitar redefinicoes conflitantes da mesma classe em
+  arquivos diferentes.
+- Preservar as variacoes intencionais de imagem, grade
+  e conteudo entre paginas.
+- Antes de migrar estilos legados de Produtos, verificar
+  o HTML gerado, a ordem de carregamento dos CSS e as
+  dependencias JavaScript.
+
+**Controles especificos do catalogo de Produtos**
+
+- `.opcao` e `.btn-view` preservam suas dimensoes
+  compactas e o alinhamento ja aprovado.
+- Cores, bordas e raios devem reutilizar os tokens
+  globais do design system.
+- Estados de hover e selecao permanecem perceptiveis.
+- A padronizacao nao deve alterar a distribuicao dos
+  chips nem a posicao dos controles de ordenacao.
+- `.card-produto` deve reutilizar a implementacao
+  compartilhada; regras legadas conflitantes serao
+  revisadas separadamente apos verificar seu uso.
+- Acessibilidade dos controles compactos sera
+  validada antes de alterar suas dimensoes.
+
+**Ordem de implementacao**
+
+1. Documentar o comportamento e suas excecoes.
+2. Ajustar componentes compartilhados no design system.
+3. Adaptar estilos especificos na branch funcional.
+4. Validar responsividade, acessibilidade e aparencia.
+
 ### 5.2 Campos de formulário
 
 - Estrutura: `<div class="campo"><label for="x" class="campo__rotulo">Nome *</label><input id="x" class="campo__entrada" …></div>`.
 - Entrada: altura 44px, borda 1px `--cor-borda`, raio `--raio-pequeno`, fundo branco; `:focus-visible` borda `--cor-borda-forte` + outline.
 - **Com ícone** (e-mail, WhatsApp, Instagram, busca): `.campo__grupo` com `iconify-icon` posicionado à esquerda; a entrada recebe `padding-left: 40px`.
-- **Senha**: botão `.btn--icone` "olho" à direita alternando `type="password"`/`text` (`aria-pressed`).
+- **Senha**: o controle compartilhado usa `eye-off` quando `type="password"` (ação “Mostrar senha”) e `eye` quando `type="text"` (ação “Ocultar senha”). `aria-label`, `title`, `aria-pressed` e `aria-controls` acompanham o estado; `prepararCamposSenha` inicializa login, provisória, confirmação e redefinição, sem duplicar eventos. O campo reserva espaço à direita para o alvo de 44px.
 - `select` nativo estilizado (seta própria via `background-image` SVG inline). `textarea` com `resize: vertical`.
 - Obrigatório: `*` no rótulo + atributo `required`. Agrupar blocos com `<fieldset class="bloco-form">` + `<legend>`.
-- **Bloco de formulário** (`.bloco-form`): card com borda, raio `--raio-medio`, padding `--espaco-5`; cabeçalho com ícone + título (h2 visual de `--fonte-h3`) + descrição.
+- **Bloco de formulário** (`.bloco-form`): card com contorno `--borda-card`, raio `--raio-card`, padding `--espaco-5`; cabeçalho com ícone + título (h2 visual de `--fonte-h3`) + descrição.
 - **Cabeçalho de seção**: `.bloco-form__cabecalho.bloco-form__cabecalho--secao` usa flex com alinhamento central e gap de 16px. Contém `.bloco-form__icone` (caixa de 40px, token `--tamanho-caixa-icone-secao`, com ícone de 28px pelo token `--tamanho-icone-secao`) e `.bloco-form__texto` (título e descrição em coluna, gap de 4px e margens zeradas). O ícone é centralizado no conjunto título + descrição, nunca deslocado individualmente. Título usa line-height de 1.25 e descrição usa `--altura-linha`. Nos fieldsets do cadastro, o cabeçalho permanece em `legend`, com 16px até os campos. A variante é reutilizável em cadastro/edição, sem mudar outros cabeçalhos legados que não a utilizam.
 - Seletor de técnicas: `select` + lista de **chips removíveis** (§5.3).
 - Toggle (Configurações): `<input type="checkbox" role="switch" class="interruptor">`.
@@ -201,9 +316,9 @@ Cabeçalhos legados de cards, métricas e avisos não usam bordas verticais entr
 
 ### 5.3 Chips e etiquetas
 
-- `.chip` — etiqueta estática (categoria/técnica): fundo `--cor-superficie-forte`, borda `--cor-borda`, raio `--raio-pequeno`, `--fonte-mini`.
-- `.chip--removivel` — chip + `button.chip__remover` (×, `aria-label="Remover Cerâmica"`).
-- `.filtro-chip` — botão de filtro do portal ("Todos", "Decoração"…): `button` com `aria-pressed`; ativo = fundo `--cor-superficie-forte` + borda forte. Lista rola horizontalmente no smartphone.
+- `.chip` — etiqueta estática (categoria/técnica): `data-cor` e pares `--cor-chip-…`, raio `--raio-pequeno`, `--fonte-mini`. `criarChips` e `prepararChips` mantêm a cor por assunto.
+- `.chip--removivel` — chip + `button.chip__remover` (×, `aria-label="Remover Cerâmica"`, alvo mínimo de 44px).
+- `.filtro-chip` — botão de filtro ("Todos", "Decoração"…) com `aria-pressed`; ativo usa fundo escuro da própria cor e texto branco. Grades de categorias se adaptam ao espaço disponível. Favoritos conservam a variante rosa própria.
 
 ### 5.4 Badges de status — `.status`
 
@@ -218,8 +333,70 @@ Pílula com ícone + texto. **Nunca só cor** — o texto sempre aparece.
 | `reenviado` | Reenviado | `lucide:refresh-cw` |
 | `ativo` | Ativo | `lucide:circle-check` |
 | `inativo` | Inativo | `lucide:circle-x` |
+| `oculto` | Oculto pelo Liceu | `lucide:eye-off` |
 
 Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
+
+**Integracao dos cards no catalogo de Produtos**
+
+- O catalogo renderiza os produtos com `criarCardPublico()`,
+  reutilizando `criarCardProduto()` e `.card-produto`.
+- Borda, raio, sombra e hover pertencem ao componente
+  compartilhado em `css/componentes.css`.
+- `css/produtos.css` nao deve redefinir globalmente
+  `.card-produto` ou `.card-produto:hover`.
+- As regras de grade e modo lista permanecem especificas
+  do catalogo.
+- Os ajustes de `.card-produto__imagem` e
+  `.card-produto__corpo` no modo lista sao preservados.
+- A remocao de CSS legado nao modifica HTML, JavaScript,
+  favoritos, filtros, paginacao ou ordenacao.
+
+**Limpeza de estilos legados dos cards**
+
+A renderizacao atual utiliza as classes compartilhadas
+`.card-produto__imagem`, `.card-produto__corpo` e
+`.card-produto__favorito`.
+
+As classes antigas `.card-imagem`, `.card-info` e
+`.btn-favorito` nao possuem referencias identificadas
+na implementacao atual.
+
+Seus estilos legados podem ser removidos de
+`css/produtos.css`, preservando:
+
+- O componente compartilhado `.card-produto`.
+- Os estilos de grade e modo lista.
+- O favorito `.card-produto__favorito`.
+- Os dados de titulo, tecnica, categoria e preco.
+- A estrutura responsiva e os alinhamentos aprovados.
+
+A remocao deve ser validada visualmente antes
+de ser considerada concluida.
+
+**Composicao das paginas institucionais**
+
+- As paginas institucionais utilizam os tokens existentes
+  de espaco, cores, tipografia e bordas.
+- A pagina Sobre o Projeto apresenta um hero claro
+  e uma secao alternada para os integrantes.
+- As imagens dos heroes podem ter proporcoes
+  diferentes no desktop, conforme o wireframe.
+- Em telas menores, a composicao permanece
+  responsiva e empilhada.
+- A linha do tempo do Liceu e os dados reais
+  existentes devem ser preservados.
+- Ajustes especificos ficam nos CSS das paginas,
+  sem redefinir componentes compartilhados.
+
+**Perfil responsivo do artesao**
+
+- O modal utiliza o componente compartilhado `.modal`.
+- Em telas pequenas, foto e informacoes ficam empilhadas.
+- Em telas maiores, a foto respeita o espaco disponivel.
+- Textos e contatos nao devem produzir overflow.
+- Os ajustes especificos ficam em `css/paginas/artesaos.css`.
+- O JavaScript e os dados do perfil sao preservados.
 
 ### 5.5 Cards
 
@@ -228,12 +405,39 @@ Gerado por `criarStatus(status)` em [`js/componentes.js`](../js/componentes.js).
 | Atalho | `.card-atalho` | ícone · título + descrição · `chevron-right`; card inteiro é `<a>` | Home "Como você quer explorar?" |
 | Produto | `.card-produto` | `figure` com imagem 4:3 + botão favorito (círculo, canto sup. dir.) · nome · categoria · (opcional) status + ações | Home, Área do Artesão |
 | Artesão (mini) | `.card-artesao-mini` | avatar redondo 96px · nome · técnica principal | Home "Conheça quem produz" |
-| Artesão | `.card-artesao` | Na listagem pública: foto quadrada 64px · nome · empreendimento ou @ · local (`map-pin`) · chips abaixo da identificação, usando toda a largura · botão bloco "Ver perfil →" na base, com intervalo mínimo de 12px após os chips. Na grade desktop, fileiras de mesma altura, determinada pelo conteúdo, sem reserva de linhas vazias para chips; celular e lista têm altura adaptável. | Página Artesãos |
+| Artesão | `.card-artesao` | Na listagem pública: foto circular 64px · nome · empreendimento ou @ · local (`map-pin`) · chips abaixo da identificação, usando toda a largura · botão bloco "Ver perfil →" na base, com intervalo mínimo de 12px após os chips. Na grade desktop, fileiras de mesma altura, determinada pelo conteúdo, sem reserva de linhas vazias para chips; celular e lista têm altura adaptável. | Página Artesãos |
 | Técnica | `.card-tecnica` | imagem 8:3 (placeholder quando não há foto) + botão favorito (igual ao do Produto) · nome (`h3`) · descrição curta · botão bloco "Saiba mais →" na base. Gerado por `criarCardTecnica(tecnica, {favoritado})`; o favorito usa `data-favorito` e o botão usa `data-tecnica` (id). | Página Saberes |
 | Estatística | `.card-estatistica` | ícone · espaçamento · número grande (800) · rótulo, sem divisória vertical | Resumos dos painéis |
 | Trabalho (painel) | `.card-trabalho` | imagem · título · artesão (`user`) · categorias (`tag`) · status · botão | Painel Liceu "aguardando análise" |
 
-Todos: fundo branco (ou `--cor-superficie`), borda 1px `--cor-borda`, raio `--raio-medio`. **Hover** em cards clicáveis: `translateY(-3px)` + `--sombra-elevada` + borda forte (`transition: var(--transicao)`). Cards de lista são `<article>` com título `h3`.
+Todos: superfície branca, contorno completo de 1px `--borda-card` e raio `--raio-card`. Estatísticas preservam fundo e contorno semânticos. Hover/foco reforçam `--sombra-elevada`, sem deslocamento. Cards de lista são `<article>` com título `h3`.
+
+### Padrao estrutural dos cards de trabalho do Artesao
+
+Os cards equivalentes do painel do Artesao devem seguir:
+
+1. Imagem do trabalho.
+2. Titulo.
+3. Metadados de categoria e tecnica.
+4. Divisoria horizontal.
+5. Status e acoes contextuais.
+6. Acoes principais.
+
+A divisoria aparece sempre antes dos chips de status.
+
+Estados padronizados:
+
+- Rascunho: status Rascunho e acao Enviar para analise,
+  ambos visiveis diretamente no card.
+- Em analise: status correspondente.
+- Publicado: status correspondente.
+- Rejeitado: status Rejeitado e acao Ver motivo.
+
+As acoes devem respeitar as permissoes e regras de negocio
+de cada estado.
+
+Os cards reutilizam a mesma estrutura visual e preservam
+os icones Lucide e os alvos de interacao.
 
 ### 5.6 Cabeçalho de seção — `.secao-cabecalho`
 
@@ -242,15 +446,49 @@ Título `h2` à esquerda + link "Ver catálogo completo →" à direita (`.link-
 ### 5.7 Carrossel — `.carrossel`
 
 `<section class="carrossel" aria-roledescription="carrossel" aria-label="…">` contendo `ul.carrossel__trilho` > `li.carrossel__slide` (`aria-roledescription="slide"`, `aria-label="1 de 4"`), botões anterior/próximo (`.btn--icone` circulares sobre a imagem) e `div.carrossel__indicadores` com botões-ponto (`aria-label="Ir para slide 2"`, ativo com `aria-current="true"`).
-Animação: o trilho desliza com `transform: translateX(-n*100%)` + `transition: transform 500ms ease`. Avanço automático a cada 6s, pausado em hover/foco e desligado com `prefers-reduced-motion`. Controlado por `iniciarCarrossel(elemento)`.
+Animação: o trilho desliza com `transform: translateX(-n*100%)` + `transition: transform 500ms ease`. Avanço automático a cada 6s, com pausa temporária em hover/foco e controle Pausar/Retomar rotação. `prefers-reduced-motion` inicia em pausa persistente; retomada exige ação explícita. Controlado por `iniciarCarrossel(elemento)`.
 Proporção 16:7 no desktop, 4:3 no smartphone; raio `--raio-medio`.
 
 ### 5.8 Busca e barra de filtros
 
 - `.busca`: input largo com ícone `lucide:search`, fundo `--cor-superficie`, dentro de `<search>`/`<form role="search">`.
-- `.barra-filtros`: linha com busca + rótulos/selects ("Filtrar por categoria/técnica", "Ordenar por") separados por divisórias verticais; quebra em coluna no smartphone.
+- `.barra-filtros`: linha com busca + rótulos/selects ("Filtrar por categoria/técnica", "Ordenar por") agrupados com gap, sem divisórias verticais; quebra em coluna no smartphone.
 - `.alternar-visualizacao`: dois `.btn--icone` (`lucide:layout-grid` / `lucide:list`) com `aria-pressed`; ativo = fundo `--cor-primaria` e ícone branco.
 - `.resultado-contagem`: "Exibindo 1 - 12 de 64 artesãos" (`--fonte-pequena`), com `aria-live="polite"`.
+
+### Regras consolidadas de alinhamento dos filtros
+
+Em desktop, os chips de um mesmo grupo devem utilizar toda
+a largura horizontal disponivel, sem quebra prematura.
+
+- Artesaos e Saberes: alinhar os chips as bordas do grupo
+  de busca e filtro.
+- Produtos: alinhar os chips as bordas da grade de produtos,
+  respeitando a sidebar.
+- Os chips devem distribuir a largura proporcionalmente,
+  preservando os nomes completos.
+- A linha seguinte apresenta o contador a esquerda e
+  o conjunto completo de ordenacao a direita.
+- O conjunto de ordenacao inclui label, select e botoes
+  de visualizacao em grade e lista.
+- Manter espacamento vertical compacto entre chips,
+  controles e cards.
+- Em mobile, permitir reorganizacao sem overflow.
+- Preservar as funcionalidades e a responsividade.
+
+**Paginacao compartilhada no catalogo de Produtos**
+
+- O catalogo utiliza `criarPaginacao()` de `js/componentes.js`.
+- Os botoes gerados utilizam `.paginacao__botao` e
+  `.paginacao__botao--seta`.
+- As classes legadas `.btn-pagina` e suas variantes
+  nao integram a renderizacao atual.
+- O catalogo utiliza `.paginacao--centro` para centralizar
+  a lista, preservando os controles compartilhados.
+- Dimensoes, cores, raios e espacamentos dos botoes
+  pertencem ao design system.
+- A remocao nao altera o calculo de paginas,
+  a navegacao ou os estados de desabilitado.
 
 ### 5.9 Paginação — `.paginacao`
 
@@ -271,7 +509,7 @@ Caixa `--cor-superficie-forte`, raio `--raio-medio`, ícone `lucide:info` grande
 
 ### 5.13 Pré-visualização do perfil — `.previa-perfil`
 
-Card cinza lateral com cabeçalho (olho + "Pré-visualização do perfil público"), contendo uma miniatura do card público (avatar, nome, chip, técnicas, bio, botão "Saber mais"). Atualiza em tempo real enquanto o artesão digita (função `atualizarPrevia`). Some abaixo de 1024px (vai para o fim do formulário).
+Card de superfície turquesa suave com cabeçalho (olho + "Pré-visualização do perfil público"), contendo uma miniatura do card público (avatar, nome, chip, técnicas, bio, botão "Saber mais"). Atualiza em tempo real enquanto o artesão digita (função `atualizarPrevia`). Some abaixo de 1024px (vai para o fim do formulário).
 
 ---
 
@@ -285,13 +523,13 @@ Uso: `<iconify-icon icon="lucide:house" aria-hidden="true"></iconify-icon>`. Íc
 | Conceito | Ícone | | Conceito | Ícone |
 |---|---|---|---|---|
 | Início | `lucide:house` | | Notificações | `lucide:bell` |
-| Usuário / Entrar / Artesão | `boxicons:user` | | Sair | `lucide:log-out` |
-| Artesãos / grupos / pessoas | `boxicons:user` | | Voltar ao portal | `lucide:external-link` |
-| Cadastrar artesão | `boxicons:user` | | Novo / adicionar | `lucide:square-plus` / `lucide:plus` |
+| Usuário / Entrar / Artesão | `lucide:user` | | Sair | `lucide:log-out` |
+| Artesãos / grupos / pessoas | `lucide:user` | | Voltar ao portal | `lucide:external-link` |
+| Cadastrar artesão | `lucide:user` | | Novo / adicionar | `lucide:square-plus` / `lucide:plus` |
 | Trabalhos pendentes | `lucide:file-text` | | Meus trabalhos | `lucide:layers` |
 | Publicações / Status | `lucide:chart-no-axes-column` | | Configurações | `lucide:settings` |
-| Produtos | `bx:shopping-bag` | | Ideias / Saberes | `akar-icons:light-bulb` |
-| O Liceu | `uix-sharp:greek-temple` | | Local | `lucide:map-pin` |
+| Produtos | `lucide:shopping-bag` | | Ideias / Saberes | `lucide:lightbulb` |
+| O Liceu | `lucide:landmark` | | Local | `lucide:map-pin` |
 | Filtrar | `lucide:sliders-horizontal` | | Busca | `lucide:search` |
 | Grade / Lista | `lucide:layout-grid` / `lucide:list` | | Setas | `lucide:chevron-left/right/down`, `lucide:arrow-right` |
 | Ver | `lucide:eye` | | Ocultar | `lucide:eye-off` |
@@ -354,7 +592,7 @@ Todos os popups usam o elemento nativo **`<dialog>`** aberto com `showModal()` (
 | **Menu de ações** (popover `.menu-acoes`) | Botão `⋯` das tabelas/cards | Lista de `button` em `ul`, `role="menu"` não é necessário; fecha com `Esc`/clique fora. Itens destrutivos por último, separados por `hr` |
 | **Dropdown** do topo | Sino (notificações) e avatar (menu do usuário) | Popover alinhado à direita, largura 320px |
 
-### 8.3 Popups a desenhar (inventário a partir das telas)
+### 8.3 Inventário de interações dos popups
 
 | Origem | Popup | Tipo |
 |---|---|---|
@@ -362,7 +600,7 @@ Todos os popups usam o elemento nativo **`<dialog>`** aberto com `showModal()` (
 | Portal › Artesãos › "Filtrar" | Painel de filtros (categorias, técnicas, cidade) | Formulário (gaveta lateral no mobile) |
 | Portal › Home › card de produto | Detalhe do produto | Detalhe |
 | Liceu › "Analisar" | Analisar trabalho: imagens, dados, `Aprovar` / `Rejeitar` (rejeitar pede motivo) | Detalhe + formulário |
-| Liceu › Artesãos › "Ver perfil" / "Editar" / `⋯` | Perfil, edição rápida, menu (Ativar/Desativar, Redefinir senha, Excluir) | Detalhe / Formulário / Menu |
+| Liceu › Artesãos › "Ver perfil" / "Editar" / `⋯` | Perfil, edição rápida, menu (Ativar/Desativar, Redefinir senha) | Detalhe / Formulário / Menu |
 | Liceu › Publicações › olho / lápis / olho-cortado / lixeira | Ver, editar, ocultar (confirmação), excluir (confirmação destrutiva) | vários |
 | Liceu › Publicações › "Nova publicação" | Escolher trabalho aprovado para destacar | Formulário |
 | Liceu › Configurações › categorias/técnicas | Adicionar categoria, adicionar técnica, gerenciar listas | Formulário |
@@ -374,9 +612,13 @@ Todos os popups usam o elemento nativo **`<dialog>`** aberto com `showModal()` (
 | Ambos › "Sair" | "Deseja sair do painel?" | Confirmação |
 | Ambos › sino / avatar | Notificações / menu do usuário | Dropdown |
 
+Os diálogos de conteúdo variável são montados por `criarDialogo(titulo, corpo, acoes, opcoes)` em `js/componentes.js`, que reutiliza fechamento, backdrop, foco nativo e remoção após fechar. `opcoes` aceita `raiz` e `tamanho`; o padrão é o conteúdo atual e tamanho médio. Textos provenientes de registros devem passar por `escaparHtml` antes de entrar no corpo HTML.
+
+No MVP, notificações e menu da conta da topbar reutilizam esse diálogo; notificações mostram o estado atual dos trabalhos. Gestão de taxonomias, senha administrativa e permissões continua futura e desabilitada. O inventário não amplia o escopo definido nas especificações.
+
 ### 8.4 Feedback
 
-Após salvar/aprovar/excluir: **toast** (`.aviso-flutuante`, `role="status"`) no canto inferior direito por 4s. Função `mostrarAviso(mensagem)` (stub).
+Após salvar/aprovar/excluir: **toast** (`.aviso-flutuante`, `role="status"`) no canto inferior direito por 4s. Função `mostrarAviso(mensagem)`.
 
 ---
 
@@ -461,6 +703,8 @@ assets/img/                   imagens (placeholders trocáveis)
 
 ### 10.4 CSS
 
+- O atributo HTML `hidden` controla estados condicionais e prevalece sobre `display` de componentes, incluindo flex/grid. Remova o atributo para exibir; não substitua essa regra em CSS de páginas.
+
 - Mobile-first; só `min-width` nas media queries (§3).
 - Nada de cor/fonte/raio fora dos tokens.
 - Seletores por classe; sem `id` no CSS; profundidade máxima 3.
@@ -478,3 +722,613 @@ assets/img/                   imagens (placeholders trocáveis)
 - [ ] Navegável por teclado (foco visível, `Esc` fecha modal/gaveta).
 - [ ] Usa só tokens e componentes deste guia.
 - [ ] Imagens apontam para os caminhos de `assets/img/LEIAME.md`.
+
+### Detalhe público de produto
+
+A composição segue a página Produto Individual dos wireframes: galeria com favorito e miniaturas ao lado das informações, faixa com produtor e técnica, e produtos relacionados. A faixa usa alinhamento superior entre os títulos; o resumo da técnica combina imagem e texto, empilhados no smartphone. `css/paginas/produto.css` define apenas essa composição usando tokens; carrossel, card, favoritos e botões permanecem compartilhados.
+
+O catálogo em modo lista limita a imagem a 32% do card (máximo 180px), mantém altura natural para não cortar título/autor/preço e reserva espaço para o favorito. Seus controles podem quebrar em linhas no mobile. Essas regras se restringem ao catálogo; tabelas, paginação administrativa e cards em grade mantêm suas dimensões.
+
+O favorito ativo usa o mesmo ícone Lucide do estado inativo, com `aria-pressed="true"`, fundo primário e ícone invertido. O contraste do botão comunica o estado sem recorrer a outra coleção de ícones.
+
+## Padrões transversais de ações e detalhes
+
+Ações com texto usam ícone à esquerda (18px, `--tamanho-icone-acao`), seguido do verbo explícito. Status usam ícone de 16px (`--tamanho-icone-status`) e texto; nunca são botões, mesmo para rascunhos. Botões somente com ícone têm alvo de 44×44px (`--alvo-acao`), `aria-label`, `title` e foco nativo. Links de navegação editorial e chips de categoria mantêm só texto quando outro ícone não acrescenta significado. Controles de galeria e paginação mantêm setas; os nomes e números não mudam.
+
+A coleção da interface é Lucide, por meio do Iconify já instalado. Referências antigas a outras coleções são normalizadas por `padronizarIcones`; WhatsApp preserva o símbolo de marca já adotado, sem alternativa Lucide. Não introduzir outra biblioteca.
+
+| Ação | Ícone Lucide |
+|---|---|
+| Editar / corrigir | `pencil` |
+| Visualizar / ver perfil | `eye` |
+| Ocultar | `eye-off` |
+| Excluir | `trash-2` |
+| Duplicar | `copy` |
+| Enviar / reenviar | `send` |
+| Aprovar / republicar | `circle-check` |
+| Rejeitar / confirmar rejeição | `circle-x` |
+| Salvar / concluir cadastro | `check` |
+| Cancelar / descartar / limpar | `x` |
+| Adicionar / novo | `plus` |
+| Voltar | `arrow-left` |
+| Abrir no portal | `external-link` |
+| Filtrar | `sliders-horizontal` |
+| Analisar trabalho | `file-search` |
+| Redefinir senha | `key-round` |
+
+`conteudoAcao(texto)` gera ícone e texto escapado pelo registro semântico. `prepararAcoes(raiz)` aplica o mesmo registro ao conteúdo legado, sem substituir eventos nem alterar nomes/ações, e acrescenta títulos acessíveis aos controles compactos. Deve ser chamado após inserir conteúdo dinâmico. Ações destrutivas mantêm ícone e verbo explícito, variante de perigo e confirmação; não dependem só da cor.
+
+Modais de detalhe/análise compartilham `criarDetalhesTrabalho`: imagem principal com proporção 4:3 e demais fotos abaixo; artesão, status, chips e descrição agrupados; materiais, dimensões e preço em lista de descrição semântica. Duas colunas quando houver espaço (a partir de 600px), uma no smartphone. A rejeição aparece em campo separado; o rodapé continua com ações identificadas. Modais pequenos atendem a confirmações; menus de várias ações usam grade responsiva. A anatomia global de título, botão fechar, padding e backdrop permanece compartilhada.
+
+Filtros compactos usam rótulos curtos (“Status”, “Categoria/Técnica”, “Ordenar”) e selects de largura natural, sem fontes menores para forçar encaixe. Busca principal pode ocupar uma linha separada. Acima de 600px, grupos permanecem em linha enquanto couberem e quebram como unidades, sem separadores verticais; no smartphone os grupos reorganizam-se sem overflow. Chips de opções podem quebrar naturalmente.
+
+Listas de taxonomias usam seções `.lista-taxonomias` dentro do padding do card: “Categorias cadastradas” e “Técnicas cadastradas”, cada uma com `criarChips`. Os chips são informação estática, não controles de edição. Configurações futuras continuam desabilitadas.
+
+A preparação de ações é idempotente: não reaplica atributos de ícones já corretos. Os ícones da parcial são preparados imediatamente (`noobserver`), inclusive antes de mudar a página de uma listagem, para evitar controles temporariamente vazios. Remoção de chip/miniatura mantém o × convencional. Ações em cards preservam a área mínima de toque, mesmo em blocos de estado compactos.
+
+Os cabeçalhos de configurações reutilizam `.bloco-form__cabecalho--secao`, com wrapper de ícone e texto. No grid desktop, a altura mínima comum acomoda as descrições sem deslocar o início do conteúdo entre cards vizinhos; em telas menores, a altura volta a ser natural.
+
+Não reposicione um `iconify-icon` conectado apenas para remover espaços em branco. O preparador mantém nós já corretos; quando realmente precisa trocar um ícone de posição, cria uma instância nova. Isso evita estado interno de SVG inválido ao reconectar o custom element.
+
+Ícones de status e envio não são ocultados em cards compactos no desktop. O ajuste de densidade acontece por quebra de linha e altura natural, não por remoção de informação. Em uma fileira com apenas “Mais ações”, o botão permanece quadrado; somente ações com texto podem crescer para preencher a largura.
+
+
+## Validação final do portal público (18/11/2026)
+
+Referência visual: `../wireframes.pdf`, dez páginas (Login, Início,
+Catálogo, Produto, Artesãos, Perfil, Saberes, Liceu, Contato e Sobre).
+A referência orienta a composição; dados e textos existentes prevalecem
+sobre conteúdo ilustrativo. Header, footer, tokens e cards aprovados
+são preservados. A seção de vídeo e a linha do tempo são requisitos
+existentes, mesmo quando ampliam a altura em relação ao wireframe.
+
+- Catálogo: grade de uma coluna no smartphone, duas no tablet e quatro
+  no desktop, conforme §3 e o wireframe. Usar `minmax(0, 1fr)` e o
+  espaçamento existente `--espaco-4`, sem mudar o card compartilhado.
+  O modo lista continua com uma coluna e sua imagem limitada.
+- Perfil do artesão: nomes, empreendimento, cidade e biografia aceitam
+  palavras longas com `overflow-wrap: anywhere`. A informação ocupa
+  o espaço restante sem reduzir a foto; em tablet/desktop, reservar
+  a coluna da foto com base no limite já aprovado de 280px/38%.
+  Links de contato e seus itens podem encolher e quebrar texto;
+  o ícone mantém seu tamanho. Chips podem quebrar dentro do perfil.
+  Essas regras ficam em `css/paginas/artesaos.css`.
+- Não ocultar overflow para mascarar conteúdo cortado. Validar largura
+  interna do diálogo, foto, contatos e fechamento por teclado nos
+  tamanhos 1280px, 768px e 375px.
+- Fotos institucionais e dos cinco integrantes seguem pendentes;
+  os recursos disponíveis são placeholders, conforme o inventário.
+
+
+## Correções de UI dos painéis e produto (18/11/2026)
+
+- O foco programático no `main.painel__principal` não desenha contorno ao
+  redor de toda a página; controles internos continuam com foco visível.
+  O footer dos painéis não tem borda superior; o footer público é preservado.
+- Cards de trabalhos organizam título/metadados, divisória, estado e ações
+  em faixas comuns. Rascunhos mantêm Enviar e Editar; trabalhos em análise
+  informam que a edição está indisponível. Ações só com ícone têm alvo de
+  44px, nome acessível e title. Não esconder permissões ou status.
+- Menus de ações usam uma coluna no smartphone, duas no tablet e botões
+  proporcionais na mesma linha no desktop (1024px), sem reduzir fontes.
+- Cabeçalho de Meus trabalhos: título e cadastro no cabeçalho; busca em
+  linha própria; status/categoria/ordenação em grupos; contador e modo na
+  linha anterior aos cards. Espaçamentos seguem tokens.
+- Status das publicações usa ações de ícone com nome/title; espera segue
+  desabilitada. Editar, ver motivo e abrir no portal preservam funções.
+- Detalhes de trabalho têm galeria limitada e metadados em grade em telas
+  amplas; a análise usa largura grande e espaços de 16/24px, evitando
+  uma coluna excessivamente vertical. Motivo de rejeição tem Cancelar;
+  aprovação exige confirmação explícita antes de persistir.
+- Seleção múltipla usa fieldset/legend e checkboxes nativos com alvos de
+  44px, borda/raio/tokens e resumo vivo da seleção. O select de origem
+  continua sincronizado para preservar contrato, validação e persistência.
+  Aplicar `prepararMultisselecao` a todos os selects múltiplos dos diálogos.
+  Os formulários que já usam select e chips mantêm esse padrão aprovado.
+- Produto: galeria e resumo alinhados ao topo; miniaturas proporcionais
+  com seleção anunciada; materiais (`layers`), técnica (`hammer`) e
+  dimensões (`ruler`) em lista de descrição com ícones Lucide; descrição
+  separada por borda, produtor com foto e texto, técnica e relacionados
+  preservados. Preço numérico usa a escala de título de seção existente;
+  a mensagem de preço sob consulta usa texto de apoio e cor suave.
+- Aviso do MVP tem `--espaco-5` de distância do formulário de configurações.
+
+
+## Revisão complementar: filtros, produto e conta
+
+Referências: `../liceu_capturas_correcoes_ui_ux.pdf` (capturas atuais e
+Figma) e página Produto Individual de `../wireframes.pdf`.
+
+- Publicações, Pendentes e Artesãos usam `.liceu-filtros`: busca com
+  largura integral na primeira linha, controles na segunda, sem caixa
+  cinza ou padding externo exclusivos. `.liceu-filtros__controles` usa
+  grade proporcional com os tokens de espaço. Labels, selects e busca
+  reutilizam `.campo` e `.busca`. Filtragem é automática em input/change;
+  submit por Enter permanece suportado no formulário de Publicações.
+- Limpar filtros combina ícone e texto com inline-flex, centralização
+  nos dois eixos, gap de `--espaco-2` e ícone de `--tamanho-icone-acao`.
+  Não aplicar offsets ou translação para alinhar o conteúdo.
+- Produto: título usa `--fonte-h2`, atributos são três blocos com ícone,
+  rótulo e valor e divisórias verticais discretas a partir de 600px;
+  no celular, as divisórias são horizontais. A descrição mantém sua borda.
+  Galeria 16:9 e miniaturas preservam os estados acessíveis existentes.
+- A faixa de contexto reúne produtor e técnica em colunas iguais no
+  desktop, separadas por borda vertical. Abaixo de 1024px, ficam empilhados
+  com divisão horizontal. A foto do produtor e seu texto ficam lado a
+  lado a partir de 600px; botões têm largura natural e podem quebrar texto.
+  A imagem da técnica usa cerca de um terço da coluna e não comprime o
+  texto; seu nome aparece em título próprio.
+- Relacionados mantêm as colunas 1/2/4 e o gap compartilhado. Com três
+  produtos no desktop, a grade é centralizada com a largura equivalente
+  a três cards da grade de quatro. Não fabricar registros para completar.
+- Minha conta reutiliza `.modal__acoes--grade` e modal médio: uma coluna
+  no smartphone, duas no tablet e três ações proporcionais no desktop.
+  Links e confirmação de logout mantêm seus comportamentos.
+- Footer compartilhado: o item Ajuda (`#/contato`) é renderizado apenas
+  na Área do Artesão. Na Área do Liceu, o item é removido antes da inserção
+  da casca; Sobre e copyright permanecem. Não duplicar o footer, esconder
+  apenas por CSS nem alterar o footer público.
+
+
+### Refinamento dos botoes secundarios e seletores
+
+- Botoes secundarios utilizam superficie suave e borda discreta.
+- Menus personalizados utilizam raio medio.
+- Hover e selecao empregam superficies suaves.
+- A selecao continua indicada por peso tipografico.
+- Estados de foco por teclado devem permanecer visiveis.
+- As dimensoes minimas de interacao sao preservadas.
+- Os ajustes pertencem aos componentes compartilhados.
+
+## Rodada adicional: seletores, validação, cards e favoritos
+
+Referência: `../capturas_ajustes_ui_liceu_rodada_atual.pdf`.
+
+- Seleção simples: `js/seletores.js` melhora progressivamente os selects
+  através de `prepararSeletores`, chamado pelo preparador de ações. O select
+  permanece no formulário como fonte de valor, eventos e validade. A interface
+  é uma combobox somente de seleção com listbox em popover na camada superior.
+  Não cortar o valor selecionado: permitir quebra e reservar largura. Menus
+  usam tokens, opções com alvo de 44px, grupos, hover/seleção/foco e rolagem
+  interna de até 320px. Posicionar acima ou abaixo conforme a viewport.
+- Teclado dos seletores: setas, Home/End e PageUp/PageDown navegam; Enter,
+  Espaço ou Tab confirmam; Escape cancela a navegação sem mudar o valor e
+  preserva o diálogo. Digitação busca opções. Desabilitados não abrem.
+  Eventos input/change, reset, opções dinâmicas, rótulos e erros são
+  sincronizados. Navegadores sem Popover API mantêm o select nativo.
+  Referência semântica: [WAI-ARIA APG, select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/).
+- Seleção múltipla conserva fieldset/checkboxes ou select+chips já aprovados.
+  Não substituir por uma combobox simples nem perder valores persistidos.
+- Obrigatórios: Nome completo e E-mail exibem asterisco, required e mensagens
+  claras em região de alerta. Validar espaços no nome e formato do e-mail;
+  unicidade e atualização de credenciais permanecem na camada de dados.
+- Cards do artesão: remover a borda horizontal exclusiva do bloco de ações,
+  título sem altura artificial, espaçamentos com tokens e ações alinhadas na
+  base. Status usa altura de 32px e ícone de 16px. O motivo tem ícone de 16px
+  em alvo transparente de 44px, alinhado ao chip; não diminuir o alvo.
+- Status das publicações: busca e controles com áreas próprias no desktop,
+  busca acima no tablet e tudo empilhado no celular. Reservar pelo menos
+  12rem aos controles quando houver espaço e não ocultar seus valores.
+- Filtros administrativos: rótulos e controles separados por espaco-2 e
+  grade proporcional, sem compartilhar a linha da busca. Usar a combobox
+  também nos filtros e formulários dos modais.
+- Contexto do produto: duas colunas equivalentes com divisória no centro e
+  títulos alinhados. Mídia de 128px no tablet/desktop (avatar circular e
+  técnica retangular); textos flexíveis e botões com mesma anatomia/altura,
+  na base. Biografias extensas têm região de rolagem por teclado, sem perder
+  texto. No celular, preservar empilhamento e divisão horizontal.
+- Modais: manter variantes pequena/média/grande, título com quebra segura,
+  ações com texto completo e rolagem interna. Modal editorial de Saberes
+  usa corpo e rodapé próprios, gap de 24px e botão com largura natural,
+  altura mínima de 44px e texto que pode quebrar no smartphone.
+- Somente favoritos: chip com coração e aria-pressed no catálogo público.
+  Combinar com filtros, busca, ordenação e paginação; desfavoritar atualiza
+  a lista. O estado vazio explica como exibir todos. Usar a chave existente
+  liceu:favoritos; não adicionar filtros fictícios a Artesãos/Saberes nem
+  ferramentas de favoritos nos painéis de gestão.
+
+
+### Largura dos filtros do painel do artesao
+
+- A busca ocupa uma linha propria.
+- Em Meus trabalhos, os tres filtros dividem igualmente a largura no desktop.
+- Em Status das Publicacoes, os dois filtros dividem igualmente a largura.
+- Campos e seletores personalizados ocupam 100% da coluna.
+- Em telas menores, preservar organizacao responsiva sem overflow.
+
+## Identidade visual institucional — Liceu de Ofícios Criativos
+
+### Referências e escopo
+
+- Instagram: https://www.instagram.com/liceudeoficioscriativos/
+- Materiais institucionais divulgados pela Prefeitura de Curitiba.
+- Paleta proposta para o projeto acadêmico, não oficial.
+- Publicações atuais do Instagram não foram verificadas integralmente.
+
+### Conceito
+
+Criatividade, cultura, acolhimento, inovação e valorização
+do trabalho artesanal.
+
+A comunicação visual combina cores criativas, superfícies claras,
+elementos suavemente arredondados e fotografias que valorizam
+os artesãos e suas produções.
+
+### Paleta digital proposta
+
+| Papel | Hex |
+|---|---|
+| Turquesa de marca (proposta) | #20A8A6 |
+| Ação primária | #0C7774 |
+| Hover primário | #095E5C |
+| Amarelo criativo | #FFC928 |
+| Rosa criativo | #E73571 |
+| Petróleo | #183E45 |
+| Off-white | #F8F7F3 |
+| Superfície suave | #EAF5F3 |
+| Borda suave | #C7DAD6 |
+
+### Regras de aplicação
+
+1. Usar turquesa profundo nas ações primárias.
+2. Manter botões secundários discretos.
+3. Reservar amarelo e rosa para destaques pontuais.
+4. Evitar grandes áreas funcionais com cores saturadas.
+5. Preservar a tipografia Inter.
+6. Manter cantos suaves em campos, botões, cards e modais.
+7. Reutilizar tokens globais em vez de repetir cores hexadecimais.
+8. Aplicar a mesma identidade nas áreas pública, do artesão e do Liceu.
+9. Manter a diferenciação semântica de erro, alerta e sucesso.
+10. Garantir contraste WCAG AA e foco visível.
+11. Não alterar os fluxos de autenticação, publicação e favoritos.
+12. Preservar as correções de UI/UX já aprovadas.
+
+### Herança de estilos
+
+A fonte central da identidade cromática é `css/global.css`.
+
+Atualizações em `docs/DESIGN.md` documentam o padrão, mas
+não modificam automaticamente os componentes.
+
+Componentes com cores fixas devem ser migrados cuidadosamente
+para os tokens globais após validação visual.
+
+### Recursos visuais
+
+Utilizar fotografias e logotipos institucionais autorizados.
+Manter os placeholders existentes enquanto não houver
+arquivos definitivos.
+
+## Migração integral da identidade visual
+
+### Status da migração
+
+A paleta cinza anterior era provisória, utilizada apenas
+durante a construção e validação da interface.
+
+A interpretação digital proposta para o portal é
+fundamentada na paleta criativa documentada anteriormente.
+
+### Regra obrigatória
+
+Todos os componentes devem utilizar os tokens semânticos
+do design system, incluindo:
+
+- Cabeçalho público e cabeçalhos dos painéis.
+- Barra lateral, menus e estados ativos.
+- Rodapé e navegação institucional.
+- Botões primários, secundários e de ação.
+- Campos, buscas, seletores e filtros.
+- Cards, tabelas, divisórias e contêineres.
+- Chips, badges, indicadores e estatísticas.
+- Modais, confirmações, alertas e feedbacks.
+- Links, ícones, estados hover e foco.
+- Paginação, favoritos e controles de visualização.
+
+### Hierarquia cromática
+
+- Turquesa profundo: ações principais e interações.
+- Turquesa suave: superfícies e seleção.
+- Petróleo: texto e contraste editorial.
+- Off-white: fundos alternados.
+- Amarelo e rosa: detalhes editoriais e acentos.
+- Cores semânticas: sucesso, alerta e erro.
+
+### Diretrizes
+
+- Branco pode permanecer como superfície neutra.
+- Cinzas não são proibidos por natureza, mas nenhum
+  cinza provisório deve permanecer por falta de migração.
+- Não aplicar cores saturadas indiscriminadamente.
+- Não usar exclusivamente a cor para comunicar estados.
+- Manter contraste e foco acessíveis.
+- Preservar dimensões, layouts e fluxos aprovados.
+- Não substituir imagens ou logotipos sem autorização.
+- Evitar novos valores hexadecimais nos CSS de páginas.
+- Priorizar variáveis existentes ou criar novos tokens
+  semânticos quando necessário.
+
+### Estratégia de implementação
+
+1. Migrar tokens globais.
+2. Auditar componentes e CSS específicos.
+3. Migrar cores fixas conforme a função de cada elemento.
+4. Validar visualmente portal público e os dois painéis.
+5. Verificar responsividade, acessibilidade e regressões.
+
+A auditoria deve distinguir cores estruturais, estados
+semânticos e recursos decorativos. Não substituir cores
+automaticamente apenas por semelhança hexadecimal.
+
+
+## Identidade cromática aplicada — novembro de 2026
+
+### Referências e limites
+
+- Símbolo existente: `assets/logo.png`, com três áreas curvas de turquesa,
+  amarelo e rosa. Preservar integralmente a imagem e suas proporções.
+- Material oficial examinado: [Prefeitura de Curitiba, aniversário do Liceu,
+  07/11/2024](https://www.curitiba.pr.gov.br/noticias/liceu-de-oficios-criativos-comemora-5-anos-de-apoio-aos-artesaos-de-curitiba/74867),
+  incluindo a fotografia da fachada com o mesmo símbolo tricolor.
+- O Instagram institucional foi consultado, mas não pôde ser carregado no
+  ambiente de execução. Não foi encontrado/validado manual de cores oficial.
+- Os códigos abaixo são uma interpretação digital da paleta proposta pelo
+  projeto; não são apresentados como hexadecimais oficiais.
+
+### Paleta final e combinações
+
+| Cor | Valor | Uso real |
+|---|---|---|
+| Turquesa | `#20A8A6` | Grafismo tricolor e acentos de cards; sem texto branco pequeno |
+| Turquesa profundo | `#0C7774` | Botão primário e seleção; texto branco |
+| Turquesa escuro | `#095E5C` | Header, hover primário e links; branco no header |
+| Amarelo | `#FFC928` | Sidebar ativa, ação editorial, indicadores e estatísticas; texto petróleo |
+| Rosa | `#E73571` | Grafismo, detalhes editoriais e acentos decorativos |
+| Rosa escuro | `#AD1B50` | Favoritos ativos, foco e links de acento; branco quando preenchido |
+| Petróleo | `#183E45` | Texto, sidebar e footer; branco sobre fundos escuros |
+| Off-white | `#F8F7F3` | Fundo de páginas; branco reservado a cards, campos, menus e modais |
+| Amarelo suave | `#FFF0BD` | Hero, avisos e conteúdo editorial |
+| Rosa suave | `#FCE7EF` | Faixas de pessoas, favoritos e contexto do produto |
+
+### Aplicação por componente
+
+- Header turquesa profundo e footer petróleo com faixa tricolor desenhada
+  em background (sem acrescentar altura). Links brancos, hover amarelo e
+  página ativa preenchida em amarelo com texto petróleo e peso forte, sem
+  linha de indicação. A navegação mobile mantém as mesmas combinações.
+- Sidebar petróleo: texto claro, hover tonal e item selecionado amarelo com
+  texto petróleo. Foco amarelo nas superfícies escuras; não herdar texto
+  branco para itens ativos claros.
+- Hero público em amarelo suave com grafismos em rosa/turquesa, sem imagens
+  novas. Faixas de pessoas/contexto em rosa suave. Botão editorial amarelo;
+  botão secundário branco com borda turquesa. Ações principais permanecem
+  turquesa, destrutivas usam erro e favoritos usam rosa escuro.
+- Cards brancos sobre fundo quente, bordas suaves e acentos sem alterar
+  suas dimensões. Estatísticas usam cores conforme papel de total, publicado,
+  análise e pendência, identificados pelos ícones semânticos existentes e não
+  pela posição do card. Rascunho usa seu par neutro; ícones e rótulos continuam explícitos.
+- Tabelas com cabeçalho petróleo e texto branco, corpo branco e hover suave.
+  Formulários usam campos brancos e bordas de controle com contraste; menus
+  abertos usam hover amarelo suave e seleção turquesa com texto branco.
+- Modais brancos recebem faixa tricolor superior sem alteração de padding,
+  tamanho ou fluxo. Botão fechar e títulos seguem as cores interativas.
+- Estados: publicado/ativo verde, análise/reenviado âmbar, rejeitado/inativo
+  rosa escuro e rascunho verde acinzentado. Todos mantêm ícone e texto.
+- Desabilitados preservam `disabled`/`aria-disabled` e recebem superfície e
+  texto próprios. Foco tem contorno visível; erros não dependem só da borda.
+- O cabeçalho do catálogo recebe plano amarelo suave, e o alternador de
+  grade/lista usa seleção turquesa. O catálogo funcional (`css/produtos.css`, ausente no worktree de design)
+  deve consumir estes mesmos tokens, incluindo busca, filtros e limpeza.
+- Preservar HTML, tipografia, medidas, espaçamentos, dados, fotografias e
+  placeholders. Grafismos e acentos não recebem eventos de ponteiro.
+
+### Validação cromática
+
+Verificar os pares de texto a 4,5:1, inclusive labels de botões, tabelas,
+menus, estados e favoritos. Bordas de controles e indicadores de foco
+precisam de 3:1 contra a superfície adjacente. Cores saturadas sem contraste
+para texto pequeno ficam restritas a grafismos. Contraste de imagens de
+conteúdo/placeholder não é inferido a partir dos tokens.
+
+
+## Refinamento das superfícies e navegação pública
+
+- O plano principal público usa `--cor-fundo-publico` (amarelo claro,
+  `#FFF8E1`) por meio do escopo `.conteudo`. Painéis preservam seu fundo.
+  As faixas alternadas usam turquesa suave (`--cor-superficie-forte`),
+  substituindo a base bege acinzentada. Faixas editoriais rosa/amarelo
+  existentes continuam com seus papéis.
+- Atalhos compartilhados `.card-atalho` preservam a anatomia de card:
+  superfície branca, borda completa suave, cantos arredondados e sombra
+  discreta. Sem faixa superior decorativa. Ícone turquesa, título, descrição
+  e seta menor organizam o conteúdo; toda a área permanece clicável.
+  Hover/foco reforçam a borda sem deslocar o card. Preservar grade, padding,
+  dimensões externas e contorno de foco visível.
+- Header e footer usam `aria-current="page"` como fonte do estado ativo:
+  preenchimento amarelo, texto petróleo e peso forte. Nenhum pseudo-elemento
+  desenha linha de ativo ou hover. No desktop, o destaque do header tem
+  44px dentro da barra existente de 64px; no menu móvel ocupa a entrada.
+  O footer usa preenchimento e halo de fundo, sem deslocar links vizinhos.
+  A faixa tricolor institucional da casca não indica rota e permanece.
+- Os links ativos preservam contraste também no hover e no foco; Escape,
+  navegação, rotas e marcação dinâmica continuam inalterados.
+
+
+### Cabeçalho de Produtos em faixa inteira
+
+O fundo editorial de `.catalogo-produto-cabecalho` ocupa a largura inteira
+por uma camada decorativa com expansão lateral e recorte vertical. A faixa
+começa logo abaixo do header público; o texto e os controles continuam
+alinhados à grade limitada do catálogo. A camada não recebe cliques, não
+altera a largura do documento e não interfere em filtros ou favoritos.
+
+
+## Refinamento de chips, artesãos e modal de técnicas
+
+- Chips de assunto usam seis pares de tokens `--cor-chip-…`: turquesa, rosa,
+  amarelo, azul, verde e violeta. `corChip` no componente compartilhado associa
+  categorias e técnicas a cores estáveis, inclusive em filtros e painéis.
+  Texto e fundo têm contraste AA; badges de status conservam sua semântica.
+  Seleção usa fundo escuro e peso forte; hover reforça a borda e foco mantém
+  o contorno global. Não atribuir cores por posição na lista.
+- Cards públicos de artesãos usam borda tricolor completa de 1px, superfície
+  branca, raio grande e sombra discreta, reforçada no hover/foco interno, sem
+  deslocamento. Avatares circulares têm moldura branca e halo turquesa suave.
+  Preservar dimensões, grade/lista, ações e leitura dos nomes.
+- O rodapé do modal editorial centraliza a ação de explorar os produtos,
+  mantendo largura natural e quebra de texto em telas pequenas.
+- PNG transparente institucional atualizado em `assets/logo.png`, fornecido
+  pela equipe. Portal, painéis e login utilizam o mesmo arquivo original.
+
+
+## Padrão compartilhado entre portal e painéis
+
+- `.card` e `.bloco-form` compartilham `--raio-card`, `--borda-card`, superfície
+  branca, contorno completo e sombra. Produtos, técnicas, pessoas, trabalhos,
+  atalhos e blocos de formulário usam a mesma linguagem visual nos três ambientes.
+  Hover/foco reforçam a sombra sem mover ou redimensionar os cards.
+- Estatísticas preservam ícones, texto, fundos semânticos e borda completa da
+  cor de status. Não aplicar borda tricolor a sinais de erro ou aprovação.
+- Avatares compartilham formato circular, moldura branca e halo suave; manter
+  as dimensões necessárias em tabelas, topbar e prévias. Tabelas mantêm grade,
+  colunas, altura e paginação existentes.
+- `prepararChips` conserva os pares de cores em etiquetas, filtros, chips
+  removíveis e prévias de perfil; reaplicar após atualizar uma prévia dinâmica.
+  Favoritos preservam o coração e a cor rosa, sem tratamento de categoria.
+- Logo original RGBA de 1254 × 1254, sem transformação do arquivo. Na marca da
+  casca, usar caixa de 72 × 52px com `object-fit: cover` para aproveitar as margens
+  transparentes, e base clara arredondada para o lettering escuro continuar legível
+  no cabeçalho e rodapé. Login usa `--tamanho-logo-login` (96px) e preserva a imagem
+  inteira. O CSS funcional do login, ausente neste worktree, deve consumir o token.
+
+
+## Acessibilidade — auditoria de 23/11/2026
+
+- Marcas dos painéis têm nome acessível explícito; o menu de conta referencia
+  os rótulos `painel-conta-rotulo` e `painel-conta-nome`, inclusive quando o nome
+  visual é ocultado no celular. Campos de upload precisam de rótulo acessível.
+- Atalho `Pular para o conteúdo` é o primeiro link do documento e só aparece
+  no foco. Seu acionamento foca o main atual sem alterar a rota da SPA.
+- Acordeões preservam os headings: colocar botão nativo `.acordeao-toggle`
+  dentro de h3, com `aria-expanded` e `aria-controls` vinculados ao conteúdo.
+  Teclado usa o comportamento nativo de Enter/Espaço.
+- Checkboxes/radios do catálogo usam 24px, e seus labels têm alvo de 44px.
+  Botões de remoção de chips têm alvo de 44px. Não confundir o mínimo AA de
+  24px (WCAG 2.2, com exceções) com a recomendação de 44px do projeto.
+- Carrosséis com vários slides oferecem Pausar/Retomar rotação, preservando
+  a pausa quando o ponteiro/foco sai do componente. Preferência por movimento
+  reduzido inicia em pausa; mudá-la para reduzir também interrompe a rotação.
+  Pausa temporária por foco/hover e navegação manual são mantidas.
+- Falhas de carregamento devem apresentar mensagem de erro anunciável e ação
+  de tentar novamente; indisponibilidade da rede não equivale a rota inexistente.
+
+Referências: [WCAG 2.2, alvos](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html),
+[pausa](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html),
+[mensagens de status](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html).
+
+
+### Cards editoriais de objetivos institucionais
+
+Em Sobre o Liceu, `.o-liceu-objetivo` utiliza composição editorial alinhada à
+esquerda, com ícone de 28px em apoio branco de 56px. Os três objetivos recebem
+superfícies suaves da paleta vigente: verde para Formação, rosa para Valorização
+e amarelo para Fortalecimento. Os ícones existentes identificam o papel para
+aplicar o acento, sem depender da posição na lista.
+
+Preservar os textos, headings, grade responsiva, altura uniforme por fileira e
+contorno completo suave compartilhado. Não usar a antiga faixa amarela superior.
+As cores são decorativas e não comunicam status nem exigem novas interações.
+
+
+### Início do painel do Liceu — apresentação de gestão
+
+O dashboard administrativo usa uma variante local da identidade Equilibrada:
+
+- `.liceu-inicio-cabecalho`: superfície verde suave, contorno completo e imagem
+  de apoio compacta. Preservar título, descrição e os dois atalhos existentes.
+- `.liceu-inicio-resumo`: métricas brancas com ícones em bases semânticas suaves,
+  mantendo números, rótulos e significados de estado.
+- `.liceu-pendentes`: cards de trabalho com miniatura lateral, conteúdo à direita
+  e ação primária Analisar abaixo. Uma coluna no celular e duas a partir de
+  600px. Preservar todos os metadados, status, identificadores e análise existente.
+- `.liceu-inicio-acoes`: bloco de apoio verde suave, sem aparência de alerta
+  amarelo. Os links e os textos administrativos permanecem.
+
+Os modificadores são aplicados somente no Início do Liceu. Não alterar sidebar,
+roteamento, telas de listagem, painel do artesão ou cards da vitrine pública.
+
+
+## Áreas internas neutras e ícones sem fundo — 24/11/2026
+
+- A identidade pública Equilibrada permanece como referência. Nas áreas
+  internas, sidebar e footer usam branco, texto escuro, hover neutro e seleção
+  cinza suave com acento lateral discreto. O header mantém a marca institucional.
+- Tabelas internas têm cabeçalho cinza claro e texto escuro, sem alterar
+  proporções, colunas, paginação ou apresentação móvel.
+- Ações secundárias antes amarelas usam superfície neutra. Primárias mantêm
+  turquesa; badges conservam cores, texto e ícones semânticos.
+- Ícones de apresentação não recebem caixas preenchidas: formulários, métricas
+  e objetivos institucionais usam apenas o desenho. Botões de ação mantêm
+  alvos, foco e hover; não confundir apresentação com área interativa.
+- Métricas internas compartilham cards brancos com contorno suave e ícones
+  semânticos sem fundo. Essa variante fica em `css/layout.css`, sem duplicar
+  os estilos entre Artesão e Liceu.
+- No início do artesão, o cabeçalho recebe card neutro e mídia compacta.
+  `artesao-resumo` não usa plano amarelo nem padding de bloco colorido; cards
+  de status se distinguem da página. Dicas usam apoio neutro próprio.
+- Os apoios internos consomem `--cor-painel-apoio`, `--cor-painel-hover`,
+  `--cor-painel-selecionado` e `--cor-painel-cabecalho-tabela`.
+- Logo fornecido como `assets/logo-liceu.png` substitui o arquivo anterior e
+  passa a existir somente como `assets/logo.png`. Os dois arquivos fornecidos
+  nesta rodada possuem o mesmo SHA-256; a renomeação não muda seus pixels.
+
+Esta seção atualiza os fundos de ícones e métricas descritos nas rodadas
+anteriores; não remover acessibilidade, ações nem regras do MVP.
+
+### Seleção discreta e cores de apoio — 24/11/2026
+
+- Sidebar selecionada: superfície rosa suave, contorno completo e ícone magenta; sem faixa lateral verde. Mantém `aria-current` e peso de texto.
+- Seletores compartilhados: foco/hover neutro, seleção azul suave e marca de confirmação; sem combinação de amarelo, verde e faixa rosa no mesmo item.
+- Métricas recebem apenas uma borda superior colorida; apoio administrativo usa amarelo editorial suave. Fundos gerais permanecem neutros.
+- Miniaturas da fila de pendentes usam proporção 1:1 e `object-fit: cover`.
+- Variante `modal--perfil`: largura máxima 600px, espaçamento compacto, centralização e limite de 85vh com rolagem. Identidade agrupa foto, ateliê e localização.
+
+### Cards de métricas — revisão global de 24/11/2026
+
+Substitui a versão anterior com borda superior colorida. Todo `card-estatistica` usa superfície pastel por estado, sem contorno, faixa superior ou sombra. Número e rótulo ficam à esquerda, ícone sem fundo no canto superior direito. A composição é compartilhada pelos inícios do Liceu e do artesão, status de publicações e fila de pendentes. Não criar sobrescritas por página. Estados continuam identificados por ícone e texto; métricas são informativas, sem efeito de elevação ao passar o mouse.
+
+### Harmonia cromática e cards da fila — 24/11/2026
+
+Esta revisão substitui os papéis anteriores de ação turquesa: ações e links usam azul `#284F70` / hover `#1C3C57`; texto e bordas são neutros. Rosa identifica seleção e foco, amarelo sinaliza atenção, verde identifica sucesso. Turquesa permanece na marca e nas etiquetas de assunto. Não alternar cores de botões por posição ou por card. As cores dos chips e os estados semânticos são preservados.
+
+Cards de trabalhos aguardando análise têm miniatura 1:1, conteúdo agrupado e rodapé separado por divisor neutro. Status à esquerda, ação secundária compacta à direita, com alvo mínimo de 44px. Configurações usam cabeçalhos brancos; cores de seção aparecem somente nos ícones (institucional azul, preferências rosa, taxonomias violeta, segurança âmbar).
+
+### Opções visíveis de categoria e técnica — 24/11/2026
+
+O componente `prepararMultisselecao` também atende selects simples marcados com `data-escolha-unica`, usando os mesmos grupos e opções visuais com radios nativos. Perfil mantém múltiplas categorias/técnicas; cada trabalho mantém uma categoria e uma técnica. A obrigatoriedade fica nos controles visíveis, os valores do select original continuam sincronizados e o seletor popover ignora esses campos. Usar em Novo/Editar trabalho sem alterar regras de publicação ou rascunho.
+
+### Várias categorias e técnicas por trabalho — 24/11/2026
+
+Novo/Editar trabalho passa a usar checkboxes do componente compartilhado nos dois grupos. Exigir pelo menos uma opção de cada grupo ao enviar; rascunhos podem permanecer incompletos. A validação fica no primeiro checkbox visível, sem obrigar todas as opções. Cards e detalhes exibem todas as categorias e técnicas, preservando os chips por assunto. Esta regra substitui a escolha única anterior, inclusive na edição administrativa da publicação.
+
+### Marca no cabeçalho e rodapé — 24/11/2026
+
+Páginas públicas e painéis usam o PNG fornecido em `assets/logo.png`, com
+identificador de versão na URL para atualizar o cache da imagem. A marca é
+apresentada em 80×56px, sobre base clara, preservando a legibilidade do texto
+cinza e as cores do arquivo original. O texto ao lado e o nome acessível do
+link identificam o produto como **Portal do Artesão**; a inscrição institucional
+embutida no PNG e os créditos do Liceu continuam preservados.
+
+No desktop, o conteúdo do rodapé interno respeita a largura da sidebar, evitando
+que a marca fique encoberta pela navegação lateral durante a rolagem.
+
+### Logo sem fundo — revisão de 24/11/2026
+
+Substitui a orientação anterior de base clara: a logo não recebe fundo, placa
+ou borda arredondada no cabeçalho ou rodapé. O PNG transparente original é
+preservado. Uma camada CSS recorta apenas a inscrição, em branco nos cabeçalhos
+e no rodapé público escuro, e preto no rodapé interno claro; lâmpada, cores e
+base cinza continuam originais. A marca visual fica em `marca__imagem` e o
+nome adjacente em `marca__nome`, para a regra responsiva ocultar somente o nome
+no cabeçalho interno mobile. O link conserva o nome acessível Portal do Artesão.

@@ -8,6 +8,32 @@
     margin-bottom: var(--espaco-6);
 }
 
+.liceu-config-aviso {
+    margin-bottom: var(--espaco-5);
+}
+
+.liceu-analise .modal__corpo,
+.liceu-analise .pilha {
+    gap: var(--espaco-4);
+}
+
+.liceu-analise .detalhe-trabalho__galeria img:first-child {
+    max-height: calc(4 * var(--espaco-8));
+    object-fit: contain;
+    background-color: var(--cor-superficie);
+}
+
+.liceu-analise .detalhe-trabalho__metadados {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+    gap: var(--espaco-3);
+}
+
+@media (min-width: 600px) {
+    .liceu-analise .detalhe-trabalho {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    }
+}
+
 .liceu-secao__titulo {
     margin-bottom: var(--espaco-5);
 }
@@ -20,30 +46,123 @@
     text-align: center;
 }
 
-/* ----- Início: trabalhos aguardando análise ----- */
+/* ----- Início: apresentação de gestão ----- */
+.liceu-inicio-cabecalho {
+    padding: var(--espaco-4);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-card);
+    background-color: var(--cor-superficie-card);
+}
+
+.liceu-inicio-resumo .grade-estatisticas {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+/* Fila de revisão: conteúdo e rodapé com ação compacta. */
 .liceu-pendentes {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--espaco-4);
 }
 
 .liceu-pendentes .card-trabalho {
+    display: grid;
+    grid-template-columns: calc(var(--espaco-8) + var(--espaco-4)) minmax(0, 1fr);
+    align-content: start;
+    align-items: start;
+    gap: var(--espaco-4);
     height: 100%;
+    padding: var(--espaco-4);
 }
 
-.liceu-pendentes .card-trabalho .btn--bloco {
-    margin-top: auto;
+.liceu-pendentes .card-trabalho__imagem {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.liceu-pendentes .card-trabalho__conteudo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-2);
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.liceu-pendentes .card-trabalho__meta {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    color: var(--cor-texto-suave);
+}
+
+.liceu-pendentes .card-trabalho__meta > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.liceu-pendentes .card-trabalho__meta > iconify-icon {
+    flex-shrink: 0;
+}
+
+.liceu-pendentes .card-trabalho__rodape {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-3);
+    padding-top: var(--espaco-3);
+    border-top: 1px solid var(--cor-borda);
+}
+
+.liceu-pendentes .card-trabalho__rodape .btn {
+    flex: 0 0 auto;
+    width: auto;
+    padding-inline: var(--espaco-3);
+    margin-left: auto;
+}
+
+.liceu-inicio-acoes {
+    box-shadow: var(--sombra-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-card);
+    background-color: var(--cor-editorial);
+    color: var(--cor-texto);
+}
+
+.liceu-inicio-acoes > iconify-icon {
+    color: var(--cor-primaria);
+    font-size: var(--espaco-6);
 }
 
 @media (min-width: 600px) {
+    .liceu-inicio-cabecalho {
+        padding: var(--espaco-5);
+    }
+
+    .liceu-inicio-resumo .grade-estatisticas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .liceu-pendentes {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (min-width: 1024px) {
-    .liceu-pendentes {
-        grid-template-columns: repeat(4, 1fr);
+    .liceu-inicio-cabecalho.painel-cabecalho--com-imagem {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .liceu-inicio-cabecalho .painel-cabecalho__imagem {
+        width: calc(3 * var(--espaco-8));
+        height: calc(2 * var(--espaco-8));
+        object-fit: cover;
+    }
+
+    .liceu-pendentes .card-trabalho {
+        grid-template-columns: calc(var(--espaco-8) + var(--espaco-6)) minmax(0, 1fr);
     }
 }
 
@@ -84,14 +203,6 @@
 
     .liceu-tabela .tabela__acoes .btn--pequeno {
         padding-inline: var(--espaco-2);
-    }
-
-    .liceu-barra {
-        flex-wrap: wrap;
-    }
-
-    .liceu-barra .busca {
-        flex: 1 1 100%;
     }
 
 }
@@ -141,41 +252,27 @@
     }
 }
 
-/* ----- Publicações: cabeçalho com ação ao lado e caixa de filtros ----- */
+/* ----- Cabeçalho de filtros das três listagens administrativas ----- */
 .liceu-filtros {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: var(--espaco-4);
     margin-bottom: var(--espaco-5);
-    padding: var(--espaco-4);
-    border-radius: var(--raio-medio);
-    background-color: var(--cor-superficie-forte);
 }
 
 .liceu-filtros__busca {
-    flex: 1;
     min-width: 0;
 }
 
-.liceu-filtros .busca__entrada {
-    background-color: var(--cor-fundo);
+.liceu-filtros__controles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: var(--espaco-4);
+    align-items: start;
 }
 
-@media (min-width: 600px) {
-    .liceu-filtros {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: flex-end;
-    }
-
-    .liceu-filtros__busca {
-        flex-basis: 100%;
-    }
-
-    .liceu-filtros .campo {
-        flex: 1;
-        min-width: 140px;
-    }
+.liceu-filtros .campo {
+    gap: var(--espaco-2);
+    min-width: 0;
 }
 
 @media (min-width: 1024px) {
@@ -186,10 +283,6 @@
 
     .liceu-cabecalho--lado .painel-cabecalho__acoes {
         margin-top: 0;
-    }
-
-    .liceu-filtros .campo {
-        min-width: 195px;
     }
 }
 
@@ -219,7 +312,24 @@
 .liceu-bloco-config__cabecalho {
     align-items: center;
     padding: var(--espaco-4) var(--espaco-5);
-    background-color: var(--cor-superficie-forte);
+    background-color: var(--cor-superficie-card);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.liceu-bloco-config__cabecalho .bloco-form__icone {
+    color: var(--config-acento, var(--cor-selecao-texto));
+}
+
+.liceu-bloco-config:has(#config-preferencias) {
+    --config-acento: var(--cor-foco);
+}
+
+.liceu-bloco-config:has(#config-categorias) {
+    --config-acento: var(--cor-chip-violeta);
+}
+
+.liceu-bloco-config:has(#config-seguranca) {
+    --config-acento: var(--cor-alerta);
 }
 
 .liceu-bloco-config__corpo {
@@ -306,83 +416,22 @@
     font-weight: var(--peso-semi);
 }
 
-/* ----- modal de analisar trabalho ----- */
-.liceu-analise__topo {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-4);
-    margin-bottom: var(--espaco-5);
-}
-
-.liceu-analise__imagem {
-    width: 100%;
-    max-width: 320px;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio-pequeno);
-}
-
-.liceu-analise__info {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espaco-3);
-    min-width: 0;
-}
-
-.liceu-analise__info .sobretitulo {
-    margin-bottom: 0;
-}
-
-.liceu-analise__dados {
-    display: grid;
-    gap: var(--espaco-3);
-}
-
-.liceu-analise__dados dt {
-    display: flex;
-    align-items: center;
-    gap: var(--espaco-2);
-    font-size: var(--fonte-pequena);
-    color: var(--cor-texto-suave);
-}
-
-.liceu-analise__dados dd {
-    font-weight: var(--peso-semi);
-}
-
-.liceu-analise__subtitulo {
-    margin-bottom: var(--espaco-2);
-    font-size: var(--fonte-h3);
-}
-
-.liceu-analise__anterior {
-    margin-top: var(--espaco-5);
-}
-
-.liceu-analise__artesao {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--espaco-4);
-}
-
-.liceu-analise__nome {
-    font-weight: var(--peso-negrito);
-}
-
-@media (min-width: 600px) {
-    .liceu-analise__topo {
-        flex-direction: row;
-        align-items: flex-start;
-        gap: var(--espaco-6);
+/* Cabeçalhos dos cards de configurações preservam a linha de base do grid. */
+@media (min-width: 1024px) {
+    .liceu-bloco-config__cabecalho {
+        min-height: calc(var(--espaco-8) + var(--espaco-7));
     }
+}
 
-    .liceu-analise__imagem {
-        flex: 0 0 240px;
-        width: 240px;
+@media (min-width: 1280px) {
+    .liceu-bloco-config__cabecalho {
+        min-height: calc(var(--espaco-8) + var(--espaco-6));
     }
+}
 
-    .liceu-analise__dados {
-        grid-template-columns: repeat(2, 1fr);
+/* Quatro métricas somente quando a largura útil permite seus rótulos. */
+@media (min-width: 1280px) {
+    .liceu-inicio-resumo .grade-estatisticas {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }

@@ -44,3 +44,12 @@
         white-space: nowrap;
     }
 }
+
+/* Superfícies editoriais aprovadas; a marca tricolor permanece na casca. */
+.inicio-hero {
+    background-color: var(--cor-editorial);
+}
+
+.secao[aria-labelledby="inicio-artesaos"] {
+    background-color: var(--cor-superficie-forte);
+}

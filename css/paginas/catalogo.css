@@ -1,0 +1,70 @@
+
+/* O modo lista reutiliza o card compartilhado sem cortar seus metadados. */
+.catalogo-conteudo {
+    min-width: 0;
+}
+
+.catalogo-controles,
+.controles-direita {
+    flex-wrap: wrap;
+    gap: var(--espaco-3);
+}
+
+.grade-produtos.modo-lista .card-produto {
+    height: auto;
+    min-height: 140px;
+    align-items: stretch;
+}
+
+.grade-produtos.modo-lista .card-produto__imagem {
+    width: 32%;
+    max-width: 180px;
+    min-height: 140px;
+    flex: none;
+    align-self: stretch;
+    aspect-ratio: auto;
+    border-bottom: none;
+}
+
+.grade-produtos.modo-lista .card-produto__corpo {
+    flex: 1;
+    min-width: 0;
+    padding-right: var(--espaco-7);
+    overflow-wrap: anywhere;
+}
+
+/* Preferência pessoal: rosa, distinta dos filtros de categoria turquesa. */
+.catalogo-favoritos {
+    color: var(--cor-favorito);
+    border-color: var(--cor-favorito);
+}
+
+.catalogo-favoritos[aria-pressed="true"] {
+    background-color: var(--cor-favorito);
+    color: var(--cor-texto-invertido);
+    border-color: var(--cor-favorito);
+}
+
+/* Faixa editorial inteira; conteúdo e controles mantêm a grade limitada. */
+.catalogo-produto-cabecalho {
+    position: relative;
+    isolation: isolate;
+    background-color: var(--cor-editorial);
+}
+
+.catalogo-produto-cabecalho::before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--espaco-6)) 0 calc(-1 * var(--espaco-4));
+    z-index: -1;
+    background-color: var(--cor-editorial);
+    box-shadow: 0 0 0 100vmax var(--cor-editorial);
+    clip-path: inset(0 -100vmax);
+    pointer-events: none;
+}
+
+.btn-view[aria-pressed="true"] {
+    background-color: var(--cor-primaria);
+    border-color: var(--cor-primaria);
+    color: var(--cor-texto-invertido);
+}

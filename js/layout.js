@@ -64,6 +64,14 @@ function atualizarNavPortal(caminho) {
 
 /** Liga o botão hambúrguer do portal (uma vez, no carregamento). */
 function iniciarMenuPortal() {
+    document.querySelector(".pular-conteudo").addEventListener("click", function (evento) {
+        evento.preventDefault();
+        const conteudo = document.getElementById("conteudo");
+        if (conteudo) {
+            conteudo.focus({preventScroll: true});
+            conteudo.scrollIntoView({block: "start"});
+        }
+    });
     const botao = document.querySelector(".cabecalho__menu");
     const nav = document.getElementById("nav");
     const desktop = window.matchMedia("(min-width: 1280px)");
@@ -176,6 +184,9 @@ function sair() {
 async function montarPainel(raiz, layout, painel, sessao) {
     const resposta = await fetch(ARQUIVO_PAINEL);
     raiz.innerHTML = await resposta.text();
+    if (layout === "painel-liceu") {
+        raiz.querySelector("[data-ajuda-artesao]").remove();
+    }
 
     const lateral = raiz.querySelector("#painel-lateral");
     const botaoMenu = raiz.querySelector(".painel__menu");

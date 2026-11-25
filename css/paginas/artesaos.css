@@ -3,6 +3,10 @@
    Guia: docs/DESIGN.md (use só tokens e componentes do guia)
    ========================================================= */
 
+.artesaos-hero {
+    background-color: var(--cor-editorial-alternada);
+}
+
 .artesaos-hero__grade {
     display: grid;
     gap: var(--espaco-5);
@@ -248,17 +252,20 @@
 }
 
 .artesaos-grade .card-artesao__nome {
-    font-size: var(--fonte-corpo);
-    line-height: 1.2;
+    font-size: var(--fonte-nome-artesao);
+    line-height: var(--altura-linha-titulo-card);
 }
 
 .card-artesao__empreendimento {
-    font-size: var(--fonte-mini);
+    font-size: var(--fonte-pequena);
     color: var(--cor-texto-suave);
     overflow-wrap: anywhere;
 }
 
-.artesaos-grade .local,
+.artesaos-grade .local {
+    font-size: var(--fonte-pequena);
+}
+
 .artesaos-grade .chip {
     font-size: var(--fonte-mini);
 }
@@ -268,8 +275,13 @@
 }
 
 .artesaos-grade .btn--bloco {
-    background-color: var(--cor-superficie);
-    border-color: var(--cor-borda);
+    background-color: var(--cor-secundaria);
+    color: var(--cor-link);
+    border-color: var(--cor-primaria);
+}
+
+.artesaos-grade .btn--bloco:hover {
+    background-color: var(--cor-secundaria-hover);
 }
 
 .artesaos-perfil__empreendimento {
@@ -317,5 +329,55 @@
     .artesaos-lista .filtros-chips {
         grid-template-columns: repeat(8, minmax(0, 1fr));
         gap: var(--espaco-4);
+    }
+}
+
+/* AJUSTE-LICEU: distribuicao horizontal dos filtros publicos */
+@media (min-width: 1024px) {
+    .artesaos-lista .filtros-chips {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: space-between;
+        width: 100%;
+        gap: var(--espaco-2);
+        overflow-x: visible;
+        padding-bottom: 0;
+        box-sizing: border-box;
+    }
+
+    .artesaos-lista .filtro-chip {
+        flex: 1 1 auto;
+        width: auto;
+        min-width: max-content;
+        min-height: 40px;
+        padding-inline: var(--espaco-2);
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    .artesaos-lista .barra-ferramentas {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: var(--espaco-3);
+    }
+
+    .artesaos-lista .barra-ferramentas > .linha {
+        margin-left: auto;
+        flex-wrap: nowrap;
+    }
+}
+
+/* AJUSTE-LICEU: ritmo vertical da listagem publica */
+@media (min-width: 1024px) {
+    .artesaos-lista .filtros-chips {
+        margin-bottom: var(--espaco-3);
+    }
+
+    .artesaos-lista .barra-ferramentas {
+        margin-top: 0;
+        margin-bottom: var(--espaco-4);
     }
 }
