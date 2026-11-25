@@ -55,6 +55,10 @@
         gap: var(--espaco-8);
     }
 
+    .sobre-imagem {
+        aspect-ratio: 5 / 3;
+    }
+
     .sobre-equipe {
         grid-template-columns: repeat(5, 1fr);
     }

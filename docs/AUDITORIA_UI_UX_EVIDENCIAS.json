@@ -1,0 +1,2221 @@
+{
+  "data": "2026-11-23",
+  "branch": "fix/auditoria-ui-ux",
+  "base": "c8d543c",
+  "metodo": {
+    "viewports": [
+      320,
+      375,
+      430,
+      768,
+      1024,
+      1440,
+      1920
+    ],
+    "motor_matriz": "Chromium",
+    "axe": "4.10.3",
+    "axe_larguras": [
+      320,
+      1440
+    ],
+    "contextos": "isolados; contas fictícias; sem submissão externa real"
+  },
+  "antes": {
+    "combinacoes": 147,
+    "axe_execucoes": 42,
+    "axe_estados_com_violacoes": 14,
+    "axe_ocorrencias_de_nos": 44,
+    "overflow": [],
+    "erros_js": [],
+    "http_local_com_erro": []
+  },
+  "depois": {
+    "combinacoes": 147,
+    "axe_execucoes": 42,
+    "axe_estados_com_violacoes": 0,
+    "axe_ocorrencias_de_nos": 0,
+    "overflow": [],
+    "erros_js": [],
+    "http_local_com_erro": []
+  },
+  "matriz": [
+    {
+      "rota": "/cadastro",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/cadastro",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/cadastro",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/cadastro",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/cadastro",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/cadastro",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/cadastro",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/inicio",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/inicio",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/inicio",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/inicio",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/inicio",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/inicio",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/inicio",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/produtos",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/produtos",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/produtos",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/produtos",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/produtos",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/produtos",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/produtos",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/produto",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/produto",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/produto",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/produto",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/produto",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/produto",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/produto",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/artesaos",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/artesaos",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/artesaos",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/artesaos",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/artesaos",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/artesaos",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/artesaos",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/saberes",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/saberes",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/saberes",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/saberes",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/saberes",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/saberes",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/saberes",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/o-liceu",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/o-liceu",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/o-liceu",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/o-liceu",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/o-liceu",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/o-liceu",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/o-liceu",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/contato",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/contato",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/contato",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/contato",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/contato",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/contato",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/contato",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/sobre",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/sobre",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/sobre",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/sobre",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/sobre",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/sobre",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/sobre",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/login",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/login",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/login",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/login",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/login",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/login",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/login",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-artesao",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-artesao",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-artesao",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-artesao",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-artesao",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-artesao",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-artesao",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-liceu",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-liceu",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-liceu",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-liceu",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-liceu",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-liceu",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-liceu",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "largura": 320,
+      "documento_antes": 320,
+      "documento_depois": 320
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "largura": 375,
+      "documento_antes": 375,
+      "documento_depois": 375
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "largura": 430,
+      "documento_antes": 430,
+      "documento_depois": 430
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "largura": 768,
+      "documento_antes": 768,
+      "documento_depois": 768
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "largura": 1024,
+      "documento_antes": 1024,
+      "documento_depois": 1024
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "largura": 1440,
+      "documento_antes": 1440,
+      "documento_depois": 1440
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "largura": 1920,
+      "documento_antes": 1920,
+      "documento_depois": 1920
+    }
+  ],
+  "violacoes_antes": [
+    {
+      "rota": "/produtos",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "aria-allowed-role",
+          "impact": "minor",
+          "help": "ARIA role should be appropriate for the element",
+          "nodes": [
+            {
+              "target": [
+                ".aberto > .acordeao-toggle[role=\"button\"]"
+              ],
+              "html": "<h3 class=\"acordeao-toggle\" role=\"button\" tabindex=\"0\" aria-expanded=\"true\">",
+              "summary": "Fix any of the following:\n  ARIA role button is not allowed for given element"
+            },
+            {
+              "target": [
+                ".grupo-filtro:nth-child(3) > .acordeao-toggle[role=\"button\"]"
+              ],
+              "html": "<h3 class=\"acordeao-toggle\" role=\"button\" tabindex=\"0\" aria-expanded=\"false\">",
+              "summary": "Fix any of the following:\n  ARIA role button is not allowed for given element"
+            },
+            {
+              "target": [
+                ".grupo-filtro:nth-child(4) > .acordeao-toggle[role=\"button\"]"
+              ],
+              "html": "<h3 class=\"acordeao-toggle\" role=\"button\" tabindex=\"0\" aria-expanded=\"false\">",
+              "summary": "Fix any of the following:\n  ARIA role button is not allowed for given element"
+            },
+            {
+              "target": [
+                ".grupo-filtro:nth-child(5) > .acordeao-toggle[role=\"button\"]"
+              ],
+              "html": "<h3 class=\"acordeao-toggle\" role=\"button\" tabindex=\"0\" aria-expanded=\"false\">",
+              "summary": "Fix any of the following:\n  ARIA role button is not allowed for given element"
+            }
+          ]
+        },
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "nodes": [
+            {
+              "target": [
+                "input[value=\"Decoração\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Decoração\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            },
+            {
+              "target": [
+                "input[value=\"Utilitários\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Utilitários\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            },
+            {
+              "target": [
+                "input[value=\"Acessórios\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Acessórios\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            },
+            {
+              "target": [
+                "input[value=\"Organização\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Organização\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            },
+            {
+              "target": [
+                "input[value=\"Arte em tecido\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Arte em tecido\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            },
+            {
+              "target": [
+                "input[value=\"Outros\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Outros\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/produtos",
+      "largura": 1440,
+      "regras": [
+        {
+          "id": "aria-allowed-role",
+          "impact": "minor",
+          "help": "ARIA role should be appropriate for the element",
+          "nodes": [
+            {
+              "target": [
+                ".aberto > .acordeao-toggle[role=\"button\"]"
+              ],
+              "html": "<h3 class=\"acordeao-toggle\" role=\"button\" tabindex=\"0\" aria-expanded=\"true\">",
+              "summary": "Fix any of the following:\n  ARIA role button is not allowed for given element"
+            },
+            {
+              "target": [
+                ".grupo-filtro:nth-child(3) > .acordeao-toggle[role=\"button\"]"
+              ],
+              "html": "<h3 class=\"acordeao-toggle\" role=\"button\" tabindex=\"0\" aria-expanded=\"false\">",
+              "summary": "Fix any of the following:\n  ARIA role button is not allowed for given element"
+            },
+            {
+              "target": [
+                ".grupo-filtro:nth-child(4) > .acordeao-toggle[role=\"button\"]"
+              ],
+              "html": "<h3 class=\"acordeao-toggle\" role=\"button\" tabindex=\"0\" aria-expanded=\"false\">",
+              "summary": "Fix any of the following:\n  ARIA role button is not allowed for given element"
+            },
+            {
+              "target": [
+                ".grupo-filtro:nth-child(5) > .acordeao-toggle[role=\"button\"]"
+              ],
+              "html": "<h3 class=\"acordeao-toggle\" role=\"button\" tabindex=\"0\" aria-expanded=\"false\">",
+              "summary": "Fix any of the following:\n  ARIA role button is not allowed for given element"
+            }
+          ]
+        },
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "nodes": [
+            {
+              "target": [
+                "input[value=\"Decoração\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Decoração\" style=\"\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            },
+            {
+              "target": [
+                "input[value=\"Utilitários\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Utilitários\" style=\"\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            },
+            {
+              "target": [
+                "input[value=\"Acessórios\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Acessórios\" style=\"\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            },
+            {
+              "target": [
+                "input[value=\"Organização\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Organização\" style=\"\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            },
+            {
+              "target": [
+                "input[value=\"Arte em tecido\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Arte em tecido\" style=\"\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            },
+            {
+              "target": [
+                "input[value=\"Outros\"]"
+              ],
+              "html": "<input type=\"checkbox\" class=\"chk-categoria\" value=\"Outros\" style=\"\">",
+              "summary": "Fix any of the following:\n  Target has insufficient size (15px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "help": "Form elements must have labels",
+          "nodes": [
+            {
+              "target": [
+                "#perfil-foto"
+              ],
+              "html": "<input type=\"file\" id=\"perfil-foto\" class=\"visualmente-oculto\" accept=\"image/png, image/jpeg\" data-foto-entrada=\"\">",
+              "summary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 1440,
+      "regras": [
+        {
+          "id": "label",
+          "impact": "critical",
+          "help": "Form elements must have labels",
+          "nodes": [
+            {
+              "target": [
+                "#perfil-foto"
+              ],
+              "html": "<input type=\"file\" id=\"perfil-foto\" class=\"visualmente-oculto\" accept=\"image/png, image/jpeg\" data-foto-entrada=\"\" style=\"\">",
+              "summary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "largura": 320,
+      "regras": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "help": "Buttons must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__perfil"
+              ],
+              "html": "<button type=\"button\" class=\"painel__perfil\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-acao=\"menu-usuario\">",
+              "summary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "help": "Links must have discernible text",
+          "nodes": [
+            {
+              "target": [
+                ".painel__topo > .marca[href$=\"#/inicio\"]"
+              ],
+              "html": "<a class=\"marca\" href=\"#/inicio\">\n            <img src=\"assets/logo.png\" alt=\"\" class=\"marca__logo\" width=\"72\" height=\"52\">\n            <span>Liceu de Ofícios</span>\n        </a>",
+              "summary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "itens_inconclusivos_depois": [
+    {
+      "rota": "/cadastro",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "rota": "/cadastro",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 10
+        }
+      ]
+    },
+    {
+      "rota": "/inicio",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 22
+        },
+        {
+          "id": "frame-tested",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "rota": "/inicio",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 28
+        },
+        {
+          "id": "frame-tested",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "rota": "/produtos",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 1
+        },
+        {
+          "id": "color-contrast",
+          "count": 43
+        }
+      ]
+    },
+    {
+      "rota": "/produtos",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 1
+        },
+        {
+          "id": "color-contrast",
+          "count": 49
+        }
+      ]
+    },
+    {
+      "rota": "/produto",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "rota": "/produto",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "rota": "/artesaos",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 27
+        }
+      ]
+    },
+    {
+      "rota": "/artesaos",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 33
+        }
+      ]
+    },
+    {
+      "rota": "/saberes",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 19
+        }
+      ]
+    },
+    {
+      "rota": "/saberes",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 25
+        }
+      ]
+    },
+    {
+      "rota": "/o-liceu",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "rota": "/o-liceu",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 15
+        }
+      ]
+    },
+    {
+      "rota": "/contato",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 10
+        }
+      ]
+    },
+    {
+      "rota": "/contato",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "rota": "/sobre",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 7
+        }
+      ]
+    },
+    {
+      "rota": "/sobre",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "rota": "/login",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "rota": "/login",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 28
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 21
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/meu-perfil",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 26
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 3
+        },
+        {
+          "id": "color-contrast",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/meus-trabalhos",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 3
+        },
+        {
+          "id": "color-contrast",
+          "count": 29
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 22
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/novo-trabalho",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 28
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "rota": "/painel-artesao/status-publicacoes",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 19
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 23
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 31
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/artesaos",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 18
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/cadastrar-artesao",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 23
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 9
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/trabalhos-pendentes",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 2
+        },
+        {
+          "id": "color-contrast",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 3
+        },
+        {
+          "id": "color-contrast",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/publicacoes",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "aria-valid-attr-value",
+          "count": 3
+        },
+        {
+          "id": "color-contrast",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "largura": 320,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "rota": "/painel-liceu/configuracoes",
+      "largura": 1440,
+      "itens": [
+        {
+          "id": "color-contrast",
+          "count": 16
+        }
+      ]
+    }
+  ],
+  "performance_carregamentos_completos": [
+    {
+      "phase": "antes",
+      "run": 0,
+      "lcp": 1448,
+      "cls": 0.0708200607638889,
+      "ttfb": 4.5,
+      "dom": 265.60000000009313,
+      "bytes": 1158033,
+      "resources": 56,
+      "origin": 1795438700534.4
+    },
+    {
+      "phase": "antes",
+      "run": 1,
+      "lcp": 540,
+      "cls": 0.06675936631944446,
+      "ttfb": 1.8999999999068677,
+      "dom": 301.39999999990687,
+      "bytes": 1158033,
+      "resources": 56,
+      "origin": 1795438702744.2
+    },
+    {
+      "phase": "antes",
+      "run": 2,
+      "lcp": 432,
+      "cls": 0.06932466462311923,
+      "ttfb": 0.7999999998137355,
+      "dom": 247.3000000002794,
+      "bytes": 1158033,
+      "resources": 56,
+      "origin": 1795438705151.3
+    },
+    {
+      "phase": "depois",
+      "run": 0,
+      "lcp": 524,
+      "cls": 0.06840381076388889,
+      "ttfb": 1.7999999998137355,
+      "dom": 291.1999999997206,
+      "bytes": 1161244,
+      "resources": 56,
+      "origin": 1795438707529
+    },
+    {
+      "phase": "depois",
+      "run": 1,
+      "lcp": 448,
+      "cls": 0.06840381076388889,
+      "ttfb": 2.1999999997206032,
+      "dom": 255.60000000009313,
+      "bytes": 1161244,
+      "resources": 56,
+      "origin": 1795438709914
+    },
+    {
+      "phase": "depois",
+      "run": 2,
+      "lcp": 528,
+      "cls": 0.07096910906756367,
+      "ttfb": 2,
+      "dom": 314.79999999981374,
+      "bytes": 1161244,
+      "resources": 56,
+      "origin": 1795438712124.8
+    }
+  ],
+  "contraste_tokens": [
+    {
+      "name": "texto",
+      "foreground": "#183E45",
+      "background": "#FFF8E1",
+      "ratio": 10.897546182096056
+    },
+    {
+      "name": "secundario",
+      "foreground": "#095E5C",
+      "background": "#FFFFFF",
+      "ratio": 7.588793822920916
+    },
+    {
+      "name": "primario",
+      "foreground": "#FFFFFF",
+      "background": "#0C7774",
+      "ratio": 5.375582089202738
+    },
+    {
+      "name": "header",
+      "foreground": "#FFFFFF",
+      "background": "#095E5C",
+      "ratio": 7.588793822920916
+    },
+    {
+      "name": "footer",
+      "foreground": "#FFFFFF",
+      "background": "#183E45",
+      "ratio": 11.57776219338004
+    },
+    {
+      "name": "sucesso",
+      "foreground": "#146347",
+      "background": "#E4F3E8",
+      "ratio": 6.293057806825758
+    },
+    {
+      "name": "alerta",
+      "foreground": "#765000",
+      "background": "#FFF0BD",
+      "ratio": 6.323606839836879
+    },
+    {
+      "name": "erro",
+      "foreground": "#A02548",
+      "background": "#FCE7EF",
+      "ratio": 6.244779370181682
+    },
+    {
+      "name": "informacao",
+      "foreground": "#15546C",
+      "background": "#E5F0F7",
+      "ratio": 7.20775078227656
+    },
+    {
+      "name": "rascunho",
+      "foreground": "#485E59",
+      "background": "#EAEFE9",
+      "ratio": 5.965722573100891
+    },
+    {
+      "name": "chip-turquesa",
+      "foreground": "#095E5C",
+      "background": "#E0F1ED",
+      "ratio": 6.4954518719040255
+    },
+    {
+      "name": "chip-rosa",
+      "foreground": "#AD1B50",
+      "background": "#FCE7EF",
+      "ratio": 5.8423019386612225
+    },
+    {
+      "name": "chip-amarelo",
+      "foreground": "#765000",
+      "background": "#FFF0BD",
+      "ratio": 6.323606839836879
+    },
+    {
+      "name": "chip-azul",
+      "foreground": "#15546C",
+      "background": "#E5F0F7",
+      "ratio": 7.20775078227656
+    },
+    {
+      "name": "chip-verde",
+      "foreground": "#146347",
+      "background": "#E4F3E8",
+      "ratio": 6.293057806825758
+    },
+    {
+      "name": "chip-violeta",
+      "foreground": "#65418A",
+      "background": "#F1EAF8",
+      "ratio": 6.674779364235407
+    }
+  ],
+  "testes": {
+    "dados": "12/12",
+    "estrutura": "20 rotas e 26 HTML",
+    "fluxos": [
+      "Chromium: passou",
+      "Firefox: passou"
+    ],
+    "regressoes": [
+      "Chromium: passou",
+      "Firefox: passou"
+    ],
+    "acessibilidade": [
+      "Chromium: passou",
+      "Firefox: passou"
+    ]
+  },
+  "artefatos_brutos": "/tmp/liceu-auditoria/",
+  "observacoes": [
+    "Métricas de performance da matriz por hash foram descartadas: acumulam no mesmo documento. Usar somente performance_carregamentos_completos.",
+    "Ocorrências axe repetem elementos em diferentes larguras; não representam 44 problemas únicos.",
+    "A análise automática possui resultados inconclusivos; zero violações detectadas não certifica WCAG."
+  ]
+}

@@ -106,6 +106,10 @@
         gap: var(--espaco-8);
     }
 
+    .o-liceu-imagem {
+        aspect-ratio: 5 / 2;
+    }
+
     .o-liceu-linha-tempo {
         column-count: 2;
         column-gap: var(--espaco-8);

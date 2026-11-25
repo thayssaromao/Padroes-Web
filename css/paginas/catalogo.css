@@ -4,6 +4,24 @@
     min-width: 0;
 }
 
+/* Escala de colunas do portal (§3); o modo lista mantém uma coluna. */
+.grade-produtos {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--espaco-4);
+}
+
+@media (min-width: 600px) {
+    .grade-produtos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .grade-produtos {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
 .catalogo-controles,
 .controles-direita {
     flex-wrap: wrap;
@@ -33,16 +51,29 @@
     overflow-wrap: anywhere;
 }
 
-/* Preferência pessoal: rosa, distinta dos filtros de categoria turquesa. */
+/* Preferência pública, combinada com os demais filtros do catálogo. */
+.busca-container {
+    flex-wrap: wrap;
+}
+
 .catalogo-favoritos {
     color: var(--cor-favorito);
     border-color: var(--cor-favorito);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaco-2);
+    flex-shrink: 0;
 }
 
 .catalogo-favoritos[aria-pressed="true"] {
     background-color: var(--cor-favorito);
     color: var(--cor-texto-invertido);
     border-color: var(--cor-favorito);
+}
+
+.catalogo-favoritos iconify-icon {
+    font-size: var(--tamanho-icone-acao);
 }
 
 /* Faixa editorial inteira; conteúdo e controles mantêm a grade limitada. */

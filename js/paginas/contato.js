@@ -25,11 +25,21 @@ async function enviarMensagem(evento) {
     const formulario = evento.currentTarget;
     const botao = formulario.querySelector("button[type=\"submit\"]");
     const feedback = formulario.querySelector(".contato-feedback");
-    const dados = new FormData(formulario);
+    let dados;
     let resposta;
     let resultado;
 
     evento.preventDefault();
+    if (botao.disabled) {
+        return;
+    }
+    formulario.querySelectorAll("input, textarea").forEach(function (campo) {
+        campo.value = campo.value.trim();
+    });
+    if (!formulario.reportValidity()) {
+        return;
+    }
+    dados = new FormData(formulario);
     dados.append("access_key", CHAVE_ACESSO);
     dados.append("subject", "Nova mensagem pelo site - Liceu de Ofícios");
     dados.append("from_name", "Site Liceu de Ofícios");
@@ -40,6 +50,9 @@ async function enviarMensagem(evento) {
     try {
         resposta = await fetch(ENDERECO_ENVIO, {body: dados, method: "POST"});
         resultado = await resposta.json();
+        if (!formulario.isConnected) {
+            return;
+        }
         if (resposta.ok && resultado.success) {
             feedback.textContent = MENSAGENS.sucesso;
             formulario.reset();
@@ -47,7 +60,9 @@ async function enviarMensagem(evento) {
             feedback.textContent = MENSAGENS.falha;
         }
     } catch (ignore) {
-        feedback.textContent = MENSAGENS.conexao;
+        if (formulario.isConnected) {
+            feedback.textContent = MENSAGENS.conexao;
+        }
     }
 
     botao.disabled = false;

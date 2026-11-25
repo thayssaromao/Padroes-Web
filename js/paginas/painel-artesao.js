@@ -5,33 +5,111 @@
  */
 
 import {
-    abrirModal,
     criarCardEstatistica,
     criarCardProduto,
+    criarChips,
+    criarDialogo,
     criarPaginacao,
     criarStatus,
     escaparHtml,
-    fecharModal,
     icone,
     mostrarAviso,
-    prepararModais
+    prepararAcoes,
+    prepararChips,
+    prepararMultisselecao
 } from "../componentes.js";
 import {
-    atualizarStatusTrabalho,
     buscarArtesao,
     carregarCategorias,
     contarPorStatus,
-    exigirPerfil,
+    excluirTrabalho,
     formatarData,
+    obterSessao,
+    salvarArtesao,
     salvarTrabalho,
+    sessaoDemonstracao,
     trabalhosDoArtesao
 } from "../dados.js";
 
 const ROTA_TRABALHOS = "#/painel-artesao/meus-trabalhos";
-const ROTA_NOVO_TRABALHO = "#/painel-artesao/novo-trabalho";
 
-// Trabalho aberto para edição no formulário (vazio = novo trabalho).
-let emEdicao = null;
+/** Conteúdo variável sobre a anatomia compartilhada do design system. */
+function dialogo(titulo, corpo, acoes = "") {
+    return criarDialogo(titulo, corpo, acoes);
+}
+
+function confirmar(titulo, mensagem, texto = "Confirmar") {
+    return new Promise(function (resolver) {
+        const modal = dialogo(
+            titulo,
+            "<p>" + escaparHtml(mensagem) + "</p>",
+            "<button type=\"button\" class=\"btn btn--secundario\""
+            + " data-fechar-modal>Cancelar</button>"
+            + "<button type=\"button\" class=\"btn btn--primario\""
+            + " data-confirmar>" + escaparHtml(texto) + "</button>"
+        );
+        modal.classList.add("modal--pequeno");
+        modal.classList.remove("modal--medio");
+        if (texto === "Excluir" || texto === "Descartar") {
+            const botao = modal.querySelector("[data-confirmar]");
+            botao.classList.replace("btn--primario", "btn--perigo");
+        }
+        modal.addEventListener("close", function () {
+            resolver(modal.returnValue === "confirmado");
+        });
+        modal.querySelector("[data-confirmar]").addEventListener(
+            "click",
+            function () {
+                modal.close("confirmado");
+            }
+        );
+    });
+}
+
+/** Reduz fotos antes de persistir no armazenamento limitado do navegador. */
+function lerImagem(arquivo) {
+    return new Promise(function (resolver, rejeitar) {
+        if (!TIPOS_IMAGEM.includes(arquivo.type)
+                || arquivo.size > MAX_BYTES) {
+            rejeitar(new Error("Escolha uma imagem JPG ou PNG de até 10 MB."));
+            return;
+        }
+        const leitor = new FileReader();
+        leitor.onerror = function () {
+            rejeitar(new Error("Não foi possível ler a imagem."));
+        };
+        leitor.onload = function () {
+            const imagem = new Image();
+            imagem.onerror = function () {
+                rejeitar(new Error("O arquivo não contém uma imagem válida."));
+            };
+            imagem.onload = function () {
+                const escala = Math.min(1, 1000 / Math.max(
+                    imagem.naturalWidth,
+                    imagem.naturalHeight
+                ));
+                const tela = document.createElement("canvas");
+                tela.width = Math.max(
+                    1, Math.round(imagem.naturalWidth * escala)
+                );
+                tela.height = Math.max(
+                    1, Math.round(imagem.naturalHeight * escala)
+                );
+                const contexto = tela.getContext("2d");
+                contexto.fillStyle = "white";
+                contexto.fillRect(0, 0, tela.width, tela.height);
+                contexto.drawImage(imagem, 0, 0, tela.width, tela.height);
+                resolver(tela.toDataURL("image/jpeg", 0.75));
+            };
+            imagem.src = leitor.result;
+        };
+        leitor.readAsDataURL(arquivo);
+    });
+}
+
+function parametros() {
+    return new URLSearchParams(window.location.hash.split("?")[1] || "");
+}
 
 const COMPARADORES = Object.freeze({
     antigos: function (a, b) {
@@ -69,8 +147,8 @@ function filtrarTrabalhos(trabalhos, filtros) {
     return trabalhos.filter(function (trabalho) {
         const texto = semAcento([
             trabalho.titulo,
-            trabalho.categoria,
-            trabalho.tecnica
+            trabalho.categorias.join(" "),
+            trabalho.tecnicas.join(" ")
         ].join(" "));
         const statusOk = (
             !filtros.status
@@ -82,23 +160,29 @@ function filtrarTrabalhos(trabalhos, filtros) {
         );
         const categoriaOk = (
             !filtros.categoria
-            || trabalho.categoria === filtros.categoria
-            || trabalho.tecnica === filtros.categoria
+            || trabalho.categorias.includes(filtros.categoria)
+            || trabalho.tecnicas.includes(filtros.categoria)
         );
         return statusOk && categoriaOk && (!termo || texto.includes(termo));
     });
 }
 
 /**
- * Artesão logado. Só existe com sessão do perfil artesão; senão lança erro
- * (a guarda do router já impede chegar aqui sem sessão).
+ * Artesão logado (sessão salva ou sessão de demonstração).
  * @returns {Promise<{artesao: object, sessao: object}>}
  */
 async function artesaoLogado() {
-    const sessao = exigirPerfil("painel-artesao");
-    const artesao = await buscarArtesao(sessao.artesaoId);
+    const salva = obterSessao();
+    const demonstracao = await sessaoDemonstracao("painel-artesao");
+    let sessao = (
+        (salva && salva.artesaoId)
+        ? salva
+        : demonstracao
+    );
+    let artesao = await buscarArtesao(sessao.artesaoId);
     if (!artesao) {
-        throw new Error("Artesão da sessão não encontrado.");
+        sessao = demonstracao;
+        artesao = await buscarArtesao(sessao.artesaoId);
     }
     return {artesao, sessao};
 }
@@ -146,7 +230,11 @@ async function montarInicio(raiz) {
         ["lucide:layers", trabalhos.length, "Trabalhos cadastrados"],
         ["lucide:circle-check", soma("publicado"), "Publicados"],
         ["lucide:clock", soma("em-analise", "reenviado"), "Em análise"],
-        ["lucide:circle-x", soma("rejeitado", "rascunho"), "Não publicado"]
+        [
+            "lucide:circle-x",
+            soma("rejeitado", "rascunho", "oculto"),
+            "Não publicado"
+        ]
     ].map(function ([icone, numero, rotulo]) {
         return criarCardEstatistica({icone, numero, rotulo});
     }).join("");
@@ -156,10 +244,13 @@ async function montarInicio(raiz) {
     ).map(function (trabalho) {
         return criarCardProduto(trabalho, {
             favorito: false,
-            href: ROTA_TRABALHOS,
+            href: "#/painel-artesao/novo-trabalho?id="
+                + encodeURIComponent(trabalho.id),
             status: true
         });
-    }).join("");
+    }).join("") || (
+        "<p class=\"artesao-vazio\">Você ainda não cadastrou trabalhos.</p>"
+    );
 }
 
 /**
@@ -176,54 +267,20 @@ function preencherOpcoes(seletor, valores) {
     }).join(""));
 }
 
-/**
- * Seletor de técnicas: o select adiciona um chip removível por técnica.
- * @param {HTMLSelectElement} seletor
- * @param {HTMLElement} lista <ul class="chips"> que recebe os chips
- * @param {Function} aoMudar chamada com a lista atual de técnicas
- * @returns {{definir: Function, obter: Function}}
- */
-function ligarSeletorTecnicas(seletor, lista, aoMudar) {
-    let tecnicas = [];
-
-    function desenhar() {
-        lista.innerHTML = tecnicas.map(function (tecnica) {
-            return (
-                "<li class=\"chip chip--removivel\">"
-                + escaparHtml(tecnica)
-                + "<button type=\"button\" class=\"chip__remover\""
-                + ` data-remover="${escaparHtml(tecnica)}"`
-                + ` aria-label="Remover ${escaparHtml(tecnica)}">`
-                + icone("lucide:x") + "</button></li>"
-            );
-        }).join("");
-        aoMudar(tecnicas);
-    }
-
-    seletor.addEventListener("change", function () {
-        if (seletor.value && !tecnicas.includes(seletor.value)) {
-            tecnicas = tecnicas.concat(seletor.value);
-            desenhar();
-        }
-        seletor.value = "";
-    });
-    lista.addEventListener("click", function (evento) {
-        const botao = evento.target.closest("[data-remover]");
-        if (botao) {
-            tecnicas = tecnicas.filter(function (tecnica) {
-                return tecnica !== botao.dataset.remover;
-            });
-            desenhar();
-        }
-    });
-
+/** Valores de um select múltiplo apresentado pelo componente compartilhado. */
+function ligarSelecaoMultipla(seletor, aoMudar) {
+    seletor.addEventListener("change", aoMudar);
     return {
-        definir: function (novas) {
-            tecnicas = novas.slice();
-            desenhar();
+        definir: function (valores) {
+            Array.from(seletor.options).forEach(function (opcao) {
+                opcao.selected = valores.includes(opcao.value);
+            });
+            seletor.dispatchEvent(new Event("change", {bubbles: true}));
         },
         obter: function () {
-            return tecnicas;
+            return Array.from(seletor.selectedOptions, function (opcao) {
+                return opcao.value;
+            });
         }
     };
 }
@@ -239,34 +296,42 @@ function ligarTrocaDeFoto(raiz, aoMudar) {
     const botao = raiz.querySelector("[data-alterar-foto]");
     const entrada = raiz.querySelector("[data-foto-entrada]");
     const imagem = raiz.querySelector("[data-foto]");
-    let urlAtual = "";
-
-    function liberar() {
-        if (urlAtual) {
-            URL.revokeObjectURL(urlAtual);
-            urlAtual = "";
-        }
-    }
+    let atual = imagem.src;
+    let pendente = Promise.resolve();
+    let versao = 0;
 
     botao.addEventListener("click", function () {
         entrada.click();
     });
     entrada.addEventListener("change", function () {
         const arquivo = entrada.files[0];
+        versao += 1;
+        const minha = versao;
         if (arquivo) {
-            liberar();
-            urlAtual = URL.createObjectURL(arquivo);
-            imagem.src = urlAtual;
-            aoMudar(urlAtual);
+            pendente = lerImagem(arquivo).then(function (url) {
+                if (minha !== versao) {
+                    return;
+                }
+                atual = url;
+                imagem.src = url;
+                aoMudar(url);
+            }).catch(function (erro) {
+                mostrarAviso(erro.message);
+            });
         }
     });
 
     return {
+        obter: async function () {
+            await pendente;
+            return atual;
+        },
         restaurar: function (origem) {
-            liberar();
+            versao += 1;
+            atual = origem || "assets/img/avatar-padrao.jpg";
             entrada.value = "";
-            imagem.src = origem;
-            aoMudar(origem);
+            imagem.src = atual;
+            aoMudar(atual);
         }
     };
 }
@@ -284,9 +349,12 @@ function atualizarPrevia(raiz, tecnicas) {
         raiz.querySelector(gancho).textContent = conteudo;
     };
     texto("[data-previa-nome]", valor("#perfil-nome") || "Nome do Artesão");
-    texto(
-        "[data-previa-categoria]",
-        valor("#perfil-categoria") || "Categoria"
+    const categorias = Array.from(
+        raiz.querySelector("#perfil-categoria").selectedOptions,
+        function (opcao) { return opcao.value; }
+    );
+    raiz.querySelector("[data-previa-categorias]").innerHTML = criarChips(
+        categorias.length ? categorias : ["Categoria"]
     );
     texto("[data-previa-tecnicas]", "Técnicas: " + tecnicas.join(", "));
     texto(
@@ -295,15 +363,7 @@ function atualizarPrevia(raiz, tecnicas) {
         || "Um breve texto sobre você, sua história e sua relação com o "
         + "artesanato."
     );
-}
-
-/**
- * Salva o perfil do artesão.
- * @param {object} ignore dados do formulário
- */
-function salvarPerfil(ignore) {
-    // A IMPLEMENTAR: persistir o perfil com salvarArtesao (localStorage).
-    mostrarAviso("Em breve: salvar as alterações do perfil.");
+    prepararChips(raiz.querySelector(".previa-perfil"));
 }
 
 /**
@@ -312,7 +372,7 @@ function salvarPerfil(ignore) {
  */
 async function montarPerfil(raiz) {
     const marco = raiz.firstElementChild;
-    const {artesao} = await artesaoLogado();
+    let {artesao} = await artesaoLogado();
     const dadosCategorias = await carregarCategorias();
     if (!marco.isConnected) {
         return;
@@ -321,6 +381,8 @@ async function montarPerfil(raiz) {
     const previaFoto = raiz.querySelector("[data-previa-foto]");
     const seletorCategoria = raiz.querySelector("#perfil-categoria");
     let seletorTecnicas;
+    let seletorCategorias;
+    let salvo;
 
     function aoMudar() {
         atualizarPrevia(raiz, seletorTecnicas.obter());
@@ -331,11 +393,10 @@ async function montarPerfil(raiz) {
         raiz.querySelector("#perfil-tecnica"),
         dadosCategorias.tecnicas
     );
-    seletorTecnicas = ligarSeletorTecnicas(
-        raiz.querySelector("#perfil-tecnica"),
-        raiz.querySelector("[data-tecnicas]"),
-        aoMudar
+    seletorTecnicas = ligarSelecaoMultipla(
+        raiz.querySelector("#perfil-tecnica"), aoMudar
     );
+    seletorCategorias = ligarSelecaoMultipla(seletorCategoria, aoMudar);
     const foto = ligarTrocaDeFoto(raiz, function (url) {
         previaFoto.src = url;
     });
@@ -351,13 +412,60 @@ async function montarPerfil(raiz) {
         };
         Object.entries(campos).forEach(function ([seletor, valor]) {
             raiz.querySelector(seletor).value = valor ?? "";
+            raiz.querySelector(seletor).setCustomValidity("");
         });
-        seletorCategoria.value = artesao.categorias[0] ?? "";
+        seletorCategorias.definir(artesao.categorias);
         foto.restaurar(artesao.foto);
         seletorTecnicas.definir(artesao.tecnicas);
     }
 
+    function estadoPerfil() {
+        return JSON.stringify({
+            campos: Object.fromEntries(new FormData(formulario)),
+            categorias: seletorCategorias.obter(),
+            foto: previaFoto.src,
+            tecnicas: seletorTecnicas.obter()
+        });
+    }
+    const feedback = formulario.querySelector("[data-perfil-feedback]");
+    const campoNome = formulario.elements.nome;
+    const campoEmail = formulario.elements.email;
+    function validarPessoais() {
+        campoNome.setCustomValidity(campoNome.value.trim()
+            ? "" : "Informe o nome completo.");
+        const email = campoEmail.value.trim();
+        campoEmail.setCustomValidity(!email ? "Informe o e-mail."
+            : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+                ? "" : "Informe um e-mail válido.");
+        [campoNome, campoEmail].forEach(function (campo) {
+            if (campo.validity.valid) {
+                campo.removeAttribute("aria-invalid");
+            }
+        });
+    }
+    [campoNome, campoEmail].forEach(function (campo) {
+        campo.addEventListener("input", function () {
+            validarPessoais();
+            feedback.textContent = "";
+        });
+    });
+    formulario.addEventListener("invalid", function (evento) {
+        if ([campoNome, campoEmail].includes(evento.target)) {
+            validarPessoais();
+            evento.target.setAttribute("aria-invalid", "true");
+            feedback.textContent = evento.target.validationMessage;
+        }
+    }, true);
+    const campoWhatsapp = formulario.elements.whatsapp;
+    campoWhatsapp.addEventListener("input", function () {
+        const numero = campoWhatsapp.value.replace(/\D/g, "");
+        campoWhatsapp.setCustomValidity(!campoWhatsapp.value
+            || (numero.length >= 10 && numero.length <= 13)
+            ? "" : "Informe um WhatsApp com DDD.");
+    });
     preencher();
+    prepararMultisselecao(raiz);
+    salvo = estadoPerfil();
     ["#perfil-nome", "#perfil-categoria", "#perfil-bio"].forEach(
         function (seletor) {
             raiz.querySelector(seletor).addEventListener("input", aoMudar);
@@ -365,18 +473,57 @@ async function montarPerfil(raiz) {
     );
     raiz.querySelector("[data-cancelar]").addEventListener(
         "click",
-        function () {
+        async function () {
+            if (estadoPerfil() !== salvo && !await confirmar(
+                "Descartar alterações?",
+                "As alterações não salvas do perfil serão descartadas.",
+                "Descartar"
+            )) {
+                return;
+            }
             preencher();
+            feedback.textContent = "";
+            [campoNome, campoEmail].forEach(function (campo) {
+                campo.removeAttribute("aria-invalid");
+            });
+            salvo = estadoPerfil();
             mostrarAviso("Alterações descartadas.");
         }
     );
-    formulario.addEventListener("submit", function (evento) {
+    formulario.addEventListener("submit", async function (evento) {
         evento.preventDefault();
-        if (formulario.reportValidity()) {
-            salvarPerfil(Object.assign(
-                Object.fromEntries(new FormData(formulario)),
-                {tecnicas: seletorTecnicas.obter()}
-            ));
+        const botao = formulario.querySelector("[type=\"submit\"]");
+        validarPessoais();
+        if (!formulario.reportValidity() || botao.disabled) {
+            return;
+        }
+        feedback.textContent = "";
+        botao.disabled = true;
+        try {
+            const dados = Object.fromEntries(new FormData(formulario));
+            const imagem = await foto.obter();
+            if (!marco.isConnected) {
+                return;
+            }
+            artesao = await salvarArtesao(Object.assign({}, artesao, dados, {
+                categorias: seletorCategorias.obter(),
+                foto: imagem,
+                tecnicas: seletorTecnicas.obter()
+            }));
+            if (marco.isConnected) {
+                document.querySelector("[data-usuario-nome]").textContent
+                    = artesao.nome;
+                const usuarioFoto = document.querySelector(
+                    "[data-usuario-foto]"
+                );
+                usuarioFoto.src = artesao.foto;
+            }
+            salvo = estadoPerfil();
+            mostrarAviso("Alterações do perfil salvas.");
+        } catch (erro) {
+            feedback.textContent = erro.message || "Não foi possível salvar o perfil.";
+        } finally {
+            botao.disabled = false;
         }
     });
 }
@@ -385,200 +532,130 @@ async function montarPerfil(raiz) {
 
 const POR_PAGINA = 8;
 
-// ===== Trabalho rejeitado: ver motivo e reenviar =====
-
-const ARQUIVO_CORRIGIR = "pages/painel-artesao/corrigir-trabalho.html";
-// campos que o artesao pode corrigir antes de reenviar
-const CAMPOS_REENVIO = Object.freeze([
-    "titulo",
-    "categoria",
-    "tecnica",
-    "descricao",
-    "materiais",
-    "dimensoes"
-]);
-
-let carregamentoCorrigir;
-let trabalhoRejeitado;
-
-/** recarrega a aba atual pra lista mostrar o status novo */
-function recarregarAba() {
-    window.dispatchEvent(new HashChangeEvent("hashchange"));
-}
-
-/**
- * Abre o formulario de reenvio ja preenchido com o trabalho.
- * @param {object} trabalho
- */
-function abrirReenvio(trabalho) {
-    const form = document.querySelector("[data-form-reenviar]");
-    trabalhoRejeitado = trabalho;
-    document.querySelector("[data-reenviar=\"motivo\"]").textContent = (
-        trabalho.motivoRejeicao || "—"
-    );
-    CAMPOS_REENVIO.forEach(function (campo) {
-        form.elements[campo].value = trabalho[campo] || "";
-    });
-    fecharModal("modal-motivo");
-    abrirModal("modal-reenviar");
-}
-
-/**
- * Manda o trabalho corrigido de volta pra analise (rejeitado -> reenviado).
- * @param {HTMLFormElement} form
- * @returns {Promise<void>}
- */
-async function reenviarTrabalho(form) {
-    const campos = Object.fromEntries(new FormData(form));
-    Object.keys(campos).forEach(function (chave) {
-        campos[chave] = campos[chave].trim();
-    });
-    try {
-        await atualizarStatusTrabalho(trabalhoRejeitado.id, "reenviado", {
-            campos
-        });
-        fecharModal("modal-reenviar");
-        mostrarAviso("Trabalho reenviado. Agora é só aguardar a análise.");
-        recarregarAba();
-    } catch (erro) {
-        console.error(erro);
-        mostrarAviso("Não foi possível reenviar. Tente novamente.");
-    }
-}
-
-/**
- * Busca o html dos modais uma vez so e coloca no fim do body.
- * @returns {Promise<void>}
- */
-async function carregarModaisCorrigir() {
-    const dados = await Promise.all([
-        fetch(ARQUIVO_CORRIGIR),
-        carregarCategorias()
-    ]);
-    const recipiente = document.createElement("div");
-    if (!dados[0].ok) {
-        throw new Error(String(dados[0].status));
-    }
-    recipiente.innerHTML = await dados[0].text();
-    document.body.append(recipiente);
-    prepararModais(recipiente);
-    preencherOpcoes(
-        recipiente.querySelector("#reenviar-categoria"),
-        dados[1].categorias
-    );
-    preencherOpcoes(
-        recipiente.querySelector("#reenviar-tecnica"),
-        dados[1].tecnicas
-    );
-    recipiente.querySelector("[data-ir-reenviar]").addEventListener(
-        "click",
-        function () {
-            abrirReenvio(trabalhoRejeitado);
-        }
-    );
-    recipiente.querySelector("[data-form-reenviar]").addEventListener(
-        "submit",
-        function (evento) {
-            evento.preventDefault();
-            if (evento.target.reportValidity()) {
-                reenviarTrabalho(evento.target);
-            }
-        }
-    );
-}
-
-/**
- * Carrega os modais (se precisar) e chama abrir.
- * @param {object} trabalho
- * @param {function(object)} abrir
- * @returns {Promise<void>}
- */
-async function comModaisCorrigir(trabalho, abrir) {
-    try {
-        carregamentoCorrigir = carregamentoCorrigir ?? carregarModaisCorrigir();
-        await carregamentoCorrigir;
-        abrir(trabalho);
-    } catch (erro) {
-        carregamentoCorrigir = undefined;
-        console.error(erro);
-        mostrarAviso("Não foi possível abrir. Tente novamente.");
-    }
-}
-
-/**
- * Mostra o motivo da rejeição de um trabalho.
- * @param {object} trabalho
- */
-function abrirMotivo(trabalho) {
-    trabalhoRejeitado = trabalho;
-    document.querySelector("[data-motivo=\"titulo\"]").textContent = (
-        trabalho.titulo
-    );
-    document.querySelector("[data-motivo=\"data\"]").textContent = (
-        formatarData(trabalho.analisadoEm || trabalho.atualizadoEm)
-    );
-    document.querySelector("[data-motivo=\"texto\"]").textContent = (
-        trabalho.motivoRejeicao || "O Liceu não informou o motivo."
-    );
-    abrirModal("modal-motivo");
-}
-
 /**
  * Abre a edição de um trabalho.
  * @param {object} trabalho
  */
 function editarTrabalho(trabalho) {
-    // rejeitado: corrigir e reenviar para análise
-    if (trabalho.status === "rejeitado") {
-        comModaisCorrigir(trabalho, abrirReenvio);
+    if (["em-analise", "reenviado"].includes(trabalho.status)) {
+        mostrarAviso(
+            "Aguarde a análise do Liceu antes de editar este trabalho."
+        );
         return;
     }
-    // rascunho: reabre o formulário de trabalho
-    if (trabalho.status === "rascunho") {
-        emEdicao = trabalho;
-        if (window.location.hash === ROTA_NOVO_TRABALHO) {
-            window.dispatchEvent(new HashChangeEvent("hashchange"));
-        } else {
-            window.location.hash = ROTA_NOVO_TRABALHO;
+    window.location.hash = "#/painel-artesao/novo-trabalho?id="
+        + encodeURIComponent(trabalho.id);
+}
+
+function abrirMenuTrabalho(trabalho, aoMudar) {
+    const editavel = !["em-analise", "reenviado"].includes(trabalho.status);
+    const publicado = trabalho.status === "publicado";
+    const modal = dialogo(
+        trabalho.titulo,
+        "<p>" + criarStatus(trabalho.status) + "</p>",
+        (publicado
+            ? "<a class=\"btn btn--secundario\" href=\"#/produto?id="
+                + encodeURIComponent(trabalho.id) + "\">Ver no portal</a>"
+            : "")
+        + (editavel
+            ? "<button type=\"button\" class=\"btn btn--secundario\""
+                + " data-editar>Editar</button>"
+            : "")
+        + "<button type=\"button\" class=\"btn btn--secundario\""
+        + " data-duplicar>Duplicar</button>"
+        + (trabalho.status === "rascunho"
+            ? "<button type=\"button\" class=\"btn btn--primario\""
+                + " data-enviar>Enviar para análise</button>"
+            : "")
+        + (["rascunho", "rejeitado"].includes(trabalho.status)
+            ? "<button type=\"button\" class=\"btn btn--perigo\""
+                + " data-excluir>Excluir</button>"
+            : "")
+    );
+    modal.querySelector(".modal__acoes").classList.add("modal__acoes--grade");
+    modal.addEventListener("click", async function (evento) {
+        const botao = evento.target.closest("button");
+        if (!botao || botao.disabled) {
+            return;
         }
+        try {
+            if (botao.hasAttribute("data-editar")) {
+                modal.close();
+                editarTrabalho(trabalho);
+            } else if (botao.hasAttribute("data-duplicar")) {
+                botao.disabled = true;
+                const copia = Object.assign({}, trabalho, {
+                    atualizadoEm: new Date().toISOString(),
+                    destaque: false,
+                    enviadoEm: null,
+                    id: undefined,
+                    motivoRejeicao: null,
+                    publicadoEm: null,
+                    status: "rascunho",
+                    titulo: trabalho.titulo + " (cópia)"
+                });
+                await salvarTrabalho(copia);
+                modal.close();
+                mostrarAviso("Trabalho duplicado como rascunho.");
+                await aoMudar();
+            } else if (botao.hasAttribute("data-enviar")) {
+                modal.close();
+                await enviarParaAnalise(trabalho, aoMudar);
+            } else if (botao.hasAttribute("data-excluir")) {
+                modal.close();
+                if (await confirmar("Excluir trabalho?", trabalho.titulo
+                        + " será excluído deste navegador.", "Excluir")) {
+                    await excluirTrabalho(trabalho.id);
+                    mostrarAviso("Trabalho excluído.");
+                    await aoMudar();
+                }
+            }
+        } catch (erro) {
+            mostrarAviso(erro.message || "Não foi possível concluir a ação.");
+            botao.disabled = false;
+        }
+    });
+}
+
+function verMotivo(trabalho) {
+    const modal = dialogo(
+        "Motivo da rejeição",
+        "<div class=\"pilha\"><h3>" + escaparHtml(trabalho.titulo)
+        + "</h3><p>"
+        + escaparHtml(trabalho.motivoRejeicao || "Nenhum motivo informado.")
+        + "</p></div>",
+        "<button type=\"button\" class=\"btn btn--secundario\""
+        + " data-fechar-modal>Voltar</button>"
+        + "<button type=\"button\" class=\"btn btn--primario\""
+        + " data-editar>Editar e reenviar</button>"
+    );
+    modal.querySelector("[data-editar]").addEventListener("click", function () {
+        modal.close();
+        editarTrabalho(trabalho);
+    });
+}
+
+async function enviarParaAnalise(trabalho, aoMudar) {
+    if (!trabalho.titulo.trim() || !trabalho.categorias.length || !trabalho.tecnicas.length) {
+        mostrarAviso("Complete nome, categoria e técnica antes de enviar.");
+        editarTrabalho(trabalho);
         return;
     }
-    mostrarAviso("Só rascunhos e trabalhos rejeitados podem ser editados.");
-}
-
-/**
- * Abre o menu de ações (⋯) de um trabalho.
- * @param {object} trabalho
- */
-function abrirMenuTrabalho(trabalho) {
-    // A IMPLEMENTAR: menu com Ver no portal, Duplicar, Enviar para análise
-    // e Excluir.
-    mostrarAviso("Em breve: mais ações para \"" + trabalho.titulo + "\".");
-}
-
-/**
- * Mostra o motivo da rejeição de um trabalho.
- * @param {object} trabalho
- */
-function verMotivo(trabalho) {
-    comModaisCorrigir(trabalho, abrirMotivo);
-}
-
-/**
- * Envia um rascunho para a análise do Liceu.
- * @param {object} trabalho
- */
-async function enviarParaAnalise(trabalho) {
+    if (!await confirmar("Enviar para análise?", trabalho.titulo
+            + " será analisado pelo Liceu antes da publicação.", "Enviar")) {
+        return;
+    }
     try {
         await salvarTrabalho(Object.assign({}, trabalho, {
-            status: "em-analise"
+            enviadoEm: new Date().toISOString(),
+            motivoRejeicao: null,
+            status: trabalho.motivoRejeicao ? "reenviado" : "em-analise"
         }));
+        mostrarAviso("Trabalho enviado para análise.");
+        await aoMudar();
     } catch (erro) {
-        mostrarAviso("Não foi possível enviar o trabalho.");
-        return;
+        mostrarAviso(erro.message || "Não foi possível enviar o trabalho.");
     }
-    mostrarAviso("Trabalho enviado para análise.");
-    window.dispatchEvent(new HashChangeEvent("hashchange"));
 }
 
 /**
@@ -594,56 +671,25 @@ function criarBotaoAcao(acao, id, nomeIcone, texto, classes) {
     return (
         `<button type="button" class="btn ${classes}"`
         + ` data-acao="${acao}" data-id="${escaparHtml(id)}">`
-        + (
-            classes.includes("btn--link")
-            ? texto + icone(nomeIcone)
-            : icone(nomeIcone) + texto
-        )
+        + icone(nomeIcone) + texto
         + "</button>"
     );
 }
 
 /**
- * Bloco de estado de rascunhos e rejeitados (no lugar do badge).
+ * Faixa de status e acesso ao motivo, quando houver rejeição.
  * @param {object} trabalho
  * @returns {string}
  */
 function criarEstadoTrabalho(trabalho) {
-    if (trabalho.status === "rejeitado") {
-        return (
-            "<div class=\"artesao-estado\">"
-            + criarStatus("rejeitado")
-            + criarBotaoAcao(
-                "motivo",
-                trabalho.id,
-                "lucide:arrow-right",
-                "Ver motivo",
-                "btn--link"
-            )
-            + "</div>"
-        );
-    }
-    if (trabalho.status === "rascunho") {
-        return (
-            "<div class=\"artesao-estado artesao-estado--compacto\">"
-            + criarBotaoAcao(
-                "editar",
-                trabalho.id,
-                "lucide:file",
-                "Rascunho",
-                "btn--suave btn--pequeno"
-            )
-            + criarBotaoAcao(
-                "enviar",
-                trabalho.id,
-                "lucide:send",
-                "Enviar para análise",
-                "btn--suave btn--pequeno"
-            )
-            + "</div>"
-        );
-    }
-    return "";
+    return "<div class=\"artesao-estado\">"
+        + criarStatus(trabalho.status)
+        + (trabalho.status === "rejeitado"
+            ? `<button type="button" class="btn btn--icone" data-acao="motivo"`
+                + ` data-id="${escaparHtml(trabalho.id)}"`
+                + ` aria-label="Ver motivo" title="Ver motivo">`
+                + icone("lucide:info") + "</button>"
+            : "") + "</div>";
 }
 
 /**
@@ -656,13 +702,21 @@ function criarAcoesTrabalho(trabalho) {
     const acoes = (
         criarEstadoTrabalho(trabalho)
         + "<div class=\"artesao-botoes\">"
-        + criarBotaoAcao(
-            "editar",
-            trabalho.id,
-            "lucide:pencil",
-            "Editar",
-            "btn--suave btn--pequeno"
-        )
+        + (trabalho.status === "rascunho"
+            ? `<button type="button" class="btn btn--suave btn--pequeno"`
+                + ` data-acao="enviar" data-id="${escaparHtml(trabalho.id)}"`
+                + ` aria-label="Enviar para análise" title="Enviar para análise">`
+                + icone("lucide:send") + "Enviar</button>"
+            : "")
+        + (["em-analise", "reenviado"].includes(trabalho.status)
+            ? "<span class=\"texto-suave\">Edição indisponível</span>"
+            : trabalho.status === "rascunho"
+                ? `<button type="button" class="btn btn--icone"`
+                    + ` data-acao="editar" data-id="${escaparHtml(trabalho.id)}"`
+                    + ` aria-label="Editar" title="Editar">`
+                    + icone("lucide:pencil") + "</button>"
+                : criarBotaoAcao("editar", trabalho.id, "lucide:pencil",
+                    "Editar", "btn--suave btn--pequeno"))
         + "<button type=\"button\" class=\"btn btn--icone\""
         + ` data-acao="menu" data-id="${escaparHtml(trabalho.id)}"`
         + ` aria-label="Mais ações para ${titulo}">`
@@ -671,11 +725,9 @@ function criarAcoesTrabalho(trabalho) {
     return criarCardProduto(trabalho, {
         acoes,
         favorito: false,
-        href: ROTA_TRABALHOS,
-        status: (
-            trabalho.status !== "rascunho"
-            && trabalho.status !== "rejeitado"
-        )
+        href: "#/painel-artesao/novo-trabalho?id="
+            + encodeURIComponent(trabalho.id),
+        status: false
     });
 }
 
@@ -685,7 +737,7 @@ function criarAcoesTrabalho(trabalho) {
  */
 async function montarTrabalhos(raiz) {
     const marco = raiz.firstElementChild;
-    const todos = await trabalhosDoLogado();
+    let todos = await trabalhosDoLogado();
     const dadosCategorias = await carregarCategorias();
     if (!marco.isConnected) {
         return;
@@ -693,6 +745,9 @@ async function montarTrabalhos(raiz) {
     const grade = raiz.querySelector("[data-grade]");
     const seletorCategoria = raiz.querySelector("[data-filtro-categoria]");
     const estado = {busca: "", ordem: "recentes", pagina: 1};
+    raiz.querySelector("[data-filtro-status]").value = (
+        parametros().get("status") || ""
+    );
 
     seletorCategoria.insertAdjacentHTML(
         "beforeend",
@@ -744,6 +799,8 @@ async function montarTrabalhos(raiz) {
             ? criarPaginacao(estado.pagina, totalPaginas)
             : ""
         );
+        prepararAcoes(grade);
+        prepararAcoes(raiz.querySelector("[data-paginacao]"));
     }
 
     function voltarEDesenhar() {
@@ -792,6 +849,13 @@ async function montarTrabalhos(raiz) {
             }
         }
     );
+    async function atualizar() {
+        todos = await trabalhosDoLogado();
+        if (marco.isConnected) {
+            desenhar();
+        }
+    }
+
     grade.addEventListener("click", function (evento) {
         const botao = evento.target.closest("[data-acao]");
         const trabalho = botao && todos.find(function (item) {
@@ -804,7 +868,7 @@ async function montarTrabalhos(raiz) {
             motivo: verMotivo
         };
         if (trabalho) {
-            acoes[botao.dataset.acao](trabalho);
+            acoes[botao.dataset.acao](trabalho, atualizar);
         }
     });
 
@@ -817,118 +881,52 @@ const MAX_IMAGENS = 8;
 const MAX_BYTES = 10 * 1024 * 1024;
 const TIPOS_IMAGEM = ["image/jpeg", "image/png"];
 
-/**
- * Abre a lista de rascunhos do artesão.
- */
-function abrirRascunhos() {
-    // A IMPLEMENTAR: popup/lista com os rascunhos salvos do artesão.
-    mostrarAviso("Em breve: seus rascunhos.");
-}
-
-/**
- * Converte os campos do formulário para o formato de data/trabalhos.json.
- * @param {object} dados campos do formulário
- * @returns {object}
- */
-function paraTrabalho(dados) {
-    const preco = (
-        dados["preco-tipo"] === "definir"
-        ? Number(String(dados.preco).replace(/[^\d,.]/g, "").replace(",", "."))
-        : null
-    );
-    return {
-        categoria: dados.categoria,
-        descricao: dados.descricao,
-        dimensoes: dados.dimensoes,
-        materiais: dados.materiais || "A definir",
-        observacoes: dados.observacoes,
-        preco: (
-            Number.isFinite(preco)
-            ? preco
-            : null
-        ),
-        tecnica: dados.tecnica,
-        titulo: dados.titulo
-    };
-}
-
-/**
- * Salva o rascunho ou envia o trabalho para análise. Cria um trabalho novo
- * ou, quando há um em edição, atualiza o existente (só o dono pode).
- * As imagens enviadas ainda não são gravadas (sem back-end).
- * @param {object} dados campos do formulário e nomes das imagens
- * @param {string} status "rascunho" | "em-analise"
- * @param {object} [anterior] trabalho em edição, se houver
- * @returns {Promise<void>}
- */
-async function enviarTrabalho(dados, status, anterior) {
-    try {
-        await salvarTrabalho(Object.assign({}, anterior, paraTrabalho(dados), {
-            status
-        }));
-    } catch (erro) {
-        mostrarAviso("Não foi possível salvar o trabalho.");
-        return;
-    }
-    mostrarAviso(
-        status === "rascunho"
-        ? "Rascunho salvo."
-        : "Trabalho enviado para análise."
-    );
-    window.location.hash = ROTA_TRABALHOS;
-}
-
-/**
- * Área de upload: clique, arrastar-soltar, limite de 8 imagens e
- * miniaturas com remoção e selo de capa.
- * @param {HTMLElement} raiz
- * @returns {{nomes: Function}}
- */
-function ligarUpload(raiz) {
+/** Upload persistente: dados das imagens, nunca nomes ou URLs temporárias. */
+function ligarUpload(raiz, iniciais = []) {
     const area = raiz.querySelector("[data-upload]");
     const entrada = raiz.querySelector("[data-upload-entrada]");
     const lista = raiz.querySelector("[data-miniaturas]");
-    let imagens = [];
+    let imagens = iniciais.slice();
+    let pendente = Promise.resolve();
 
     function desenhar() {
-        lista.innerHTML = imagens.map(function (imagem, indice) {
+        lista.innerHTML = imagens.map(function (url, indice) {
             return (
-                "<li class=\"miniatura\">"
-                + `<img src="${imagem.url}" width="80" height="80"`
-                + ` alt="Imagem ${indice + 1}: `
-                + escaparHtml(imagem.arquivo.name) + "\">"
+                "<li class=\"miniatura\"><img src=\"" + escaparHtml(url)
+                + "\" width=\"80\" height=\"80\" alt=\"Imagem "
+                + (indice + 1) + " do trabalho\">"
                 + "<button type=\"button\" class=\"miniatura__remover\""
-                + ` data-remover="${indice}"`
-                + ` aria-label="Remover imagem ${indice + 1}">`
-                + icone("lucide:x") + "</button>"
-                + (
-                    indice === 0
+                + " data-remover=\"" + indice
+                + "\" aria-label=\"Remover imagem "
+                + (indice + 1) + "\">" + icone("lucide:x") + "</button>"
+                + (indice === 0
                     ? "<span class=\"miniatura__capa\">★ Capa</span>"
-                    : ""
-                )
-                + "</li>"
+                    : "") + "</li>"
             );
         }).join("");
+        prepararAcoes(lista);
     }
 
     function adicionar(arquivos) {
-        const validos = Array.from(arquivos).filter(function (arquivo) {
-            return TIPOS_IMAGEM.includes(arquivo.type)
-            && arquivo.size <= MAX_BYTES;
-        });
-        const vagas = MAX_IMAGENS - imagens.length;
-        if (validos.length < arquivos.length) {
-            mostrarAviso("Só JPG ou PNG de até 10 MB são aceitos.");
-        }
-        if (validos.length > vagas) {
-            mostrarAviso("Limite de 8 imagens por trabalho.");
-        }
-        imagens = imagens.concat(validos.slice(0, vagas).map(
-            function (arquivo) {
-                return {arquivo, url: URL.createObjectURL(arquivo)};
+        const novos = Array.from(arquivos);
+        pendente = pendente.then(async function () {
+            const vagas = MAX_IMAGENS - imagens.length;
+            if (novos.length > vagas) {
+                mostrarAviso("Limite de 8 imagens por trabalho.");
             }
-        ));
-        desenhar();
+            const resultados = await Promise.all(novos.slice(0, vagas).map(
+                function (arquivo) {
+                    return lerImagem(arquivo).catch(function (erro) {
+                        mostrarAviso(erro.message);
+                        return null;
+                    });
+                }
+            ));
+            imagens = imagens.concat(resultados.filter(Boolean));
+            if (lista.isConnected) {
+                desenhar();
+            }
+        });
     }
 
     entrada.addEventListener("change", function () {
@@ -955,48 +953,100 @@ function ligarUpload(raiz) {
         const botao = evento.target.closest("[data-remover]");
         if (botao) {
             const indice = Number(botao.dataset.remover);
-            URL.revokeObjectURL(imagens[indice].url);
             imagens = imagens.filter(function (ignore, posicao) {
                 return posicao !== indice;
             });
             desenhar();
         }
     });
-
+    desenhar();
     return {
-        nomes: function () {
-            return imagens.map(function (imagem) {
-                return imagem.arquivo.name;
-            });
+        obter: async function () {
+            await pendente;
+            return imagens.slice();
         }
     };
 }
 
-/**
- * Aba Novo trabalho: formulário e upload de imagens.
- * @param {HTMLElement} raiz o <main id="conteudo"> com a parcial
- */
+/** O formulário existente também atende à edição, sem nova tela. */
 async function montarNovoTrabalho(raiz) {
     const marco = raiz.firstElementChild;
     const dadosCategorias = await carregarCategorias();
+    const {sessao} = await artesaoLogado();
+    const trabalhos = await trabalhosDaSessao(sessao);
+    const id = parametros().get("id");
+    const existente = trabalhos.find(function (item) {
+        return item.id === id;
+    });
     if (!marco.isConnected) {
+        return;
+    }
+    if (id && !existente) {
+        raiz.querySelector("[data-form-trabalho]").remove();
+        raiz.insertAdjacentHTML("beforeend",
+            "<p class=\"artesao-vazio\" role=\"alert\">"
+            + "Trabalho não encontrado para este artesão. "
+            + "<a href=\"#/painel-artesao/meus-trabalhos\">"
+            + "Voltar aos trabalhos</a></p>");
         return;
     }
     const formulario = raiz.querySelector("[data-form-trabalho]");
     const campoPreco = raiz.querySelector("[data-preco]");
-    const upload = ligarUpload(raiz);
+    const upload = ligarUpload(raiz, existente ? existente.imagens : []);
+    const bloqueado = existente
+        && ["em-analise", "reenviado"].includes(existente.status);
+    let salvando = false;
 
-    preencherOpcoes(
-        raiz.querySelector("#trabalho-categoria"),
-        dadosCategorias.categorias
-    );
-    preencherOpcoes(
-        raiz.querySelector("#trabalho-tecnica"),
-        dadosCategorias.tecnicas
-    );
+    preencherOpcoes(raiz.querySelector("#trabalho-categoria"),
+        dadosCategorias.categorias);
+    preencherOpcoes(raiz.querySelector("#trabalho-tecnica"),
+        dadosCategorias.tecnicas);
+    if (existente) {
+        raiz.querySelector("h1").textContent = "Editar Trabalho";
+        raiz.querySelector(".sobretitulo").textContent = "Editar trabalho";
+        Object.entries(existente).forEach(function ([chave, valor]) {
+            const campo = formulario.elements.namedItem(chave);
+            if (campo && typeof valor === "string") {
+                campo.value = valor;
+            }
+        });
+        if (existente.preco !== null && existente.preco !== undefined) {
+            formulario.querySelector("[value=\"definir\"]").checked = true;
+            campoPreco.disabled = false;
+            campoPreco.required = true;
+            campoPreco.value = String(existente.preco).replace(".", ",");
+        }
+        if (existente.status === "rejeitado") {
+            formulario.querySelector("[type=\"submit\"]").lastChild.textContent
+                = " Editar e reenviar";
+            raiz.querySelector(".texto-apoio").textContent =
+                "Corrija seu trabalho e envie novamente ao Liceu.";
+        } else if (["publicado", "oculto"].includes(existente.status)) {
+            raiz.querySelector(".texto-apoio").textContent =
+                "Ao salvar alterações, o trabalho volta à análise do Liceu.";
+            raiz.querySelector("[data-salvar-rascunho]").remove();
+        }
+    }
+    if (bloqueado) {
+        Array.from(formulario.elements).forEach(function (campo) {
+            campo.disabled = true;
+        });
+        raiz.querySelector(".texto-apoio").textContent =
+            "Este trabalho está em análise. Aguarde o retorno do Liceu.";
+    }
+    ["categoria", "tecnica"].forEach(function (nome) {
+        const campo = formulario.querySelector("[name=" + nome + "]");
+        const valores = existente ? existente[nome === "categoria" ? "categorias" : "tecnicas"] : [];
+        Array.from(campo.options).forEach(function (opcao) {
+            opcao.selected = valores.includes(opcao.value);
+        });
+    });
+    prepararMultisselecao(raiz);
     raiz.querySelectorAll("[data-preco-tipo]").forEach(function (opcao) {
         opcao.addEventListener("change", function () {
-            const definir = opcao.value === "definir" && opcao.checked;
+            const definir = formulario.querySelector(
+                "[name=\"preco-tipo\"]:checked"
+            ).value === "definir";
             campoPreco.disabled = !definir;
             campoPreco.required = definir;
             if (definir) {
@@ -1007,49 +1057,137 @@ async function montarNovoTrabalho(raiz) {
         });
     });
 
-    const edicao = emEdicao;
-    emEdicao = null;
-    if (edicao) {
-        raiz.querySelector("h1").textContent = "Editar Trabalho";
-        raiz.querySelector(".sobretitulo").textContent = "Editar trabalho";
-        raiz.querySelector(".texto-apoio").textContent = (
-            "Altere os dados do trabalho e salve ou envie para análise."
-        );
-        ["titulo", "categoria", "tecnica", "descricao", "dimensoes",
-            "observacoes"].forEach(function (nome) {
-            formulario.elements[nome].value = edicao[nome] ?? "";
-        });
-        formulario.elements.materiais.value = (
-            edicao.materiais === "A definir"
+    let alterado = false;
+    formulario.addEventListener("input", function () {
+        alterado = true;
+    });
+    formulario.addEventListener("change", function () {
+        alterado = true;
+    });
+    formulario.querySelector("[data-miniaturas]").addEventListener(
+        "click", function (evento) {
+            if (evento.target.closest("[data-remover]")) {
+                alterado = true;
+            }
+        }
+    );
+    formulario.querySelector("[data-upload]").addEventListener(
+        "drop", function () {
+            alterado = true;
+        }
+    );
+    async function sairFormulario(destino) {
+        if (alterado && !await confirmar(
+            "Descartar alterações?",
+            "As alterações não salvas deste trabalho serão descartadas.",
+            "Descartar"
+        )) {
+            return;
+        }
+        window.location.hash = destino;
+    }
+    formulario.querySelector("a[href]").addEventListener(
+        "click", function (evento) {
+            evento.preventDefault();
+            sairFormulario(ROTA_TRABALHOS);
+        }
+    );
+
+    async function salvar(status) {
+        if (salvando || bloqueado) {
+            return;
+        }
+        formulario.elements.titulo.setCustomValidity(
+            formulario.elements.titulo.value.trim()
             ? ""
-            : edicao.materiais ?? ""
+            : "Informe o nome do trabalho."
         );
-        if (edicao.preco !== null && edicao.preco !== undefined) {
-            raiz.querySelector("[data-preco-tipo][value=\"definir\"]").click();
-            campoPreco.value = String(edicao.preco).replace(".", ",");
+        if (status !== "rascunho" && !formulario.reportValidity()) {
+            return;
+        }
+        if (!formulario.elements.titulo.reportValidity()) {
+            return;
+        }
+        const dados = Object.fromEntries(new FormData(formulario));
+        let preco = null;
+        if (dados["preco-tipo"] === "definir") {
+            preco = Number(dados.preco.trim().replace(",", "."));
+            if (!Number.isFinite(preco) || preco < 0 || !dados.preco.trim()) {
+                mostrarAviso("Informe um preço válido em reais.");
+                campoPreco.focus();
+                return;
+            }
+        }
+        salvando = true;
+        const botoes = formulario.querySelectorAll("button");
+        botoes.forEach(function (botao) {
+            botao.disabled = true;
+        });
+        try {
+            if (status !== "rascunho" && !await confirmar(
+                "Enviar para análise?",
+                "O trabalho ficará disponível no portal "
+                + "após aprovação do Liceu.",
+                "Enviar"
+            )) {
+                return;
+            }
+            const imagens = await upload.obter();
+            if (!marco.isConnected) {
+                return;
+            }
+            const rejeitado = existente && (
+                existente.status === "rejeitado"
+                || Boolean(existente.motivoRejeicao)
+            );
+            await salvarTrabalho(Object.assign({}, existente || {}, dados, {
+                artesaoId: sessao.artesaoId,
+                categorias: new FormData(formulario).getAll("categoria"),
+                tecnicas: new FormData(formulario).getAll("tecnica"),
+                destaque: false,
+                enviadoEm: status === "rascunho"
+                    ? null : new Date().toISOString(),
+                imagens: imagens.length
+                    ? imagens : ["assets/img/avatar-padrao.jpg"],
+                motivoRejeicao: status === "rascunho" && existente
+                    ? existente.motivoRejeicao : null,
+                preco,
+                publicadoEm: null,
+                status: rejeitado && status !== "rascunho"
+                    ? "reenviado" : status,
+                titulo: dados.titulo.trim()
+            }));
+            mostrarAviso(status === "rascunho"
+                ? "Rascunho salvo."
+                : (rejeitado ? "Trabalho reenviado para análise."
+                    : "Trabalho enviado para análise."));
+            window.location.hash = status === "rascunho"
+                ? ROTA_TRABALHOS : "#/painel-artesao/status-publicacoes";
+        } catch (erro) {
+            mostrarAviso(erro.message || "Não foi possível salvar o trabalho.");
+        } finally {
+            salvando = false;
+            botoes.forEach(function (botao) {
+                botao.disabled = false;
+            });
         }
     }
-
-    function coletar() {
-        const dados = Object.fromEntries(new FormData(formulario));
-        return Object.assign(dados, {imagens: upload.nomes()});
-    }
-
+    formulario.elements.titulo.addEventListener("input", function () {
+        formulario.elements.titulo.setCustomValidity("");
+    });
     formulario.addEventListener("submit", function (evento) {
         evento.preventDefault();
-        if (formulario.reportValidity()) {
-            enviarTrabalho(coletar(), "em-analise", edicao);
-        }
+        salvar("em-analise");
     });
-    raiz.querySelector("[data-salvar-rascunho]").addEventListener(
-        "click",
-        function () {
-            enviarTrabalho(coletar(), "rascunho", edicao);
+    raiz.querySelector("[data-salvar-rascunho]")?.addEventListener(
+        "click", function () {
+            salvar("rascunho");
         }
     );
     raiz.querySelector("[data-rascunhos]").addEventListener(
-        "click",
-        abrirRascunhos
+        "click", function () {
+            sairFormulario(ROTA_TRABALHOS + "?status=rascunho");
+        }
     );
 }
 
@@ -1062,50 +1200,40 @@ async function montarNovoTrabalho(raiz) {
  */
 function criarLinhaStatus(trabalho) {
     const id = escaparHtml(trabalho.id);
-    const botao = function (acao, nomeIcone, texto, classes) {
-        return (
-            `<button type="button" class="btn ${classes}"`
-            + ` data-acao="${acao}" data-id="${id}">`
-            + icone(nomeIcone) + texto + "</button>"
-        );
+    const botao = function (acao, nomeIcone, texto) {
+        return `<button type="button" class="btn btn--icone"`
+            + ` data-acao="${acao}" data-id="${id}"`
+            + ` aria-label="${texto}" title="${texto}">`
+            + icone(nomeIcone) + "</button>";
     };
     const acoes = {
-        "em-analise": (
-            "<button type=\"button\" class=\"btn btn--suave btn--pequeno\""
-            + " aria-disabled=\"true\">"
-            + icone("lucide:hourglass") + "Aguardando análise</button>"
-        ),
-        publicado: (
-            "<a class=\"btn btn--secundario btn--pequeno\" href=\"#/produtos\">"
-            + icone("lucide:external-link") + "Ver no portal</a>"
-        ),
-        rascunho: botao(
-            "editar",
-            "lucide:pencil",
-            "Continuar edição",
-            "btn--secundario btn--pequeno"
-        ),
-        rejeitado: (
-            "<button type=\"button\" class=\"btn btn--link\""
-            + ` data-acao="motivo" data-id="${id}">Ver motivo</button>`
-            + botao(
-                "editar",
-                "lucide:pencil",
-                "Editar e reenviar",
-                "btn--secundario btn--pequeno"
-            )
-        )
+        "em-analise": "<button type=\"button\" class=\"btn btn--icone\""
+            + " disabled aria-label=\"Aguardando análise\""
+            + " title=\"Aguardando análise\">"
+            + icone("lucide:hourglass") + "</button>",
+        publicado: `<a class="btn btn--icone" href="#/produto?id=`
+            + encodeURIComponent(trabalho.id)
+            + `" aria-label="Ver no portal" title="Ver no portal">`
+            + icone("lucide:external-link") + "</a>",
+        rascunho: botao("editar", "lucide:pencil", "Continuar edição"),
+        rejeitado: botao("motivo", "lucide:info", "Ver motivo")
+            + botao("editar", "lucide:pencil", "Editar e reenviar")
     };
     acoes.reenviado = acoes["em-analise"];
+    acoes.oculto = botao(
+        "editar", "lucide:pencil", "Editar e enviar para análise"
+    );
     return (
         "<tr>"
         + "<td data-rotulo=\"Trabalho\"><div class=\"tabela__principal\">"
         + "<img class=\"tabela__miniatura\" src=\""
-        + escaparHtml(trabalho.imagens[0]) + "\""
+        + escaparHtml(
+            trabalho.imagens[0] || "assets/img/avatar-padrao.jpg"
+        ) + "\""
         + " alt=\"\" width=\"64\" height=\"44\" loading=\"lazy\">"
         + "<div><strong>" + escaparHtml(trabalho.titulo) + "</strong>"
         + "<span class=\"texto-suave\">"
-        + escaparHtml(trabalho.categoria + " • " + trabalho.tecnica)
+        + escaparHtml(trabalho.categorias.concat(trabalho.tecnicas).join(" • "))
         + "</span></div></div></td>"
         + "<td data-rotulo=\"Status\">" + criarStatus(trabalho.status)
         + "</td>"
@@ -1154,6 +1282,7 @@ async function montarStatus(raiz) {
             status: raiz.querySelector("[data-filtro-status]").value
         }).sort(COMPARADORES[estado.ordem]);
         corpo.innerHTML = lista.map(criarLinhaStatus).join("");
+        prepararAcoes(corpo);
         raiz.querySelector("[data-vazio]").hidden = lista.length > 0;
     }
 

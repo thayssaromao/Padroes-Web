@@ -1,13 +1,13 @@
 <!-- Janela de login: <dialog> aberto por js/paginas/login.js quando o caminho é "#/login".
-     Contas de teste em data/usuarios.json (admin@liceu.mock e artesao@liceu.mock). -->
+     Autenticação acadêmica local: contas descritas no README. -->
 <dialog class="modal modal--pequeno modal-login" id="modal-login" aria-labelledby="login-titulo">
     <button type="button" class="modal__fechar" aria-label="Fechar"><iconify-icon icon="lucide:circle-x" aria-hidden="true"></iconify-icon></button>
 
-    <img src="assets/logo.png" alt="" class="modal-login__logo" width="64" height="64">
+    <img src="assets/logo.png" alt="" class="modal-login__logo" width="96" height="96">
     <h2 class="modal__titulo" id="login-titulo">Acesse sua conta</h2>
     <p class="modal__descricao">Entre para acessar os recursos do portal do artesão</p>
 
-    <form class="modal__corpo modal-login__form" id="login-form">
+    <form class="modal__corpo modal-login__form">
         <div class="campo">
             <label for="login-email" class="visualmente-oculto">E-mail</label>
             <div class="campo__grupo">
@@ -32,11 +32,10 @@
                 <input type="checkbox" name="lembrar">
                 Lembrar de mim
             </label>
-            <!-- ainda nao existe pagina de recuperar senha -->
-            <a href="#/login" class="modal-login__esqueci">Esqueci minha senha</a>
+            <button type="button" class="btn btn--link modal-login__esqueci" data-recuperar-senha>Esqueci minha senha</button>
         </div>
 
-        <p class="modal-login__erro" id="login-erro" role="alert" hidden></p>
+        <p class="campo__ajuda" role="alert" data-login-erro></p>
         <button type="submit" class="btn btn--primario btn--bloco modal-login__entrar">Entrar</button>
     </form>
     <p class="modal-login__cadastro">Ainda não tem conta? <a href="#/cadastro" data-ir-cadastro>Criar conta</a></p>

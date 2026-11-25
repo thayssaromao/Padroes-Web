@@ -3,7 +3,7 @@
  * router.js — ponto de entrada da SPA (roteamento por hash).
  *
  * 1. Lê o caminho após o "#" e encontra a rota em js/rotas.js.
- * 2. Aplica o controle de acesso por perfil às áreas restritas.
+ * 2. Aplica a guarda das áreas restritas.
  * 3. Monta o layout (portal ou painel) se ele mudou.
  * 4. Carrega a parcial HTML em <main id="conteudo">.
  * 5. Chama a função iniciar da página, se houver.
@@ -16,14 +16,19 @@ import {PAINEIS, ROTA_NAO_ENCONTRADA, ROTAS} from "./rotas.js";
 import {
     atualizarMenuPainel,
     atualizarNavPortal,
+    atualizarUsuarioPainel,
     fecharGavetas,
     iniciarMenuPortal,
     montarPainel
 } from "./layout.js";
-import {obterSessao} from "./dados.js";
-import {mostrarAviso, padronizarIcones} from "./componentes.js";
+import {obterSessao, sessaoDemonstracao} from "./dados.js";
+import {mostrarAviso, padronizarIcones, prepararAcoes} from "./componentes.js";
 import {abrirLogin} from "./paginas/login.js";
 
+/**
+ * Guarda local das áreas restritas, conforme o papel da sessão mock.
+ */
+const GUARDA_ATIVA = true;
 const CAMINHO_PADRAO = "/inicio";
 const CAMINHO_LOGIN = "/login";
 
@@ -32,7 +37,6 @@ let layoutAtual = "";
 let primeiraCarga = true;
 let navegacao = 0;
 let caminhoAnterior = CAMINHO_PADRAO;
-let destinoPosLogin = "";
 
 /** @returns {string} caminho atual, ex.: "/painel-liceu/artesaos" */
 function caminhoAtual() {
@@ -45,55 +49,21 @@ function caminhoAtual() {
  */
 function encontrarRota(caminho) {
     return ROTAS.find(function (rota) {
-        return rota.caminho === caminho;
+        return rota.caminho === caminho.split("?")[0];
     }) ?? ROTA_NAO_ENCONTRADA;
 }
 
 /**
- * Controle de acesso por perfil. O perfil da sessão ("painel-artesao" ou
- * "painel-liceu") só abre as rotas do próprio layout; o portal é público.
+ * Verifica se a sessão permite abrir a rota.
  * @param {object} rota
- * @returns {string} "ok" | "login" (sem sessão) | "negado" (outro perfil)
+ * @returns {boolean}
  */
-function verificarAcesso(rota) {
+function podeAcessar(rota) {
     const sessao = obterSessao();
-    if (rota.layout === "portal") {
-        return "ok";
+    if (!GUARDA_ATIVA || rota.layout === "portal") {
+        return true;
     }
-    if (!sessao) {
-        return "login";
-    }
-    return (
-        sessao.perfil === rota.layout
-        ? "ok"
-        : "negado"
-    );
-}
-
-/** @returns {string} caminho do painel inicial do perfil logado */
-function painelDaSessao() {
-    const sessao = obterSessao();
-    return (
-        sessao
-        ? "/" + sessao.perfil
-        : CAMINHO_PADRAO
-    );
-}
-
-/** Troca o link "Entrar" do portal por "Meu painel" quando há sessão. */
-function atualizarLinkEntrar() {
-    const link = document.querySelector(".nav-portal__entrar");
-    const logado = Boolean(obterSessao());
-    link.href = "#" + (
-        logado
-        ? painelDaSessao()
-        : CAMINHO_LOGIN
-    );
-    link.lastChild.textContent = (
-        logado
-        ? " Meu painel "
-        : " Entrar "
-    );
+    return Boolean(sessao) && sessao.perfil === rota.layout;
 }
 
 /**
@@ -108,32 +78,51 @@ async function buscarParcial(arquivo) {
     return resposta.text();
 }
 
+/** Exibe falha recuperável sem depender de outra requisição de HTML. */
+function mostrarFalhaPagina(conteudo) {
+    conteudo.innerHTML = "<section class=\"secao\"><div class=\"container pilha\">"
+        + "<h1>Não foi possível carregar esta página</h1>"
+        + "<p role=\"alert\">Verifique sua conexão e tente novamente.</p>"
+        + "<div><button type=\"button\" class=\"btn btn--primario\""
+        + " data-tentar-novamente>Tentar novamente</button></div></div></section>";
+    conteudo.querySelector("[data-tentar-novamente]").addEventListener(
+        "click", carregarPagina
+    );
+    document.title = "Página indisponível | Liceu";
+    conteudo.focus({preventScroll: true});
+}
+
 /**
  * Monta a casca do layout da rota (só quando o layout muda).
  * @param {object} rota
  * @returns {Promise<HTMLElement>} o <main id="conteudo">
  */
-function prepararLayout(rota) {
+async function prepararLayout(rota, minha) {
     if (rota.layout === layoutAtual) {
-        return Promise.resolve(document.getElementById("conteudo"));
+        return document.getElementById("conteudo");
     }
-    layoutAtual = rota.layout;
-
+    const recipiente = document.createElement("div");
+    let conteudo;
     if (rota.layout === "portal") {
-        document.body.className = "layout-portal";
-        raiz.innerHTML = (
-            "<main id=\"conteudo\" class=\"conteudo\" tabindex=\"-1\"></main>"
+        recipiente.innerHTML = "<main id=\"conteudo\" "
+            + "class=\"conteudo\" tabindex=\"-1\"></main>";
+        conteudo = recipiente.firstElementChild;
+    } else {
+        conteudo = await montarPainel(
+            recipiente,
+            rota.layout,
+            PAINEIS[rota.layout],
+            obterSessao() ?? await sessaoDemonstracao(rota.layout)
         );
-        return Promise.resolve(document.getElementById("conteudo"));
     }
-
-    document.body.className = "layout-painel";
-    return montarPainel(
-        raiz,
-        rota.layout,
-        PAINEIS[rota.layout],
-        obterSessao()
-    );
+    if (minha !== navegacao) {
+        return null;
+    }
+    document.body.className = rota.layout === "portal"
+        ? "layout-portal" : "layout-painel";
+    raiz.replaceChildren(...recipiente.childNodes);
+    layoutAtual = rota.layout;
+    return conteudo;
 }
 
 /** Carrega a rota atual. Chamado no início e a cada "hashchange". */
@@ -147,11 +136,6 @@ async function carregarPagina() {
     // Volta o endereço para a página anterior sem recarregá-la.
     if (caminho === CAMINHO_LOGIN) {
         window.history.replaceState(null, "", "#" + caminhoAnterior);
-        if (obterSessao()) {
-            // Quem já entrou não vê o login: vai para o próprio painel.
-            window.location.hash = "#" + painelDaSessao();
-            return;
-        }
         abrirLogin();
         if (!primeiraCarga) {
             return;
@@ -160,45 +144,59 @@ async function carregarPagina() {
     }
 
     rota = encontrarRota(caminho);
-    const acesso = verificarAcesso(rota);
-    if (acesso === "login") {
-        destinoPosLogin = caminho;
-        window.location.hash = "#" + CAMINHO_LOGIN;
+    if (!podeAcessar(rota)) {
+        if (!obterSessao()) {
+            caminhoAnterior = CAMINHO_PADRAO;
+            window.history.replaceState(null, "", "#" + CAMINHO_PADRAO);
+            await carregarPagina();
+            abrirLogin();
+        } else {
+            window.location.hash = "#" + CAMINHO_LOGIN;
+        }
         return;
     }
-    if (acesso === "negado") {
-        mostrarAviso("Acesso não permitido para o seu perfil.");
-        window.location.hash = "#" + painelDaSessao();
-        return;
-    }
+    atualizarUsuarioPainel(raiz, obterSessao());
     caminhoAnterior = caminho;
     navegacao += 1;
     minha = navegacao;
 
-    const conteudo = await prepararLayout(rota);
+    let conteudo;
+    try {
+        conteudo = await prepararLayout(rota, minha);
+    } catch (falha) {
+        if (minha !== navegacao) {
+            return;
+        }
+        layoutAtual = "";
+        document.body.className = "layout-portal";
+        raiz.innerHTML = "<main id=\"conteudo\" class=\"conteudo\" tabindex=\"-1\"></main>";
+        mostrarFalhaPagina(document.getElementById("conteudo"));
+        return;
+    }
     if (minha !== navegacao) {
         return;
     }
     try {
         html = await buscarParcial(rota.arquivo);
     } catch (ignore) {
-        rota = ROTA_NAO_ENCONTRADA;
-        html = await buscarParcial(rota.arquivo);
+        if (minha === navegacao) {
+            mostrarFalhaPagina(conteudo);
+        }
+        return;
     }
     if (minha !== navegacao) {
         return;
     }
 
     conteudo.innerHTML = html;
-    padronizarIcones(conteudo);
+    prepararAcoes(conteudo);
     conteudo.classList.remove("entrando");
     conteudo.getBoundingClientRect();
     conteudo.classList.add("entrando");
     document.title = rota.titulo;
 
-    atualizarLinkEntrar();
-    atualizarNavPortal(caminho);
-    atualizarMenuPainel(caminho);
+    atualizarNavPortal(caminho.split("?")[0]);
+    atualizarMenuPainel(caminho.split("?")[0]);
     fecharGavetas();
 
     if (!primeiraCarga) {
@@ -208,7 +206,17 @@ async function carregarPagina() {
     primeiraCarga = false;
 
     if (rota.iniciar) {
-        rota.iniciar(conteudo);
+        try {
+            await rota.iniciar(conteudo);
+            if (minha === navegacao) {
+                prepararAcoes(raiz);
+            }
+        } catch (falha) {
+            if (minha === navegacao) {
+                mostrarAviso("Não foi possível concluir o carregamento. "
+                    + "Tente novamente.");
+            }
+        }
     }
 }
 
@@ -236,28 +244,30 @@ function interceptarLinkLogin(evento) {
     abrirLogin();
 }
 
-/**
- * Depois do login, segue para a página restrita que o usuário tentou
- * abrir (se o perfil permitir) ou para o painel do perfil.
- */
-function aoEntrar() {
-    const destino = destinoPosLogin;
-    destinoPosLogin = "";
-    const permitido = destino && verificarAcesso(encontrarRota(destino)) === "ok";
-    const alvo = "#" + (
-        permitido
-        ? destino
-        : painelDaSessao()
-    );
-    if (window.location.hash === alvo) {
-        carregarPagina();
-    } else {
-        window.location.hash = alvo;
-    }
-}
-
+padronizarIcones(document);
+prepararAcoes(document);
 iniciarMenuPortal();
-window.addEventListener("liceu:login", aoEntrar);
 document.addEventListener("click", interceptarLinkLogin);
 window.addEventListener("hashchange", carregarPagina);
 carregarPagina();
+
+// Uma sessão encerrada em outra aba também encerra o acesso neste painel.
+window.addEventListener("storage", function (evento) {
+    if (evento.key === "liceu:sessao" || evento.key === "liceu:base:v1") {
+        if (evento.key === "liceu:sessao") {
+            layoutAtual = "";
+        }
+        carregarPagina();
+    }
+});
+
+// Uma nova conta exige remontar a casca, mesmo quando o hash não muda.
+window.addEventListener("conta-autenticada", function (evento) {
+    const destino = "#/" + evento.detail;
+    layoutAtual = "";
+    if (window.location.hash === destino) {
+        carregarPagina();
+    } else {
+        window.location.hash = destino;
+    }
+});

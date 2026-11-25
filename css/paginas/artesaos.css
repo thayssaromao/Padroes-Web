@@ -97,6 +97,12 @@
     flex-direction: column;
     gap: var(--espaco-3);
     min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.artesaos-perfil__info .chip {
+    max-width: 100%;
+    white-space: normal;
 }
 
 .artesaos-contato__titulo {
@@ -116,14 +122,17 @@
     align-items: center;
     gap: var(--espaco-2);
     min-height: 44px;
+    max-width: 100%;
     overflow-wrap: anywhere;
 }
 
 .artesaos-contato__link iconify-icon {
     font-size: 28px;
+    flex-shrink: 0;
 }
 
 .artesaos-contato__link span {
+    min-width: 0;
     text-decoration: underline;
     text-underline-offset: 3px;
 }
@@ -145,8 +154,13 @@
     }
 
     .artesaos-perfil__foto {
-        flex: 0 0 280px;
-        width: 280px;
+        flex: 0 0 auto;
+        width: min(280px, 38%);
+        min-width: 0;
+    }
+
+    .artesaos-perfil__info {
+        flex: 1;
     }
 
     .artesaos-contato {
@@ -154,6 +168,11 @@
         flex-wrap: wrap;
         justify-content: space-between;
         gap: var(--espaco-3) var(--espaco-5);
+    }
+
+    .artesaos-contato > li {
+        min-width: 0;
+        max-width: 100%;
     }
 
     .artesaos-grade--lista .card-artesao {

@@ -5,8 +5,8 @@
  */
 
 import {ROTAS} from "./rotas.js";
-import {escaparHtml, icone, mostrarAviso} from "./componentes.js";
-import {encerrarSessao} from "./dados.js";
+import {criarDialogo, escaparHtml, icone, mostrarAviso} from "./componentes.js";
+import {carregarTrabalhos, encerrarSessao, obterSessao} from "./dados.js";
 
 const ARQUIVO_PAINEL = "pages/layouts/painel.html";
 
@@ -26,7 +26,14 @@ function alternarGaveta(botao, gaveta, classeAberta, abrir) {
     botao.setAttribute("aria-expanded", String(aberta));
     gaveta.classList.toggle(classeAberta, aberta);
     if (botao.getAttribute("aria-controls") === "nav") {
-        botao.setAttribute("aria-label", aberta ? "Fechar menu" : "Abrir menu");
+        const rotulo = aberta ? "Fechar menu" : "Abrir menu";
+        botao.setAttribute("aria-label", rotulo);
+        botao.setAttribute("title", rotulo);
+    }
+    if (botao.getAttribute("aria-controls") === "painel-lateral") {
+        const rotulo = aberta ? "Fechar menu do painel" : "Abrir menu do painel";
+        botao.setAttribute("aria-label", rotulo);
+        botao.setAttribute("title", rotulo);
     }
 }
 
@@ -153,24 +160,99 @@ function atualizarMenuPainel(caminho) {
     );
 }
 
-/** Abre a lista de notificações. */
-function abrirNotificacoes() {
-    // A IMPLEMENTAR: dropdown de notificações (§8.2).
-    mostrarAviso("Em breve: notificações.");
+/** Mostra os estados atuais, sem simular notificações de um servidor. */
+async function abrirNotificacoes() {
+    const sessao = obterSessao();
+    const painel = document.querySelector(".painel");
+    try {
+        const trabalhos = await carregarTrabalhos();
+        if (!painel.isConnected) {
+            return;
+        }
+        const itens = trabalhos.filter(function (item) {
+            return sessao.perfil === "painel-liceu"
+                ? ["em-analise", "reenviado"].includes(item.status)
+                : item.artesaoId === sessao.artesaoId
+                    && item.status === "rejeitado";
+        });
+        const destino = sessao.perfil === "painel-liceu"
+            ? "#/painel-liceu/trabalhos-pendentes"
+            : "#/painel-artesao/status-publicacoes";
+        const texto = sessao.perfil === "painel-liceu"
+            ? " trabalho(s) aguardando análise."
+            : " trabalho(s) com correções solicitadas pelo Liceu.";
+        const modal = criarDialogo("Notificações", "<p>"
+            + itens.length + texto + "</p>",
+            '<a class="btn btn--primario" href="' + destino
+            + '">Ver trabalhos</a>', {raiz: painel, tamanho: "pequeno"});
+        modal.querySelector("a").addEventListener("click", function () {
+            modal.close();
+        });
+    } catch (ignore) {
+        mostrarAviso("Não foi possível carregar as notificações.");
+    }
 }
 
-/** Abre o menu do usuário. */
+/** Menu da conta atual com navegação e encerramento de sessão. */
 function abrirMenuUsuario() {
-    // A IMPLEMENTAR: dropdown do menu do usuário (§8.2).
-    mostrarAviso("Em breve: menu do usuário.");
+    const sessao = obterSessao();
+    const destino = sessao.perfil === "painel-artesao"
+        ? "#/painel-artesao/meu-perfil" : "#/painel-liceu";
+    const botao = document.querySelector('[data-acao="menu-usuario"]');
+    botao.setAttribute("aria-expanded", "true");
+    const modal = criarDialogo("Minha conta", "<p>"
+        + escaparHtml(sessao.nome) + "</p>",
+        '<a class="btn btn--secundario" href="' + destino + '">'
+        + (sessao.perfil === "painel-artesao" ? "Meu perfil" : "Meu painel")
+        + '</a><a class="btn btn--secundario" href="#/inicio">'
+        + 'Voltar ao Portal</a><button class="btn btn--primario"'
+        + ' type="button" data-sair>Sair</button>',
+        {raiz: document.querySelector(".painel"), tamanho: "medio"});
+    modal.querySelector(".modal__acoes").classList.add("modal__acoes--grade");
+    modal.addEventListener("close", function () {
+        botao.setAttribute("aria-expanded", "false");
+    });
+    modal.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            modal.close();
+        });
+    });
+    modal.querySelector("[data-sair]").addEventListener("click", function () {
+        modal.close();
+        sair();
+    });
 }
 
-/** Encerra a sessão e volta ao portal. */
+/** Confirma o encerramento da sessão e volta ao portal. */
 function sair() {
-    // A IMPLEMENTAR: pedir confirmação com o modal "Deseja sair?" (§8.2).
-    encerrarSessao();
-    mostrarAviso("Sessão encerrada.");
-    window.location.hash = "#/inicio";
+    const modal = criarDialogo("Deseja sair do painel?",
+        "<p>Você poderá entrar novamente com sua conta.</p>",
+        '<button type="button" class="btn btn--secundario"'
+        + ' data-fechar-modal>Cancelar</button>'
+        + '<button type="button" class="btn btn--primario"'
+        + ' data-confirmar-sair>Sair</button>',
+        {raiz: document.querySelector(".painel"), tamanho: "pequeno"});
+    modal.querySelector("[data-confirmar-sair]").addEventListener(
+        "click", function () {
+            encerrarSessao();
+            modal.close();
+            mostrarAviso("Sessão encerrada.");
+            window.location.hash = "#/inicio";
+        }
+    );
+}
+
+/** Atualiza a identidade sem reconstruir a navegação compartilhada. */
+function atualizarUsuarioPainel(raiz, sessao) {
+    if (!sessao) {
+        return;
+    }
+    const nome = raiz.querySelector("[data-usuario-nome]");
+    const foto = raiz.querySelector("[data-usuario-foto]");
+    if (nome && foto) {
+        nome.textContent = sessao.nome;
+        foto.src = sessao.foto || "assets/img/avatar-padrao.jpg";
+    }
 }
 
 /**
@@ -183,6 +265,9 @@ function sair() {
  */
 async function montarPainel(raiz, layout, painel, sessao) {
     const resposta = await fetch(ARQUIVO_PAINEL);
+    if (!resposta.ok) {
+        throw new Error("Não foi possível carregar o painel.");
+    }
     raiz.innerHTML = await resposta.text();
     if (layout === "painel-liceu") {
         raiz.querySelector("[data-ajuda-artesao]").remove();
@@ -195,8 +280,7 @@ async function montarPainel(raiz, layout, painel, sessao) {
     raiz.querySelector("[data-painel-menu]").innerHTML = (
         criarMenuPainel(layout)
     );
-    raiz.querySelector("[data-usuario-nome]").textContent = sessao.nome;
-    raiz.querySelector("[data-usuario-foto]").src = sessao.foto;
+    atualizarUsuarioPainel(raiz, sessao);
 
     lateral.dataset.classeAberta = "painel__lateral--aberto";
     botaoMenu.addEventListener("click", function () {
@@ -212,12 +296,36 @@ async function montarPainel(raiz, layout, painel, sessao) {
         abrirMenuUsuario
     );
 
+    const controlador = new AbortController();
+    const opcoes = {signal: controlador.signal};
+    function fecharLateral(evento) {
+        if (!lateral.isConnected) {
+            controlador.abort();
+            return;
+        }
+        if (!lateral.contains(evento.target)
+                && !botaoMenu.contains(evento.target)) {
+            alternarGaveta(botaoMenu, lateral,
+                "painel__lateral--aberto", false);
+        }
+    }
+    document.addEventListener("click", fecharLateral, opcoes);
+    document.addEventListener("focusin", fecharLateral, opcoes);
+    document.addEventListener("keydown", function (evento) {
+        if (evento.key === "Escape"
+                && botaoMenu.getAttribute("aria-expanded") === "true") {
+            alternarGaveta(botaoMenu, lateral,
+                "painel__lateral--aberto", false);
+            botaoMenu.focus();
+        }
+    }, opcoes);
     return raiz.querySelector("#conteudo");
 }
 
 export {
     atualizarMenuPainel,
     atualizarNavPortal,
+    atualizarUsuarioPainel,
     fecharGavetas,
     iniciarMenuPortal,
     montarPainel

@@ -20,32 +20,30 @@
             <input id="liceu-publicacoes-busca" type="search" class="busca__entrada" data-busca placeholder="Buscar publicação...">
         </div>
     </div>
-    <div class="campo">
-        <label for="liceu-publicacoes-status" class="campo__rotulo">Status</label>
-        <select id="liceu-publicacoes-status" class="campo__entrada" data-filtro="status">
-            <option value="">Todos</option>
-            <option value="publicado">Publicado</option>
-            <option value="oculto">Oculto</option>
-        </select>
+    <div class="liceu-filtros__controles">
+        <div class="campo">
+            <label for="liceu-publicacoes-status" class="campo__rotulo">Status</label>
+            <select id="liceu-publicacoes-status" class="campo__entrada" data-filtro="status">
+                <option value="">Todos</option>
+                <option value="publicado">Publicado</option>
+                <option value="oculto">Oculto</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label for="liceu-publicacoes-categoria" class="campo__rotulo">Categoria</label>
+            <!-- Opções preenchidas via JS (carregarCategorias) -->
+            <select id="liceu-publicacoes-categoria" class="campo__entrada" data-filtro="categoria">
+                <option value="">Todas</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label for="liceu-publicacoes-artesao" class="campo__rotulo">Artesão</label>
+            <!-- Opções preenchidas via JS (carregarArtesaos) -->
+            <select id="liceu-publicacoes-artesao" class="campo__entrada" data-filtro="artesao">
+                <option value="">Todos os artesãos</option>
+            </select>
+        </div>
     </div>
-    <div class="campo">
-        <label for="liceu-publicacoes-categoria" class="campo__rotulo">Categoria</label>
-        <!-- Opções preenchidas via JS (carregarCategorias) -->
-        <select id="liceu-publicacoes-categoria" class="campo__entrada" data-filtro="categoria">
-            <option value="">Todas</option>
-        </select>
-    </div>
-    <div class="campo">
-        <label for="liceu-publicacoes-artesao" class="campo__rotulo">Artesão</label>
-        <!-- Opções preenchidas via JS (carregarArtesaos) -->
-        <select id="liceu-publicacoes-artesao" class="campo__entrada" data-filtro="artesao">
-            <option value="">Todos os artesãos</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn--primario">
-        <iconify-icon icon="lucide:filter" aria-hidden="true"></iconify-icon>
-        Filtrar
-    </button>
 </form>
 
 <section aria-label="Lista de publicações">

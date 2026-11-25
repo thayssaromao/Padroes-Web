@@ -104,7 +104,9 @@ function iniciarCadastro(raiz) {
             return;
         }
         mostrarAviso("Conta criada com sucesso!");
-        window.dispatchEvent(new CustomEvent("liceu:login"));
+        window.dispatchEvent(new CustomEvent("conta-autenticada", {
+            detail: "painel-artesao"
+        }));
     });
 }
 

@@ -1,46 +1,19 @@
-import {autenticar} from "../dados.js";
+/*jslint browser */
 import {
     abrirModal,
     fecharModal,
     mostrarAviso,
+    prepararAcoes,
     prepararCamposSenha,
     prepararModais
 } from "../componentes.js";
+
+import {autenticar} from "../dados.js";
 
 const ARQUIVO_LOGIN = "pages/login.html";
 const ID_MODAL = "modal-login";
 
 let carregamento;
-
-/**
- * Valida as credenciais; se corretas, abre a sessão e avisa o router.
- * @param {HTMLElement} recipiente
- */
-function ligarFormulario(recipiente) {
-    const formulario = recipiente.querySelector("#login-form");
-    const erro = recipiente.querySelector("#login-erro");
-    formulario.addEventListener("submit", async function (evento) {
-        evento.preventDefault();
-        const dados = new FormData(formulario);
-        erro.hidden = true;
-        let sessao = null;
-        try {
-            sessao = await autenticar(dados.get("email"), dados.get("senha"));
-        } catch (ignore) {
-            erro.textContent = "Não foi possível entrar. Tente novamente.";
-            erro.hidden = false;
-            return;
-        }
-        if (!sessao) {
-            erro.textContent = "E-mail ou senha incorretos.";
-            erro.hidden = false;
-            return;
-        }
-        formulario.reset();
-        fecharModal(ID_MODAL);
-        window.dispatchEvent(new CustomEvent("liceu:login", {detail: sessao}));
-    });
-}
 
 /** @returns {Promise<void>} insere o <dialog> no fim do <body> */
 async function carregarLogin() {
@@ -53,12 +26,48 @@ async function carregarLogin() {
     document.body.append(recipiente);
     prepararModais(recipiente);
     prepararCamposSenha(recipiente);
-    ligarFormulario(recipiente);
-    // "Criar conta" navega para #/cadastro: o modal precisa fechar antes.
-    recipiente.querySelector("[data-ir-cadastro]").addEventListener(
+    prepararAcoes(recipiente);
+    const formulario = recipiente.querySelector("form");
+    const erro = recipiente.querySelector("[data-login-erro]");
+    const botao = formulario.querySelector("[type=submit]");
+    recipiente.querySelector("dialog").addEventListener("close", function () {
+        formulario.elements.senha.type = "password";
+        prepararCamposSenha(recipiente);
+    });
+    formulario.addEventListener("submit", async function (evento) {
+        evento.preventDefault();
+        if (botao.disabled || !formulario.reportValidity()) {
+            return;
+        }
+        botao.disabled = true;
+        erro.textContent = "";
+        try {
+            const sessao = await autenticar(
+                formulario.elements.email.value,
+                formulario.elements.senha.value,
+                formulario.elements.lembrar.checked
+            );
+            fecharModal(ID_MODAL);
+            formulario.reset();
+            window.dispatchEvent(new CustomEvent("conta-autenticada", {
+                detail: sessao.perfil
+            }));
+            mostrarAviso("Bem-vindo, " + sessao.nome + ".");
+        } catch (falha) {
+            erro.textContent = falha.message;
+        } finally {
+            botao.disabled = false;
+        }
+    });
+    recipiente.querySelector("[data-ir-cadastro]").addEventListener("click", function () {
+        fecharModal(ID_MODAL);
+    });
+    recipiente.querySelector("[data-recuperar-senha]").addEventListener(
         "click",
         function () {
             fecharModal(ID_MODAL);
+            window.location.hash = "#/contato";
+            mostrarAviso("Solicite ao Liceu a redefinição do acesso.");
         }
     );
 }
