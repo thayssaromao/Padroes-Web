@@ -15,13 +15,6 @@
     gap: var(--espaco-3);
 }
 
-.o-liceu-imagem {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: var(--raio-medio);
-    background-color: var(--cor-placeholder);
-}
-
 /* Linha do tempo */
 .o-liceu-linha-tempo li {
     margin-bottom: var(--espaco-5);
@@ -101,13 +94,9 @@
 }
 
 @media (min-width: 1024px) {
+    /* Só texto no topo: uma coluna larga, limitada para manter a leitura. */
     .o-liceu-hero__grade {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--espaco-8);
-    }
-
-    .o-liceu-imagem {
-        aspect-ratio: 5 / 2;
+        grid-template-columns: minmax(0, 48rem);
     }
 
     .o-liceu-linha-tempo {

@@ -6,7 +6,6 @@ import {
     escaparHtml,
     fecharModal,
     icone,
-    iniciarCarrossel,
     prepararAcoes,
     prepararModais
 } from "../componentes.js";
@@ -136,7 +135,6 @@ async function iniciarSaberes(raiz) {
     }
 
     prepararModais(raiz);
-    iniciarCarrossel(raiz.querySelector(".carrossel"));
     raiz.querySelector("#saberes-form").addEventListener("submit", function (evento) {
         evento.preventDefault();
         recomecar();

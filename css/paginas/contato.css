@@ -9,13 +9,6 @@
     align-items: center;
 }
 
-.contato-imagem {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: var(--raio-medio);
-    background-color: var(--cor-placeholder);
-}
-
 /* Formulário + canais */
 .contato-principal {
     display: grid;
@@ -41,13 +34,9 @@
 }
 
 @media (min-width: 1024px) {
+    /* Só texto no topo: uma coluna larga, limitada para manter a leitura. */
     .contato-hero__grade {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--espaco-8);
-    }
-
-    .contato-imagem {
-        aspect-ratio: 3 / 1;
+        grid-template-columns: minmax(0, 48rem);
     }
 
     .contato-principal {
