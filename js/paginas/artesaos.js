@@ -15,7 +15,6 @@ import {
     escaparHtml,
     fecharModal,
     icone,
-    iniciarCarrossel,
     mostrarAviso,
     prepararAcoes,
     prepararModais
@@ -421,7 +420,6 @@ async function iniciarArtesaos(raiz) {
         }
     }, true);
 
-    iniciarCarrossel(raiz.querySelector(".carrossel"));
     prepararModais(raiz);
     estado.busca = "";
     estado.categoria = "";
