@@ -8,6 +8,9 @@
  * 4. Carrega a parcial HTML em <main id="conteudo">.
  * 5. Chama a função iniciar da página, se houver.
  *
+ * Os passos 3 e 4, o módulo JS da página (carregado sob demanda) e a base
+ * data/banco.json são pedidos ao mesmo tempo, não um após o outro.
+ *
  * Guia: docs/ESPECIFICACOES.md (Estratégia de Navegação) e
  * docs/DESIGN.md §4 e §10.
  */
@@ -21,7 +24,7 @@ import {
     iniciarMenuPortal,
     montarPainel
 } from "./layout.js";
-import {obterSessao, sessaoDemonstracao} from "./dados.js";
+import {carregarBanco, obterSessao, sessaoDemonstracao} from "./dados.js";
 import {mostrarAviso, padronizarIcones, prepararAcoes} from "./componentes.js";
 import {abrirLogin} from "./paginas/login.js";
 
@@ -78,6 +81,19 @@ async function buscarParcial(arquivo) {
     return resposta.text();
 }
 
+/**
+ * Evita aviso de rejeição não tratada quando a navegação é abandonada
+ * antes de o pedido ser aguardado; quem aguarda ainda recebe a falha.
+ * @param {Promise} pedido
+ * @returns {Promise} o mesmo pedido
+ */
+function antecipar(pedido) {
+    pedido.catch(function () {
+        return;
+    });
+    return pedido;
+}
+
 /** Exibe falha recuperável sem depender de outra requisição de HTML. */
 function mostrarFalhaPagina(conteudo) {
     conteudo.innerHTML = "<section class=\"secao\"><div class=\"container pilha\">"
@@ -130,7 +146,10 @@ async function carregarPagina() {
     let caminho = caminhoAtual();
     let rota;
     let html = "";
+    let iniciar;
     let minha;
+    let pedidoIniciar;
+    let pedidoParcial;
 
     // O login não é uma página: é um <dialog> aberto sobre a página atual.
     // Volta o endereço para a página anterior sem recarregá-la.
@@ -160,6 +179,15 @@ async function carregarPagina() {
     navegacao += 1;
     minha = navegacao;
 
+    // Dispara em paralelo tudo de que a página depende.
+    pedidoParcial = antecipar(buscarParcial(rota.arquivo));
+    pedidoIniciar = antecipar(rota.iniciar
+        ? rota.iniciar()
+        : Promise.resolve());
+    if (rota.iniciar) {
+        antecipar(carregarBanco());
+    }
+
     let conteudo;
     try {
         conteudo = await prepararLayout(rota, minha);
@@ -177,7 +205,7 @@ async function carregarPagina() {
         return;
     }
     try {
-        html = await buscarParcial(rota.arquivo);
+        [html, iniciar] = await Promise.all([pedidoParcial, pedidoIniciar]);
     } catch (ignore) {
         if (minha === navegacao) {
             mostrarFalhaPagina(conteudo);
@@ -205,9 +233,9 @@ async function carregarPagina() {
     }
     primeiraCarga = false;
 
-    if (rota.iniciar) {
+    if (iniciar) {
         try {
-            await rota.iniciar(conteudo);
+            await iniciar(conteudo);
             if (minha === navegacao) {
                 prepararAcoes(raiz);
             }
