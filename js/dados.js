@@ -650,6 +650,7 @@ export {
     autenticar,
     buscarArtesao,
     carregarArtesaos,
+    carregarBanco,
     carregarCategorias,
     carregarTrabalhos,
     carregarTecnicas,
